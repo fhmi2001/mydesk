@@ -1,168 +1,168 @@
 {
   "MONITORS": {
-    "TITLE": "Monitors",
+    "TITLE": "المراقبات",
     "AUTOMATIONS": {
       "TITLE": "الأتمتة",
-      "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
-      "CREATE": "Create automation",
-      "EMPTY": "No automations are linked to this monitor yet.",
+      "DESCRIPTION": "نفّذ إجراءات عندما تطابق هذه المراقبة محادثة لأول مرة من النشاط المباشر الجديد.",
+      "CREATE": "إنشاء أتمتة",
+      "EMPTY": "لا توجد أتمتة مرتبطة بهذه المراقبة بعد.",
       "ACTIVE": "مفعل",
       "DISABLED": "معطّل",
-      "FETCH_FAILED": "Could not load linked automations."
+      "FETCH_FAILED": "تعذر تحميل الأتمتة المرتبطة."
     },
     "LIST": {
-      "CONVERSATIONS_COUNT": "{count} conversation | {count} conversations",
-      "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",
-      "RUNNING": "Running",
-      "FETCH_FAILED": "Could not load monitors. Please try again.",
-      "PAGINATION": "Showing {startItem} – {endItem} of {totalItems} monitor | Showing {startItem} – {endItem} of {totalItems} monitors"
+      "CONVERSATIONS_COUNT": "{count} محادثة | {count} محادثات",
+      "CONVERSATIONS_HELP": "عدد المحادثات المطابقة لهذه المراقبة خلال آخر 7 أيام.",
+      "RUNNING": "تعمل",
+      "FETCH_FAILED": "تعذر تحميل المراقبات. يرجى المحاولة مرة أخرى.",
+      "PAGINATION": "عرض {startItem} – {endItem} من {totalItems} مراقبة | عرض {startItem} – {endItem} من {totalItems} مراقبات"
     },
-    "DESCRIPTION": "Follow the themes that matter across your customer conversations. Describe a topic in plain English, and a monitor charts matching conversations as new customer messages arrive.",
-    "CREATE": "Create monitor",
-    "PREVIEW": "Preview matches",
-    "PREVIEW_COOLDOWN": "You can preview again in {count} second. | You can preview again in {count} seconds.",
-    "PREVIEW_FAILED": "Could not preview matches. Please try again.",
-    "PREVIEW_HELP": "{count} match in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan. | {count} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
+    "DESCRIPTION": "تابع المواضيع المهمة في محادثات عملائك. صف موضوعاً بلغة بسيطة، وسترسم المراقبة المحادثات المطابقة مع وصول رسائل العملاء الجديدة.",
+    "CREATE": "إنشاء مراقبة",
+    "PREVIEW": "معاينة المطابقات",
+    "PREVIEW_COOLDOWN": "يمكنك المعاينة مجدداً بعد {count} ثانية. | يمكنك المعاينة مجدداً بعد {count} ثوانٍ.",
+    "PREVIEW_FAILED": "تعذرت معاينة المطابقات. يرجى المحاولة مرة أخرى.",
+    "PREVIEW_HELP": "{count} مطابقة في عينة من {sampled} محادثة حديثة ({excluded} بدون سياق كافٍ). هذه العينة لا تمثل فحصاً كاملاً. | {count} مطابقات في عينة من {sampled} محادثة حديثة ({excluded} بدون سياق كافٍ). هذه العينة لا تمثل فحصاً كاملاً.",
     "NAME": "الاسم",
-    "NAME_PLACEHOLDER": "Refund conversations",
-    "CHOOSE_ICON": "Choose icon or emoji",
-    "CONDITION": "Which conversations should this monitor find?",
-    "CONDITION_PLACEHOLDER": "All conversations mentioning refunds",
-    "CREATE_HELP": "We will check conversations created in the last seven days, then keep checking new customer messages. Public replies and configured customer attributes provide context. Private notes are excluded.",
+    "NAME_PLACEHOLDER": "محادثات الاسترداد",
+    "CHOOSE_ICON": "اختر أيقونة أو رمزاً تعبيرياً",
+    "CONDITION": "ما المحادثات التي يجب أن تجدها هذه المراقبة؟",
+    "CONDITION_PLACEHOLDER": "كل المحادثات التي تذكر الاسترداد",
+    "CREATE_HELP": "سنفحص المحادثات التي أُنشئت خلال آخر سبعة أيام، ثم نواصل فحص رسائل العملاء الجديدة. الردود العامة وخصائص العملاء المضبوطة تُستخدم كسياق، والملاحظات الخاصة مستبعدة.",
     "SECTIONS": {
-      "YOUR_MONITORS": "Your monitors",
-      "TEMPLATES": "Templates"
+      "YOUR_MONITORS": "مراقباتك",
+      "TEMPLATES": "القوالب"
     },
     "TEMPLATES": {
-      "TITLE": "Start with a template",
-      "USE_NAMED": "Use {name} template",
-      "EDIT_HINT": "From {name} template. Edit anything before creating.",
-      "ADMIN_HELP": "Ask an administrator to create a monitor from a template.",
+      "TITLE": "ابدأ بقالب",
+      "USE_NAMED": "استخدام قالب {name}",
+      "EDIT_HINT": "من قالب {name}. عدّل ما تريد قبل الإنشاء.",
+      "ADMIN_HELP": "اطلب من المسؤول إنشاء مراقبة من قالب.",
       "LOGIN_PROBLEMS": {
-        "NAME": "Login problems",
-        "AUDIENCE": "For support teams",
-        "SUMMARY": "See when login complaints start increasing.",
-        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets and verification codes that never arrive. Exclude questions about changing a password while already signed in."
+        "NAME": "مشاكل تسجيل الدخول",
+        "AUDIENCE": "لفرق الدعم",
+        "SUMMARY": "اعرف متى تبدأ شكاوى تسجيل الدخول بالازدياد.",
+        "CONDITION": "يقول العميل إنه لا يستطيع تسجيل الدخول إلى حسابه، بما في ذلك فشل استعادة كلمة المرور ورموز التحقق التي لا تصل. استبعد الأسئلة عن تغيير كلمة المرور أثناء تسجيل الدخول."
       },
       "MISSING_ORDER_UPDATES": {
-        "NAME": "Missing order updates",
-        "AUDIENCE": "For operations teams",
-        "SUMMARY": "Track recurring delivery communication problems.",
-        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive, or arrived for the wrong order. Exclude customers asking where a parcel is when they did receive the tracking email."
+        "NAME": "تحديثات طلبات مفقودة",
+        "AUDIENCE": "لفرق العمليات",
+        "SUMMARY": "تابع مشاكل التواصل المتكررة بخصوص التوصيل.",
+        "CONDITION": "يقول العميل إن تأكيد الطلب أو تحديث الشحن أو إشعار التوصيل لم يصل، أو وصل لطلب آخر. استبعد العملاء الذين يسألون عن مكان الشحنة رغم استلامهم رسالة التتبع."
       },
       "COMPETITOR_MENTIONS": {
-        "NAME": "Competitor mentions",
-        "AUDIENCE": "For founders and sales teams",
-        "SUMMARY": "Find conversations worth following up on.",
-        "CONDITION": "A customer compares us with a competing product, says they are evaluating one, or mentions they may switch. Exclude customers who moved to us from a competitor and are asking how to import their data."
+        "NAME": "ذكر المنافسين",
+        "AUDIENCE": "للمؤسسين وفرق المبيعات",
+        "SUMMARY": "اعثر على محادثات تستحق المتابعة.",
+        "CONDITION": "يقارننا العميل بمنتج منافس، أو يقول إنه يقيّم منتجاً منافساً، أو يذكر أنه قد ينتقل إليه. استبعد العملاء الذين انتقلوا إلينا من منافس ويسألون عن استيراد بياناتهم."
       },
       "FEATURE_REQUESTS": {
-        "NAME": "Feature requests",
-        "AUDIENCE": "For product teams",
-        "SUMMARY": "Keep a running count of conversations about unmet needs.",
-        "CONDITION": "A customer asks for a capability the product does not currently offer, or asks whether something is possible and it is not. Exclude questions about how to use a feature that already exists."
+        "NAME": "طلبات الميزات",
+        "AUDIENCE": "لفرق المنتج",
+        "SUMMARY": "احتفظ بعدّاد مستمر للمحادثات عن الاحتياجات غير الملباة.",
+        "CONDITION": "يطلب العميل إمكانية لا يوفرها المنتج حالياً، أو يسأل إن كان شيء ما ممكناً وهو غير ممكن. استبعد الأسئلة عن طريقة استخدام ميزة موجودة."
       },
       "REFUND_REQUESTS": {
-        "NAME": "Refund requests",
-        "AUDIENCE": "For finance teams",
-        "SUMMARY": "Bring a consistent definition to your weekly refund request count.",
-        "CONDITION": "A customer asks for money back on a payment they already made, including duplicate charges and refunds after cancelling. Exclude questions about the refund policy and requests for a discount."
+        "NAME": "طلبات الاسترداد",
+        "AUDIENCE": "للفرق المالية",
+        "SUMMARY": "اعتمد تعريفاً ثابتاً لعدد طلبات الاسترداد الأسبوعية.",
+        "CONDITION": "يطلب العميل استرداد مبلغ دفعه بالفعل، بما في ذلك الخصم المكرر والاسترداد بعد الإلغاء. استبعد الأسئلة عن سياسة الاسترداد وطلبات الخصم."
       },
       "CANCELLATION_INTENT": {
-        "NAME": "Cancellation intent",
-        "AUDIENCE": "For account managers",
-        "SUMMARY": "Find customers who may need a conversation before they leave.",
-        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations the customer takes back in the same conversation."
+        "NAME": "نية الإلغاء",
+        "AUDIENCE": "لمديري الحسابات",
+        "SUMMARY": "اعثر على العملاء الذين قد يحتاجون محادثة قبل أن يغادروا.",
+        "CONDITION": "يقول العميل إنه ينوي الإلغاء، أو لن يجدد، أو يخطط للتوقف عن استخدام المنتج. استبعد طلبات تقليل المقاعد أو خفض الباقة، والإلغاءات التي يتراجع عنها العميل في نفس المحادثة."
       },
       "PAYMENT_FAILURES": {
-        "NAME": "Payment failures",
-        "AUDIENCE": "For billing and support teams",
-        "SUMMARY": "Spot customers who are blocked from paying.",
-        "CONDITION": "A customer says a payment, checkout, or invoice payment failed, or their card was declined. Exclude refund requests, disputes about completed charges, and general questions about payment methods."
+        "NAME": "فشل الدفع",
+        "AUDIENCE": "لفرق الفوترة والدعم",
+        "SUMMARY": "اكتشف العملاء الذين لا يستطيعون الدفع.",
+        "CONDITION": "يقول العميل إن الدفع أو إتمام الشراء أو سداد الفاتورة فشل، أو أن بطاقته رُفضت. استبعد طلبات الاسترداد والنزاعات على مبالغ مكتملة والأسئلة العامة عن وسائل الدفع."
       },
       "PRODUCT_ERRORS": {
-        "NAME": "Product errors",
-        "AUDIENCE": "For support and engineering teams",
-        "SUMMARY": "See when errors and crashes start spreading.",
-        "CONDITION": "A customer reports an error, crash, unavailable service, or severe slowness that prevents them from completing a task. Exclude sign-in problems and questions about how to use a working feature."
+        "NAME": "أخطاء المنتج",
+        "AUDIENCE": "لفرق الدعم والتطوير",
+        "SUMMARY": "اعرف متى تبدأ الأخطاء والأعطال بالانتشار.",
+        "CONDITION": "يبلّغ العميل عن خطأ أو عطل أو خدمة غير متاحة أو بطء شديد يمنعه من إكمال مهمة. استبعد مشاكل تسجيل الدخول والأسئلة عن استخدام ميزة تعمل."
       },
       "ISSUE_STILL_UNRESOLVED": {
-        "NAME": "Issue still unresolved",
-        "AUDIENCE": "For support leads",
-        "SUMMARY": "Find conversations that need another pass.",
-        "CONDITION": "A customer says a suggested fix did not work, the same problem returned, or their issue remains after support said it was resolved. Exclude first-time reports and requests only asking for a status update."
+        "NAME": "مشكلة لم تُحل بعد",
+        "AUDIENCE": "لقادة فرق الدعم",
+        "SUMMARY": "اعثر على محادثات تحتاج متابعة إضافية.",
+        "CONDITION": "يقول العميل إن الحل المقترح لم ينجح، أو إن المشكلة عادت، أو إنها ما زالت قائمة بعد أن قال الدعم إنها حُلّت. استبعد البلاغات الأولى والطلبات التي تسأل عن الحالة فقط."
       },
       "ESCALATION_REQUESTS": {
-        "NAME": "Escalation requests",
-        "AUDIENCE": "For support leads",
-        "SUMMARY": "Surface requests that need prompt attention.",
-        "CONDITION": "A customer explicitly asks for a human agent, manager, specialist, or higher support tier because their issue has not been resolved. Exclude routine transfers and sales requests."
+        "NAME": "طلبات التصعيد",
+        "AUDIENCE": "لقادة فرق الدعم",
+        "SUMMARY": "أظهر الطلبات التي تحتاج اهتماماً عاجلاً.",
+        "CONDITION": "يطلب العميل صراحة موظفاً بشرياً أو مديراً أو مختصاً أو مستوى دعم أعلى لأن مشكلته لم تُحل. استبعد التحويلات الروتينية وطلبات المبيعات."
       }
     },
-    "MATCHING_CONVERSATIONS": "Matching conversations created",
-    "LAST_DAYS": "Last {count} day | Last {count} days",
-    "LAST_DAYS_BEFORE_PAUSE": "{count} day before pause | {count} days before pause",
-    "GROUP_BY": "Group by {interval}",
+    "MATCHING_CONVERSATIONS": "المحادثات المطابقة المنشأة",
+    "LAST_DAYS": "آخر {count} يوم | آخر {count} أيام",
+    "LAST_DAYS_BEFORE_PAUSE": "{count} يوم قبل الإيقاف | {count} أيام قبل الإيقاف",
+    "GROUP_BY": "التجميع حسب {interval}",
     "INTERVALS": {
-      "HOUR": "1 hour",
-      "SIX_HOURS": "6 hours",
-      "DAY": "1 day"
+      "HOUR": "ساعة",
+      "SIX_HOURS": "6 ساعات",
+      "DAY": "يوم"
     },
     "EDIT": "تعديل",
     "UPDATE": "تحديث",
     "MONITOR_DESCRIPTION": "الوصف",
-    "EDIT_HELP": "The description defines which conversations match. Changing it clears existing matches and rechecks previously checked conversations. Skipped periods stay skipped. If paused, rechecking starts when you resume.",
-    "DUPLICATE": "Duplicate",
-    "PAUSE": "Pause",
-    "RESUME": "Resume",
-    "RESUME_HELP": "Choose where this monitor should pick up. Existing results will stay available.",
-    "RESUME_CATCH_UP": "Check the paused period",
-    "RESUME_CATCH_UP_HELP": "Check conversations created and customer messages received from when the monitor was paused until now, then continue live updates.",
-    "RESUME_FROM_NOW": "Start from now",
-    "RESUME_FROM_NOW_HELP": "Only check new customer messages and conversations from now on. Do not scan the paused period.",
+    "EDIT_HELP": "الوصف يحدد المحادثات المطابقة. تغييره يمسح المطابقات الحالية ويعيد فحص المحادثات السابقة، وتبقى الفترات المتخطاة متخطاة. إذا كانت المراقبة موقوفة، يبدأ إعادة الفحص عند الاستئناف.",
+    "DUPLICATE": "تكرار",
+    "PAUSE": "إيقاف مؤقت",
+    "RESUME": "استئناف",
+    "RESUME_HELP": "اختر من أين تستأنف المراقبة. ستبقى النتائج الحالية متاحة.",
+    "RESUME_CATCH_UP": "فحص فترة الإيقاف",
+    "RESUME_CATCH_UP_HELP": "افحص المحادثات المنشأة ورسائل العملاء الواردة منذ إيقاف المراقبة حتى الآن، ثم واصل التحديثات المباشرة.",
+    "RESUME_FROM_NOW": "البدء من الآن",
+    "RESUME_FROM_NOW_HELP": "افحص فقط رسائل العملاء والمحادثات الجديدة من الآن فصاعداً، دون فحص فترة الإيقاف.",
     "DELETE": "حذف",
-    "DELETE_HELP": "Delete this monitor and its results? This does not delete the conversations.",
-    "PAUSE_HELP": "Pause this monitor? Its results will remain available, and it will stop checking messages and conversations.",
-    "PAUSED_HELP": "Paused on {time}. Historical results remain available. New messages and conversations are not being checked.",
-    "COLLECTED_UNTIL": "Results collected until {time}.",
-    "RETRY": "Retry",
-    "RESULTS_UPDATED": "New results are available. The chart has been refreshed; select a bar to view its updated conversations.",
-    "TIME_BASIS_HELP": "Each conversation counts once, on the date it was created. A new match can update an earlier bar.",
-    "COVERAGE_HELP": "This range includes periods that were not fully checked. Counts may be incomplete.",
-    "REFRESHED": "Last refreshed at {time}. Updates appear automatically.",
+    "DELETE_HELP": "حذف هذه المراقبة ونتائجها؟ لن تُحذف المحادثات.",
+    "PAUSE_HELP": "إيقاف هذه المراقبة مؤقتاً؟ ستبقى نتائجها متاحة، وستتوقف عن فحص الرسائل والمحادثات.",
+    "PAUSED_HELP": "أُوقفت في {time}. النتائج السابقة متاحة، والرسائل والمحادثات الجديدة لا تُفحص.",
+    "COLLECTED_UNTIL": "النتائج مجمّعة حتى {time}.",
+    "RETRY": "إعادة المحاولة",
+    "RESULTS_UPDATED": "توجد نتائج جديدة وتم تحديث الرسم البياني. اختر عموداً لعرض محادثاته المحدّثة.",
+    "TIME_BASIS_HELP": "تُحتسب كل محادثة مرة واحدة في تاريخ إنشائها، وقد تحدّث المطابقة الجديدة عموداً سابقاً.",
+    "COVERAGE_HELP": "هذا النطاق يشمل فترات لم تُفحص بالكامل، لذا قد تكون الأعداد ناقصة.",
+    "REFRESHED": "آخر تحديث في {time}. تظهر التحديثات تلقائياً.",
     "USAGE": {
       "LIMIT_REACHED": "This account has used its {limit} monitor calls for this month.",
       "RESETS": "New evaluations and previews are on hold until {time}. Existing results remain available.",
-      "REACHED_AT": "Limit reached on {time}."
+      "REACHED_AT": "تم بلوغ الحد في {time}."
     },
     "STATES": {
-      "SCANNING": "Checking recent conversations",
-      "PROCESSING": "Checking conversations",
-      "RECHECKING": "Rechecking conversations with the updated description",
-      "LIVE": "Up to date",
-      "DELAYED": "Updates are delayed",
-      "NEEDS_ATTENTION": "Needs attention",
-      "PAUSED": "Paused",
-      "CATCHING_UP": "Checking the paused period"
+      "SCANNING": "جارٍ فحص المحادثات الأخيرة",
+      "PROCESSING": "جارٍ فحص المحادثات",
+      "RECHECKING": "جارٍ إعادة فحص المحادثات بالوصف المحدّث",
+      "LIVE": "محدّثة",
+      "DELAYED": "التحديثات متأخرة",
+      "NEEDS_ATTENTION": "تحتاج إلى مراجعة",
+      "PAUSED": "موقوفة مؤقتاً",
+      "CATCHING_UP": "جارٍ فحص فترة الإيقاف"
     },
     "ERRORS": {
-      "FETCH_FAILED": "Could not load this monitor. Refresh to try again.",
-      "SAVE_FAILED": "Could not save the monitor. Check the name and condition, then try again.",
-      "NOT_CONFIGURED": "Configure the OpenRouter connection, then click Retry.",
-      "CREDENTIALS_INVALID": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
-      "PROVIDER_CREDITS_EXHAUSTED": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
-      "INVALID_REQUEST": "The evaluation request needs attention. Contact your installation administrator.",
-      "INVALID_RESPONSE": "The evaluation provider returned an incomplete result. Affected conversations have not been counted.",
-      "PROVIDER_BUSY": "The evaluation provider is busy. Pending conversations need another evaluation.",
-      "PROVIDER_UNAVAILABLE": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
-      "BUDGET_LIMIT": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
+      "FETCH_FAILED": "تعذر تحميل هذه المراقبة. حدّث الصفحة للمحاولة مرة أخرى.",
+      "SAVE_FAILED": "تعذر حفظ المراقبة. تحقق من الاسم والشرط، ثم حاول مرة أخرى.",
+      "NOT_CONFIGURED": "اضبط اتصال OpenRouter، ثم انقر على إعادة المحاولة.",
+      "CREDENTIALS_INVALID": "اتصال OpenRouter يحتاج إلى مراجعة. اطلب من مسؤول المنصة التحقق من بياناته.",
+      "PROVIDER_CREDITS_EXHAUSTED": "رصيد حساب OpenRouter غير كافٍ. اطلب من مسؤول المنصة التحقق من الرصيد، ثم أعد المحاولة.",
+      "INVALID_REQUEST": "طلب التقييم يحتاج إلى مراجعة. تواصل مع مسؤول المنصة.",
+      "INVALID_RESPONSE": "أرجع مزود التقييم نتيجة ناقصة، ولم تُحتسب المحادثات المتأثرة.",
+      "PROVIDER_BUSY": "مزود التقييم مشغول. المحادثات المعلقة تحتاج تقييماً آخر.",
+      "PROVIDER_UNAVAILABLE": "مزود التقييم غير متاح مؤقتاً، وقد تتأخر التحديثات.",
+      "BUDGET_LIMIT": "تم بلوغ حد التقييم اليومي. سيُستأنف العمل المعلق بعد إعادة تعيينه.",
       "MONTHLY_LIMIT": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
-      "CONTEXT_LIMIT": "Some conversations are too long to evaluate completely. They are excluded from the results.",
-      "INVALID_PARAMETERS": "Check the name, condition, date range, and interval.",
-      "TOO_MANY_BUCKETS": "Choose a shorter date range or a larger interval. A chart can show up to 744 bars.",
-      "MONITOR_LIMIT": "This account has reached its active monitor limit. Pause a monitor before creating another.",
-      "MONITOR_PAUSED": "This monitor is paused and no longer checks conversations.",
-      "MONITOR_CHANGED": "This monitor changed in another session. Its current state has been refreshed. Try again."
+      "CONTEXT_LIMIT": "بعض المحادثات طويلة جداً لتقييمها بالكامل، لذا استُبعدت من النتائج.",
+      "INVALID_PARAMETERS": "تحقق من الاسم والشرط ونطاق التاريخ والفترة.",
+      "TOO_MANY_BUCKETS": "اختر نطاق تاريخ أقصر أو فترة أكبر. يعرض الرسم حتى 744 عموداً.",
+      "MONITOR_LIMIT": "بلغ هذا الحساب حد المراقبات الفعالة. أوقف مراقبة قبل إنشاء أخرى.",
+      "MONITOR_PAUSED": "هذه المراقبة موقوفة ولم تعد تفحص المحادثات.",
+      "MONITOR_CHANGED": "تغيرت هذه المراقبة في جلسة أخرى، وتم تحديث حالتها الحالية. حاول مرة أخرى."
     }
   },
   "REPORT": {
@@ -170,8 +170,8 @@
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_CONVERSATION_REPORTS": "تنزيل تقارير المحادثات",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DATA_FETCHING_FAILED": "فشل جلب البيانات، يرجى المحاولة لاحقاً.",
+    "SUMMARY_FETCHING_FAILED": "فشل جلب الملخص، يرجى المحاولة لاحقاً.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "المحادثات",
@@ -189,14 +189,14 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "بناءً على {count} محادثة | بناءً على {count} محادثات",
         "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "بناءً على {count} محادثة | بناءً على {count} محادثات",
         "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
@@ -208,13 +208,13 @@
         "DESC": "(الإجمالي)"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "عدد التحويلات",
         "DESC": "(الإجمالي)"
       },
       "REPLY_TIME": {
         "NAME": "وقت انتظار العميل",
-        "TOOLTIP_LABEL": "Waiting time",
-        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
+        "TOOLTIP_LABEL": "وقت الانتظار",
+        "TOOLTIP_DESCRIPTION": "بناءً على {count} رد | بناءً على {count} ردود",
         "TOOLTIP_TEXT": "وقت الانتظار هو {metricValue} (بناء على ردود {conversationCount})",
         "DESC": ""
       }
@@ -223,8 +223,8 @@
       "LAST_7_DAYS": "آخر 7 أيام",
       "LAST_14_DAYS": "آخر 14 يوماً",
       "LAST_30_DAYS": "آخر 30 يوماً",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
+      "THIS_MONTH": "هذا الشهر",
+      "LAST_MONTH": "الشهر الماضي",
       "LAST_3_MONTHS": "آخر 3 أشهر",
       "LAST_6_MONTHS": "آخر 6 أشهر",
       "LAST_YEAR": "العام الماضي",
@@ -288,44 +288,44 @@
     ],
     "BUSINESS_HOURS": "ساعات العمل",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "مسح الفلتر",
       "EMPTY_LIST": "لم يتم العثور على النتائج"
     },
     "DRILLDOWN": {
-      "TITLE": "{metric} details",
-      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
-      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
-      "EMPTY": "No records found for this bar.",
-      "ERROR": "Could not load records. Please try again.",
-      "ADMIN_ONLY": "Only administrators can drill down into report records.",
-      "LOAD_MORE": "Load more",
-      "PREVIOUS_BUCKET": "Previous bar",
-      "NEXT_BUCKET": "Next bar",
+      "TITLE": "تفاصيل {metric}",
+      "RESULT_COUNT_CONVERSATION": "{count} محادثة | {count} محادثات",
+      "RESULT_COUNT_MESSAGE": "{count} رسالة | {count} رسائل",
+      "EMPTY": "لا توجد سجلات لهذا العمود.",
+      "ERROR": "تعذر تحميل السجلات. يرجى المحاولة مرة أخرى.",
+      "ADMIN_ONLY": "المسؤولون فقط يمكنهم عرض تفاصيل سجلات التقارير.",
+      "LOAD_MORE": "تحميل المزيد",
+      "PREVIOUS_BUCKET": "العمود السابق",
+      "NEXT_BUCKET": "العمود التالي",
       "VIEW_ALL": "عرض الكل",
-      "UNKNOWN_CONTACT": "Unknown contact",
-      "UNKNOWN_INBOX": "Unknown inbox",
+      "UNKNOWN_CONTACT": "جهة اتصال غير معروفة",
+      "UNKNOWN_INBOX": "قناة غير معروفة",
       "UNASSIGNED_AGENT": "غير مسند",
-      "NO_MESSAGE_CONTENT": "No message content",
-      "MESSAGE_CREATED_AT": "Message created at {time}",
-      "EVENT_OCCURRED_AT": "Event occurred at {time}",
-      "INCOMING_MESSAGE": "Incoming message",
-      "OUTGOING_MESSAGE": "Outgoing message"
+      "NO_MESSAGE_CONTENT": "لا يوجد محتوى للرسالة",
+      "MESSAGE_CREATED_AT": "أُنشئت الرسالة في {time}",
+      "EVENT_OCCURRED_AT": "وقع الحدث في {time}",
+      "INCOMING_MESSAGE": "رسالة واردة",
+      "OUTGOING_MESSAGE": "رسالة صادرة"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "RESULTS": "عرض {start} إلى {end} من {total} نتيجة",
+      "PER_PAGE_TEMPLATE": "{size} / صفحة"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "نظرة عامة للوكلاء",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
+    "HEADER": "نظرة عامة للموظفين",
+    "DESCRIPTION": "تابع أداء الموظفين بسهولة عبر مؤشرات رئيسية مثل المحادثات وأوقات الرد وأوقات الحل والحالات المحلولة. انقر على اسم الموظف لمعرفة المزيد.",
     "LOADING_CHART": "جاري جلب بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
-    "FILTER_DROPDOWN_LABEL": "اختر وكيل",
+    "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الموظف",
+    "FILTER_DROPDOWN_LABEL": "اختر موظف",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
-        "AGENTS": "البحث عن وكلاء"
+        "AGENTS": "البحث عن موظفين"
       }
     },
     "METRICS": {
@@ -391,7 +391,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "نظرة عامة على التسميات",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "DESCRIPTION": "تابع أداء الوسوم عبر مؤشرات رئيسية تشمل المحادثات وأوقات الرد وأوقات الحل والحالات المحلولة. انقر على اسم الوسم لتفاصيل أكثر.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_LABEL_REPORTS": "تحميل تقارير التسمية",
@@ -464,16 +464,16 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "نظرة عامة على صندوق الوارد",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "DESCRIPTION": "اطّلع بسرعة على أداء قنواتك عبر مؤشرات رئيسية مثل المحادثات وأوقات الرد وأوقات الحل والحالات المحلولة في مكان واحد. انقر على اسم القناة لتفاصيل أكثر.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_INBOX_REPORTS": "تحميل تقارير صندوق الوارد",
     "FILTER_DROPDOWN_LABEL": "اختر صندوق الوارد",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "ALL_INBOXES": "كل القنوات",
+    "SEARCH_INBOX": "البحث عن قناة",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
-        "INBOXES": "Search inboxes"
+        "INBOXES": "البحث في القنوات"
       }
     },
     "METRICS": {
@@ -539,7 +539,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "نظرة عامة للفريق",
-    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "احصل على لمحة عن أداء فريقك عبر مؤشرات أساسية تشمل المحادثات وأوقات الرد وأوقات الحل والحالات المحلولة. انقر على اسم الفريق لتفاصيل أكثر.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_TEAM_REPORTS": "تحميل تقارير الفريق",
@@ -615,22 +615,22 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "تقارير CSAT",
-    "NO_RECORDS": "No responses yet",
-    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
+    "NO_RECORDS": "لا توجد ردود بعد",
+    "NO_RECORDS_DESCRIPTION": "ستظهر ردود استبيانات الرضا هنا عندما يبدأ العملاء بتقديم ملاحظاتهم.",
     "DOWNLOAD": "تحميل تقرير رضاء خدمة العملاء",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "فشل تنزيل تقارير رضا العملاء",
     "FILTERS": {
       "ADD_FILTER": "إضافة تصفية",
       "CLEAR_ALL": "مسح الكل",
       "NO_FILTER": "لا توجد عوامل تصفية متوفرة",
       "INPUT_PLACEHOLDER": {
-        "AGENTS": "البحث عن وكلاء",
-        "INBOXES": "Search inboxes",
+        "AGENTS": "البحث عن موظفين",
+        "INBOXES": "البحث في القنوات",
         "TEAMS": "البحث عن فريق",
         "RATINGS": "البحث في التقييمات"
       },
       "AGENTS": {
-        "LABEL": "وكيل الدعم"
+        "LABEL": "موظف الدعم"
       },
       "INBOXES": {
         "LABEL": "صندوق الوارد"
@@ -645,7 +645,7 @@
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "جهات الاتصال",
-        "AGENT_NAME": "وكيل الدعم",
+        "AGENT_NAME": "موظف الدعم",
         "RATING": "التقييم",
         "FEEDBACK_TEXT": "تعليق الملاحظات",
         "CONVERSATION": "المحادثات",
@@ -655,7 +655,7 @@
       },
       "UNKNOWN_CUSTOMER": "عميل غير معروف"
     },
-    "NO_AGENT": "لم يتم تعيين وكيل",
+    "NO_AGENT": "لم يتم تعيين موظف",
     "NO_FEEDBACK": "لا توجد ملاحظات مقدمة",
     "METRIC": {
       "TOTAL_RESPONSES": {
@@ -685,37 +685,37 @@
       "PAYWALL": {
         "TITLE": "قم بالترقية لإضافة ملاحظات المراجعة",
         "AVAILABLE_ON": "ميزة مراجعة الملاحظات متاحة فقط في الخطط Business و Enterprise.",
-        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_PROMPT": "أضف سياقاً داخلياً لكل رد في استبيان الرضا عبر ملاحظات المراجعة. سجّل ما حدث فعلاً، واكتشف الأنماط أسرع، واتخذ قرارات أفضل من الملاحظات.",
         "UPGRADE_NOW": "الترقية الآن",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "CANCEL_ANYTIME": "يمكنك تغيير باقتك أو إلغاؤها في أي وقت"
       }
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "تقارير البوت",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "عدد المحادثات",
+        "TOOLTIP": "إجمالي المحادثات التي تولاها البوت"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "إجمالي الردود",
+        "TOOLTIP": "إجمالي الردود التي أرسلها البوت"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "معدل الحل",
+        "TOOLTIP": "المحادثات التي حلها البوت ÷ المحادثات التي تولاها البوت × 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "معدل التحويل",
+        "TOOLTIP": "المحادثات المحولة إلى الموظفين ÷ المحادثات التي تولاها البوت × 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "نظرة عامة",
     "LIVE": "مباشر",
-    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
+    "HEATMAP_ARIA_LABEL": "{metric} حسب اليوم والساعة",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "المحادثات المفتوحة",
       "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",
@@ -725,23 +725,23 @@
       "PENDING": "معلق"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
+      "HEADER": "حركة المحادثات",
+      "NO_CONVERSATIONS": "لا توجد محادثات",
+      "CONVERSATION": "{count} محادثة",
+      "CONVERSATIONS": "{count} محادثات",
       "DOWNLOAD_REPORT": "تنزيل التقرير"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
+      "HEADER": "الحلول",
+      "NO_CONVERSATIONS": "لا توجد محادثات",
+      "CONVERSATION": "{count} محادثة",
+      "CONVERSATIONS": "{count} محادثات",
       "DOWNLOAD_REPORT": "تنزيل التقرير"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "المحادثات من قبل الوكلاء",
-      "LOADING_MESSAGE": "جاري تحميل مقاييس الوكيل...",
-      "NO_AGENTS": "لا توجد أي محادثات من قبل الوكلاء",
+      "HEADER": "المحادثات من قبل الموظفين",
+      "LOADING_MESSAGE": "جاري تحميل مقاييس الموظف...",
+      "NO_AGENTS": "لا توجد أي محادثات من قبل الموظفين",
       "TABLE_HEADER": {
         "AGENT": "موظف الدعم",
         "OPEN": "فتح",
@@ -750,10 +750,10 @@
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "ALL_TEAMS": "كل الفرق",
+      "HEADER": "المحادثات حسب الفرق",
+      "LOADING_MESSAGE": "جارٍ تحميل مؤشرات الفرق...",
+      "NO_TEAMS": "لا توجد بيانات متاحة",
       "TABLE_HEADER": {
         "TEAM": "الفريق",
         "OPEN": "فتح",
@@ -762,42 +762,42 @@
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "حالة الوكيل",
+      "HEADER": "حالة الموظف",
       "ONLINE": "متصل",
       "BUSY": "مشغول",
       "OFFLINE": "غير متصل"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "الأحد",
+    "MONDAY": "الإثنين",
+    "TUESDAY": "الثلاثاء",
+    "WEDNESDAY": "الأربعاء",
+    "THURSDAY": "الخميس",
+    "FRIDAY": "الجمعة",
+    "SATURDAY": "السبت"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "تقارير مستوى الخدمة",
+    "NO_RECORDS": "لا توجد محادثات مطبّق عليها اتفاقية مستوى الخدمة.",
+    "LOADING": "جارٍ تحميل بيانات مستوى الخدمة...",
+    "DOWNLOAD_SLA_REPORTS": "تنزيل تقارير مستوى الخدمة",
+    "DOWNLOAD_FAILED": "فشل تنزيل تقارير مستوى الخدمة",
     "DROPDOWN": {
       "ADD_FIlTER": "إضافة فلتر",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_ALL": "مسح الكل",
+      "CLEAR_FILTER": "مسح الفلتر",
       "EMPTY_LIST": "لم يتم العثور على النتائج",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "لا توجد فلاتر متاحة",
+      "SEARCH": "البحث في الفلاتر",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
+        "SLA": "اسم الاتفاقية",
         "AGENTS": "اسم الموظف",
         "INBOXES": "اسم صندوق الوارد",
         "LABELS": "اسم الوسم",
         "TEAMS": "اسم الفريق"
       },
-      "SLA": "SLA Policy",
+      "SLA": "سياسة مستوى الخدمة",
       "INBOXES": "صندوق الوارد",
       "AGENTS": "موظف الدعم",
       "LABELS": "الوسم",
@@ -806,35 +806,35 @@
     "WITH": "مع",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "معدل الالتزام",
+        "TOOLTIP": "نسبة اتفاقيات مستوى الخدمة التي اكتملت بنجاح"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "عدد التجاوزات",
+        "TOOLTIP": "إجمالي تجاوزات مستوى الخدمة خلال فترة محددة"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "عدد المحادثات",
+        "TOOLTIP": "إجمالي المحادثات المطبّق عليها اتفاقية مستوى الخدمة"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
+        "POLICY": "السياسة",
         "CONVERSATION": "المحادثات",
-        "AGENT": "وكيل الدعم"
+        "AGENT": "موظف الدعم"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "عرض التفاصيل"
     }
   },
   "SUMMARY_REPORTS": {
     "INBOX": "صندوق الوارد",
-    "AGENT": "وكيل الدعم",
+    "AGENT": "موظف الدعم",
     "TEAM": "الفريق",
     "LABEL": "الوسم",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "AVG_RESOLUTION_TIME": "متوسط وقت الحل",
+    "AVG_FIRST_RESPONSE_TIME": "متوسط وقت الرد الأول",
+    "AVG_REPLY_TIME": "متوسط وقت انتظار العميل",
     "RESOLUTION_COUNT": "عدد مرات الإغلاق",
     "CONVERSATIONS": "عدد المحادثات"
   }

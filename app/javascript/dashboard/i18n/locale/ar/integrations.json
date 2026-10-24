@@ -198,7 +198,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "استخدام تكامل Slack",
-        "BODY": "باستخدام هذا التكامل، ستتم مزامنة جميع محادثاتك الواردة مع قناة ***{selectedChannelName}*** في مساحة عمل Slack الخاصة بك. يمكنك إدارة جميع محادثات عملائك مباشرة من داخل القناة ولن تفوّت أي رسالة.\n\nفيما يلي الميزات الرئيسية لهذا التكامل:\n\n**الرد على المحادثات من داخل Slack:** للرد على محادثة في قناة Slack ***{selectedChannelName}***، ما عليك سوى كتابة رسالتك وإرسالها كسلسلة رسائل. سيؤدي ذلك إلى إنشاء رد للعميل عبر Chatwoot. الأمر بهذه البساطة!\n\n **إنشاء ملاحظات خاصة:** إذا كنت تريد إنشاء ملاحظات خاصة بدلاً من الردود، فابدأ رسالتك بـ ***`note:`***. يضمن ذلك بقاء رسالتك خاصة وعدم ظهورها للعميل.\n\n**ربط ملف وكيل:** إذا كان الشخص الذي ردّ في Slack لديه ملف وكيل في Chatwoot تحت البريد الإلكتروني نفسه، فسيتم ربط الردود تلقائيًا بذلك الملف. وهذا يعني أنه يمكنك بسهولة تتبع من قال ماذا ومتى. من ناحية أخرى، إذا لم يكن لدى الشخص الذي ردّ ملف وكيل مرتبط، فستظهر الردود للعميل على أنها صادرة من ملف البوت.",
+        "BODY": "باستخدام هذا التكامل، ستتم مزامنة جميع محادثاتك الواردة مع قناة ***{selectedChannelName}*** في مساحة عمل Slack الخاصة بك. يمكنك إدارة جميع محادثات عملائك مباشرة من داخل القناة ولن تفوّت أي رسالة.\n\nفيما يلي الميزات الرئيسية لهذا التكامل:\n\n**الرد على المحادثات من داخل Slack:** للرد على محادثة في قناة Slack ***{selectedChannelName}***، ما عليك سوى كتابة رسالتك وإرسالها كسلسلة رسائل. سيؤدي ذلك إلى إنشاء رد للعميل عبر Chatwoot. الأمر بهذه البساطة!\n\n **إنشاء ملاحظات خاصة:** إذا كنت تريد إنشاء ملاحظات خاصة بدلاً من الردود، فابدأ رسالتك بـ ***`note:`***. يضمن ذلك بقاء رسالتك خاصة وعدم ظهورها للعميل.\n\n**ربط ملف موظف:** إذا كان الشخص الذي ردّ في Slack لديه ملف موظف في Chatwoot تحت البريد الإلكتروني نفسه، فسيتم ربط الردود تلقائيًا بذلك الملف. وهذا يعني أنه يمكنك بسهولة تتبع من قال ماذا ومتى. من ناحية أخرى، إذا لم يكن لدى الشخص الذي ردّ ملف موظف مرتبط، فستظهر الردود للعميل على أنها صادرة من ملف البوت.",
         "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "selected"
       },
@@ -324,7 +324,7 @@
       "TITLE": "تطبيقات لوحة التحكم",
       "HEADER_BTN_TXT": "إضافة تطبيق جديد للوحة التحكم",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
+      "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لموظفين دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
       "LEARN_MORE": "معرفة المزيد حول تطبيقات لوحة التحكم",
       "COUNT": "{n} dashboard app | {n} dashboard apps",
       "SEARCH_PLACEHOLDER": "Search dashboard apps...",
@@ -728,7 +728,7 @@
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "لخص هذه المحادثة",
-          "CONTENT": "لخص النقاط الرئيسية التي نوقشت بين العميل ووكيل الدعم، بما في ذلك مخاوف العميل، أسئلته، والحلول أو الردود المقدمة من الوكيل."
+          "CONTENT": "لخص النقاط الرئيسية التي نوقشت بين العميل وموظف الدعم، بما في ذلك مخاوف العميل، أسئلته، والحلول أو الردود المقدمة من الموظف."
         },
         "SUGGEST": {
           "LABEL": "اقترح إجابة",
@@ -740,7 +740,7 @@
         },
         "HIGH_PRIORITY": {
           "LABEL": "المحادثات ذات الأولوية العالية",
-          "CONTENT": "اعطني ملخصًا لجميع المحادثات المفتوحة ذات الأولوية العالية. تضمّن معرف المحادثة، اسم العميل (إن وُجد)، محتوى آخر رسالة، والوكيل المعين. قم بالتجميع حسب الحالة إذا كان ذلك مناسبًا."
+          "CONTENT": "اعطني ملخصًا لجميع المحادثات المفتوحة ذات الأولوية العالية. تضمّن معرف المحادثة، اسم العميل (إن وُجد)، محتوى آخر رسالة، والموظف المعين. قم بالتجميع حسب الحالة إذا كان ذلك مناسبًا."
         },
         "LIST_CONTACTS": {
           "LABEL": "قائمة جهات الاتصال",

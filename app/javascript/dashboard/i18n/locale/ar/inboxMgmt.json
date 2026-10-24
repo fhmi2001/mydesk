@@ -3,13 +3,13 @@
     "HEADER": "قنوات التواصل",
     "DESCRIPTION": "القناة هي وضع الاتصال الذي يختاره العميل للتفاعل معك. صندوق الوارد هو المكان الذي تدير فيه التفاعلات لقناة معينة. ويمكن أن تشمل الاتصالات من مصادر مختلفة مثل البريد الإلكتروني، والمحادثة الحية، ووسائط الإعلام الاجتماعية.",
     "LEARN_MORE": "تعلم المزيد عن صناديق البريد",
-    "COUNT": "{n} inbox | {n} inboxes",
-    "SEARCH_PLACEHOLDER": "Search inbox name, channel, or identifier...",
-    "NO_RESULTS": "No inboxes found matching your search",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "COUNT": "{n} قناة | {n} قنوات",
+    "SEARCH_PLACEHOLDER": "ابحث باسم القناة أو نوعها أو المعرّف...",
+    "NO_RESULTS": "لا توجد قنوات مطابقة لبحثك",
+    "RECONNECTION_REQUIRED": "قناتك غير متصلة. لن تصلك رسائل جديدة حتى تعيد تفويضها.",
+    "CLICK_TO_RECONNECT": "انقر هنا لإعادة الاتصال.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "تسجيل واتساب للأعمال غير مكتمل. يرجى التحقق من حالة اسم العرض في Meta Business Manager قبل إعادة الاتصال.",
+    "COMPLETE_REGISTRATION": "إكمال التسجيل",
     "LIST": {
       "404": "لا توجد صناديق وارد لقنوات تواصل مرتبطة بهذا الحساب."
     },
@@ -23,11 +23,11 @@
         "BODY": "قم بالمصادقة على حسابك وإنشاء قناة التواصل."
       },
       "AGENT": {
-        "TITLE": "إضافة وكلاء",
-        "BODY": "إضافة وكلاء إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
+        "TITLE": "إضافة موظفين",
+        "BODY": "إضافة موظفين إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
+        "TITLE": "تم بنجاح!",
         "BODY": "أصبح كل شيء جاهزاً الآن!"
       }
     },
@@ -47,23 +47,23 @@
         "CHOOSE_PLACEHOLDER": "اختر صفحة من القائمة",
         "INBOX_NAME": "اسم صندوق الوارد لقناة التواصل",
         "ADD_NAME": "قم بتعيين اسم لصندوق الوارد الخاص بقناتك الجديدة",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "اختر اسماً لقناتك",
         "PICK_A_VALUE": "اختر قيمة",
         "CREATE_INBOX": "إنشاء قناة تواصل",
-        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "STATUS_LINK": "View status updates"
+        "RESTRICTED_WARNING": "إنشاء قناة فيسبوك غير متاح مؤقتاً بسبب مشكلة في واجهة API من جهة Meta، وليست مشكلة في المنصة. نعمل مع Meta لحلها في أسرع وقت.",
+        "STATUS_LINK": "عرض تحديثات الحالة"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore.",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
-        "STATUS_LINK": "View status updates"
+        "CONTINUE_WITH_INSTAGRAM": "المتابعة عبر إنستغرام",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "اربط حسابك على إنستغرام",
+        "HELP": "لإضافة حسابك على إنستغرام كقناة، عليك توثيق حسابك بالنقر على 'المتابعة عبر إنستغرام' ",
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بإنستغرام، يرجى المحاولة مرة أخرى",
+        "ERROR_AUTH": "حدث خطأ أثناء الاتصال بإنستغرام، يرجى المحاولة مرة أخرى",
+        "NEW_INBOX_SUGGESTION": "كان حساب إنستغرام هذا مرتبطاً بقناة أخرى، وتم نقله إلى هنا. ستظهر كل الرسائل الجديدة هنا، ولن تتمكن القناة القديمة من إرسال أو استقبال رسائل لهذا الحساب.",
+        "DUPLICATE_INBOX_BANNER": "تم نقل حساب إنستغرام هذا إلى قناة إنستغرام الجديدة. لن تتمكن من إرسال أو استقبال رسائل إنستغرام من هذه القناة بعد الآن.",
+        "RESTRICTED_WARNING": "إنشاء قناة إنستغرام غير متاح مؤقتاً بسبب مشكلة في واجهة API من جهة Meta، وليست مشكلة في المنصة. نعمل مع Meta لحلها في أسرع وقت.",
+        "SETTINGS_RESTRICTED_WARNING": "مراسلة إنستغرام متأثرة حالياً بمشكلة في واجهة API من جهة Meta، وليست مشكلة في المنصة. قد تتأخر بعض الرسائل أو الإجراءات أو لا تكون متاحة. نعمل مع Meta لحلها في أسرع وقت.",
+        "STATUS_LINK": "عرض تحديثات الحالة"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "المتابعة مع تيكتوك",
@@ -71,7 +71,7 @@
         "HELP": "لإضافة ملفك الشخصي على TikTok كقناة، عليك مصادقة ملفك الشخصي على TikTok بالنقر على \"متابعة مع TikTok\".",
         "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ TikTok، يرجى المحاولة مرة أخرى",
         "ERROR_AUTH": "حدث خطأ أثناء الاتصال بـ TikTok، يرجى المحاولة مرة أخرى",
-        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
+        "NORTH_AMERICA_WARNING": "ربط حسابات تيك توك في أمريكا الشمالية غير متاح مؤقتاً بانتظار تحديث من فريق تيك توك."
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
@@ -89,16 +89,16 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "يرجى إدخال رابط Webhook",
           "ERROR": "الرجاء إدخال عنوان URL صالح"
         },
         "CHANNEL_WEBHOOK_SECRET": {
-          "LABEL": "Webhook Secret",
-          "COPY": "Copy secret to clipboard",
-          "COPY_SUCCESS": "Secret copied to clipboard",
-          "TOGGLE": "Toggle secret visibility",
-          "RESET_SUCCESS": "Webhook secret regenerated successfully",
-          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+          "LABEL": "المفتاح السري للـ Webhook",
+          "COPY": "نسخ المفتاح السري",
+          "COPY_SUCCESS": "تم نسخ المفتاح السري",
+          "TOGGLE": "إظهار أو إخفاء المفتاح السري",
+          "RESET_SUCCESS": "تم إنشاء مفتاح سري جديد للـ Webhook بنجاح",
+          "RESET_ERROR": "تعذر إنشاء مفتاح سري جديد. يرجى المحاولة مرة أخرى"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "نطاق الموقع",
@@ -194,7 +194,7 @@
         "TITLE": "قناة SMS",
         "DESC": "ابدأ في دعم عملائك عبر الرسائل القصيرة.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "مزود API",
           "TWILIO": "تويليو",
           "BANDWIDTH": "سعة الإنترنت"
         },
@@ -209,12 +209,12 @@
           },
           "API_KEY": {
             "LABEL": "مفتاح API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "يرجى إدخال مفتاح API الخاص بـ Bandwidth",
             "ERROR": "هذا الحقل مطلوب"
           },
           "API_SECRET": {
             "LABEL": "سرية API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "يرجى إدخال المفتاح السري لـ Bandwidth",
             "ERROR": "هذا الحقل مطلوب"
           },
           "APPLICATION_ID": {
@@ -246,19 +246,19 @@
         "TITLE": "قناة واتساب",
         "DESC": "ابدأ في دعم عملائك عبر واتس آب.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "LABEL": "مزود API",
+          "WHATSAPP_EMBEDDED": "واتساب للأعمال",
           "TWILIO": "تويليو",
           "WHATSAPP_CLOUD": "واتساب السحابة",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "إعداد سريع عبر Meta",
+          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "إعداد يدوي ببيانات Cloud API",
+          "TWILIO_DESC": "الربط ببيانات حساب Twilio",
           "360_DIALOG": "360dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials.",
-          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
+          "TITLE": "اختر مزود API",
+          "DESCRIPTION": "اختر مزود واتساب. يمكنك الربط مباشرة عبر Meta دون أي إعداد، أو الربط عبر Twilio ببيانات حسابك.",
+          "RESTRICTION_DESCRIPTION": "اختر مزود واتساب. يمكنك ربط WhatsApp Cloud يدوياً ببيانات Cloud API، أو الربط عبر Twilio ببيانات حسابك."
         },
         "INBOX_NAME": {
           "LABEL": "اسم صندوق الوارد لقناة التواصل",
@@ -282,7 +282,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "رمز التحقق من Webhook",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "أدخل رمز التحقق الذي تريد استخدامه لـ Webhooks فيسبوك.",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "API_KEY": {
@@ -299,189 +299,189 @@
         },
         "MANUAL_SETUP": {
           "HEADER": {
-            "TITLE": "Connect WhatsApp manually",
-            "DESCRIPTION": "Follow these steps to prepare your Meta account and connect your number to Chatwoot."
+            "TITLE": "ربط واتساب يدوياً",
+            "DESCRIPTION": "اتبع هذه الخطوات لتجهيز حسابك في Meta وربط رقمك بالمنصة."
           },
           "APP": {
-            "TITLE": "Create or select a Meta app",
-            "DESCRIPTION": "Your WhatsApp number must belong to a Meta app with the WhatsApp use case enabled.",
-            "ITEM_1": "Open {metaDevelopers} and sign in with an administrator account.",
+            "TITLE": "أنشئ تطبيق Meta أو اختر تطبيقاً موجوداً",
+            "DESCRIPTION": "يجب أن يتبع رقم واتساب تطبيق Meta مفعّلاً فيه استخدام واتساب.",
+            "ITEM_1": "افتح {metaDevelopers} وسجّل الدخول بحساب مسؤول.",
             "META_DEVELOPERS": "Meta Developers",
-            "ITEM_2": "Create a new app, or select the app you already use for this WhatsApp number.",
-            "ITEM_3": "Choose the option to connect with customers through WhatsApp.",
-            "ITEM_4": "Select the business portfolio that owns, or will own, the WhatsApp number.",
-            "VIDEO_TITLE": "Watch: Create a Meta app",
-            "VIDEO_DESCRIPTION": "This short walkthrough shows where to start a new app in Meta Developers."
+            "ITEM_2": "أنشئ تطبيقاً جديداً، أو اختر التطبيق الذي تستخدمه لرقم واتساب هذا.",
+            "ITEM_3": "اختر خيار التواصل مع العملاء عبر واتساب.",
+            "ITEM_4": "اختر الحساب التجاري الذي يملك رقم واتساب أو سيملكه.",
+            "VIDEO_TITLE": "شاهد: إنشاء تطبيق Meta",
+            "VIDEO_DESCRIPTION": "يوضح هذا الشرح القصير من أين تبدأ إنشاء تطبيق جديد في Meta Developers."
           },
           "NUMBER": {
-            "TITLE": "Add your phone number and get its IDs",
-            "DESCRIPTION": "Add and verify the production number in your Meta app, then copy the two identifiers shown in API Setup.",
-            "ITEM_1": "Open the WhatsApp use case in your Meta app and choose API Setup.",
-            "ITEM_2": "In the Send and receive messages section, open the From selector.",
-            "ITEM_3": "Select an existing production number, or choose Add phone number.",
-            "ITEM_4": "Complete the WhatsApp business profile requested by Meta.",
-            "ITEM_5": "Verify the phone number using the OTP sent by SMS or voice call.",
-            "ITEM_6": "Copy the Phone Number ID and WhatsApp Business Account ID shown in API Setup.",
-            "VIDEO_TITLE": "Watch: Add a phone number and find its IDs",
-            "VIDEO_DESCRIPTION": "This walkthrough shows how to add or select a production number and copy the identifiers from Meta."
+            "TITLE": "أضف رقم هاتفك واحصل على معرّفاته",
+            "DESCRIPTION": "أضف رقم الإنتاج ووثّقه في تطبيق Meta، ثم انسخ المعرّفين الظاهرين في إعداد API.",
+            "ITEM_1": "افتح استخدام واتساب في تطبيق Meta واختر API Setup.",
+            "ITEM_2": "في قسم إرسال واستقبال الرسائل، افتح قائمة From.",
+            "ITEM_3": "اختر رقم إنتاج موجوداً، أو اختر Add phone number.",
+            "ITEM_4": "أكمل الملف التجاري في واتساب الذي تطلبه Meta.",
+            "ITEM_5": "وثّق رقم الهاتف برمز التحقق المرسل برسالة نصية أو مكالمة.",
+            "ITEM_6": "انسخ Phone Number ID وWhatsApp Business Account ID الظاهرين في API Setup.",
+            "VIDEO_TITLE": "شاهد: إضافة رقم هاتف ومعرفة معرّفاته",
+            "VIDEO_DESCRIPTION": "يوضح هذا الشرح كيف تضيف رقم إنتاج أو تختاره وتنسخ المعرّفات من Meta."
           },
           "TOKEN": {
-            "TITLE": "Generate a permanent access token",
-            "DESCRIPTION": "Create a Meta system user with access to your app and WhatsApp Business Account.",
-            "ITEM_1": "Open Meta Business Settings and go to Users → System users.",
-            "ITEM_2": "Create an admin system user, or select an existing one.",
-            "ITEM_3": "Assign your Meta app and WhatsApp Business Account to the system user.",
-            "ITEM_4": "Grant full control for the assigned WhatsApp assets.",
-            "ITEM_5": "Generate a token for your Meta app and set its expiration to Never.",
-            "ITEM_6": "Select whatsapp_business_management and whatsapp_business_messaging, then copy the token.",
-            "VIDEO_TITLE": "Watch: Generate a permanent access token",
-            "VIDEO_DESCRIPTION": "This walkthrough shows how to select your Meta app, choose a non-expiring token, and grant the required WhatsApp permissions.",
-            "WARNING": "Meta shows the token only once. Copy it before closing the dialog."
+            "TITLE": "أنشئ رمز وصول دائماً",
+            "DESCRIPTION": "أنشئ مستخدم نظام في Meta له صلاحية على تطبيقك وحساب واتساب للأعمال.",
+            "ITEM_1": "افتح Meta Business Settings وانتقل إلى Users ← System users.",
+            "ITEM_2": "أنشئ مستخدم نظام بصلاحية مسؤول، أو اختر مستخدماً موجوداً.",
+            "ITEM_3": "اربط تطبيق Meta وحساب واتساب للأعمال بمستخدم النظام.",
+            "ITEM_4": "امنح تحكماً كاملاً في أصول واتساب المرتبطة.",
+            "ITEM_5": "أنشئ رمزاً لتطبيق Meta واجعل مدة صلاحيته Never.",
+            "ITEM_6": "اختر whatsapp_business_management وwhatsapp_business_messaging، ثم انسخ الرمز.",
+            "VIDEO_TITLE": "شاهد: إنشاء رمز وصول دائم",
+            "VIDEO_DESCRIPTION": "يوضح هذا الشرح كيف تختار تطبيق Meta، وتختار رمزاً لا تنتهي صلاحيته، وتمنح صلاحيات واتساب المطلوبة.",
+            "WARNING": "تعرض Meta الرمز مرة واحدة فقط. انسخه قبل إغلاق النافذة."
           },
           "DETAILS": {
-            "WABA_LABEL": "WhatsApp Business Account ID",
-            "WABA_PLACEHOLDER": "Enter WABA ID",
-            "PHONE_ID_LABEL": "Phone Number ID",
-            "PHONE_ID_PLACEHOLDER": "Enter Phone Number ID",
-            "TOKEN_LABEL": "Permanent access token",
-            "TOKEN_PLACEHOLDER": "Paste access token"
+            "WABA_LABEL": "معرّف حساب واتساب للأعمال",
+            "WABA_PLACEHOLDER": "أدخل WABA ID",
+            "PHONE_ID_LABEL": "معرّف رقم الهاتف",
+            "PHONE_ID_PLACEHOLDER": "أدخل معرّف رقم الهاتف",
+            "TOKEN_LABEL": "رمز الوصول الدائم",
+            "TOKEN_PLACEHOLDER": "الصق رمز الوصول"
           },
           "REVIEW": {
-            "TITLE": "Create your WhatsApp inbox",
-            "DESCRIPTION": "Review the number details and choose a name for the inbox.",
-            "VERIFIED": "Your Meta number and access token are valid.",
-            "BUSINESS_NAME": "Business name",
+            "TITLE": "أنشئ قناة واتساب",
+            "DESCRIPTION": "راجع بيانات الرقم واختر اسماً للقناة.",
+            "VERIFIED": "رقمك في Meta ورمز الوصول صالحان.",
+            "BUSINESS_NAME": "الاسم التجاري",
             "PHONE_NUMBER": "رقم الهاتف",
-            "PHONE_ID": "Phone Number ID",
-            "WABA_ID": "WhatsApp Business Account ID",
+            "PHONE_ID": "معرّف رقم الهاتف",
+            "WABA_ID": "معرّف حساب واتساب للأعمال",
             "INBOX_NAME": "اسم صندوق الوارد",
-            "INBOX_NAME_HELP": "We generated this name from your verified Meta business name. You can change it."
+            "INBOX_NAME_HELP": "أنشأنا هذا الاسم من اسمك التجاري الموثّق في Meta، ويمكنك تغييره."
           },
           "VERIFY": {
-            "TITLE": "Verify your connection",
-            "DESCRIPTION": "Chatwoot is checking number access and configuring your Meta webhook.",
-            "NUMBER_ACCESS": "Number access",
-            "TEMPLATE_ACCESS": "Template access",
-            "CALLBACK": "Webhook callback",
-            "SUBSCRIPTION": "Webhook subscription",
+            "TITLE": "تحقق من الاتصال",
+            "DESCRIPTION": "تتحقق المنصة من صلاحية الوصول للرقم وتضبط Webhook في Meta.",
+            "NUMBER_ACCESS": "الوصول إلى الرقم",
+            "TEMPLATE_ACCESS": "الوصول إلى القوالب",
+            "CALLBACK": "رابط استدعاء Webhook",
+            "SUBSCRIPTION": "اشتراك Webhook",
             "WEBHOOK_URL": "رابط Webhook",
             "COPY": "نسخ",
-            "COPY_SUCCESS": "Webhook URL copied to clipboard",
+            "COPY_SUCCESS": "تم نسخ رابط Webhook",
             "COMPLETE": "تم التحقق",
             "PENDING": "معلق",
-            "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment.",
-            "RETRY_SUCCESS": "Webhook setup retried successfully.",
-            "RETRY_ERROR": "We could not retry the webhook setup. Try again."
+            "SUCCESS": "رقم واتساب متصل وجاهز لتعيين الموظفين.",
+            "RETRY_SUCCESS": "تمت إعادة محاولة إعداد Webhook بنجاح.",
+            "RETRY_ERROR": "تعذرت إعادة محاولة إعداد Webhook. حاول مرة أخرى."
           },
           "ACTIONS": {
             "BACK": "العودة",
-            "OPEN_META_APPS": "Open Meta Apps",
-            "APP_READY": "My Meta app is ready",
+            "OPEN_META_APPS": "فتح تطبيقات Meta",
+            "APP_READY": "تطبيق Meta جاهز",
             "NEXT": "التالي",
-            "OPEN_BUSINESS_SETTINGS": "Open Meta Business Settings",
-            "SHOW_TOKEN": "Show token",
-            "HIDE_TOKEN": "Hide token",
-            "VERIFY_DETAILS": "Verify details",
+            "OPEN_BUSINESS_SETTINGS": "فتح Meta Business Settings",
+            "SHOW_TOKEN": "إظهار الرمز",
+            "HIDE_TOKEN": "إخفاء الرمز",
+            "VERIFY_DETAILS": "التحقق من البيانات",
             "CONNECT": "إنشاء قناة تواصل",
-            "RETRY_WEBHOOK": "Retry webhook setup",
-            "CONTINUE": "Continue to add agents"
+            "RETRY_WEBHOOK": "إعادة محاولة إعداد Webhook",
+            "CONTINUE": "المتابعة لإضافة الموظفين"
           },
           "ERRORS": {
-            "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
-            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
-            "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
-            "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
+            "IDS_REQUIRED": "أدخل معرّف رقم الهاتف ومعرّف حساب واتساب للأعمال.",
+            "REQUIRED": "أدخل معرّف رقم الهاتف ومعرّف حساب واتساب للأعمال ورمز الوصول الدائم.",
+            "INVALID_TOKEN": "رمز الوصول هذا غير صالح أو منتهي الصلاحية. أنشئ رمزاً دائماً جديداً وحاول مرة أخرى.",
+            "GENERIC": "تعذر إكمال إعداد واتساب. تحقق من بياناتك وحاول مرة أخرى."
           }
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "إعداد سريع عبر Meta",
+          "DESC": "استخدم الإعداد السريع عبر Meta لربط رقم جديد أو رقم موجود في تطبيق واتساب للأعمال. سيتم تحويلك إلى Meta لتسجيل الدخول إلى حساب واتساب للأعمال. وجود صلاحية مسؤول يجعل الإعداد أسهل.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "مزايا التسجيل المدمج:",
+            "EASY_SETUP": "لا يحتاج أي إعداد يدوي",
+            "SECURE_AUTH": "توثيق آمن عبر OAuth",
+            "AUTO_CONFIG": "ضبط تلقائي للـ Webhook ورقم الهاتف"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about quick setup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "لمعرفة المزيد عن الإعداد السريع والأسعار والقيود، زر {link}.",
+            "LINK_TEXT": "هذا الرابط"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "UNSUPPORTED_COMPLETION": "The Meta setup finished without a WhatsApp phone number that can be connected. Please run the setup again and add a phone number.",
-          "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow",
+          "SUBMIT_BUTTON": "الربط مع واتساب للأعمال",
+          "AUTH_PROCESSING": "جارٍ التوثيق مع Meta",
+          "WAITING_FOR_BUSINESS_INFO": "يرجى إكمال الإعداد التجاري في نافذة Meta...",
+          "PROCESSING": "جارٍ إعداد حساب واتساب للأعمال",
+          "ENABLING_CALLING": "جارٍ تفعيل مكالمات واتساب على رقمك…",
+          "LOADING_SDK": "جارٍ تحميل Facebook SDK...",
+          "CANCELLED": "تم إلغاء التسجيل في واتساب",
+          "SUCCESS_TITLE": "تم ربط حساب واتساب للأعمال!",
+          "WAITING_FOR_AUTH": "بانتظار التوثيق...",
+          "INVALID_BUSINESS_DATA": "وصلت بيانات تجارية غير صالحة من فيسبوك. يرجى المحاولة مرة أخرى.",
+          "UNSUPPORTED_COMPLETION": "انتهى إعداد Meta دون رقم واتساب قابل للربط. يرجى إعادة الإعداد وإضافة رقم هاتف.",
+          "SIGNUP_ERROR": "حدث خطأ في التسجيل",
+          "AUTH_NOT_COMPLETED": "لم يكتمل التوثيق. يرجى إعادة العملية من البداية.",
+          "SUCCESS_FALLBACK": "تم إعداد حساب واتساب للأعمال بنجاح",
+          "MANUAL_FALLBACK": "إذا كان رقمك مرتبطاً مسبقاً بمنصة واتساب للأعمال (API)، أو كنت مزوداً تقنياً تضيف رقمك الخاص، فاستخدم {link}",
+          "MANUAL_LINK_TEXT": "الإعداد اليدوي",
           "ACCESS_REQUEST": {
-            "TITLE": "Quick setup with Meta",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
-            "BUTTON": "Request access",
-            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
-            "USE_CASE_LABEL": "Business use case",
-            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "TITLE": "إعداد سريع عبر Meta",
+            "DESCRIPTION": "اربط رقماً جديداً أو رقماً موجوداً في تطبيق واتساب للأعمال دون إعداد يدوي. أخبرنا بنشاطك التجاري وكيف ستستخدم واتساب لتفعيل هذا الخيار.",
+            "BUTTON": "طلب الوصول",
+            "FORM_DESCRIPTION": "أخبرنا عن نشاطك التجاري وكيف تخطط لاستخدام واتساب. أرسل حالة الاستخدام لتفعيل الإعداد السريع لحسابك.",
+            "USE_CASE_LABEL": "حالة الاستخدام التجاري",
+            "USE_CASE_PLACEHOLDER": "مثلاً: نبيع الأثاث المنزلي ونستخدم واتساب للرد على أسئلة المنتجات ومساعدة العملاء في طلباتهم.",
             "SUBMIT": "إرسال",
-            "ERROR": "We couldn’t enable access. Please try again."
+            "ERROR": "تعذر تفعيل الوصول. يرجى المحاولة مرة أخرى."
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
-          "STATUS_LINK": "View status updates",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "RESTRICTED_WARNING": "التسجيل المدمج لواتساب غير متاح مؤقتاً بسبب مشكلة في واجهة API من جهة Meta، وليست مشكلة في المنصة. يمكنك استخدام الإعداد اليدوي للأرقام المؤهلة على Cloud API. نعمل مع Meta لحلها في أسرع وقت.",
+          "STATUS_LINK": "عرض تحديثات الحالة",
+          "CALLING_ENABLE_FAILED": "قناة واتساب جاهزة، لكن تعذر تفعيل المكالمات الصوتية لأن هذا الرقم غير مسجل بعد في WhatsApp Business Calling API. تواصل مع Meta أو مزود حلول واتساب للأعمال لتسجيله، ثم فعّل المكالمات من إعدادات المكالمات في القناة."
         },
         "API": {
           "ERROR_MESSAGE": "لم نتمكن من حفظ قناة واتساب",
-          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
-          "STATUS_LINK": "View status updates"
+          "MANUAL_RESTRICTION_WARNING": "التسجيل المدمج لواتساب غير متاح مؤقتاً بسبب مشكلة في واجهة API من جهة Meta، وليست مشكلة في المنصة. الإعداد اليدوي يعمل فقط مع الأرقام المرتبطة مسبقاً بـ WhatsApp Cloud API، والأرقام التي تستخدم التشغيل المشترك مع تطبيق واتساب للأعمال غير مدعومة بعد. نعمل مع Meta لحل المشكلة في أسرع وقت. شكراً لصبرك.",
+          "STATUS_LINK": "عرض تحديثات الحالة"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "قناة صوتية",
+        "DESC": "اربط Twilio Voice وابدأ بدعم عملائك عبر المكالمات الهاتفية.",
         "PHONE_NUMBER": {
           "LABEL": "رقم الهاتف",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "PLACEHOLDER": "أدخل رقم هاتفك (مثال: +966500000000)",
+          "ERROR": "يرجى إدخال رقم هاتف صالح بصيغة E.164 (مثال: +966500000000)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "معرف حساب Twilio (يعرف أيضاً بـ Account SID)",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "PLACEHOLDER": "أدخل Account SID الخاص بـ Twilio",
+            "REQUIRED": "Account SID مطلوب"
           },
           "AUTH_TOKEN": {
             "LABEL": "رمز المصادقة Auth Token",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "PLACEHOLDER": "أدخل Auth Token الخاص بـ Twilio",
+            "REQUIRED": "Auth Token مطلوب"
           },
           "API_KEY_SID": {
             "LABEL": "مفتاح API SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "أدخل API Key SID الخاص بـ Twilio",
+            "REQUIRED": "API Key SID مطلوب"
           },
           "API_KEY_SECRET": {
             "LABEL": "مفتاح سر API",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "PLACEHOLDER": "أدخل API Key Secret الخاص بـ Twilio",
+            "REQUIRED": "API Key Secret مطلوب"
           }
         },
         "CONFIGURATION": {
-          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_TITLE": "رابط Twilio Voice",
+          "TWILIO_VOICE_URL_SUBTITLE": "اضبط هذا الرابط كـ Voice URL في رقم هاتف Twilio وتطبيق TwiML.",
+          "TWILIO_STATUS_URL_TITLE": "رابط Status Callback في Twilio",
+          "TWILIO_STATUS_URL_SUBTITLE": "اضبط هذا الرابط كـ Status Callback URL في رقم هاتف Twilio."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "إنشاء قناة صوتية",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "تعذر إنشاء القناة الصوتية"
         }
       },
       "API_CHANNEL": {
@@ -494,7 +494,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "اضبط الرابط الذي تريد استقبال إشعارات الأحداث عليه.",
           "PLACEHOLDER": "رابط Webhook"
         },
         "SUBMIT_BUTTON": "إنشاء قناة API",
@@ -504,7 +504,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "قناة البريد الالكتروني",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "اربط صندوق بريدك الإلكتروني.",
         "CHANNEL_NAME": {
           "LABEL": "اسم القناة",
           "PLACEHOLDER": "الرجاء إدخال اسم القناة",
@@ -558,9 +558,9 @@
         "TITLE": "قناة تيليجرام",
         "DESC": "التكامل مع قناة تيليجرام والبدء في دعم عملائك.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
+          "LABEL": "رمز البوت",
           "SUBTITLE": "تكوين رمز البوت الذي حصلت عليه من Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "PLACEHOLDER": "رمز البوت"
         },
         "SUBMIT_BUTTON": "إنشاء قناة تيليجرام",
         "API": {
@@ -570,65 +570,65 @@
       "AUTH": {
         "TITLE": "اختر قناة",
         "DESC": "يدعم أدوات الدردشة الحية، والميسنجر الفيسبوك، وملفات التويتر الشخصية، و WhatsApp، ورسائل البريد الإلكتروني، إلخ، كقنوات. إذا كنت ترغب في إنشاء قناة مخصصة، يمكنك إنشاءها باستخدام قناة API. للبدء، اختر إحدى القنوات أدناه.",
-        "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE_NEXT": "أكمل الإعداد",
+        "TITLE_FINISH": "تم بنجاح!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "الموقع الإلكتروني",
-            "DESCRIPTION": "Create a live-chat widget"
+            "DESCRIPTION": "أنشئ نافذة دردشة مباشرة"
           },
           "FACEBOOK": {
             "TITLE": "فيسبوك",
-            "DESCRIPTION": "Connect your Facebook page"
+            "DESCRIPTION": "اربط صفحتك على فيسبوك"
           },
           "WHATSAPP": {
             "TITLE": "واتساب",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "ادعم عملاءك عبر واتساب"
           },
           "WHATSAPP_CALL": {
-            "TITLE": "WhatsApp Call",
-            "DESCRIPTION": "Take voice calls on your WhatsApp number"
+            "TITLE": "مكالمات واتساب",
+            "DESCRIPTION": "استقبل المكالمات الصوتية على رقم واتساب"
           },
           "EMAIL": {
             "TITLE": "البريد الإلكتروني",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "DESCRIPTION": "اربط Gmail أو Outlook أو مزودين آخرين"
           },
           "SMS": {
-            "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "TITLE": "رسائل SMS",
+            "DESCRIPTION": "اربط قناة الرسائل النصية عبر Twilio أو Bandwidth"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "أنشئ قناة مخصصة باستخدام API"
           },
           "TELEGRAM": {
             "TITLE": "تيليجرام",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "اضبط قناة تيليجرام باستخدام رمز البوت"
           },
           "LINE": {
-            "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "TITLE": "لاين",
+            "DESCRIPTION": "اربط قناة لاين"
           },
           "INSTAGRAM": {
-            "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "TITLE": "إنستغرام",
+            "DESCRIPTION": "اربط حسابك على إنستغرام"
           },
           "TIKTOK": {
-            "TITLE": "TikTok",
+            "TITLE": "تيك توك",
             "DESCRIPTION": "ربط حسابك في TikTok",
-            "ACCESS_REQUEST_DESCRIPTION": "Contact our support team to request TikTok access"
+            "ACCESS_REQUEST_DESCRIPTION": "تواصل مع فريق الدعم لطلب الوصول إلى تيك توك"
           },
           "VOICE": {
-            "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "TITLE": "الصوت",
+            "DESCRIPTION": "الربط مع Twilio Voice"
           }
         }
       },
       "AGENTS": {
-        "TITLE": "وكيل الدعم",
+        "TITLE": "موظف الدعم",
         "DESC": "هنا يمكنك إضافة موظفين لإدارة صندوق الوارد الخاص بقناة تواصلك التي تم إنشاؤها حديثاً. الموظفين الذين يتم تحديدهم هنا هم فقط من يمكنهم الوصول إلى صندوق الوارد الخاص بتلك القناة. الموظفين الذين ليسوا جزءاً من صندوق الوارد هذا لن يكونوا قادرين على رؤية أو الرد على الرسائل في قناة التواصل هذه عند تسجيل الدخول. <br> <b>ملحوظة:</b> كمسؤول، إذا كنت بحاجة إلى الوصول إلى جميع صناديق الوارد، يجب عليك إضافة نفسك كموظف لجميع صناديق الوارد الخاصة بقنوات التواصل التي تنشئها.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "اختر وكلاء لصندوق الوارد"
+        "VALIDATION_ERROR": "أضف موظفاً واحداً على الأقل إلى قناتك الجديدة",
+        "PICK_AGENTS": "اختر موظفين لصندوق الوارد"
       },
       "DETAILS": {
         "TITLE": "تفاصيل قناة التواصل",
@@ -640,37 +640,37 @@
       },
       "EMAIL_PROVIDER": {
         "TITLE": "حدد مزود البريد الإلكتروني الخاص بك",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "DESCRIPTION": "اختر مزود البريد من القائمة أدناه. إذا لم تجد مزودك، اختر خيار مزود آخر وأدخل بيانات IMAP وSMTP."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
+        "TITLE": "بريد Microsoft",
+        "DESCRIPTION": "انقر على زر تسجيل الدخول عبر Microsoft للبدء. سيتم تحويلك إلى صفحة تسجيل الدخول للبريد، وبعد قبول الصلاحيات المطلوبة ستعود إلى خطوة إنشاء القناة.",
+        "EMAIL_PLACEHOLDER": "أدخل البريد الإلكتروني",
         "SIGN_IN": "تسجيل الدخول باستخدام Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Microsoft، يرجى المحاولة مرة أخرى"
       },
       "GOOGLE": {
         "TITLE": "البريد الإلكتروني لجوجل",
         "DESCRIPTION": "انقر على تسجيل الدخول باستخدام زر جوجل للبدء. سيتم إعادة توجيهك إلى صفحة تسجيل الدخول بالبريد الإلكتروني. بمجرد قبول الأذونات المطلوبة، سيتم إعادة توجيهك إلى خطوة إنشاء علبة الوارد.",
         "SIGN_IN": "تسجيل الدخول باستخدام Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
+        "EMAIL_PLACEHOLDER": "أدخل البريد الإلكتروني",
         "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بجوجل، الرجاء المحاولة مرة أخرى"
       }
     },
     "DETAILS": {
       "LOADING_FB": "جار المصادقة والربط مع الفيسبوك...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_LOADING": "خطأ في تحميل Facebook SDK. يرجى تعطيل مانع الإعلانات والمحاولة من متصفح آخر.",
       "ERROR_FB_AUTH": "حدث خطأ ما، الرجاء تحديث الصفحة...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "ERROR_CHANNEL_CREATION": "We were unable to create the inbox. Please try again.",
+      "ERROR_FB_UNAUTHORIZED": "ليست لديك صلاحية لتنفيذ هذا الإجراء. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "تأكد من أن لديك تحكماً كاملاً في صفحة فيسبوك. يمكنك قراءة المزيد عن أدوار فيسبوك <a href=\" https://www.facebook.com/help/187316341316631\">هنا</a>.",
+      "ERROR_CHANNEL_CREATION": "تعذر إنشاء القناة. يرجى المحاولة مرة أخرى.",
       "CREATING_CHANNEL": "جار إنشاء قناة التواصل...",
       "TITLE": "تهيئة إعدادات قناة التواصل",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "إضافة وكلاء",
-      "ADD_AGENTS": "إضافة وكلاء إلى صندوق الوارد الخاص بالقناة..."
+      "BUTTON_TEXT": "إضافة موظفين",
+      "ADD_AGENTS": "إضافة موظفين إلى صندوق الوارد الخاص بالقناة..."
     },
     "FINISH": {
       "TITLE": "أصبحت قناة التواصل جاهزة الآن!",
@@ -678,12 +678,12 @@
       "BUTTON_TEXT": "خذني إلى هناك",
       "MORE_SETTINGS": "المزيد من الإعدادات",
       "WEBSITE_SUCCESS": "لقد انتهيت بنجاح من إنشاء قناة دردشة مباشرة لموقعك. انسخ الرمز الموضح أدناه وقم بإضافته إلى موقع الويب الخاص بك. في المرة القادمة التي يستخدم فيها العميل الدردشة المباشرة، ستظهر المحادثة تلقائياً على صندوق الوارد الخاص بك.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
-      "SMS_QR_ALT": "QR code to test the SMS inbox",
-      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "WHATSAPP_QR_INSTRUCTION": "امسح رمز QR أعلاه لتجربة قناة واتساب بسرعة",
+      "SMS_QR_INSTRUCTION": "امسح رمز QR أعلاه لتجربة قناة الرسائل النصية بسرعة",
+      "SMS_QR_ALT": "رمز QR لتجربة قناة الرسائل النصية",
+      "TWILIO_CALLBACK_FALLBACK": "يتم ضبط Webhooks تلقائياً. إذا لم تصل الرسائل الواردة، استخدم رابط الاستدعاء هذا في Twilio.",
+      "MESSENGER_QR_INSTRUCTION": "امسح رمز QR أعلاه لتجربة قناة فيسبوك ماسنجر بسرعة",
+      "TELEGRAM_QR_INSTRUCTION": "امسح رمز QR أعلاه لتجربة قناة تيليجرام بسرعة"
     },
     "REAUTH": "إعادة التصريح",
     "VIEW": "عرض",
@@ -702,21 +702,21 @@
         "DISABLED": "معطّل"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "حدد الاسم الذي يظهر للعميل الخاص بك عندما يتلقى رسائل البريد الإلكتروني من الوكلاء الخاصين.",
-        "FOR_EG": "For eg:",
+        "TITLE": "اسم المرسل",
+        "SUB_TEXT": "حدد الاسم الذي يظهر للعميل الخاص بك عندما يتلقى رسائل البريد الإلكتروني من الموظفين الخاصين.",
+        "FOR_EG": "مثال:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
+          "TITLE": "ودّي",
           "FROM": "من",
-          "SUBTITLE": "يضاف اسم الوكيل الذي أرسل الرد باسم المرسل لجعله صديقا."
+          "SUBTITLE": "يضاف اسم الموظف الذي أرسل الرد باسم المرسل لجعله صديقا."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "رسمي",
+          "SUBTITLE": "استخدم الاسم التجاري المضبوط فقط كاسم للمرسل في ترويسة البريد."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "BUTTON_TEXT": "اضبط اسمك التجاري",
+          "PLACEHOLDER": "أدخل اسمك التجاري",
           "SAVE_BUTTON_TEXT": "حفظ"
         }
       },
@@ -729,10 +729,10 @@
         "DISABLED": "معطّل"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Reopen same conversation",
-        "DISABLED": "Create new conversations",
-        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
-        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
+        "ENABLED": "إعادة فتح نفس المحادثة",
+        "DISABLED": "إنشاء محادثات جديدة",
+        "ENABLED_DESCRIPTION": "عندما تراسلك جهة الاتصال مرة أخرى، ستُعاد فتح المحادثة السابقة.",
+        "DISABLED_DESCRIPTION": "ستُنشأ محادثة جديدة في كل مرة بعد حل المحادثة السابقة."
       },
       "ENABLE_HMAC": {
         "LABEL": "تفعيل"
@@ -764,325 +764,338 @@
       "BUSINESS_HOURS": "ساعات العمل",
       "WIDGET_BUILDER": "منشئ اللايف شات",
       "BOT_CONFIGURATION": "اعدادات البوت",
-      "ACCOUNT_HEALTH": "Account Health",
+      "ACCOUNT_HEALTH": "صحة الحساب",
       "CSAT": "تقييم رضاء العملاء",
-      "VOICE": "Voice",
-      "CALLS": "Calls"
+      "VOICE": "الصوت",
+      "CALLS": "المكالمات"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
-        "LABEL": "Enable Voice Calling",
-        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+        "LABEL": "تفعيل المكالمات الصوتية",
+        "DESCRIPTION": "فعّل المكالمات الصوتية في هذه القناة ليتمكن الموظفون من إجراء المكالمات واستقبالها."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
+        "DESCRIPTION": "تتطلب المكالمات الصوتية Account Auth Token للتحقق من Webhook، وبيانات مفتاح API لإجراء المكالمات."
       },
       "INBOUND": {
-        "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
+        "LABEL": "السماح بالمكالمات الواردة",
+        "DESCRIPTION": "اسمح للعملاء بالاتصال بهذا الرقم. عند الإيقاف تُرفض المكالمات الواردة تلقائياً، فلا يُنبَّه الموظفون ولا تُنشأ محادثة. يبقى بإمكان الموظفين إجراء مكالمات صادرة."
       },
       "RECORDING": {
-        "LABEL": "Record calls",
-        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
+        "LABEL": "تسجيل المكالمات",
+        "DESCRIPTION": "سجّل المكالمات وأرفق التسجيل بالمحادثة. أوقف هذا الخيار حيث لا يُسمح بتسجيل المكالمات."
       },
       "TRANSCRIPTION": {
-        "LABEL": "Transcribe recordings",
-        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+        "LABEL": "تفريغ التسجيلات نصياً",
+        "DESCRIPTION": "حوّل كل تسجيل إلى نص مكتوب. يستخدم المساعد الذكي ويتطلب تفعيل التفريغ الصوتي للحساب."
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "تطبيق ساعات العمل على المكالمات",
+        "DESCRIPTION": "خارج ساعات عمل هذه القناة لا ترن المكالمات الواردة عند الموظفين، ويسمع المتصل رسالة خارج الدوام، وتُسجَّل المكالمة كفائتة.",
+        "HOURS_NOT_ENABLED": "ساعات العمل متوقفة لهذه القناة، لذلك تستمر المكالمات بالرنين. فعّلها من تبويب ساعات العمل.",
+        "MESSAGE": {
+          "LABEL": "رسالة خارج الدوام",
+          "PLACEHOLDER": "فريق الدعم متاح من الأحد إلى الخميس، من 9 صباحاً حتى 6 مساءً. يرجى الاتصال خلال ساعات العمل.",
+          "TWILIO_HELP": "عند الحفظ يُنشأ الإعلان الصوتي باستخدام رصيد رد واحد من المساعد الذكي. يمكنك الاستماع إلى الصوت المحفوظ أدناه."
+        },
+        "READ_BY_TWILIO": "المساعد الذكي غير متاح. يمكنك حفظ النص ليقرأه Twilio.",
+        "ACTIVE": "الإعلان الحالي",
+        "SAVE": "حفظ الإعلان"
       }
     },
     "WHATSAPP_CALLING": {
       "ENABLE": {
-        "LABEL": "Enable WhatsApp Calling",
-        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+        "LABEL": "تفعيل مكالمات واتساب",
+        "DESCRIPTION": "اسمح للموظفين باستقبال وإجراء مكالمات WhatsApp Cloud في هذه القناة. يمكن للعملاء الاتصال بهذا الرقم التجاري مباشرة من واتساب."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "تعذر تفعيل المكالمات الصوتية لهذا الرقم لأنه غير مسجل بعد في WhatsApp Business Calling API. تواصل مع Meta أو مزود حلول واتساب للأعمال لتسجيله، ثم حاول مرة أخرى.",
       "PHONE_NUMBER": {
-        "LABEL": "Business phone number",
-        "HELP_TEXT": "WhatsApp number that customers will call."
+        "LABEL": "رقم الهاتف التجاري",
+        "HELP_TEXT": "رقم واتساب الذي سيتصل به العملاء."
       },
       "HOW_IT_WORKS": {
-        "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "LABEL": "طريقة العمل",
+        "DESCRIPTION": "تتم المكالمات مباشرة بين متصفح الموظف وMeta دون الحاجة لبيانات إضافية. تأكد أن متصفح الموظف يسمح لهذا الموقع باستخدام الميكروفون."
       },
       "PERMISSION_REQUEST_BODY": {
-        "LABEL": "Call permission request message",
-        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
-        "PLACEHOLDER": "We would like to call you regarding your conversation."
+        "LABEL": "رسالة طلب إذن الاتصال",
+        "HELP_TEXT": "تظهر لجهة الاتصال إذا لم توافق بعد على استقبال المكالمات. اتركها فارغة لاستخدام الرسالة الافتراضية.",
+        "PLACEHOLDER": "نود الاتصال بك بخصوص محادثتك."
       }
     },
-    "CHANNEL_PREFERENCES": "Channel Preferences",
-    "WIDGET_FEATURES": "Widget features",
+    "CHANNEL_PREFERENCES": "تفضيلات القناة",
+    "WIDGET_FEATURES": "مزايا نافذة الدردشة",
     "TWILIO_HEALTH": {
-      "TITLE": "Manage your Twilio number",
-      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
-      "GO_TO_SETTINGS": "Go to Twilio Console",
-      "NO_DATA": "Health data is not available",
-      "LOADING": "Fetching health data from Twilio…",
-      "ERROR_TITLE": "Could not reach Twilio",
+      "TITLE": "إدارة رقم Twilio",
+      "DESCRIPTION": "راجع حساب Twilio والمرسل وWebhooks المرتبطة بهذه القناة. يظهر هنا أي شيء لا تستطيع المنصة استقباله",
+      "GO_TO_SETTINGS": "الانتقال إلى Twilio Console",
+      "NO_DATA": "بيانات الصحة غير متاحة",
+      "LOADING": "جارٍ جلب بيانات الصحة من Twilio…",
+      "ERROR_TITLE": "تعذر الوصول إلى Twilio",
       "STATUS": {
-        "HEALTHY": "All checks passed",
-        "MISCONFIGURED": "Needs attention"
+        "HEALTHY": "نجحت كل الفحوصات",
+        "MISCONFIGURED": "يحتاج إلى مراجعة"
       },
       "FIELDS": {
         "ACCOUNT_NAME": {
-          "LABEL": "Twilio account",
-          "TOOLTIP": "The Twilio account these credentials belong to"
+          "LABEL": "حساب Twilio",
+          "TOOLTIP": "حساب Twilio الذي تتبعه هذه البيانات"
         },
         "ACCOUNT_STATUS": {
-          "LABEL": "Account status",
-          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+          "LABEL": "حالة الحساب",
+          "TOOLTIP": "حساب Twilio الموقوف أو المغلق لا يمكنه الإرسال أو الاستقبال"
         },
         "ACCOUNT_TYPE": {
-          "LABEL": "Account type",
-          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+          "LABEL": "نوع الحساب",
+          "TOOLTIP": "الحسابات التجريبية يمكنها مراسلة أو الاتصال بالأرقام الموثقة في Twilio فقط"
         },
         "SENDER": {
           "LABEL": "المرسل",
-          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+          "TOOLTIP": "رقم الهاتف أو خدمة المراسلة التي تعمل عليها هذه القناة"
         },
         "CAPABILITIES": {
-          "LABEL": "Number capabilities",
-          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+          "LABEL": "إمكانيات الرقم",
+          "TOOLTIP": "الإمكانيات التي فعّلها Twilio على هذا الرقم. أي إمكانية تحتاجها القناة وليست مفعّلة لن تعمل أبداً"
         },
         "VOICE_CALLING": {
-          "LABEL": "Voice calling",
-          "TOOLTIP": "Whether calling is turned on for this inbox"
+          "LABEL": "المكالمات الصوتية",
+          "TOOLTIP": "هل المكالمات مفعّلة في هذه القناة"
         }
       },
       "VALUES": {
         "ACCOUNT_STATUSES": {
           "ACTIVE": "مفعل",
-          "SUSPENDED": "Suspended",
-          "CLOSED": "Closed"
+          "SUSPENDED": "موقوف",
+          "CLOSED": "مغلق"
         },
         "ACCOUNT_TYPES": {
-          "TRIAL": "Trial",
-          "FULL": "Full"
+          "TRIAL": "تجريبي",
+          "FULL": "كامل"
         },
         "CAPABILITIES": {
-          "SMS": "SMS",
-          "VOICE": "Voice"
+          "SMS": "رسائل SMS",
+          "VOICE": "الصوت"
         },
         "SENDER_TYPES": {
           "PHONE_NUMBER": "رقم الهاتف",
-          "MESSAGING_SERVICE": "Messaging service"
+          "MESSAGING_SERVICE": "خدمة المراسلة"
         },
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
       },
       "WEBHOOKS": {
         "TITLE": "Webhook",
-        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
-        "REGISTER_ALL": "Register webhooks",
-        "MESSAGING": "Messaging webhook",
-        "VOICE": "Voice webhook",
-        "VOICE_STATUS": "Voice status callback",
-        "VOICE_APP": "Outbound calling (TwiML app)"
+        "DESCRIPTION": "يستدعي Twilio هذه الروابط عند وصول رسالة أو مكالمة. سجّلها من جديد بعد تغيير رابط المنصة",
+        "REGISTER_ALL": "تسجيل Webhooks",
+        "MESSAGING": "Webhook المراسلة",
+        "VOICE": "Webhook الصوت",
+        "VOICE_STATUS": "استدعاء حالة المكالمة",
+        "VOICE_APP": "المكالمات الصادرة (تطبيق TwiML)"
       },
       "WEBHOOK": {
-        "CONFIGURED_SUCCESS": "Webhook configured successfully",
-        "NOT_SET": "not set",
-        "EXPECTED": "Expected",
-        "CURRENT": "Currently set to",
+        "CONFIGURED_SUCCESS": "تم ضبط Webhook بنجاح",
+        "NOT_SET": "غير مضبوط",
+        "EXPECTED": "المتوقع",
+        "CURRENT": "المضبوط حالياً",
         "REASONS": {
-          "NOT_SET": "Webhook not configured",
-          "URL_MISMATCH": "Webhook URL mismatch",
-          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
-          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
-          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
-          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
-          "MISSING_TWIML_APP": "TwiML app not created"
+          "NOT_SET": "Webhook غير مضبوط",
+          "URL_MISMATCH": "رابط Webhook غير مطابق",
+          "WRONG_HTTP_METHOD": "Webhook يستخدم طريقة HTTP خاطئة",
+          "OVERRIDDEN_BY_NUMBER": "خدمة المراسلة تعتمد على إعداد الرقم",
+          "OVERRIDDEN_BY_APPLICATION": "يتجاوزه تطبيق TwiML",
+          "OVERRIDDEN_BY_TRUNK": "يتجاوزه SIP trunk",
+          "MISSING_TWIML_APP": "لم يُنشأ تطبيق TwiML"
         },
         "HINTS": {
-          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
-          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
-          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
-          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
-          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
-          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
-          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+          "NOT_SET": "لا يوجد Webhook في Twilio لهذا المرسل، فلا يصل شيء إلى المنصة.",
+          "URL_MISMATCH": "يستدعي Twilio رابطاً مختلفاً، فتذهب البيانات إلى مكان آخر.",
+          "WRONG_HTTP_METHOD": "الرابط صحيح لكن Twilio يستدعيه بطريقة {method} بدل POST، والمنصة لا تستجيب إلا لـ POST.",
+          "OVERRIDDEN_BY_NUMBER": "خيار \"Use webhook on number\" مفعّل في خدمة المراسلة هذه، لذلك يتجاهل Twilio رابط Webhook الخاص بالخدمة.",
+          "OVERRIDDEN_BY_APPLICATION": "يوجد تطبيق TwiML مرتبط بهذا الرقم، ويستخدم Twilio روابط التطبيق بدل روابط الرقم. افصله من Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "هذا الرقم مرتبط بـ SIP trunk، لذلك يوجّه Twilio المكالمات إليه ويتجاهل Webhooks الصوت تماماً. افصله من Twilio Console.",
+          "MISSING_TWIML_APP": "لا يوجد تطبيق TwiML لهذا الرقم في المنصة، فلا يمكن إجراء مكالمات صادرة."
         }
       }
     },
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "إدارة حساب واتساب",
+      "DESCRIPTION": "راجع صحة رقم واتساب وسعة المراسلة وبيانات الحساب التجاري المرتبط في Meta.",
+      "GO_TO_SETTINGS": "الانتقال إلى Meta Business Manager",
+      "NO_DATA": "بيانات الصحة غير متاحة",
       "ERRORS": {
         "AUTHORIZATION": {
-          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
-          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
-          "MANUAL_TITLE": "WhatsApp access token needs attention",
-          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+          "EMBEDDED_TITLE": "اتصال واتساب يحتاج إلى تحديث",
+          "EMBEDDED_DESCRIPTION": "لم تتمكن Meta من التحقق من اتصال هذه القناة. انتقل إلى الإعدادات لإعادة ضبطها عبر التسجيل المدمج.",
+          "MANUAL_TITLE": "رمز وصول واتساب يحتاج إلى مراجعة",
+          "MANUAL_DESCRIPTION": "لم تتمكن Meta من التحقق من رمز الوصول لهذه القناة. انتقل إلى الإعدادات للتحقق منه أو استبداله."
         },
-        "GENERIC_TITLE": "WhatsApp health data is unavailable",
-        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
-        "GO_TO_CONFIGURATION": "Go to Configuration"
+        "GENERIC_TITLE": "بيانات صحة واتساب غير متاحة",
+        "GENERIC_DESCRIPTION": "لم تتمكن Meta من إرجاع تفاصيل الصحة الحالية. راجع الخطأ أدناه وحاول لاحقاً.",
+        "GO_TO_CONFIGURATION": "الانتقال إلى الإعدادات"
       },
       "SECTIONS": {
-        "BUSINESS_PROFILE": "Business profile",
+        "BUSINESS_PROFILE": "الملف التجاري",
         "PHONE_NUMBER": "رقم الهاتف",
-        "HEALTH_AND_CAPACITY": "Health and capacity",
-        "BUSINESS_ACCOUNT": "Business account"
+        "HEALTH_AND_CAPACITY": "الصحة والسعة",
+        "BUSINESS_ACCOUNT": "الحساب التجاري"
       },
       "FIELDS": {
         "PROFILE_DESCRIPTION": {
           "LABEL": "الوصف",
-          "TOOLTIP": "Description shown to customers in the WhatsApp business profile"
+          "TOOLTIP": "الوصف الذي يظهر للعملاء في الملف التجاري على واتساب"
         },
         "PROFILE_ADDRESS": {
           "LABEL": "العنوان",
-          "TOOLTIP": "Business address shown in the WhatsApp business profile"
+          "TOOLTIP": "العنوان التجاري الظاهر في الملف التجاري على واتساب"
         },
         "PROFILE_EMAIL": {
           "LABEL": "البريد الإلكتروني",
-          "TOOLTIP": "Contact email shown in the WhatsApp business profile"
+          "TOOLTIP": "بريد التواصل الظاهر في الملف التجاري على واتساب"
         },
         "PROFILE_WEBSITES": {
-          "LABEL": "Websites",
-          "TOOLTIP": "Website links shown in the WhatsApp business profile"
+          "LABEL": "المواقع الإلكترونية",
+          "TOOLTIP": "روابط المواقع الظاهرة في الملف التجاري على واتساب"
         },
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "رقم الهاتف الظاهر",
+          "TOOLTIP": "رقم الهاتف الذي يظهر للعملاء"
         },
         "VERIFIED_NAME": {
-          "LABEL": "WhatsApp display name",
-          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+          "LABEL": "اسم العرض في واتساب",
+          "TOOLTIP": "اسم العرض المرتبط بهذا الرقم في واتساب"
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "مُعرف رَقَم الهاتف",
-          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+          "TOOLTIP": "معرّف Meta لرقم واتساب هذا"
         },
         "COEXISTENCE": {
-          "LABEL": "Coexistence",
-          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
+          "LABEL": "التشغيل المشترك",
+          "TOOLTIP": "هذا الرقم متصل بتطبيق واتساب للأعمال وCloud API معاً"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Whether Meta has reviewed and approved the WhatsApp display name",
+          "LABEL": "حالة اسم العرض",
+          "TOOLTIP": "هل راجعت Meta اسم العرض في واتساب ووافقت عليه",
           "DESCRIPTIONS": {
-            "APPROVED": "The display name is approved and can appear at the top of WhatsApp chats. A name saved by the recipient can appear instead.",
-            "AVAILABLE_WITHOUT_REVIEW": "The display name is saved to your WhatsApp profile, but recipients may see the phone number until Meta reviews and approves it. Meta starts this review after your business reaches a higher messaging limit.",
-            "PENDING_REVIEW": "Meta is reviewing the display name. No action is needed unless Meta requests more information.",
-            "REJECTED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
-            "DECLINED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
-            "EXPIRED": "The phone number's certificate has expired, so this number cannot be registered for API use.",
-            "UNKNOWN": "Meta did not return a display name review status."
+            "APPROVED": "اسم العرض معتمد ويمكن أن يظهر أعلى محادثات واتساب. قد يظهر بدلاً منه الاسم الذي حفظه المستلم.",
+            "AVAILABLE_WITHOUT_REVIEW": "اسم العرض محفوظ في ملفك على واتساب، لكن قد يرى المستلمون رقم الهاتف حتى تراجعه Meta وتعتمده. تبدأ Meta هذه المراجعة بعد أن يصل نشاطك إلى حد مراسلة أعلى.",
+            "PENDING_REVIEW": "تراجع Meta اسم العرض حالياً. لا يلزم أي إجراء ما لم تطلب Meta معلومات إضافية.",
+            "REJECTED": "لم تعتمد Meta اسم العرض. راجع إرشادات أسماء العرض، ثم عدّل الاسم أو قدّم اعتراضاً في Meta.",
+            "DECLINED": "لم تعتمد Meta اسم العرض. راجع إرشادات أسماء العرض، ثم عدّل الاسم أو قدّم اعتراضاً في Meta.",
+            "EXPIRED": "انتهت صلاحية شهادة رقم الهاتف، لذلك لا يمكن تسجيل هذا الرقم لاستخدام API.",
+            "UNKNOWN": "لم تُرجع Meta حالة مراجعة اسم العرض."
           }
         },
         "LAST_ONBOARDED_TIME": {
-          "LABEL": "Last onboarded",
-          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+          "LABEL": "آخر تسجيل",
+          "TOOLTIP": "آخر مرة سجّلت فيها Meta هذا الرقم"
         },
         "PHONE_NUMBER_STATUS": {
-          "LABEL": "Phone number status",
-          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
+          "LABEL": "حالة رقم الهاتف",
+          "TOOLTIP": "حالة اتصال هذا الرقم الحالية في واتساب"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
+          "LABEL": "تقييم الجودة",
+          "TOOLTIP": "تقييم الجودة الذي تمنحه Meta لهذا الرقم بناءً على مؤشرات المراسلة الأخيرة"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Business messaging limit",
-          "TOOLTIP": "Number of unique customers your business can message outside the customer service window in a rolling 24-hour period",
-          "DESCRIPTION": "This limit is shared by all WhatsApp phone numbers in the business portfolio."
+          "LABEL": "حد المراسلة التجارية",
+          "TOOLTIP": "عدد العملاء المختلفين الذين يمكنك مراسلتهم خارج نافذة خدمة العملاء خلال أي 24 ساعة",
+          "DESCRIPTION": "هذا الحد مشترك بين كل أرقام واتساب في الحساب التجاري."
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+          "LABEL": "وضع الحساب",
+          "TOOLTIP": "وضع التشغيل الحالي لرقم واتساب هذا"
         },
         "CODE_VERIFICATION_STATUS": {
-          "LABEL": "Code verification",
-          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+          "LABEL": "التحقق بالرمز",
+          "TOOLTIP": "حالة رمز التحقق لهذا الرقم كما تبلغ عنها Meta"
         },
         "THROUGHPUT_LEVEL": {
-          "LABEL": "Throughput",
-          "TOOLTIP": "Message throughput level assigned to this phone number"
+          "LABEL": "معدل الإرسال",
+          "TOOLTIP": "مستوى معدل إرسال الرسائل المخصص لهذا الرقم"
         },
         "BUSINESS_ACCOUNT_NAME": {
-          "LABEL": "WhatsApp Business Account name",
-          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+          "LABEL": "اسم حساب واتساب للأعمال",
+          "TOOLTIP": "اسم حساب واتساب للأعمال المرتبط بهذا الرقم"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "WhatsApp Business Account ID",
-          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+          "LABEL": "معرّف حساب واتساب للأعمال",
+          "TOOLTIP": "معرّف Meta لحساب واتساب للأعمال المرتبط"
         },
         "BUSINESS_PORTFOLIO_NAME": {
-          "LABEL": "Business portfolio name",
-          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+          "LABEL": "اسم الحساب التجاري",
+          "TOOLTIP": "اسم حساب Meta التجاري الذي يملك حساب واتساب للأعمال"
         },
         "BUSINESS_PORTFOLIO_ID": {
-          "LABEL": "Business portfolio ID",
-          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
+          "LABEL": "معرّف الحساب التجاري",
+          "TOOLTIP": "معرّف Meta للحساب التجاري الذي يملك حساب واتساب للأعمال"
         }
       },
       "VALUES": {
         "NOT_AVAILABLE": "غير متاح",
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_2K": "2K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_250": "250 عميلاً كل 24 ساعة",
+          "TIER_1000": "1,000 عميل كل 24 ساعة",
+          "TIER_1K": "1,000 عميل كل 24 ساعة",
+          "TIER_2K": "2,000 عميل كل 24 ساعة",
+          "TIER_10K": "10,000 عميل كل 24 ساعة",
+          "TIER_100K": "100,000 عميل كل 24 ساعة",
+          "TIER_UNLIMITED": "عدد غير محدود من العملاء كل 24 ساعة",
+          "UNKNOWN": "التقييم غير متاح"
         },
         "STATUSES": {
-          "APPROVED": "Approved",
-          "CONNECTED": "Connected",
+          "APPROVED": "معتمد",
+          "CONNECTED": "متصل",
           "VERIFIED": "تم التحقق",
           "STANDARD": "عادي",
           "ACTIVE": "مفعل",
-          "EXPIRED": "Expired",
-          "FLAGGED": "Flagged",
-          "RESTRICTED": "Restricted",
-          "BANNED": "Banned",
-          "DISCONNECTED": "Disconnected",
+          "EXPIRED": "منتهي الصلاحية",
+          "FLAGGED": "عليه ملاحظة",
+          "RESTRICTED": "مقيّد",
+          "BANNED": "محظور",
+          "DISCONNECTED": "غير متصل",
           "UNKNOWN": "غير متاح",
-          "PENDING_REVIEW": "Under review",
-          "AVAILABLE_WITHOUT_REVIEW": "Not reviewed yet",
-          "REJECTED": "Not approved",
-          "DECLINED": "Not approved",
-          "NON_EXISTS": "Non exists"
+          "PENDING_REVIEW": "قيد المراجعة",
+          "AVAILABLE_WITHOUT_REVIEW": "لم تتم مراجعته بعد",
+          "REJECTED": "غير معتمد",
+          "DECLINED": "غير معتمد",
+          "NON_EXISTS": "غير موجود"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
+          "SANDBOX": "وضع الاختبار",
           "LIVE": "مباشر"
         },
         "QUALITY": {
-          "GREEN": "Green",
-          "YELLOW": "Yellow",
-          "RED": "Red"
+          "GREEN": "أخضر",
+          "YELLOW": "أصفر",
+          "RED": "أحمر"
         },
         "TIER_NAMES": {
-          "TIER_250": "Tier 250",
-          "TIER_1000": "Tier 1K",
-          "TIER_1K": "Tier 1K",
-          "TIER_2K": "Tier 2K",
-          "TIER_10K": "Tier 10K",
-          "TIER_100K": "Tier 100K",
-          "TIER_UNLIMITED": "Unlimited"
+          "TIER_250": "فئة 250",
+          "TIER_1000": "فئة 1K",
+          "TIER_1K": "فئة 1K",
+          "TIER_2K": "فئة 2K",
+          "TIER_10K": "فئة 10K",
+          "TIER_100K": "فئة 100K",
+          "TIER_UNLIMITED": "غير محدود"
         }
       },
       "BUSINESS_PROFILE": {
-        "PREVIEW_LABEL": "WhatsApp business profile"
+        "PREVIEW_LABEL": "الملف التجاري في واتساب"
       },
       "WEBHOOK": {
-        "TITLE": "Webhook Configuration",
-        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
-        "ACTION_REQUIRED": "Webhook not configured",
-        "REGISTER_BUTTON": "Register Webhook",
-        "REGISTER_SUCCESS": "Webhook registered successfully",
-        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
-        "CONFIGURED_SUCCESS": "Webhook configured successfully",
-        "URL_MISMATCH": "Webhook URL mismatch",
-        "CONFIGURED_URL": "Configured URL",
-        "EXPECTED_URL": "Expected URL",
-        "COPY_URL": "Copy webhook URL",
-        "COPY_SUCCESS": "Webhook URL copied to clipboard"
+        "TITLE": "إعداد Webhook",
+        "DESCRIPTION": "رابط Webhook مطلوب ليستقبل حساب واتساب للأعمال رسائل العملاء",
+        "ACTION_REQUIRED": "Webhook غير مضبوط",
+        "REGISTER_BUTTON": "تسجيل Webhook",
+        "REGISTER_SUCCESS": "تم تسجيل Webhook بنجاح",
+        "REGISTER_ERROR": "فشل تسجيل Webhook. يرجى المحاولة مرة أخرى.",
+        "CONFIGURED_SUCCESS": "تم ضبط Webhook بنجاح",
+        "URL_MISMATCH": "رابط Webhook غير مطابق",
+        "CONFIGURED_URL": "الرابط المضبوط",
+        "EXPECTED_URL": "الرابط المتوقع",
+        "COPY_URL": "نسخ رابط Webhook",
+        "COPY_SUCCESS": "تم نسخ رابط Webhook"
       }
     },
     "SETTINGS": "الإعدادات",
@@ -1091,207 +1104,207 @@
       "DISPLAY_FILE_PICKER": "عرض أداة انتقاء الملفات في الـ widget",
       "DISPLAY_EMOJI_PICKER": "عرض منتقي الرموز التعبيرية على الـ widget",
       "ALLOW_END_CONVERSATION": "السماح للمستخدمين بإنهاء المحادثة من عنصر واجهة المستخدم",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "استخدام اسم القناة وصورتها للبوت"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "TITLE": "النطاقات المسموح بها",
+        "DESCRIPTION": "حدّد المواقع التي يمكنها تضمين نافذة الدردشة. للأمان، أضف فقط النطاقات التي تملكها وتثق بها، وافصل بينها بفواصل. اتركها فارغة للسماح لكل النطاقات (غير مستحسن في بيئة التشغيل الفعلية).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
-        "LABEL": "Enable widget in mobile apps",
+        "LABEL": "تفعيل نافذة الدردشة في تطبيقات الجوال",
         "SUBTITLE": "حدد هذا الخيار إذا كنت تقوم بتضمين الأداة في تطبيقات iOS أو Android. لا ترسل تطبيقات الجوال معلومات النطاق، لذا سيتم حظرها بسبب قيود النطاق ما لم يتم تفعيل هذا الخيار."
       },
       "IDENTITY_VALIDATION": {
-        "TITLE": "Identity Validation",
-        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
-        "SECRET_KEY": "Secret Key",
-        "VIEW_DOCS": "View documentation",
-        "REQUIRE_LABEL": "Require identity validation for all conversations",
-        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected.",
+        "TITLE": "التحقق من الهوية",
+        "DESCRIPTION": "تحقق من هوية المستخدمين بإنشاء رموز آمنة، لمنع أي مستخدم غير مصرح له من انتحال شخصية غيره في الدردشة.",
+        "SECRET_KEY": "المفتاح السري",
+        "VIEW_DOCS": "عرض التوثيق",
+        "REQUIRE_LABEL": "اشتراط التحقق من الهوية في كل المحادثات",
+        "REQUIRE_DESCRIPTION": "عند التفعيل، يجب أن يقدم المستخدم رمز هوية صالحاً لبدء محادثة، وتُرفض الطلبات بدون رمز صالح.",
         "ROTATE": {
-          "BUTTON": "Rotate key",
-          "TITLE": "Rotate secret key?",
-          "WARNING": "The current key is revoked the instant you rotate it.",
-          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
-          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
-          "CONFIRM": "Rotate key",
+          "BUTTON": "تغيير المفتاح",
+          "TITLE": "تغيير المفتاح السري؟",
+          "WARNING": "يُلغى المفتاح الحالي فور تغييره.",
+          "WARNING_DETAIL": "لا توجد فترة انتقالية ولا يمكن استعادته.",
+          "IMPACT": "يجب أن توقّع خوادمك بيانات المستخدمين بالمفتاح الجديد. أي مستخدم موقّع بالمفتاح القديم سيفشل التحقق، وإذا كان التحقق من الهوية إلزامياً فلن يتمكن من بدء محادثة.",
+          "CONFIRM": "تغيير المفتاح",
           "CANCEL": "إلغاء",
-          "SUCCESS": "Secret key rotated successfully",
-          "ERROR": "Could not rotate the secret key, please try again"
+          "SUCCESS": "تم تغيير المفتاح السري بنجاح",
+          "ERROR": "تعذر تغيير المفتاح السري، يرجى المحاولة مرة أخرى"
         }
       },
-      "INBOX_AGENTS": "وكيل الدعم",
-      "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة وكلاء من صندوق الوارد هذا",
+      "INBOX_AGENTS": "موظف الدعم",
+      "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من صندوق الوارد هذا",
       "AGENT_ASSIGNMENT": "تعيين المحادثة",
       "AGENT_ASSIGNMENT_SUB_TEXT": "تحديث إعدادات إسناد المحادثات",
       "UPDATE": "تحديث",
       "ENABLE_EMAIL_COLLECT_BOX": "تفعيل صندوق جمع البريد الإلكتروني",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "تمكين أو تعطيل مربع جمع البريد الإلكتروني في محادثة جديدة",
       "AUTO_ASSIGNMENT": "تفعيل الإسناد التلقائي",
-      "SENDER_NAME_SECTION": "تمكين اسم الوكيل في البريد الإلكتروني",
-      "SENDER_NAME_SECTION_TEXT": "تمكين/تعطيل إظهار اسم الوكيل في البريد الإلكتروني، إذا تم تعطيله فسيظهر اسم المنشأة",
+      "SENDER_NAME_SECTION": "تمكين اسم الموظف في البريد الإلكتروني",
+      "SENDER_NAME_SECTION_TEXT": "تمكين/تعطيل إظهار اسم الموظف في البريد الإلكتروني، إذا تم تعطيله فسيظهر اسم المنشأة",
       "ENABLE_CONTINUITY_VIA_EMAIL": "تمكين استمرارية المحادثة عبر البريد الإلكتروني",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "المحادثات ستستمر عبر البريد الإلكتروني إذا كان عنوان البريد الإلكتروني لجهة الاتصال متاحاً.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "هذه الميزة متوفرة في الخطة المدفوعة. قم بالترقية لتفعيل استمرارية المحادثة عبر البريد الإلكتروني.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
+      "LOCK_TO_SINGLE_CONVERSATION": "توجيه المحادثات",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "اضبط طريقة إنشاء المحادثات لجهات الاتصال الحالية",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
       "HMAC_VERIFICATION": "التحقق من هوية المستخدم",
       "HMAC_DESCRIPTION": "من أجل التحقق من هوية المستخدم، يمكنك تمرير 'IDer_hash` لكل مستخدم. يمكنك إنشاء تجزئة HMAC sha256 باستخدام \"المعرف\" مع المفتاح المعروض هنا.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_LINK_TO_DOCS": "يمكنك قراءة المزيد هنا.",
       "HMAC_MANDATORY_VERIFICATION": "فرض التحقق من هوية المستخدم",
       "HMAC_MANDATORY_DESCRIPTION": "في حالة التمكين، سيتم رفض الطلبات المفقودة 'IDer_hash'.",
       "INBOX_IDENTIFIER": "معرف صندوق الوارد",
       "INBOX_IDENTIFIER_SUB_TEXT": "استخدم رمز 'inbox_identifier' المعروض هنا للمصادقة على عملاء API الخاص بك.",
       "FORWARD_EMAIL_TITLE": "إعادة التوجيه إلى البريد الإلكتروني",
       "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "إعادة توجيه البريد إلى قناتك معطلة حالياً في هذه المنصة. لاستخدام هذه الميزة يجب أن يفعّلها المسؤول، يرجى التواصل معه.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة.",
       "WHATSAPP_SECTION_SUBHEADER": "يتم استخدام مفتاح API هذا للتكامل مع واتسب APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "أدخل مفتاح API الجديد المستخدم للربط مع واجهات واتساب.",
       "WHATSAPP_SECTION_TITLE": "مفتاح API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "تحديث مفتاح API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "أدخل مفتاح API الجديد هنا",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "تحديث",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "إضافة رمز إدارة الأعمال",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "استبدال رمز إدارة الأعمال",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "رمز إدارة الأعمال مضبوط",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "أدخل رمزاً له صلاحية على حساب واتساب للأعمال هذا عندما لا تتمكن المنصة من جلب قوالب الرسائل. تستخدم المنصة هذا الرمز لمزامنة القوالب فقط.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "أدخل رمز إدارة الأعمال",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "إضافة",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "WhatsApp business management token updated successfully.",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Could not update the business management token. Verify its WhatsApp Business Management permission and account access, then try again.",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Learn how to generate a WhatsApp Business Management token",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
-      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
-      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "استبدال",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "تم تحديث رمز إدارة أعمال واتساب بنجاح.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "تعذر تحديث رمز إدارة الأعمال. تحقق من صلاحية WhatsApp Business Management والوصول إلى الحساب، ثم حاول مرة أخرى.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "تعرّف على طريقة إنشاء رمز WhatsApp Business Management",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "التسجيل المدمج لواتساب",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "هذه القناة متصلة عبر التسجيل المدمج لواتساب.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "يمكنك إعادة ضبط هذه القناة لتحديث إعدادات واتساب للأعمال.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "إعادة الضبط",
+      "WHATSAPP_MANUAL_TRANSFER_TITLE": "التحويل إلى الإعداد اليدوي",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "هذه القناة متصلة عبر التسجيل المدمج لواتساب، وهو لم يعد مدعوماً. أدخل بيانات WhatsApp Cloud API من تطبيق Meta الخاص بك لتحويل القناة إلى الإعداد اليدوي. اضبط Webhook في تطبيق Meta باستخدام رمز التحقق أعلاه قبل التحويل.",
+      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "معرّف رقم الهاتف",
       "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "مُعرف حساب الأعمال",
       "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "مفتاح API",
-      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Enter a permanent access token from your Meta app",
-      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Switch to Manual Setup",
-      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Inbox switched to manual setup successfully.",
-      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Could not switch to manual setup. Please verify the credentials and try again.",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "أدخل رمز وصول دائماً من تطبيق Meta",
+      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "التحويل إلى الإعداد اليدوي",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "تم تحويل القناة إلى الإعداد اليدوي بنجاح.",
+      "WHATSAPP_MANUAL_TRANSFER_ERROR": "تعذر التحويل إلى الإعداد اليدوي. يرجى التحقق من البيانات والمحاولة مرة أخرى.",
+      "WHATSAPP_CONNECT_TITLE": "الربط مع واتساب للأعمال",
+      "WHATSAPP_CONNECT_SUBHEADER": "انتقل إلى التسجيل المدمج لواتساب لإدارة أسهل.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "اربط هذه القناة بواتساب للأعمال للحصول على مزايا إضافية وإدارة أسهل.",
       "WHATSAPP_CONNECT_BUTTON": "ربط الاتصال",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
+      "WHATSAPP_CONNECT_SUCCESS": "تم الربط مع واتساب للأعمال بنجاح!",
+      "WHATSAPP_CONNECT_ERROR": "فشل الربط مع واتساب للأعمال. يرجى المحاولة مرة أخرى.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "تمت إعادة ضبط واتساب للأعمال بنجاح!",
+      "WHATSAPP_RECONFIGURE_ERROR": "فشلت إعادة ضبط واتساب للأعمال. يرجى المحاولة مرة أخرى.",
+      "WHATSAPP_APP_ID_MISSING": "معرّف تطبيق واتساب غير مضبوط. يرجى التواصل مع المسؤول.",
+      "WHATSAPP_CONFIG_ID_MISSING": "معرّف إعداد واتساب غير مضبوط. يرجى التواصل مع المسؤول.",
+      "WHATSAPP_LOGIN_CANCELLED": "تم إلغاء تسجيل الدخول إلى واتساب. يرجى المحاولة مرة أخرى.",
       "WHATSAPP_WEBHOOK_TITLE": "رمز التحقق من Webhook",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "يُستخدم هذا الرمز للتحقق من موثوقية رابط Webhook.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "مزامنة القوالب",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "زامن قوالب الرسائل من واتساب يدوياً لتحديث القوالب المتاحة.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "مزامنة القوالب",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "بدأت مزامنة القوالب بنجاح. قد يستغرق التحديث بضع دقائق.",
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
-          "TITLE": "Manual setup recommended",
-          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
-          "START": "Start manual migration",
-          "GUIDE": "View guide"
+          "TITLE": "يُنصح بالإعداد اليدوي",
+          "DESCRIPTION": "تتصل هذه القناة عبر تطبيق Meta المشترك المستخدم في التسجيل المدمج، وقد تأثر بقيود Meta الأخيرة. لتجنب مشاكل مشابهة مستقبلاً، ننصح بإعادة ربطها بتطبيق Meta خاص بك.",
+          "START": "بدء النقل اليدوي",
+          "GUIDE": "عرض الدليل"
         },
         "DIALOG": {
-          "EYEBROW": "WhatsApp manual migration",
-          "TITLE": "Reconnect WhatsApp inbox",
+          "EYEBROW": "النقل اليدوي لواتساب",
+          "TITLE": "إعادة ربط قناة واتساب",
           "CLOSE": "أغلق",
-          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
-          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
-          "GUIDE_LINK": "Open the manual setup guide",
-          "PRESERVED_TITLE": "Preserved",
-          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
-          "UPDATED_TITLE": "Updated",
-          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
+          "ACTION_REQUIRED_TITLE": "أعد الربط بتطبيق Meta خاص بك",
+          "ACTION_REQUIRED_DESCRIPTION": "القنوات المتصلة عبر تطبيق Meta خاص بك لا تتأثر بقيود تطبيق التسجيل المدمج المشترك. هذه الخطوات تحدّث اتصال WhatsApp API دون إنشاء قناة جديدة.",
+          "GUIDE_LINK": "فتح دليل الإعداد اليدوي",
+          "PRESERVED_TITLE": "يبقى كما هو",
+          "PRESERVED_DESCRIPTION": "المحادثات وجهات الاتصال والمتعاونون والتوجيه وساعات العمل وإعدادات القناة.",
+          "UPDATED_TITLE": "يتم تحديثه",
+          "UPDATED_DESCRIPTION": "WABA ID ومعرّف رقم الهاتف ورمز الوصول وإعداد Webhook.",
           "WABA_ID": "WABA ID",
-          "WABA_PLACEHOLDER": "Enter WABA ID",
-          "WABA_HELP": "The WhatsApp Business Account that owns this phone number.",
-          "PHONE_NUMBER_ID": "Phone Number ID",
-          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
-          "PHONE_NUMBER_HELP": "Meta's unique ID for the WhatsApp number connected to this inbox.",
-          "DISPLAY_PHONE_NUMBER": "Display phone number",
-          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
-          "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
-          "ACCESS_TOKEN": "Permanent access token or system user token",
-          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
-          "TOKEN_HELP_PREFIX": "The token must include",
+          "WABA_PLACEHOLDER": "أدخل WABA ID",
+          "WABA_HELP": "حساب واتساب للأعمال الذي يملك رقم الهاتف هذا.",
+          "PHONE_NUMBER_ID": "معرّف رقم الهاتف",
+          "PHONE_NUMBER_PLACEHOLDER": "أدخل معرّف رقم الهاتف",
+          "PHONE_NUMBER_HELP": "المعرّف الفريد في Meta لرقم واتساب المتصل بهذه القناة.",
+          "DISPLAY_PHONE_NUMBER": "رقم الهاتف الظاهر",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "أدخل رقم الهاتف الظاهر",
+          "DISPLAY_PHONE_NUMBER_HELP": "رقم واتساب الذي يراه العملاء، ولا يمكن تغييره أثناء النقل.",
+          "ACCESS_TOKEN": "رمز وصول دائم أو رمز مستخدم النظام",
+          "ACCESS_TOKEN_PLACEHOLDER": "الصق رمز الوصول",
+          "TOKEN_HELP_PREFIX": "يجب أن يتضمن الرمز",
           "TOKEN_HELP_MIDDLE": "إضافة",
-          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
+          "TOKEN_HELP_SUFFIX": "لمزامنة القوالب وإدارتها.",
           "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
           "MANAGEMENT_PERMISSION": "whatsapp_business_management",
-          "REVIEW_TITLE": "Review before reconnecting",
+          "REVIEW_TITLE": "راجع قبل إعادة الربط",
           "INBOX": "صندوق الوارد",
           "PHONE_NUMBER": "رقم الهاتف",
-          "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "NOT_ENTERED": "لم يُدخل",
+          "VERIFY_NOTICE": "ستتحقق المنصة من هذه البيانات مع Meta قبل تطبيق أي تغيير. إذا فشل التحقق يبقى الإعداد الحالي كما هو.",
           "BACK": "العودة",
           "CANCEL": "إلغاء",
-          "CONTINUE": "Continue",
-          "REVIEW_MIGRATION": "Review migration",
-          "RECONNECT": "Reconnect WhatsApp inbox"
+          "CONTINUE": "متابعة",
+          "REVIEW_MIGRATION": "مراجعة النقل",
+          "RECONNECT": "إعادة ربط قناة واتساب"
         },
         "STEPS": {
           "BEFORE_YOU_START": {
-            "TITLE": "Before you start",
-            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+            "TITLE": "قبل أن تبدأ",
+            "DESCRIPTION": "هذه الخطوات تعيد ربط بيانات WhatsApp API لهذه القناة. ستبقى المحادثات والمتعاونون والتوجيه وساعات العمل واستبيانات الرضا وإعدادات البوت كما هي."
           },
           "BUSINESS_DETAILS": {
-            "TITLE": "Business details",
-            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+            "TITLE": "البيانات التجارية",
+            "DESCRIPTION": "أدخل أصول واتساب من حساب Meta التجاري للعميل."
           },
           "ACCESS_TOKEN": {
-            "TITLE": "Access token",
-            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+            "TITLE": "رمز الوصول",
+            "DESCRIPTION": "الصق رمز وصول دائماً أو رمز مستخدم نظام بصلاحيات واتساب."
           },
           "REVIEW_MIGRATION": {
-            "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "TITLE": "مراجعة النقل",
+            "DESCRIPTION": "أكّد بيانات الاتصال قبل إعادة ربط القناة. ستتحقق المنصة من الرمز وWABA ورقم الهاتف مع Meta قبل تطبيق التغييرات."
           }
         }
       },
       "WHATSAPP_CALLING_ENABLED": {
-        "LABEL": "Enable voice calling",
-        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+        "LABEL": "تفعيل المكالمات الصوتية",
+        "DESCRIPTION": "اسمح للموظفين ببدء واستقبال مكالمات واتساب الصوتية في هذه القناة. متاح فقط لقنوات WhatsApp Cloud المضافة بالتسجيل المدمج والحاصلة على إذن المكالمات من Meta."
       },
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "تحديث إعدادات نموذج ما قبل الدردشة"
     },
     "HELP_CENTER": {
       "LABEL": "مركز المساعدة",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
+      "PLACEHOLDER": "اختر مركز المساعدة",
+      "SELECT_PLACEHOLDER": "اختر مركز المساعدة",
       "NONE": "لا شيء",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "REMOVE": "إزالة مركز المساعدة",
+      "SUB_TEXT": "اربط مركز مساعدة بالقناة"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "حد الإسناد التلقائي",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "الرجاء إدخال قيمة أكبر من 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "تحديد الحد الأقصى لعدد المحادثات من علبة الوارد هذه التي يمكن تعيينها تلقائياً إلى وكيل"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "تحديد الحد الأقصى لعدد المحادثات من علبة الوارد هذه التي يمكن تعيينها تلقائياً إلى موظف"
     },
     "ASSIGNMENT": {
       "TITLE": "تعيين المحادثة",
-      "DESCRIPTION": "تعيين المحادثات الواردة تلقائياً إلى الوكلاء المتاحين استناداً إلى سياسات التعيين",
+      "DESCRIPTION": "تعيين المحادثات الواردة تلقائياً إلى الموظفين المتاحين استناداً إلى سياسات التعيين",
       "ENABLE_AUTO_ASSIGNMENT": "تمكين تعيين المحادثة تلقائياً",
       "DEFAULT_RULES_TITLE": "قواعد التعيين الافتراضية",
       "DEFAULT_RULES_DESCRIPTION": "استخدام سلوك التعيين الافتراضي لجميع المحادثات",
       "DEFAULT_RULE_1": "المحادثات التي تم إنشاؤها أولاً",
       "DEFAULT_RULE_2": "توزيع الجدولة الدائرية (Round robin)",
-      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "CUSTOMIZE_WITH_POLICY": "التخصيص بسياسة تعيين",
       "USING_POLICY": "استخدام سياسة التعيين المخصصة لهذه القناة",
       "CUSTOMIZE_POLICY": "التخصيص وفقًا لسياسة التعيين",
       "DELETE_POLICY": "حذف سياسة",
@@ -1307,20 +1320,23 @@
         "LONGEST_WAITING": "أطول انتظار"
       },
       "METHOD": {
-        "ROUND_ROBIN": "Round robin",
+        "ROUND_ROBIN": "بالتناوب",
         "BALANCED": "تعيين متوازن"
       },
       "UPGRADE_PROMPT": "سياسة التعيين المخصصة متاحى في الخطة (Business) ",
       "UPGRADE_TO_BUSINESS": "الترقية إلى (Business)",
       "DEFAULT_POLICY_LINKED": "السياسة الافتراضية المرتبطة",
-      "DEFAULT_POLICY_DESCRIPTION": "ربط سياسة تعيين مخصصة لتخصيص كيفية تعيين المحادثات إلى الوكلاء في هذه القناه",
+      "DEFAULT_POLICY_DESCRIPTION": "ربط سياسة تعيين مخصصة لتخصيص كيفية تعيين المحادثات إلى الموظفين في هذه القناه",
       "LINK_EXISTING_POLICY": "ربط السياسة الحالية",
       "CREATE_NEW_POLICY": "إنشاء سياسة جديدة",
       "NO_POLICIES": "لم يتم العثور على سياسات التعيين",
       "VIEW_ALL_POLICIES": "عرض جميع السياسات",
       "CURRENT_BEHAVIOR": "حاليا يستخدم سلوك التعيين الافتراضي:",
       "LINK_SUCCESS": "تم ربط سياسة التعيين بنجاح",
-      "LINK_ERROR": "فشل في ربط سياسة التعيين"
+      "LINK_ERROR": "فشل في ربط سياسة التعيين",
+      "SELF_HOSTED_PROMPT": "سياسات التعيين المخصصة متاحة في الباقة المميزة",
+      "FEATURE_DISABLED_PROMPT": "سياسات التعيين المخصصة غير مفعّلة لهذا الحساب.",
+      "UPGRADE_TO_PREMIUM": "الترقية إلى الباقة المميزة"
     },
     "ASSIGNMENT_POLICY": {
       "DELETE_CONFIRM_TITLE": "حذف سياسة التعيين؟",
@@ -1364,13 +1380,13 @@
     },
     "CSAT": {
       "TITLE": "تمكين تقييم خدمة العملاء",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "SUBTITLE": "أرسل استبيانات رضا العملاء تلقائياً في نهاية المحادثات لتعرف انطباعهم عن تجربة الدعم. تابع اتجاهات الرضا وحدد مجالات التحسين مع الوقت.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "طريقة العرض"
       },
       "MESSAGE": {
         "LABEL": "رسالة",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "يرجى إدخال رسالة تظهر للمستخدمين مع النموذج"
       },
       "BUTTON_TEXT": {
         "LABEL": "نص الزر",
@@ -1402,34 +1418,34 @@
         "CANCEL": "العودة للخلف"
       },
       "UTILITY_ANALYZER": {
-        "ACTION": "Check utility fit",
-        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
-        "RESULT_LABEL": "Meta category prediction",
-        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
-        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
-        "APPLY": "Use this rewrite",
-        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "ACTION": "فحص التوافق مع فئة الخدمات",
+        "HELPER_NOTE": "افحص هذه الرسالة قبل الإرسال لتحسين توافقها مع فئة الخدمات (Utility). ينشئ النظام قالب رضا مخصصاً بأزرار للتقارير ويرسله كفئة خدمات، وقد تعيد Meta تصنيفه كتسويقي حسب المحتوى.",
+        "RESULT_LABEL": "التصنيف المتوقع من Meta",
+        "GUIDANCE_NOTE": "هذا فحص إرشادي وليس ضماناً لموافقة Meta.",
+        "SUGGESTION_LABEL": "صياغة مقترحة متوافقة مع فئة الخدمات",
+        "APPLY": "استخدام هذه الصياغة",
+        "ERROR_MESSAGE": "تعذر تحليل الرسالة. يرجى المحاولة مرة أخرى.",
         "CLASSIFICATION": {
-          "LIKELY_UTILITY": "Likely Utility",
-          "LIKELY_MARKETING": "Likely Marketing",
-          "UNCLEAR": "Needs clarification"
+          "LIKELY_UTILITY": "غالباً خدمات",
+          "LIKELY_MARKETING": "غالباً تسويقي",
+          "UNCLEAR": "يحتاج إلى توضيح"
         }
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "قاعدة الاستبيان",
+        "DESCRIPTION_PREFIX": "أرسل الاستبيان إذا كانت المحادثة",
+        "DESCRIPTION_SUFFIX": "أياً من الوسوم",
         "OPERATOR": {
           "CONTAINS": "يحتوي",
           "DOES_NOT_CONTAINS": "لا يحتوي"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "اختر الوسوم"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
+      "NOTE": "ملاحظة: يُرسل استبيان الرضا مرة واحدة فقط لكل محادثة",
+      "WHATSAPP_NOTE": "ملاحظة: عند الحفظ ينشئ النظام قالب رضا مخصصاً في واتساب (لتسجيل التقييم والملاحظات في التقارير) ويرسله للموافقة كفئة خدمات. قد تصنفه Meta كتسويقي حسب المحتوى. بعد الموافقة، يُرسل الاستبيان مرة واحدة لكل محادثة حسب قاعدة الاستبيان.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "تم تحديث إعدادات استبيان الرضا بنجاح",
+        "ERROR_MESSAGE": "تعذر تحديث إعدادات استبيان الرضا. يرجى المحاولة لاحقاً."
       }
     },
     "BUSINESS_HOURS": {
@@ -1440,11 +1456,11 @@
       "UPDATE": "تحديث إعدادات ساعات العمل",
       "TOGGLE_AVAILABILITY": "تمكين توافر العمل لهذا البريد الوارد",
       "UNAVAILABLE_MESSAGE_LABEL": "رسالة غير متاح للزائرين",
-      "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الوكلاء غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
+      "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الموظفين غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
       "DAY": {
         "DAY": "اليوم",
         "AVAILABILITY": "التوفر",
-        "HOURS": "Hours",
+        "HOURS": "ساعات",
         "ENABLE": "تمكين التوفر لهذا اليوم",
         "UNAVAILABLE": "غير متوفر",
         "VALIDATION_ERROR": "يجب أن يكون وقت البدء قبل وقت الإغلاق.",
@@ -1455,10 +1471,10 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "تعيين تفاصيل IMAP الخاصة بك",
-      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
+      "NOTE_TEXT": "اضبط IMAP لاستقبال الرسائل مباشرة من صندوق بريدك. اتركه معطلاً إذا كنت تستخدم إعادة توجيه البريد.",
       "UPDATE": "تحديث الإعدادات",
       "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "TOGGLE_HELP": "تفعيل IMAP يتيح استقبال الرسائل البريدية",
       "EDIT": {
         "SUCCESS_MESSAGE": "تم تحديث إعدادات IMAP بنجاح",
         "ERROR_MESSAGE": "غير قادر على تحديث إعدادات IMAP"
@@ -1484,7 +1500,7 @@
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "أعد تفويض حساب Microsoft"
     },
     "SMTP": {
       "TITLE": "SMTP",
@@ -1554,12 +1570,12 @@
           "IN_A_DAY": "خلال يوم"
         },
         "WIDGET_COLOR_LABEL": "لون صندوق الدردشة",
-        "WIDGET_BUBBLE": "Bubble",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE": "الفقاعة",
+        "WIDGET_BUBBLE_POSITION_LABEL": "الموضع:",
         "WIDGET_BUBBLE_TYPE_LABEL": "النوع:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "تحدث الينا",
-          "LABEL": "Launcher Title",
+          "LABEL": "عنوان زر الفتح",
           "PLACE_HOLDER": "تحدث الينا"
         },
         "UPDATE": {
@@ -1584,7 +1600,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "افتراضي",
-        "CHAT": "Chat mode"
+        "CHAT": "وضع الدردشة"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
@@ -1609,31 +1625,31 @@
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "الربط مع Microsoft"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "الربط مع Google"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Other Providers",
-        "DESCRIPTION": "Connect with Other Providers"
+        "TITLE": "مزودون آخرون",
+        "DESCRIPTION": "الربط مع مزودين آخرين"
       }
     },
     "CHANNELS": {
-      "MESSENGER": "Messenger",
+      "MESSENGER": "ماسنجر",
       "WEB_WIDGET": "الموقع الإلكتروني",
       "TWITTER_PROFILE": "تويتر",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "واتساب",
-      "SMS": "SMS",
+      "SMS": "رسائل SMS",
       "EMAIL": "البريد الإلكتروني",
       "TELEGRAM": "تيليجرام",
-      "LINE": "Line",
+      "LINE": "لاين",
       "API": "قناة API",
-      "INSTAGRAM": "Instagram",
-      "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "INSTAGRAM": "إنستغرام",
+      "TIKTOK": "تيك توك",
+      "VOICE": "الصوت"
     }
   }
 }

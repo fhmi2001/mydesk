@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "لقد تجاوزت حد المحادثات. الباقة المجانية تسمح بـ 500 محادثة فقط.",
+      "INBOXES": "لقد تجاوزت حد القنوات. الباقة المجانية تدعم الدردشة المباشرة في الموقع فقط، والقنوات الإضافية مثل البريد وواتساب تتطلب باقة مدفوعة.",
+      "AGENTS": "لقد تجاوزت حد الموظفين. باقتك تسمح بـ {allowedAgents} موظفين فقط.",
+      "NON_ADMIN": "يرجى التواصل مع المسؤول لترقية الباقة ومواصلة استخدام كل المزايا."
     },
     "TITLE": "إعدادات الحساب",
     "SUBMIT": "تحديث الإعدادات",
@@ -15,23 +15,23 @@
       "SUCCESS": "تم تحديث إعدادات الحساب بنجاح"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "حذف حسابك",
+      "NOTE": "عند حذف حسابك ستُحذف كل بياناتك.",
+      "BUTTON_TEXT": "حذف حسابك",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "حذف الحساب",
+        "MESSAGE": "حذف الحساب لا يمكن التراجع عنه. أدخل اسم الحساب أدناه لتأكيد حذفه نهائياً.",
         "BUTTON_TEXT": "حذف",
         "DISMISS": "إلغاء",
         "PLACE_HOLDER": "الرجاء كتابة {accountName} للتأكيد"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "تم تحديد الحساب للحذف",
+      "FAILURE": "تعذر حذف الحساب، حاول مرة أخرى!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
+        "TITLE": "الحساب مجدول للحذف",
         "MESSAGE_MANUAL": "هذا الحساب مجدول للحذف بتاريخ {deletionDate}. تم طلبه من قبل المسؤول. يمكنك إلغاء الحذف قبل هذا التاريخ.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "MESSAGE_INACTIVITY": "هذا الحساب مجدول للحذف في {deletionDate} بسبب عدم النشاط. يمكنك إلغاء الحذف قبل هذا التاريخ.",
+        "CLEAR_BUTTON": "إلغاء الحذف المجدول"
       }
     },
     "FORM": {
@@ -45,61 +45,61 @@
         "NOTE": "هذا المعرف مطلوب إذا كنت بصدد بناء تكامل على API"
       },
       "TRANSLATION": {
-        "TITLE": "Translation",
-        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "TITLE": "الترجمة",
+        "NOTE": "تحدّث بلغة كل عميل، مهما كانت اللغات التي يعرفها فريقك.",
         "CAPTAIN": {
-          "TITLE": "Captain",
-          "NOTE": "AI translations that sound natural and keep your tone."
+          "TITLE": "المساعد الذكي",
+          "NOTE": "ترجمات بالذكاء الاصطناعي تبدو طبيعية وتحافظ على أسلوبك."
         },
         "GOOGLE": {
           "TITLE": "ترجمة Google",
-          "NOTE": "Quick, reliable translations from Google.",
-          "NOT_CONNECTED": "Not connected",
+          "NOTE": "ترجمات سريعة وموثوقة من Google.",
+          "NOT_CONNECTED": "غير متصل",
           "CONNECT": "ربط الاتصال",
-          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+          "NOT_CONNECTED_HINT": "ترجمة Google غير مربوطة بعد."
         },
         "UPGRADE": {
-          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
-          "BUTTON": "Upgrade"
+          "NOTE": "رقِّ إلى باقة مدفوعة لترجمة المحادثات بالمساعد الذكي أو ترجمة Google.",
+          "BUTTON": "ترقية"
         },
         "AUTO_TRANSLATE": {
-          "TITLE": "Auto-translate conversations",
-          "NOTE": "Read every message in your language. Customers get replies in theirs.",
-          "LOCKED": "Choose a service to turn this on.",
-          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+          "TITLE": "الترجمة التلقائية للمحادثات",
+          "NOTE": "اقرأ كل رسالة بلغتك، ويتلقى العملاء الردود بلغتهم.",
+          "LOCKED": "اختر خدمة لتفعيل هذا الخيار.",
+          "NOT_AVAILABLE": "الترجمة التلقائية غير مفعّلة لهذا الحساب بعد."
         },
         "API": {
-          "SUCCESS": "Translation settings updated successfully",
-          "ERROR": "Failed to update translation settings"
+          "SUCCESS": "تم تحديث إعدادات الترجمة بنجاح",
+          "ERROR": "فشل تحديث إعدادات الترجمة"
         }
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "الحل التلقائي للمحادثات",
+        "NOTE": "يتيح لك هذا الإعداد حل المحادثة تلقائياً بعد فترة محددة من عدم النشاط.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
-          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "LABEL": "مدة عدم النشاط",
+          "HELP": "فترة عدم النشاط التي تُحل بعدها المحادثة تلقائياً",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
+          "ERROR": "يجب أن تكون مدة الحل التلقائي بين {minDuration} دقيقة و999 يوماً",
           "API": {
-            "SUCCESS": "Auto resolve settings updated successfully",
-            "ERROR": "Failed to update auto resolve settings"
+            "SUCCESS": "تم تحديث إعدادات الحل التلقائي بنجاح",
+            "ERROR": "فشل تحديث إعدادات الحل التلقائي"
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "LABEL": "رسالة الحل التلقائي المخصصة",
+          "PLACEHOLDER": "حلّ النظام المحادثة تلقائياً بسبب عدم النشاط لمدة 15 يوماً",
+          "HELP": "رسالة تُرسل للعميل بعد حل المحادثة تلقائياً"
         },
         "PREFERENCES": "التفضيلات",
         "LABEL": {
-          "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "LABEL": "إضافة وسم بعد الحل التلقائي",
+          "PLACEHOLDER": "اختر وسماً"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "تخطي المحادثات التي تنتظر رد الموظف"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "حفظ التغييرات"
       },
       "NAME": {
         "LABEL": "اسم الحساب",
@@ -122,38 +122,38 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "LABEL": "استثناء المحادثات غير المعالجة",
+        "HELP": "عند التفعيل، لن يحل النظام المحادثات التي ما زالت تنتظر رد الموظف."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "تفريغ الرسائل الصوتية",
+        "NOTE": "فرّغ الرسائل الصوتية في المحادثات تلقائياً، فيُنشأ نص مكتوب عند إرسال أو استقبال أي رسالة صوتية ويظهر بجانبها.",
         "API": {
-          "SUCCESS": "Audio transcription setting updated successfully",
-          "ERROR": "Failed to update audio transcription setting"
+          "SUCCESS": "تم تحديث إعداد التفريغ الصوتي بنجاح",
+          "ERROR": "فشل تحديث إعداد التفريغ الصوتي"
         }
       },
       "ENFORCE_MFA": {
-        "TITLE": "Enforce two-factor authentication",
-        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "TITLE": "فرض التحقق بخطوتين",
+        "NOTE": "اشترط على كل أعضاء الحساب إعداد التحقق بخطوتين. من لم يُعدّه سيُطلب منه ذلك عند تسجيل دخوله القادم بكلمة المرور، ويُستثنى الدخول عبر Google أو SAML. تتوقف رموز الوصول للـ API الخاصة بالأعضاء غير المسجلين في التحقق بخطوتين حتى يسجلوا.",
         "API": {
-          "SUCCESS": "Two-factor authentication enforcement updated successfully",
-          "ERROR": "Failed to update two-factor authentication enforcement"
+          "SUCCESS": "تم تحديث فرض التحقق بخطوتين بنجاح",
+          "ERROR": "فشل تحديث فرض التحقق بخطوتين"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "مدة عدم النشاط قبل الحل",
+        "HELP": "المدة التي تُحل بعدها المحادثة تلقائياً إذا لم يكن هناك نشاط",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "يجب أن تكون مدة الحل التلقائي بين 10 دقائق و999 يوماً",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "تم تحديث إعدادات الحل التلقائي بنجاح",
+          "ERROR": "فشل تحديث إعدادات الحل التلقائي"
         },
         "UPDATE_BUTTON": "تحديث",
-        "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "MESSAGE_LABEL": "رسالة الحل المخصصة",
+        "MESSAGE_PLACEHOLDER": "حلّ النظام المحادثة تلقائياً بسبب عدم النشاط لمدة 15 يوماً",
+        "MESSAGE_HELP": "تُرسل هذه الرسالة للعميل عندما يحل النظام المحادثة تلقائياً بسبب عدم النشاط."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "الاستمرار في المحادثة عبر رسائل البريد الإلكتروني مفعّل لحسابك.",
@@ -162,9 +162,9 @@
     },
     "UPDATE_CHATWOOT": "يتوفر تحديث {latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
     "LEARN_MORE": "اعرف المزيد",
-    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
-    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "PAYMENT_PENDING": "دفعة حسابك متأخرة. يرجى تحديث بيانات الدفع لتجنب إلغاء الاشتراك.",
+    "PAYMENT_PENDING_AGENT": "دفعة حسابك متأخرة. يرجى التواصل مع المسؤول لتسويتها.",
+    "UPGRADE": "رقِّ باقتك لمواصلة استخدام المنصة",
     "LIMITS_UPGRADE": "لقد تجاوز حسابك حدود الاستخدام، يرجى ترقية خطتك للاستمرار في استخدام Chatwoot",
     "OPEN_BILLING": "فتح الفواتير"
   },
@@ -172,7 +172,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "اضغط على زر الإدخال للاختيار",
       "ENTER_TO_REMOVE": "اضغط على زر الإدخال للحذف",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "القائمة فارغة",
       "SELECT_ONE": "اختر واحدا",
       "SELECT": "اختر"
     }
@@ -189,7 +189,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "البحث أو القفز إلى",
-    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "SNOOZE_PLACEHOLDER": "اكتب وقتاً مثل: tomorrow أو 2 hours أو next friday...",
     "SECTIONS": {
       "GENERAL": "عام",
       "REPORTS": "التقارير",
@@ -199,7 +199,7 @@
       "CHANGE_PRIORITY": "تغيير الأولوية",
       "CHANGE_TEAM": "تغيير الفريق",
       "SNOOZE_CONVERSATION": "تأجيل المحادثة",
-      "EXECUTE_MACRO": "Execute Macro",
+      "EXECUTE_MACRO": "تنفيذ إجراء مركب",
       "ADD_LABEL": "إضافة وسم إلى المحادثة",
       "REMOVE_LABEL": "إزالة الوسم من المحادثة",
       "SETTINGS": "الإعدادات",
@@ -208,44 +208,44 @@
       "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
     },
     "COMMANDS": {
-      "GO_TO_MY_INBOX": "Go to My Inbox",
+      "GO_TO_MY_INBOX": "الانتقال إلى صندوق الوارد",
       "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
       "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
-      "GO_TO_CAPTAIN": "Go to Captain",
-      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
-      "GO_TO_CAMPAIGNS": "Go to Campaigns",
-      "GO_TO_HELP_CENTER": "Go to Help Center",
+      "GO_TO_CAPTAIN": "الانتقال إلى المساعد الذكي",
+      "GO_TO_CALLS_DASHBOARD": "الانتقال إلى لوحة المكالمات",
+      "GO_TO_CAMPAIGNS": "الانتقال إلى الحملات",
+      "GO_TO_HELP_CENTER": "الانتقال إلى مركز المساعدة",
       "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير العامة",
       "GO_TO_CONVERSATION_REPORTS": "الذهاب إلى تقارير المحادثات",
-      "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الموظف",
       "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير الوسم",
       "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",
       "GO_TO_TEAM_REPORTS": "الذهاب إلى تقارير الفريق",
-      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
-      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
-      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
-      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى إعدادات الوكيل",
+      "GO_TO_CSAT_REPORTS": "الانتقال إلى تقارير رضا العملاء",
+      "GO_TO_BOT_REPORTS": "الانتقال إلى تقارير البوت",
+      "GO_TO_SLA_REPORTS": "الانتقال إلى تقارير مستوى الخدمة",
+      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى إعدادات الموظف",
       "GO_TO_SETTINGS_TEAMS": "الذهاب إلى إعدادات الفريق",
       "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات الصندوق الوارد",
-      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
+      "GO_TO_SETTINGS_TEMPLATES": "الانتقال إلى القوالب",
       "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات الوسم",
-      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
-      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
-      "GO_TO_SETTINGS_MACROS": "Go to Macros",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "الانتقال إلى الخصائص المخصصة",
+      "GO_TO_SETTINGS_AUTOMATION": "الانتقال إلى الأتمتة",
+      "GO_TO_SETTINGS_MACROS": "الانتقال إلى الإجراءات المركبة",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الردود الجاهزة",
-      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
+      "GO_TO_SETTINGS_SLA": "الانتقال إلى إعدادات مستوى الخدمة",
       "GO_TO_SETTINGS_APPLICATIONS": "الذهاب إلى إعدادات التطبيق",
-      "GO_TO_SETTINGS_DATA": "Go to Data",
-      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
-      "GO_TO_SETTINGS_BILLING": "Go to Billing",
+      "GO_TO_SETTINGS_DATA": "الانتقال إلى البيانات",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "الانتقال إلى سجل التدقيق",
+      "GO_TO_SETTINGS_BILLING": "الانتقال إلى الفوترة",
       "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
       "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
       "ADD_LABELS_TO_CONVERSATION": "إضافة وسم إلى المحادثة",
-      "ASSIGN_AN_AGENT": "تعيين وكيل",
+      "ASSIGN_AN_AGENT": "تعيين موظف",
       "AI_ASSIST": "مساعدة AI",
       "ASSIGN_PRIORITY": "تعيين الأولوية",
       "ASSIGN_A_TEAM": "تعيين فريق",
-      "EXECUTE_A_MACRO": "Execute a macro",
+      "EXECUTE_A_MACRO": "تنفيذ إجراء مركب",
       "MUTE_CONVERSATION": "كتم المحادثة",
       "UNMUTE_CONVERSATION": "إلغاء كتم المحادثة",
       "REMOVE_LABEL_FROM_CONVERSATION": "إزالة الوسم من المحادثة",
