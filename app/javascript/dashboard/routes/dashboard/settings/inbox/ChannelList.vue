@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import { useAccount } from 'dashboard/composables/useAccount';
+import { isChannelEnabled } from 'dashboard/constants/disabledChannels';
 
 import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 
@@ -107,7 +108,7 @@ const channelList = computed(() => {
     icon: 'i-woot-whatsapp',
   });
 
-  return channels;
+  return channels.filter(channel => isChannelEnabled(channel.key));
 });
 
 const initChannelAuth = channel => {

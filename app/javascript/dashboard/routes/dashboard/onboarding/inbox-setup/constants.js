@@ -1,4 +1,5 @@
 import { CHANNEL_TYPES } from 'dashboard/helper/inbox';
+import { isChannelEnabled } from 'dashboard/constants/disabledChannels';
 
 // Channels whose connect flow opens the channels dialog preselected to their
 // in-dialog step — Facebook (page picker) and the credential-form channels
@@ -19,7 +20,7 @@ export const DEFAULT_CHANNEL_TYPES = [
   CHANNEL_TYPES.INSTAGRAM,
   CHANNEL_TYPES.TELEGRAM,
   CHANNEL_TYPES.LINE,
-];
+].filter(isChannelEnabled);
 
 // Channels offered in the onboarding "View all" dialog. `inbox` is a stub shaped
 // like a real inbox so ChannelIcon can resolve the icon from the shared provider.
@@ -107,7 +108,7 @@ export const CHANNEL_LIST = [
     fallbackIcon: 'i-woot-mail',
     setupLater: true,
   },
-];
+].filter(channel => isChannelEnabled(channel.type));
 
 const channelByType = type =>
   CHANNEL_LIST.find(channel => channel.type === type);
@@ -130,7 +131,7 @@ const SOCIAL_PLATFORM_TYPES = [
   'instagram',
   'telegram',
   'tiktok',
-];
+].filter(isChannelEnabled);
 
 export const SOCIAL_PLATFORMS = Object.fromEntries(
   SOCIAL_PLATFORM_TYPES.map(type => {

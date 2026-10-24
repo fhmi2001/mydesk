@@ -5,6 +5,10 @@ import { useRoute } from 'vue-router';
 import { useDetectedChannels } from '../../inbox-setup/useDetectedChannels';
 
 vi.mock('vue-router');
+// Custom (MyDesk): keep upstream expectations by testing with every channel enabled
+vi.mock('dashboard/constants/disabledChannels', () => ({
+  isChannelEnabled: () => true,
+}));
 
 // Mounts the composable against a real store and the real useAccount (only
 // useRoute and the underlying getters are faked), so a change to how useAccount
