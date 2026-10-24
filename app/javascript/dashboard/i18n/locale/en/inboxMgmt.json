@@ -196,10 +196,31 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Bandwidth",
+          "DEEWAN": "Deewan"
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "DEEWAN": {
+          "OUTBOUND_NOTE": "Deewan sends SMS only. Agents can reply and run campaigns from this inbox, but customer replies by SMS will not arrive here.",
+          "INBOX_NAME": {
+            "LABEL": "Inbox name",
+            "PLACEHOLDER": "Please enter an inbox name",
+            "ERROR": "This field is required"
+          },
+          "SENDER_NAME": {
+            "LABEL": "Sender name",
+            "PLACEHOLDER": "MyStore",
+            "HELP": "Use a sender name approved in your Deewan account. Customers see it as the SMS sender.",
+            "ERROR": "This field is required"
+          },
+          "API_KEY": {
+            "LABEL": "API key",
+            "PLACEHOLDER": "Paste your Deewan API key",
+            "ERROR": "This field is required"
+          },
+          "SUBMIT_BUTTON": "Create Deewan channel"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
@@ -595,7 +616,7 @@
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "Integrate SMS channel with Deewan, Twilio or Bandwidth"
           },
           "API": {
             "TITLE": "API",

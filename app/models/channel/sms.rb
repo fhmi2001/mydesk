@@ -19,9 +19,12 @@ class Channel::Sms < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_sms'
-  EDITABLE_ATTRS = [:phone_number, { provider_config: {} }].freeze
+  # Custom (MyDesk): "default" is the upstream Bandwidth integration; "deewan" is our Saudi gateway
+  PROVIDERS = %w[default deewan].freeze
+  EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
   validates :phone_number, presence: true, uniqueness: true
+  validates :provider, inclusion: { in: PROVIDERS }
   # before_save :validate_provider_config
 
   def name
@@ -34,6 +37,8 @@ class Channel::Sms < ApplicationRecord
   end
 
   def send_message(contact_number, message)
+    return deewan_service.send_message(contact_number, message) if provider == 'deewan'
+
     body = message_body(contact_number, message.outgoing_content)
     body['media'] = message.attachments.map(&:download_url) if message.attachments.present?
 
@@ -41,11 +46,17 @@ class Channel::Sms < ApplicationRecord
   end
 
   def send_text_message(contact_number, message_content)
+    return deewan_service.send_text_message(contact_number, message_content) if provider == 'deewan'
+
     body = message_body(contact_number, message_content)
     send_to_bandwidth(body)
   end
 
   private
+
+  def deewan_service
+    Sms::Providers::DeewanService.new(channel: self)
+  end
 
   def message_body(contact_number, message_content)
     {

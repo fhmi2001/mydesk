@@ -196,10 +196,31 @@
         "PROVIDERS": {
           "LABEL": "مزود API",
           "TWILIO": "تويليو",
-          "BANDWIDTH": "سعة الإنترنت"
+          "BANDWIDTH": "Bandwidth",
+          "DEEWAN": "ديوان (Deewan)"
         },
         "API": {
           "ERROR_MESSAGE": "لم نتمكن من حفظ قناة الرسائل القصيرة"
+        },
+        "DEEWAN": {
+          "OUTBOUND_NOTE": "ديوان يرسل الرسائل النصية فقط. يستطيع الموظفون الرد وإرسال الحملات من هذه القناة، لكن ردود العملاء عبر SMS لن تصل إليها.",
+          "INBOX_NAME": {
+            "LABEL": "اسم القناة",
+            "PLACEHOLDER": "يرجى إدخال اسم القناة",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "SENDER_NAME": {
+            "LABEL": "اسم المرسل",
+            "PLACEHOLDER": "MyStore",
+            "HELP": "استخدم اسم مرسل معتمداً في حسابك على ديوان، وهو ما يظهر للعميل كمرسل للرسالة.",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "API_KEY": {
+            "LABEL": "مفتاح API",
+            "PLACEHOLDER": "الصق مفتاح API الخاص بديوان",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "SUBMIT_BUTTON": "إنشاء قناة ديوان"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
@@ -595,7 +616,7 @@
           },
           "SMS": {
             "TITLE": "رسائل SMS",
-            "DESCRIPTION": "اربط قناة الرسائل النصية عبر Twilio أو Bandwidth"
+            "DESCRIPTION": "اربط قناة الرسائل النصية عبر ديوان أو Twilio أو Bandwidth"
           },
           "API": {
             "TITLE": "API",
