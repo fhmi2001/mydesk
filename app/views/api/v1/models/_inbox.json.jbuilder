@@ -137,6 +137,12 @@ end
 
 json.provider resource.channel.try(:provider)
 
+## SMS Attributes (Custom MyDesk: provider and approved sender names, never the API credentials)
+if resource.channel_type == 'Channel::Sms'
+  json.sms_provider resource.channel.provider
+  json.sms_sender_names resource.channel.sender_names
+end
+
 ## Telegram Attributes
 json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 

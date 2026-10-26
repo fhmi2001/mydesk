@@ -3,6 +3,7 @@ import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
 import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
 import SMSCampaignsPage from './pages/SMSCampaignsPage.vue';
+import SMSCampaignFormPage from './pages/SMSCampaignFormPage.vue';
 import WhatsAppCampaignsPage from './pages/WhatsAppCampaignsPage.vue';
 import WhatsAppCampaignFormPage from './pages/WhatsAppCampaignFormPage.vue';
 import WhatsAppCampaignAnalyticsPage from './pages/WhatsAppCampaignAnalyticsPage.vue';
@@ -52,6 +53,13 @@ const campaignsRoutes = {
           name: 'campaigns_sms_index',
           meta,
           component: SMSCampaignsPage,
+        },
+        // Custom (MyDesk): SMS campaigns are created on a full page instead of a dialog
+        {
+          path: 'sms/new',
+          name: 'campaigns_sms_new',
+          meta,
+          component: SMSCampaignFormPage,
         },
         {
           path: 'whatsapp',

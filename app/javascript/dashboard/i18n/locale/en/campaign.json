@@ -136,6 +136,52 @@
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
+      },
+      "FORM_PAGE": {
+        "TITLE": "New SMS campaign",
+        "SECTIONS": {
+          "DETAILS": "Campaign details",
+          "MESSAGE": "Message and audience",
+          "DELIVERY": "Delivery"
+        },
+        "SENDER": {
+          "LABEL": "Sender name",
+          "PLACEHOLDER": "Select a sender name",
+          "HELP": "Customers see this name as the SMS sender."
+        },
+        "SEGMENTS": "{count} SMS per contact ({encoding})",
+        "ENCODING": {
+          "text": "standard text",
+          "unicode": "Unicode, e.g. Arabic"
+        },
+        "DELIVERY": {
+          "NOW": {
+            "LABEL": "Send now",
+            "DESCRIPTION": "Starts sending as soon as you create the campaign."
+          },
+          "SCHEDULE": {
+            "LABEL": "Schedule",
+            "DESCRIPTION": "Pick the date and time to start sending."
+          }
+        },
+        "SUBMIT": {
+          "SEND_NOW": "Send now",
+          "SCHEDULE": "Schedule campaign"
+        },
+        "PREVIEW": {
+          "TITLE": "Preview",
+          "NOW": "Now",
+          "NO_SENDER": "Sender name",
+          "EMPTY": "Your message will appear here",
+          "AUDIENCE": "Audience",
+          "LABEL_COUNT": "Selected labels: {count}",
+          "PER_CONTACT": "Per contact",
+          "SMS_COUNT": "{count} SMS"
+        },
+        "API": {
+          "SENT": "Campaign created and sending started",
+          "SCHEDULED": "Campaign scheduled successfully"
+        }
       }
     },
     "WHATSAPP": {

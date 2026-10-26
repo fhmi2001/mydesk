@@ -26,7 +26,9 @@ class Sms::OneoffSmsCampaignService
   end
 
   def send_message(to:, content:)
-    channel.send_text_message(to, content)
+    # Custom (MyDesk): only campaigns that picked a sender name pass it; others keep the channel default
+    sender_options = campaign.sms_sender_name.present? ? { sender_name: campaign.sms_sender_name } : {}
+    channel.send_text_message(to, content, **sender_options)
   rescue StandardError => e
     Rails.logger.error("[SMS Campaign #{campaign.id}] Failed to send to #{to}: #{e.message}")
   end

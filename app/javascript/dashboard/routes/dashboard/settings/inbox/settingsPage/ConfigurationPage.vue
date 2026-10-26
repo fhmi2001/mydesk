@@ -16,6 +16,7 @@ import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
 import HmacSecretKey from './components/HmacSecretKey.vue';
+import DeewanSenderNames from './DeewanSenderNames.vue';
 
 export default {
   components: {
@@ -28,6 +29,7 @@ export default {
     TextArea,
     WhatsappBusinessManagementToken,
     HmacSecretKey,
+    DeewanSenderNames,
   },
   mixins: [inboxMixin],
   props: {
@@ -242,6 +244,9 @@ export default {
     >
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </SettingsFieldSection>
+  </div>
+  <div v-else-if="isASmsInbox && inbox.sms_provider === 'deewan'">
+    <DeewanSenderNames :inbox="inbox" />
   </div>
   <div v-else-if="isAWebWidgetInbox">
     <div class="space-y-4">

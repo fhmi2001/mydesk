@@ -6,16 +6,18 @@
 #  audience                           :jsonb
 #  campaign_status                    :integer          default("active"), not null
 #  campaign_type                      :integer          default("ongoing"), not null
+#  completed_at                       :datetime
 #  description                        :text
 #  enabled                            :boolean          default(TRUE)
 #  message                            :text             not null
 #  scheduled_at                       :datetime
+#  sms_sender_name                    :string
 #  started_at                         :datetime
-#  completed_at                       :datetime
 #  template_params                    :jsonb
 #  title                              :string           not null
 #  trigger_only_during_business_hours :boolean          default(FALSE)
 #  trigger_rules                      :jsonb
+#  whatsapp_cursor                    :bigint
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
 #  account_id                         :bigint           not null
@@ -42,6 +44,7 @@ class Campaign < ApplicationRecord
   validate :prevent_completed_campaign_from_update, on: :update
   validate :sender_must_belong_to_account
   validate :inbox_must_belong_to_account
+  validate :sms_sender_name_must_be_approved
 
   belongs_to :account
   belongs_to :inbox
@@ -56,6 +59,9 @@ class Campaign < ApplicationRecord
   before_validation :ensure_correct_campaign_attributes
   before_update :set_completed_at, if: :marking_completed?
   after_commit :set_display_id, unless: :display_id?
+  # Custom (MyDesk): "send now" campaigns go out right away instead of waiting for the 5-minute scheduler;
+  # trigger! locks the campaign, so the scheduler picking it up too cannot send it twice
+  after_create_commit :trigger_now, if: -> { one_off? && scheduled_at <= Time.current }
   after_destroy_commit :invalidate_filtered_unread_count_filters
 
   def trigger!
@@ -153,6 +159,17 @@ class Campaign < ApplicationRecord
     return if account.users.exists?(id: sender.id)
 
     errors.add(:sender_id, 'must belong to the same account as the campaign')
+  end
+
+  def sms_sender_name_must_be_approved
+    return if sms_sender_name.blank?
+    return if inbox&.inbox_type == 'Sms' && inbox.channel.sender_names.include?(sms_sender_name)
+
+    errors.add(:sms_sender_name, 'is not an approved sender name for this inbox')
+  end
+
+  def trigger_now
+    Campaigns::TriggerOneoffCampaignJob.perform_later(self)
   end
 
   def prevent_completed_campaign_from_update

@@ -21,7 +21,7 @@ class Channel::Sms < ApplicationRecord
   self.table_name = 'channel_sms'
   # Custom (MyDesk): "default" is the upstream Bandwidth integration; "deewan" is our Saudi gateway
   PROVIDERS = %w[default deewan].freeze
-  EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
+  EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }, { sender_names: [] }].freeze
 
   validates :phone_number, presence: true, uniqueness: true
   validates :provider, inclusion: { in: PROVIDERS }
@@ -29,6 +29,16 @@ class Channel::Sms < ApplicationRecord
 
   def name
     'Sms'
+  end
+
+  # Custom (MyDesk): approved sender names an account can pick per campaign; phone_number is the default one
+  def sender_names
+    [phone_number, *provider_config['sender_names']].compact_blank.uniq
+  end
+
+  # Kept inside provider_config so updating names never needs (or overwrites) the API credentials
+  def sender_names=(names)
+    self.provider_config = provider_config.merge('sender_names' => Array(names).map(&:strip).compact_blank.uniq)
   end
 
   # all this should happen in provider service . but hack mode on
@@ -45,8 +55,8 @@ class Channel::Sms < ApplicationRecord
     send_to_bandwidth(body, message)
   end
 
-  def send_text_message(contact_number, message_content)
-    return deewan_service.send_text_message(contact_number, message_content) if provider == 'deewan'
+  def send_text_message(contact_number, message_content, sender_name: nil)
+    return deewan_service.send_text_message(contact_number, message_content, sender_name: sender_name) if provider == 'deewan'
 
     body = message_body(contact_number, message_content)
     send_to_bandwidth(body)

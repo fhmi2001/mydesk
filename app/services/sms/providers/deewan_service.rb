@@ -9,29 +9,31 @@ class Sms::Providers::DeewanService
   end
 
   def send_message(contact_number, message)
-    deliver(contact_number, message.outgoing_content, message)
+    deliver(contact_number, message.outgoing_content, message: message)
   end
 
-  def send_text_message(contact_number, message_content)
-    deliver(contact_number, message_content)
+  # Campaigns may pick any of the channel's approved sender names; replies use the default one
+  def send_text_message(contact_number, message_content, sender_name: nil)
+    deliver(contact_number, message_content, sender_name: sender_name)
   end
 
   private
 
   attr_reader :channel
 
-  def deliver(contact_number, text, message = nil)
-    response = HTTParty.post(API_URL, headers: headers, body: payload(contact_number, text).to_json)
+  def deliver(contact_number, text, message: nil, sender_name: nil)
+    body = payload(contact_number, text, sender_name || channel.phone_number)
+    response = HTTParty.post(API_URL, headers: headers, body: body.to_json)
     return response.parsed_response.dig('data', 'SentSMSIDs', 0, 'SMSId') if delivered?(response)
 
     handle_error(response, message)
     nil
   end
 
-  def payload(contact_number, text)
+  def payload(contact_number, text, sender_name)
     {
       'messageText' => text,
-      'senderName' => channel.phone_number,
+      'senderName' => sender_name,
       # Deewan needs "unicode" for anything outside plain ASCII, such as Arabic text
       'messageType' => text.to_s.ascii_only? ? 'text' : 'unicode',
       # Deewan expects digits only, without the leading "+"

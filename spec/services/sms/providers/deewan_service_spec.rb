@@ -58,5 +58,15 @@ describe Sms::Providers::DeewanService do
 
       expect(sms_channel.send_text_message('+966500000002', 'Sale today')).to eq('0461f8f4-4c4f-4dc0-b7ed-097f4f9f85f4')
     end
+
+    it 'sends from the sender name the campaign picked' do
+      request = stub_request(:post, api_url)
+                .with(body: hash_including('senderName' => 'MyStore-OTP'))
+                .to_return(status: 200, body: success_body, headers: { 'Content-Type' => 'application/json' })
+
+      sms_channel.send_text_message('+966500000002', 'your otp is 01234', sender_name: 'MyStore-OTP')
+
+      expect(request).to have_been_requested
+    end
   end
 end

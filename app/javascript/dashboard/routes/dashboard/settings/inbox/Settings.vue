@@ -224,7 +224,9 @@ export default {
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.shouldShowWhatsAppConfiguration ||
-        this.isAWebWidgetInbox
+        this.isAWebWidgetInbox ||
+        // Custom (MyDesk): Deewan SMS inboxes manage their sender names here
+        (this.isASmsInbox && this.inbox.sms_provider === 'deewan')
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
