@@ -12,21 +12,24 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center h-full">
-    <img
-      class="m-4 w-32 hidden dark:block"
-      src="dashboard/assets/images/no-chat-dark.svg"
-      alt="No Chat dark"
-    />
-    <img
-      class="m-4 w-32 block dark:hidden"
-      src="dashboard/assets/images/no-chat.svg"
-      alt="No Chat"
-    />
-    <span class="text-sm text-n-slate-12 font-medium text-center">
+  <!-- Custom (MyDesk): a brand-violet mark and a heading instead of the stock illustration -->
+  <div class="flex flex-col items-center justify-center h-full px-6">
+    <div
+      class="relative grid mb-5 rounded-3xl size-20 place-items-center bg-n-violet-3 text-n-violet-11"
+      aria-hidden="true"
+    >
+      <span class="i-lucide-messages-square size-9" />
+      <span
+        class="absolute grid rounded-full -bottom-1.5 -end-1.5 size-7 place-items-center bg-n-violet-9 text-white ring-4 ring-n-surface-1"
+      >
+        <span class="i-lucide-reply size-3.5" />
+      </span>
+    </div>
+    <h2
+      class="max-w-sm text-center text-heading-1 text-n-slate-12 text-balance"
+    >
       {{ message }}
-      <br />
-    </span>
+    </h2>
     <!-- Cmd bar, keyboard shortcuts placeholder -->
     <FeaturePlaceholder />
   </div>

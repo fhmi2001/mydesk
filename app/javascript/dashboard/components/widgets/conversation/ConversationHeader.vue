@@ -128,15 +128,14 @@ const copyConversationId = async () => {
       <Avatar
         :name="currentContact.name"
         :src="currentContact.thumbnail"
-        :size="32"
+        :size="36"
         :status="currentContact.availability_status"
         hide-offline-status
       />
-      <div class="flex flex-col items-start min-w-0 ms-2 overflow-hidden">
+      <!-- Custom (MyDesk): the customer's name leads the conversation as its heading -->
+      <div class="flex flex-col items-start min-w-0 ms-2.5 overflow-hidden">
         <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
-          <span
-            class="text-sm font-medium truncate leading-tight text-n-slate-12"
-          >
+          <span class="truncate text-heading-2 text-n-slate-12">
             {{ currentContact.name }}
           </span>
           <fluent-icon

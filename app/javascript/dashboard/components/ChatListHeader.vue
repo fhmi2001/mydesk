@@ -89,7 +89,7 @@ const toggleConversationLayout = () => {
         ghost
         @click="emit('resetFilters')"
       />
-      <h1 class="text-base font-medium truncate text-n-slate-12" :title="title">
+      <h1 class="truncate text-heading-1 text-n-slate-12" :title="title">
         {{ title }}
       </h1>
       <span
@@ -101,9 +101,10 @@ const toggleConversationLayout = () => {
       >
         {{ formattedAllCount }}
       </span>
+      <!-- Custom (MyDesk): the active status filter is a state, so it carries the brand violet -->
       <span
         v-if="!hasAppliedFiltersOrActiveFolders"
-        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
+        class="px-2 py-0.5 my-0.5 mx-2 rounded-md capitalize bg-n-violet-3 text-xs font-medium text-n-violet-11 shrink-0"
       >
         {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
       </span>

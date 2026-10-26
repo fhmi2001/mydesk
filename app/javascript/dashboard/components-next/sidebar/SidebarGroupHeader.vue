@@ -24,6 +24,8 @@ const count = computed(() =>
   dynamicCount.value > 99 ? '99+' : dynamicCount.value
 );
 
+// Custom (MyDesk): the current page is marked in the brand violet, and the section holding it keeps a violet icon
+
 // A real link so Cmd/Ctrl-click opens it in a new tab; a plain click keeps
 // the in-app toggle instead of following the href.
 const href = computed(() => (props.to ? router.resolve(props.to).href : null));
@@ -44,8 +46,9 @@ const onClick = event => {
     :href="href"
     :title="label"
     :class="{
-      'text-n-slate-12 bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
-      'text-n-slate-12 font-medium': hasActiveChild,
+      'text-n-violet-11 bg-n-violet-3 font-medium': isActive && !hasActiveChild,
+      'text-n-slate-12 font-medium [&_.size-4]:text-n-violet-10':
+        hasActiveChild,
       'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
     }"
     @click.stop="onClick"

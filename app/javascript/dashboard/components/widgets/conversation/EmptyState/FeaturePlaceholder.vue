@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 mt-9">
+  <div class="flex flex-col gap-2 mt-8">
     <div
       v-for="keyShortcut in keyShortcuts"
       :key="keyShortcut.key"
@@ -41,7 +41,7 @@ export default {
           {{ keyShortcut.key }}
         </Hotkey>
       </div>
-      <span class="text-sm font-medium text-center text-n-slate-12">
+      <span class="text-sm text-center text-n-slate-11">
         {{ keyShortcut.description }}
       </span>
     </div>
