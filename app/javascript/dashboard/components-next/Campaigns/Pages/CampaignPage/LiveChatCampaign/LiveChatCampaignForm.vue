@@ -76,7 +76,16 @@ const validationRules = {
   timeOnPage: { required },
 };
 
-const v$ = useVuelidate(validationRules, state);
+// Custom (MyDesk): show what is wrong while typing; the submit button is disabled, so errors would
+// otherwise never appear and the form looks complete but cannot be created
+const v$ = useVuelidate(validationRules, state, { $autoDirty: true });
+
+// Custom (MyDesk): people usually type "www.store.com"; add the https:// the URL rule requires
+const completeEndPoint = () => {
+  const value = state.endPoint.trim();
+  state.endPoint =
+    value && !/^https?:\/\//i.test(value) ? `https://${value}` : value;
+};
 
 const isCreating = computed(() => formState.uiFlags.value.isCreating);
 const isSubmitDisabled = computed(() => v$.value.$invalid);
@@ -110,7 +119,10 @@ const formErrors = computed(() => ({
   sender: getErrorMessage('senderId', 'SENT_BY'),
 }));
 
-const resetState = () => Object.assign(state, initialState);
+const resetState = () => {
+  Object.assign(state, initialState);
+  v$.value.$reset();
+};
 
 const handleCancel = () => emit('cancel');
 
@@ -260,6 +272,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.PLACEHOLDER')"
       :message="formErrors.endPoint"
       :message-type="formErrors.endPoint ? 'error' : 'info'"
+      @blur="completeEndPoint"
     />
 
     <Input

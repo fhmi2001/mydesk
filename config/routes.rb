@@ -188,6 +188,8 @@ Rails.application.routes.draw do
             end
             get 'sms_recipients', to: 'campaigns/sms_recipients#index'
             post 'sms_recipients/sync_delivery', to: 'campaigns/sms_recipients#sync_delivery'
+            # Custom (MyDesk): conversations a (live chat) campaign started
+            get 'conversations', to: 'campaigns/conversations#index'
           end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do

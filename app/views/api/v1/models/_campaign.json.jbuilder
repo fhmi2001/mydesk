@@ -21,6 +21,11 @@ if resource.campaign_type == 'one_off'
   json.sms_sender_name resource.sms_sender_name
   json.sms_stats resource.sms_delivery_stats if resource.sms_campaign?
 end
+# Custom (MyDesk): how often a live chat campaign has started a conversation with a visitor
+if resource.ongoing?
+  json.conversations_count resource.conversations.count
+  json.last_conversation_at resource.conversations.maximum(:created_at)&.to_i
+end
 json.trigger_rules resource.trigger_rules
 json.trigger_only_during_business_hours resource.trigger_only_during_business_hours
 json.created_at resource.created_at

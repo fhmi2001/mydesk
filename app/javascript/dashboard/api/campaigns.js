@@ -39,6 +39,11 @@ class CampaignsAPI extends ApiClient {
   syncSmsDelivery(id) {
     return axios.post(`${this.url}/${id}/sms_recipients/sync_delivery`);
   }
+
+  // Custom (MyDesk): conversations a live chat campaign started, newest first, 25 per page
+  conversations(id, { page } = {}) {
+    return axios.get(`${this.url}/${id}/conversations`, { params: { page } });
+  }
 }
 
 export default new CampaignsAPI();

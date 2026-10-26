@@ -2,6 +2,8 @@ import { frontendURL } from 'dashboard/helper/URLHelper.js';
 
 import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
 import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
+import LiveChatCampaignFormPage from './pages/LiveChatCampaignFormPage.vue';
+import LiveChatCampaignDetailsPage from './pages/LiveChatCampaignDetailsPage.vue';
 import SMSCampaignsPage from './pages/SMSCampaignsPage.vue';
 import SMSCampaignFormPage from './pages/SMSCampaignFormPage.vue';
 import SMSCampaignDetailsPage from './pages/SMSCampaignDetailsPage.vue';
@@ -48,6 +50,25 @@ const campaignsRoutes = {
           name: 'campaigns_livechat_index',
           meta,
           component: LiveChatCampaignsPage,
+        },
+        // Custom (MyDesk): live chat campaigns are created, edited and viewed on full pages
+        {
+          path: 'live_chat/new',
+          name: 'campaigns_livechat_new',
+          meta,
+          component: LiveChatCampaignFormPage,
+        },
+        {
+          path: 'live_chat/:campaignId/edit',
+          name: 'campaigns_livechat_edit',
+          meta,
+          component: LiveChatCampaignFormPage,
+        },
+        {
+          path: 'live_chat/:campaignId',
+          name: 'campaigns_livechat_details',
+          meta,
+          component: LiveChatCampaignDetailsPage,
         },
         {
           path: 'sms',

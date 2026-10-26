@@ -46,8 +46,8 @@
           },
           "END_POINT": {
             "LABEL": "URL",
-            "PLACEHOLDER": "Please enter the URL",
-            "ERROR": "Please enter a valid URL"
+            "PLACEHOLDER": "https://www.store.com/*",
+            "ERROR": "Enter a full URL starting with https://, e.g. https://www.store.com/*"
           },
           "TIME_ON_PAGE": {
             "LABEL": "Time on page(Seconds)",
@@ -75,6 +75,99 @@
           "API": {
             "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      },
+      "FORM_PAGE": {
+        "SAVE": "Save changes",
+        "INBOX": "Website",
+        "SENDER_HELP": "The bot sends it, or pick a team member of this website inbox.",
+        "TRIGGER_HELP": "The message pops up in the website chat widget for visitors who match these rules.",
+        "URL_HELP": "Use * to match many pages, e.g. https://www.store.com/products/*",
+        "BUSINESS_HOURS_HELP": "Uses the business hours set on the website inbox.",
+        "SECTIONS": {
+          "DETAILS": "Campaign details",
+          "TRIGGER": "When to show it",
+          "STATUS": "Status"
+        },
+        "STATUS": {
+          "ENABLED": {
+            "LABEL": "Enabled",
+            "DESCRIPTION": "Visitors start seeing the message right away"
+          },
+          "DISABLED": {
+            "LABEL": "Disabled",
+            "DESCRIPTION": "Save it now and enable it later"
+          }
+        },
+        "PREVIEW": {
+          "TITLE": "Preview",
+          "NO_INBOX": "Choose a website",
+          "EMPTY": "Your message appears here",
+          "DELAY": "Shown after",
+          "SECONDS": "{count} seconds on the page",
+          "HOURS": "Hours",
+          "BUSINESS_HOURS": "Business hours only",
+          "ANY_TIME": "Any time"
+        }
+      },
+      "TABLE": {
+        "TOTALS": {
+          "CAMPAIGNS": "Campaigns",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled",
+          "CONVERSATIONS": "Conversations started"
+        },
+        "HEADERS": {
+          "ID": "ID",
+          "CAMPAIGN": "Campaign",
+          "INBOX": "Website",
+          "SENDER": "Sender",
+          "TRIGGER": "Page",
+          "CONVERSATIONS": "Conversations",
+          "STATUS": "Status"
+        },
+        "AFTER_SECONDS": "after {count} seconds",
+        "DETAILS": "Details",
+        "EDIT": "Edit",
+        "DELETE": "Delete campaign"
+      },
+      "DETAILS": {
+        "NOT_FOUND": "This campaign was not found. It may have been deleted.",
+        "METRICS": {
+          "CONVERSATIONS": "Conversations started",
+          "LAST_CONVERSATION": "Last conversation"
+        },
+        "INFO": {
+          "SECTION": "Campaign details",
+          "ID": "Campaign ID",
+          "TITLE": "Name",
+          "CREATED_AT": "Created",
+          "UPDATED_AT": "Last updated"
+        },
+        "WHEN": "Shown to visitors after {count} seconds on a matching page, {hours}.",
+        "ENABLE": "Enable",
+        "DISABLE": "Disable",
+        "ENABLED_MESSAGE": "Campaign enabled",
+        "DISABLED_MESSAGE": "Campaign disabled",
+        "CONVERSATIONS": {
+          "TITLE": "Conversations started",
+          "HINT": "Each visitor who saw the message and replied. Open one to continue the chat.",
+          "EMPTY": "No visitor has started a conversation from this campaign yet.",
+          "ERROR": "Could not load the conversations. Try again.",
+          "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} conversation | Showing {startItem} - {endItem} of {totalItems} conversations",
+          "STATUS": {
+            "OPEN": "Open",
+            "RESOLVED": "Resolved",
+            "PENDING": "Pending",
+            "SNOOZED": "Snoozed"
+          },
+          "HEADERS": {
+            "ID": "Conversation",
+            "CONTACT": "Visitor",
+            "STATUS": "Status",
+            "ASSIGNEE": "Assigned to",
+            "STARTED_AT": "Started"
           }
         }
       }

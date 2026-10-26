@@ -1,8 +1,8 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "حملات الدردشة المباشرة",
+      "NEW_CAMPAIGN": "إنشاء حملة",
       "CARD": {
         "STATUS": {
           "ENABLED": "مفعل",
@@ -16,11 +16,11 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "لا توجد حملات دردشة مباشرة",
+        "SUBTITLE": "تواصل مع زوار موقعك برسائل استباقية. اضغط \"إنشاء حملة\" للبدء."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "إنشاء حملة دردشة مباشرة",
         "CANCEL_BUTTON_TEXT": "إلغاء",
         "CREATE_BUTTON_TEXT": "إنشاء",
         "FORM": {
@@ -30,24 +30,24 @@
             "ERROR": "العنوان مطلوب"
           },
           "MESSAGE": {
-            "LABEL": "رسالة",
+            "LABEL": "الرسالة",
             "PLACEHOLDER": "الرجاء إدخال رسالة الحملة",
             "ERROR": "الرسالة مطلوبة"
           },
           "INBOX": {
             "LABEL": "اختر صندوق الوارد",
-            "PLACEHOLDER": "اختر صندوق الوارد",
-            "ERROR": "صندوق الوارد مطلوب"
+            "PLACEHOLDER": "اختر الموقع",
+            "ERROR": "الموقع مطلوب"
           },
           "SENT_BY": {
             "LABEL": "أرسلت بواسطة",
-            "PLACEHOLDER": "Please select sender",
+            "PLACEHOLDER": "اختر المرسل",
             "ERROR": "المرسل مطلوب"
           },
           "END_POINT": {
             "LABEL": "الرابط",
-            "PLACEHOLDER": "الرجاء إدخال الرابط",
-            "ERROR": "الرجاء إدخال عنوان رابط صالح"
+            "PLACEHOLDER": "https://www.store.com/*",
+            "ERROR": "أدخل رابطاً كاملاً يبدأ بـ https:// مثل https://www.store.com/*"
           },
           "TIME_ON_PAGE": {
             "LABEL": "الوقت في الصفحة (ثواني)",
@@ -55,7 +55,7 @@
             "ERROR": "الوقت في الصفحة مطلوب"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
+            "TITLE": "إعدادات أخرى",
             "ENABLED": "تفعيل الحملة",
             "TRIGGER_ONLY_BUSINESS_HOURS": "تشغيل فقط خلال ساعات العمل"
           },
@@ -64,17 +64,110 @@
             "CANCEL": "إلغاء"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "تم إنشاء الحملة بنجاح",
             "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "تعديل الحملة",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "SUCCESS_MESSAGE": "تم تحديث الحملة بنجاح",
             "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى."
+          }
+        }
+      },
+      "FORM_PAGE": {
+        "SAVE": "حفظ التعديلات",
+        "INBOX": "الموقع",
+        "SENDER_HELP": "يرسلها الرد الآلي، أو اختر موظفاً من فريق هذا الموقع.",
+        "TRIGGER_HELP": "تظهر الرسالة في نافذة الدردشة بالموقع للزوار الذين تنطبق عليهم هذه الشروط.",
+        "URL_HELP": "استخدم * لمطابقة عدة صفحات، مثل https://www.store.com/products/*",
+        "BUSINESS_HOURS_HELP": "حسب ساعات العمل المحددة في صندوق وارد الموقع.",
+        "SECTIONS": {
+          "DETAILS": "تفاصيل الحملة",
+          "TRIGGER": "متى تظهر",
+          "STATUS": "الحالة"
+        },
+        "STATUS": {
+          "ENABLED": {
+            "LABEL": "مفعّلة",
+            "DESCRIPTION": "تبدأ بالظهور للزوار مباشرة"
+          },
+          "DISABLED": {
+            "LABEL": "معطّلة",
+            "DESCRIPTION": "احفظها الآن وفعّلها لاحقاً"
+          }
+        },
+        "PREVIEW": {
+          "TITLE": "معاينة",
+          "NO_INBOX": "اختر الموقع",
+          "EMPTY": "ستظهر رسالتك هنا",
+          "DELAY": "تظهر بعد",
+          "SECONDS": "{count} ثانية في الصفحة",
+          "HOURS": "الأوقات",
+          "BUSINESS_HOURS": "خلال ساعات العمل فقط",
+          "ANY_TIME": "في أي وقت"
+        }
+      },
+      "TABLE": {
+        "TOTALS": {
+          "CAMPAIGNS": "الحملات",
+          "ENABLED": "مفعّلة",
+          "DISABLED": "معطّلة",
+          "CONVERSATIONS": "محادثات بدأتها الحملات"
+        },
+        "HEADERS": {
+          "ID": "رقم الحملة",
+          "CAMPAIGN": "الحملة",
+          "INBOX": "الموقع",
+          "SENDER": "المرسل",
+          "TRIGGER": "الصفحة",
+          "CONVERSATIONS": "المحادثات",
+          "STATUS": "الحالة"
+        },
+        "AFTER_SECONDS": "بعد {count} ثانية",
+        "DETAILS": "التفاصيل",
+        "EDIT": "تعديل",
+        "DELETE": "حذف الحملة"
+      },
+      "DETAILS": {
+        "NOT_FOUND": "لم يتم العثور على هذه الحملة، ربما تم حذفها.",
+        "METRICS": {
+          "CONVERSATIONS": "محادثات بدأتها الحملة",
+          "LAST_CONVERSATION": "آخر محادثة"
+        },
+        "INFO": {
+          "SECTION": "تفاصيل الحملة",
+          "ID": "رقم الحملة",
+          "TITLE": "الاسم",
+          "CREATED_AT": "تاريخ الإنشاء",
+          "UPDATED_AT": "آخر تعديل"
+        },
+        "WHEN": "تظهر للزائر بعد {count} ثانية في الصفحة المطابقة، {hours}.",
+        "ENABLE": "تفعيل",
+        "DISABLE": "إيقاف",
+        "ENABLED_MESSAGE": "تم تفعيل الحملة",
+        "DISABLED_MESSAGE": "تم إيقاف الحملة",
+        "CONVERSATIONS": {
+          "TITLE": "المحادثات التي بدأتها الحملة",
+          "HINT": "كل زائر شاهد الرسالة وردّ عليها. افتح المحادثة لمتابعتها.",
+          "EMPTY": "لم يبدأ أي زائر محادثة من هذه الحملة بعد.",
+          "ERROR": "تعذّر تحميل المحادثات، حاول مرة أخرى.",
+          "PAGE_INFO": "عرض {startItem} - {endItem} من {totalItems} محادثة | عرض {startItem} - {endItem} من {totalItems} محادثة",
+          "STATUS": {
+            "OPEN": "مفتوحة",
+            "RESOLVED": "محلولة",
+            "PENDING": "معلّقة",
+            "SNOOZED": "مؤجلة"
+          },
+          "HEADERS": {
+            "ID": "المحادثة",
+            "CONTACT": "الزائر",
+            "STATUS": "الحالة",
+            "ASSIGNEE": "المسؤول",
+            "STARTED_AT": "بدأت في"
           }
         }
       }
