@@ -4,6 +4,7 @@ import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
 import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
 import SMSCampaignsPage from './pages/SMSCampaignsPage.vue';
 import SMSCampaignFormPage from './pages/SMSCampaignFormPage.vue';
+import SMSCampaignDetailsPage from './pages/SMSCampaignDetailsPage.vue';
 import WhatsAppCampaignsPage from './pages/WhatsAppCampaignsPage.vue';
 import WhatsAppCampaignFormPage from './pages/WhatsAppCampaignFormPage.vue';
 import WhatsAppCampaignAnalyticsPage from './pages/WhatsAppCampaignAnalyticsPage.vue';
@@ -60,6 +61,12 @@ const campaignsRoutes = {
           name: 'campaigns_sms_new',
           meta,
           component: SMSCampaignFormPage,
+        },
+        {
+          path: 'sms/:campaignId',
+          name: 'campaigns_sms_details',
+          meta,
+          component: SMSCampaignDetailsPage,
         },
         {
           path: 'whatsapp',

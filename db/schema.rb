@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_155620) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_192146) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1660,6 +1660,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_155620) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "sms_campaign_recipients", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.string "phone_number", null: false
+    t.integer "status", default: 0, null: false
+    t.string "source_id"
+    t.text "error_message"
+    t.datetime "sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "provider_request_id"
+    t.index ["account_id"], name: "index_sms_campaign_recipients_on_account_id"
+    t.index ["campaign_id", "phone_number"], name: "index_sms_campaign_recipients_on_campaign_id_and_phone_number", unique: true
+    t.index ["campaign_id", "status"], name: "index_sms_campaign_recipients_on_campaign_id_and_status"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

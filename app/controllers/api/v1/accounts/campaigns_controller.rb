@@ -1,4 +1,7 @@
 class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
+  # Custom (MyDesk): recipient_numbers is not a column, so JSON wrapping would drop it without this
+  wrap_parameters :campaign, include: [*Campaign.attribute_names, 'recipient_numbers']
+
   before_action :campaign, except: [:index, :create]
   before_action :check_authorization
 
@@ -35,6 +38,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
 
   def campaign_params
     params.require(:campaign).permit(:title, :description, :message, :enabled, :trigger_only_during_business_hours, :inbox_id, :sender_id,
-                                     :scheduled_at, :sms_sender_name, audience: [:type, :id], trigger_rules: {}, template_params: {})
+                                     :scheduled_at, :sms_sender_name, audience: [:type, :id], recipient_numbers: [],
+                                                                      trigger_rules: {}, template_params: {})
   end
 end

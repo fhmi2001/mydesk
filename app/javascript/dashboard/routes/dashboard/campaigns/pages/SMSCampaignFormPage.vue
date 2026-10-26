@@ -1,11 +1,17 @@
 <script setup>
-// Custom (MyDesk): full-page SMS campaign form with sender name choice and send now / schedule
-import { computed, reactive, watch } from 'vue';
+// Custom (MyDesk): full-page SMS campaign form. Numbers come from contact labels, typed text or an Excel/CSV file;
+// "Review" opens a confirmation step with the message, valid numbers and SMS count before anything is sent.
+import { computed, onActivated, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { CAMPAIGN_TYPES } from 'shared/constants/campaign';
 import { CAMPAIGNS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  smsEncoding,
+  smsSegmentCount,
+  SMS_ENCODINGS,
+} from 'dashboard/helper/smsSegments';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
@@ -14,20 +20,16 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
-import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
+import SMSRecipientsSection from 'dashboard/components-next/Campaigns/SMSCampaign/SMSRecipientsSection.vue';
+import SMSCampaignReview from 'dashboard/components-next/Campaigns/SMSCampaign/SMSCampaignReview.vue';
 
 const DELIVERY = { NOW: 'now', SCHEDULE: 'schedule' };
-// Plain text fits 160 characters per SMS (153 when split); anything else, such as Arabic, is sent as unicode
-const SEGMENT_LIMITS = {
-  text: { single: 160, multi: 153 },
-  unicode: { single: 70, multi: 67 },
-};
-const ASCII_CHAR_LIMIT = 128;
+const STEPS = { FORM: 'form', REVIEW: 'review' };
 const COMBOBOX_CLASSES =
   '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const router = useRouter();
 const store = useStore();
 
@@ -35,21 +37,33 @@ const uiFlags = useMapGetter('campaigns/getUIFlags');
 const labels = useMapGetter('labels/getLabels');
 const smsInboxes = useMapGetter('inboxes/getSMSInboxes');
 
-const state = reactive({
+const buildState = () => ({
   title: '',
   inboxId: null,
   senderName: null,
   message: '',
-  audienceIds: [],
+  recipientSource: 'manual',
+  labelIds: [],
+  numbersText: '',
+  file: null,
+  recipientsPreview: null,
   delivery: DELIVERY.NOW,
   scheduledAt: '',
+});
+
+const step = ref(STEPS.FORM);
+const state = reactive(buildState());
+
+// The campaigns route keeps pages alive, so every visit must start from an empty form
+onActivated(() => {
+  Object.assign(state, buildState());
+  step.value = STEPS.FORM;
 });
 
 const toOptions = (items, valueKey, labelKey) =>
   (items ?? []).map(item => ({ value: item[valueKey], label: item[labelKey] }));
 
 const inboxOptions = computed(() => toOptions(smsInboxes.value, 'id', 'name'));
-const audienceOptions = computed(() => toOptions(labels.value, 'id', 'title'));
 
 const selectedInbox = computed(() =>
   smsInboxes.value.find(inbox => inbox.id === state.inboxId)
@@ -68,22 +82,20 @@ watch(senderNames, names => {
   if (!names.includes(state.senderName)) state.senderName = names[0] ?? null;
 });
 
-// Same rule the Deewan gateway uses on the server: plain ASCII is "text", anything else "unicode"
-const encoding = computed(() =>
-  [...state.message].every(char => char.charCodeAt(0) < ASCII_CHAR_LIMIT)
-    ? 'text'
-    : 'unicode'
-);
 const encodingLabel = computed(() =>
-  encoding.value === 'text'
+  smsEncoding(state.message) === SMS_ENCODINGS.TEXT
     ? t('CAMPAIGN.SMS.FORM_PAGE.ENCODING.text')
     : t('CAMPAIGN.SMS.FORM_PAGE.ENCODING.unicode')
 );
-const segmentCount = computed(() => {
-  const { length } = state.message;
-  if (!length) return 0;
-  const limits = SEGMENT_LIMITS[encoding.value];
-  return length <= limits.single ? 1 : Math.ceil(length / limits.multi);
+const segmentCount = computed(() => smsSegmentCount(state.message));
+
+const isLabelSource = computed(() => state.recipientSource === 'labels');
+const recipientCount = computed(() => {
+  const preview = state.recipientsPreview;
+  if (!preview) return 0;
+  return isLabelSource.value
+    ? preview.label_recipients_count
+    : preview.valid_count;
 });
 
 const minScheduleTime = computed(() => {
@@ -100,30 +112,55 @@ const isValid = computed(
     !!state.title.trim() &&
     !!state.inboxId &&
     !!state.message.trim() &&
-    state.audienceIds.length > 0 &&
+    recipientCount.value > 0 &&
     (!isScheduled.value || state.scheduledAt >= minScheduleTime.value)
 );
 
-const submitLabel = computed(() =>
+const confirmLabel = computed(() =>
   isScheduled.value
     ? t('CAMPAIGN.SMS.FORM_PAGE.SUBMIT.SCHEDULE')
     : t('CAMPAIGN.SMS.FORM_PAGE.SUBMIT.SEND_NOW')
 );
 
-const previewTime = computed(() =>
+const deliveryTime = computed(() =>
   isScheduled.value && state.scheduledAt
-    ? new Date(state.scheduledAt).toLocaleString()
+    ? new Intl.DateTimeFormat(locale.value, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }).format(new Date(state.scheduledAt))
     : t('CAMPAIGN.SMS.FORM_PAGE.PREVIEW.NOW')
+);
+
+const sourceLabel = computed(
+  () =>
+    ({
+      labels: t('CAMPAIGN.SMS.RECIPIENTS.SOURCES.LABELS'),
+      manual: t('CAMPAIGN.SMS.RECIPIENTS.SOURCES.MANUAL'),
+      file: t('CAMPAIGN.SMS.RECIPIENTS.SOURCES.FILE'),
+    })[state.recipientSource]
 );
 
 const breadcrumbItems = computed(() => [
   { label: t('CAMPAIGN.SMS.HEADER_TITLE'), routeName: 'campaigns_sms_index' },
-  { label: t('CAMPAIGN.SMS.FORM_PAGE.TITLE') },
+  {
+    label:
+      step.value === STEPS.REVIEW
+        ? t('CAMPAIGN.SMS.REVIEW.TITLE')
+        : t('CAMPAIGN.SMS.FORM_PAGE.TITLE'),
+  },
 ]);
 
 const goBack = () => router.push({ name: 'campaigns_sms_index' });
+const openReview = () => {
+  if (isValid.value) step.value = STEPS.REVIEW;
+};
 
-const handleSubmit = async () => {
+const recipientsPayload = () =>
+  isLabelSource.value
+    ? { audience: state.labelIds.map(id => ({ id, type: 'Label' })) }
+    : { recipient_numbers: state.recipientsPreview.valid_numbers };
+
+const handleConfirm = async () => {
   if (!isValid.value) return;
 
   try {
@@ -132,7 +169,7 @@ const handleSubmit = async () => {
       message: state.message,
       inbox_id: state.inboxId,
       sms_sender_name: state.senderName,
-      audience: state.audienceIds.map(id => ({ id, type: 'Label' })),
+      ...recipientsPayload(),
       // Without a time the server schedules it for now and sends it immediately
       scheduled_at: isScheduled.value
         ? new Date(state.scheduledAt).toISOString()
@@ -165,7 +202,7 @@ const handleSubmit = async () => {
         :items="breadcrumbItems"
         @click="({ routeName }) => router.push({ name: routeName })"
       />
-      <div class="flex items-center gap-2">
+      <div v-if="step === STEPS.FORM" class="flex items-center gap-2">
         <Button
           variant="faded"
           color="slate"
@@ -175,19 +212,35 @@ const handleSubmit = async () => {
         />
         <Button
           size="sm"
-          :icon="isScheduled ? 'i-lucide-calendar-clock' : 'i-lucide-send'"
-          :label="submitLabel"
-          :is-loading="uiFlags.isCreating"
-          :disabled="!isValid || uiFlags.isCreating"
-          @click="handleSubmit"
+          icon="i-lucide-clipboard-check"
+          :label="t('CAMPAIGN.SMS.REVIEW.OPEN')"
+          :disabled="!isValid"
+          @click="openReview"
         />
       </div>
     </header>
 
+    <SMSCampaignReview
+      v-if="step === STEPS.REVIEW"
+      :title="state.title.trim()"
+      :inbox-name="selectedInbox?.name ?? ''"
+      :sender-name="state.senderName ?? ''"
+      :message="state.message"
+      :source-label="sourceLabel"
+      :delivery-label="deliveryTime"
+      :recipient-count="recipientCount"
+      :cleaning="isLabelSource ? null : state.recipientsPreview"
+      :confirm-label="confirmLabel"
+      :is-submitting="uiFlags.isCreating"
+      @back="step = STEPS.FORM"
+      @confirm="handleConfirm"
+    />
+
     <div
+      v-else
       class="grid items-start w-full max-w-5xl grid-cols-1 gap-6 pb-10 mx-auto lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]"
     >
-      <form class="flex flex-col gap-6" @submit.prevent="handleSubmit">
+      <form class="flex flex-col gap-6" @submit.prevent="openReview">
         <section
           class="flex flex-col gap-4 p-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
         >
@@ -233,11 +286,10 @@ const handleSubmit = async () => {
           class="flex flex-col gap-4 p-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
         >
           <h2 class="text-heading-2 text-n-slate-12">
-            {{ t('CAMPAIGN.SMS.FORM_PAGE.SECTIONS.MESSAGE') }}
+            {{ t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.LABEL') }}
           </h2>
           <TextArea
             v-model="state.message"
-            :label="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.LABEL')"
             :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.PLACEHOLDER')"
             :max-length="1000"
             show-character-count
@@ -251,18 +303,22 @@ const handleSubmit = async () => {
               })
             }}
           </p>
-          <div class="flex flex-col gap-1">
-            <label class="mb-0.5 text-sm font-medium text-n-slate-12">
-              {{ t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.LABEL') }}
-            </label>
-            <TagMultiSelectComboBox
-              v-model="state.audienceIds"
-              :options="audienceOptions"
-              :label="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.LABEL')"
-              :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.PLACEHOLDER')"
-              class="[&>div>button]:bg-n-alpha-black2"
-            />
-          </div>
+        </section>
+
+        <section
+          class="flex flex-col gap-4 p-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
+        >
+          <h2 class="text-heading-2 text-n-slate-12">
+            {{ t('CAMPAIGN.SMS.RECIPIENTS.TITLE') }}
+          </h2>
+          <SMSRecipientsSection
+            v-model:source="state.recipientSource"
+            v-model:label-ids="state.labelIds"
+            v-model:numbers-text="state.numbersText"
+            v-model:file="state.file"
+            v-model:preview="state.recipientsPreview"
+            :labels="labels"
+          />
         </section>
 
         <section
@@ -321,7 +377,7 @@ const handleSubmit = async () => {
                   t('CAMPAIGN.SMS.FORM_PAGE.PREVIEW.NO_SENDER')
                 }}
               </span>
-              <span class="text-xs text-n-slate-11">{{ previewTime }}</span>
+              <span class="text-xs text-n-slate-11">{{ deliveryTime }}</span>
             </div>
           </div>
           <p
@@ -333,15 +389,9 @@ const handleSubmit = async () => {
         </div>
         <dl class="grid grid-cols-2 gap-2 text-sm">
           <dt class="text-n-slate-11">
-            {{ t('CAMPAIGN.SMS.FORM_PAGE.PREVIEW.AUDIENCE') }}
+            {{ t('CAMPAIGN.SMS.REVIEW.RECIPIENTS') }}
           </dt>
-          <dd class="text-n-slate-12">
-            {{
-              t('CAMPAIGN.SMS.FORM_PAGE.PREVIEW.LABEL_COUNT', {
-                count: state.audienceIds.length,
-              })
-            }}
-          </dd>
+          <dd class="text-n-slate-12 tabular-nums">{{ recipientCount }}</dd>
           <dt class="text-n-slate-11">
             {{ t('CAMPAIGN.SMS.FORM_PAGE.PREVIEW.PER_CONTACT') }}
           </dt>
@@ -351,6 +401,12 @@ const handleSubmit = async () => {
                 count: segmentCount,
               })
             }}
+          </dd>
+          <dt class="text-n-slate-11">
+            {{ t('CAMPAIGN.SMS.REVIEW.TOTAL_SMS') }}
+          </dt>
+          <dd class="font-medium text-n-slate-12 tabular-nums">
+            {{ recipientCount * segmentCount }}
           </dd>
         </dl>
       </aside>

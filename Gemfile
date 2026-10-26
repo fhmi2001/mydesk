@@ -185,6 +185,9 @@ gem 'omniauth-oauth2'
 
 gem 'audited', '~> 5.4', '>= 5.4.1'
 
+# Custom (MyDesk): reads Excel/CSV files of phone numbers for SMS campaigns
+gem 'roo', '~> 2.10'
+
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-saml'

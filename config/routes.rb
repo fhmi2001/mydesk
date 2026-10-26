@@ -182,6 +182,11 @@ Rails.application.routes.draw do
               get 'analytics/metrics', to: 'campaigns/analytics#metrics'
               get 'analytics/contacts', to: 'campaigns/analytics#contacts'
             end
+            # Custom (MyDesk): check numbers before creating an SMS campaign, and list a campaign's numbers
+            collection do
+              post 'sms_recipients/preview', to: 'campaigns/sms_recipients#preview'
+            end
+            get 'sms_recipients', to: 'campaigns/sms_recipients#index'
           end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do

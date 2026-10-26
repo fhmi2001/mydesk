@@ -16,6 +16,24 @@ class CampaignsAPI extends ApiClient {
       params: { status, page },
     });
   }
+
+  // Custom (MyDesk): clean typed/uploaded numbers and count label contacts before an SMS campaign is created
+  previewSmsRecipients({ numbers, file, labelIds }, { signal } = {}) {
+    const formData = new FormData();
+    if (numbers) formData.append('numbers', numbers);
+    if (file) formData.append('file', file);
+    (labelIds ?? []).forEach(id => formData.append('label_ids[]', id));
+    return axios.post(`${this.url}/sms_recipients/preview`, formData, {
+      signal,
+    });
+  }
+
+  // Custom (MyDesk): the numbers of an SMS campaign with their result and provider ids, 50 per page
+  smsRecipients(id, { page, status } = {}) {
+    return axios.get(`${this.url}/${id}/sms_recipients`, {
+      params: { page, status },
+    });
+  }
 }
 
 export default new CampaignsAPI();

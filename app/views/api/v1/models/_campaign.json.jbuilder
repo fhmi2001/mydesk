@@ -19,6 +19,7 @@ if resource.campaign_type == 'one_off'
   json.completed_at resource.completed_at&.to_i
   json.audience resource.audience
   json.sms_sender_name resource.sms_sender_name
+  json.sms_stats resource.sms_delivery_stats if resource.sms_campaign?
 end
 json.trigger_rules resource.trigger_rules
 json.trigger_only_during_business_hours resource.trigger_only_during_business_hours

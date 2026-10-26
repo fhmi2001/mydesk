@@ -4,38 +4,54 @@ class Sms::Providers::DeewanService
   API_URL = 'https://apis.deewan.sa/sms/v1/messages'.freeze
   SUCCESS_REPLY_CODE = 0
 
+  # What Deewan returns for a campaign send: the SMS id of the number and the id of the API request
+  Receipt = Struct.new(:message_id, :request_id, keyword_init: true)
+
+  # Raised for campaign sends so the campaign can record Deewan's reason (and request id) for each failed number
+  class DeliveryError < StandardError
+    attr_reader :request_id
+
+    def initialize(message, request_id: nil)
+      super(message)
+      @request_id = request_id
+    end
+  end
+
   def initialize(channel:)
     @channel = channel
   end
 
   def send_message(contact_number, message)
-    deliver(contact_number, message.outgoing_content, message: message)
+    response = post(contact_number, message.outgoing_content, channel.phone_number)
+    return sms_id(response) if delivered?(response)
+
+    mark_message_failed(message, error_text(response))
+    nil
   end
 
   # Campaigns may pick any of the channel's approved sender names; replies use the default one
   def send_text_message(contact_number, message_content, sender_name: nil)
-    deliver(contact_number, message_content, sender_name: sender_name)
+    response = post(contact_number, message_content, sender_name || channel.phone_number)
+    raise DeliveryError.new(error_text(response), request_id: response_body(response)['requestId']) unless delivered?(response)
+
+    Receipt.new(message_id: sms_id(response), request_id: response_body(response)['requestId'])
   end
 
   private
 
   attr_reader :channel
 
-  def deliver(contact_number, text, message: nil, sender_name: nil)
-    body = payload(contact_number, text, sender_name || channel.phone_number)
-    response = HTTParty.post(API_URL, headers: headers, body: body.to_json)
-    return response.parsed_response.dig('data', 'SentSMSIDs', 0, 'SMSId') if delivered?(response)
-
-    handle_error(response, message)
-    nil
+  def post(contact_number, text, sender_name)
+    HTTParty.post(API_URL, headers: headers, body: payload(contact_number, text, sender_name).to_json)
   end
 
   def payload(contact_number, text, sender_name)
+    ascii = text.to_s.ascii_only?
     {
-      'messageText' => text,
+      # Deewan rejects raw Arabic for "unicode" ("Invalid Unicode data!", -17); it expects UCS-2 as hex
+      'messageText' => ascii ? text : text.to_s.encode('UTF-16BE').unpack1('H*').upcase,
       'senderName' => sender_name,
-      # Deewan needs "unicode" for anything outside plain ASCII, such as Arabic text
-      'messageType' => text.to_s.ascii_only? ? 'text' : 'unicode',
+      'messageType' => ascii ? 'text' : 'unicode',
       # Deewan expects digits only, without the leading "+"
       'recipients' => contact_number.delete('+')
     }
@@ -48,16 +64,28 @@ class Sms::Providers::DeewanService
     }
   end
 
-  def delivered?(response)
-    response.success? && response.parsed_response['replyCode'] == SUCCESS_REPLY_CODE
+  def response_body(response)
+    response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
   end
 
-  def handle_error(response, message)
-    error = response.parsed_response.is_a?(Hash) && response.parsed_response['replyMessage'].presence
-    error ||= "HTTP #{response.code}"
-    Rails.logger.error("[#{channel.account_id}] Error sending SMS via Deewan: #{error}")
-    return if message.blank?
+  def delivered?(response)
+    response.success? && response_body(response)['replyCode'] == SUCCESS_REPLY_CODE
+  end
 
+  def sms_id(response)
+    response_body(response).dig('data', 'SentSMSIDs', 0, 'SMSId')
+  end
+
+  # The useful reason is in error.internalErrors (e.g. "Invalid Unicode data! (-17)"), not in replyMessage
+  def error_text(response)
+    body = response_body(response)
+    details = Array(body.dig('error', 'internalErrors')).map { |item| "#{item['details']} (#{item['code']})" }
+    error = details.join('; ').presence || body['replyMessage'].presence || "HTTP #{response.code}"
+    Rails.logger.error("[#{channel.account_id}] Error sending SMS via Deewan: #{error}")
+    error
+  end
+
+  def mark_message_failed(message, error)
     message.external_error = error
     message.status = :failed
     message.save!

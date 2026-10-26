@@ -141,7 +141,6 @@
         "TITLE": "New SMS campaign",
         "SECTIONS": {
           "DETAILS": "Campaign details",
-          "MESSAGE": "Message and audience",
           "DELIVERY": "Delivery"
         },
         "SENDER": {
@@ -173,14 +172,141 @@
           "NOW": "Now",
           "NO_SENDER": "Sender name",
           "EMPTY": "Your message will appear here",
-          "AUDIENCE": "Audience",
-          "LABEL_COUNT": "Selected labels: {count}",
           "PER_CONTACT": "Per contact",
           "SMS_COUNT": "{count} SMS"
         },
         "API": {
           "SENT": "Campaign created and sending started",
           "SCHEDULED": "Campaign scheduled successfully"
+        }
+      },
+      "RECIPIENTS": {
+        "TITLE": "Recipients",
+        "SOURCES": {
+          "LABELS": "Contact labels",
+          "MANUAL": "Type numbers",
+          "FILE": "Excel file"
+        },
+        "MANUAL": {
+          "LABEL": "Phone numbers",
+          "PLACEHOLDER": "0551234567\n966551234568",
+          "HELP": "One number per line, or separated by commas. Saudi mobiles only; 966 is added when missing."
+        },
+        "FILE": {
+          "CHOOSE": "Choose an Excel or CSV file",
+          "HELP": "Numbers in the first column only (.xlsx or .csv, up to 5 MB). A header row is skipped.",
+          "REMOVE": "Remove file",
+          "SAMPLE": "Download a sample file"
+        },
+        "CHECKING": "Checking numbers…",
+        "ERRORS": {
+          "UNSUPPORTED_FORMAT": "Please upload an .xlsx or .csv file.",
+          "FILE_TOO_LARGE": "The file is larger than 5 MB.",
+          "UNREADABLE": "This file could not be read. Save it again as .xlsx or .csv and retry.",
+          "GENERIC": "The numbers could not be checked. Please try again."
+        },
+        "SUMMARY": {
+          "VALID": "Valid numbers",
+          "DUPLICATES": "Duplicates removed",
+          "INVALID": "Invalid numbers removed",
+          "CODE_ADDED": "966 added",
+          "LABEL_CONTACTS": "Contacts with a phone number",
+          "SHOW_INVALID": "Show the invalid numbers"
+        }
+      },
+      "REVIEW": {
+        "OPEN": "Review campaign",
+        "TITLE": "Review before sending",
+        "SUBTITLE": "Check the message and numbers. Nothing is sent until you confirm.",
+        "RECIPIENTS": "Recipients",
+        "PARTS_PER_NUMBER": "SMS per number",
+        "TOTAL_SMS": "Total SMS",
+        "NO_RECIPIENTS": "There are no valid numbers to send to.",
+        "SOURCE": "Numbers from",
+        "ENCODING": "Encoding",
+        "LENGTH": "Characters",
+        "BACK": "Edit campaign",
+        "INBOX": "Channel"
+      },
+      "TABLE": {
+        "TOTALS": {
+          "CAMPAIGNS": "Campaigns",
+          "SENT": "Messages delivered to the gateway",
+          "FAILED": "Failed numbers",
+          "SMS_USED": "SMS used"
+        },
+        "HEADERS": {
+          "ID": "ID",
+          "CAMPAIGN": "Campaign",
+          "SENDER": "Sender",
+          "RECIPIENTS": "Numbers",
+          "DATE": "Date",
+          "RESULT": "Result"
+        },
+        "STATUS": {
+          "SCHEDULED": "Scheduled",
+          "STARTING": "Starting",
+          "SENDING": "Sending",
+          "COMPLETED": "Completed",
+          "PARTIAL": "Completed with failures",
+          "FAILED": "Failed"
+        },
+        "SENT_COUNT": "{count} sent",
+        "FAILED_COUNT": "{count} failed",
+        "DELETE": "Delete campaign",
+        "DETAILS": "Details"
+      },
+      "DETAILS": {
+        "NOT_FOUND": "This campaign was not found. It may have been deleted.",
+        "METRICS": {
+          "TOTAL": "Numbers",
+          "SENT": "Sent to the gateway",
+          "FAILED": "Failed",
+          "QUEUED": "Waiting",
+          "SMS_USED": "SMS used"
+        },
+        "MESSAGE": {
+          "TITLE": "Message"
+        },
+        "INFO": {
+          "SECTION": "Campaign details",
+          "ID": "Campaign ID",
+          "TITLE": "Name",
+          "INBOX": "Channel",
+          "SENDER": "Sender name",
+          "SOURCE": "Numbers from",
+          "CREATED_AT": "Created",
+          "SCHEDULED_AT": "Scheduled for",
+          "STARTED_AT": "Started sending",
+          "COMPLETED_AT": "Finished"
+        },
+        "SOURCE": {
+          "LABELS": "Contact labels: {labels}",
+          "NUMBERS": "Typed or uploaded numbers"
+        },
+        "RECIPIENTS": {
+          "TITLE": "Numbers",
+          "HINT": "The SMS ID and request ID are the references the SMS provider returned. Share them with the provider when following up on a message.",
+          "FILTERS": {
+            "ALL": "All"
+          },
+          "STATUS": {
+            "QUEUED": "Waiting",
+            "SENT": "Sent",
+            "FAILED": "Failed"
+          },
+          "HEADERS": {
+            "NUMBER": "Number",
+            "STATUS": "Status",
+            "SMS_ID": "SMS ID",
+            "REQUEST_ID": "Request ID",
+            "ERROR": "Failure reason",
+            "SENT_AT": "Time"
+          },
+          "EMPTY": "This campaign has no numbers.",
+          "EMPTY_FILTER": "No numbers with this status.",
+          "ERROR": "Could not load the numbers. Try again.",
+          "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} number | Showing {startItem} - {endItem} of {totalItems} numbers"
         }
       }
     },
