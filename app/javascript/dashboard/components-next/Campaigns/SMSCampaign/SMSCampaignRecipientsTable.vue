@@ -22,6 +22,30 @@ const STATUS_STYLES = {
   failed: 'bg-n-ruby-3 text-n-ruby-11',
 };
 
+// Deewan's handset delivery results; numbers not checked yet have none
+const DELIVERY_STYLES = {
+  delivered: 'bg-n-teal-3 text-n-teal-11',
+  undelivered: 'bg-n-ruby-3 text-n-ruby-11',
+  blocked: 'bg-n-ruby-3 text-n-ruby-11',
+  rejected: 'bg-n-ruby-3 text-n-ruby-11',
+  expired: 'bg-n-ruby-3 text-n-ruby-11',
+  sent: 'bg-n-amber-3 text-n-amber-11',
+  buffered: 'bg-n-amber-3 text-n-amber-11',
+  in_progress: 'bg-n-amber-3 text-n-amber-11',
+  unknown: 'bg-n-alpha-2 text-n-slate-11',
+};
+const deliveryLabels = computed(() => ({
+  delivered: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.DELIVERED'),
+  undelivered: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.UNDELIVERED'),
+  blocked: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.BLOCKED'),
+  rejected: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.REJECTED'),
+  expired: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.EXPIRED'),
+  sent: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.SENT'),
+  buffered: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.BUFFERED'),
+  in_progress: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.IN_PROGRESS'),
+  unknown: t('CAMPAIGN.SMS.DETAILS.DELIVERY.STATUS.UNKNOWN'),
+}));
+
 const statusLabels = computed(() => ({
   queued: t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.STATUS.QUEUED'),
   sent: t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.STATUS.SENT'),
@@ -46,6 +70,7 @@ const processedAt = recipient =>
 const headers = computed(() => [
   t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HEADERS.NUMBER'),
   t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HEADERS.STATUS'),
+  t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HEADERS.DELIVERY'),
   t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HEADERS.SMS_ID'),
   t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HEADERS.REQUEST_ID'),
   t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HEADERS.ERROR'),
@@ -75,6 +100,36 @@ const headers = computed(() => [
               :class="STATUS_STYLES[recipient.status]"
             >
               {{ statusLabels[recipient.status] }}
+            </span>
+          </BaseTableCell>
+          <BaseTableCell>
+            <div
+              v-if="recipient.delivery_status"
+              class="flex flex-col items-start gap-0.5"
+            >
+              <span
+                class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full whitespace-nowrap"
+                :class="DELIVERY_STYLES[recipient.delivery_status]"
+              >
+                {{ deliveryLabels[recipient.delivery_status] }}
+              </span>
+              <span
+                v-if="recipient.delivery_price !== null"
+                class="text-xs tabular-nums"
+              >
+                {{
+                  t('CAMPAIGN.SMS.DETAILS.DELIVERY.PRICE', {
+                    price: recipient.delivery_price,
+                  })
+                }}
+              </span>
+            </div>
+            <span v-else class="text-xs">
+              {{
+                recipient.status === 'sent'
+                  ? t('CAMPAIGN.SMS.DETAILS.DELIVERY.NOT_CHECKED')
+                  : NO_VALUE
+              }}
             </span>
           </BaseTableCell>
           <BaseTableCell>

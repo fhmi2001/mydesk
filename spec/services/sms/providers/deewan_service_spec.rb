@@ -72,6 +72,15 @@ describe Sms::Providers::DeewanService do
         .to raise_error(described_class::DeliveryError, 'Invalid Unicode data! (-17)') { |error| expect(error.request_id).to eq('req-456') }
     end
 
+    it 'reads the handset delivery status of a sent SMS' do
+      stub_request(:get, "#{api_url}/sms-1")
+        .with(headers: { 'Authorization' => 'Bearer deewan-key' })
+        .to_return(status: 200, body: { replyCode: 0, data: [{ Id: 'sms-1', Status: 1, price: 0.03 }] }.to_json,
+                   headers: { 'Content-Type' => 'application/json' })
+
+      expect(sms_channel.sms_delivery_details('sms-1')).to eq(status: 1, price: 0.03)
+    end
+
     it 'sends from the sender name the campaign picked' do
       request = stub_request(:post, api_url)
                 .with(body: hash_including('senderName' => 'MyStore-OTP'))

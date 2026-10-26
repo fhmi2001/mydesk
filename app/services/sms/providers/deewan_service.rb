@@ -37,6 +37,16 @@ class Sms::Providers::DeewanService
     Receipt.new(message_id: sms_id(response), request_id: response_body(response)['requestId'])
   end
 
+  # Handset delivery result of a sent SMS (https://developer.deewan.sa/reference/getting-sms-details).
+  # Looked up by the SMS id; Deewan keeps these details for 3 months after sending.
+  def message_details(message_id)
+    response = HTTParty.get("#{API_URL}/#{message_id}", headers: headers)
+    raise DeliveryError.new(error_text(response), request_id: response_body(response)['requestId']) unless delivered?(response)
+
+    details = Array(response_body(response)['data']).first || {}
+    { status: details['Status'], price: details['price'] }
+  end
+
   private
 
   attr_reader :channel

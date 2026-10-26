@@ -20,7 +20,7 @@ describe Sms::OneoffSmsCampaignService do
 
   it 'stores the cleaned, unique numbers when the campaign is created' do
     expect(campaign.sms_campaign_recipients.pluck(:phone_number)).to contain_exactly('966551234567', '966559999999')
-    expect(campaign.sms_delivery_stats).to eq(total: 2, queued: 2, sent: 0, failed: 0)
+    expect(campaign.sms_delivery_stats).to eq(total: 2, queued: 2, sent: 0, failed: 0, delivered: 0)
   end
 
   it 'sends to every number and records what Deewan answered' do
@@ -36,7 +36,7 @@ describe Sms::OneoffSmsCampaignService do
     expect(sent).to have_attributes(status: 'sent', source_id: 'sms-1', provider_request_id: 'req-1')
     expect(failed).to have_attributes(status: 'failed', error_message: 'Not enough credits', provider_request_id: 'req-2')
     expect(campaign.reload).to be_completed
-    expect(campaign.sms_delivery_stats).to eq(total: 2, queued: 0, sent: 1, failed: 1)
+    expect(campaign.sms_delivery_stats).to eq(total: 2, queued: 0, sent: 1, failed: 1, delivered: 0)
   end
 
   it 'records label contacts as recipients too' do

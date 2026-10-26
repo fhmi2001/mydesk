@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_192146) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_194244) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1673,6 +1673,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_192146) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "provider_request_id"
+    t.integer "delivery_status"
+    t.decimal "delivery_price", precision: 10, scale: 4
+    t.datetime "delivery_checked_at"
     t.index ["account_id"], name: "index_sms_campaign_recipients_on_account_id"
     t.index ["campaign_id", "phone_number"], name: "index_sms_campaign_recipients_on_campaign_id_and_phone_number", unique: true
     t.index ["campaign_id", "status"], name: "index_sms_campaign_recipients_on_campaign_id_and_status"

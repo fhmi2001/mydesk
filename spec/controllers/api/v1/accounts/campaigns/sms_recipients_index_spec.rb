@@ -28,6 +28,25 @@ RSpec.describe 'SMS campaign recipients list API', type: :request do
                                              'source_id' => 'sms-1', 'provider_request_id' => 'req-1')
   end
 
+  it 'starts checking delivery of the sent numbers' do
+    campaign.sms_campaign_recipients.find_by(phone_number: '966551234567').mark_sent!('sms-1')
+
+    expect do
+      post "#{path}/sync_delivery", headers: admin.create_new_auth_token, as: :json
+    end.to have_enqueued_job(Sms::SyncCampaignDeliveryJob).with(campaign)
+
+    expect(response).to have_http_status(:accepted)
+    expect(response.parsed_body['delivery_sync_running']).to be(true)
+  ensure
+    Redis::LockManager.new.unlock(Sms::DeliveryStatusSyncService.lock_key(campaign))
+  end
+
+  it 'does not start a check when no number awaits a delivery result' do
+    expect do
+      post "#{path}/sync_delivery", headers: admin.create_new_auth_token, as: :json
+    end.not_to have_enqueued_job(Sms::SyncCampaignDeliveryJob)
+  end
+
   it 'filters by status' do
     campaign.sms_campaign_recipients.find_by(phone_number: '966559999999').mark_failed!('Not enough credits')
 

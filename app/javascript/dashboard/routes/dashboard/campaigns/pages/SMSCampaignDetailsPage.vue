@@ -1,11 +1,13 @@
 <script setup>
 // Custom (MyDesk): everything about one SMS campaign — its message, times, sender and every number with the
-// provider's SMS id, request id and refusal reason. Refreshes on its own while the campaign is sending.
+// provider's SMS id, request id and refusal reason. Refreshes on its own while the campaign is sending, and
+// while the provider is being asked whether the sent numbers received the message.
 import { computed, onActivated, onDeactivated, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useIntervalFn } from '@vueuse/core';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 
 import CampaignsAPI from 'dashboard/api/campaigns';
 import {
@@ -16,6 +18,7 @@ import {
 import { isSmsCampaignInProgress } from 'dashboard/components-next/Campaigns/SMSCampaign/smsCampaignStatus';
 
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
@@ -43,6 +46,9 @@ const state = reactive({
   page: 1,
   isFetching: true,
   hasError: false,
+  deliverySyncRunning: false,
+  deliveryCheckedAt: null,
+  isStartingSync: false,
 });
 let requestId = 0;
 
@@ -51,7 +57,14 @@ const campaign = computed(() =>
   campaigns.value.find(record => Number(record.id) === campaignId.value)
 );
 const stats = computed(
-  () => campaign.value?.sms_stats ?? { total: 0, sent: 0, failed: 0, queued: 0 }
+  () =>
+    campaign.value?.sms_stats ?? {
+      total: 0,
+      sent: 0,
+      failed: 0,
+      queued: 0,
+      delivered: 0,
+    }
 );
 const segments = computed(() => smsSegmentCount(campaign.value?.message));
 
@@ -94,6 +107,13 @@ const metricCards = computed(() => [
     color: 'text-n-teal-11',
     value: stats.value.sent,
     label: t('CAMPAIGN.SMS.DETAILS.METRICS.SENT'),
+  },
+  {
+    key: 'delivered',
+    icon: 'i-lucide-smartphone',
+    color: 'text-n-teal-11',
+    value: stats.value.delivered ?? 0,
+    label: t('CAMPAIGN.SMS.DETAILS.METRICS.DELIVERED'),
   },
   {
     key: 'failed',
@@ -225,6 +245,8 @@ const fetchRecipients = async ({ showLoading = true } = {}) => {
     if (currentRequest !== requestId) return;
     state.recipients = data.payload;
     state.count = data.meta.count;
+    state.deliverySyncRunning = data.meta.delivery_sync_running;
+    state.deliveryCheckedAt = data.meta.delivery_checked_at;
     state.hasError = false;
   } catch {
     if (currentRequest !== requestId) return;
@@ -249,8 +271,37 @@ const { pause, resume } = useIntervalFn(
 );
 let isPageActive = false;
 const syncRefresh = () =>
-  isPageActive && isInProgress.value ? resume() : pause();
+  isPageActive && (isInProgress.value || state.deliverySyncRunning)
+    ? resume()
+    : pause();
 watch(isInProgress, syncRefresh);
+watch(
+  () => state.deliverySyncRunning,
+  (running, wasRunning) => {
+    syncRefresh();
+    // The delivered count lives on the campaign, so reload it once the check ends
+    if (wasRunning && !running) {
+      store.dispatch('campaigns/get');
+      useAlert(t('CAMPAIGN.SMS.DETAILS.DELIVERY.DONE'));
+    }
+  }
+);
+
+const canCheckDelivery = computed(() => stats.value.sent > 0);
+const checkDelivery = async () => {
+  state.isStartingSync = true;
+  try {
+    const { data } = await CampaignsAPI.syncSmsDelivery(campaignId.value);
+    state.deliverySyncRunning = data.delivery_sync_running;
+    if (!data.delivery_sync_running) {
+      useAlert(t('CAMPAIGN.SMS.DETAILS.DELIVERY.UP_TO_DATE'));
+    }
+  } catch {
+    useAlert(t('CAMPAIGN.SMS.DETAILS.DELIVERY.ERROR'));
+  } finally {
+    state.isStartingSync = false;
+  }
+};
 
 // The campaigns route keeps pages alive, so each visit reloads the campaign shown in the URL
 const loadPage = () => {
@@ -307,7 +358,7 @@ const handleTabChange = tab => {
     </div>
 
     <div v-else class="flex flex-col w-full max-w-6xl gap-6 pb-10 mx-auto">
-      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
         <div
           v-for="card in metricCards"
           :key="card.key"
@@ -382,13 +433,38 @@ const handleTabChange = tab => {
       <section
         class="flex flex-col gap-4 p-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
       >
-        <div class="flex flex-col gap-1">
-          <h2 class="text-heading-2 text-n-slate-12">
-            {{ t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.TITLE') }}
-          </h2>
-          <p class="text-sm text-n-slate-11">
-            {{ t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HINT') }}
-          </p>
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="flex flex-col flex-1 gap-1 min-w-64">
+            <h2 class="text-heading-2 text-n-slate-12">
+              {{ t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.TITLE') }}
+            </h2>
+            <p class="text-sm text-n-slate-11">
+              {{ t('CAMPAIGN.SMS.DETAILS.RECIPIENTS.HINT') }}
+            </p>
+          </div>
+          <div class="flex flex-col items-end gap-1">
+            <Button
+              size="sm"
+              icon="i-lucide-refresh-cw"
+              :label="
+                state.deliverySyncRunning
+                  ? t('CAMPAIGN.SMS.DETAILS.DELIVERY.CHECKING')
+                  : t('CAMPAIGN.SMS.DETAILS.DELIVERY.CHECK')
+              "
+              :is-loading="state.isStartingSync || state.deliverySyncRunning"
+              :disabled="!canCheckDelivery || state.deliverySyncRunning"
+              @click="checkDelivery"
+            />
+            <span class="text-xs text-n-slate-11">
+              {{
+                state.deliveryCheckedAt
+                  ? t('CAMPAIGN.SMS.DETAILS.DELIVERY.LAST_CHECKED', {
+                      time: formatDate(state.deliveryCheckedAt),
+                    })
+                  : t('CAMPAIGN.SMS.DETAILS.DELIVERY.NEVER_CHECKED')
+              }}
+            </span>
+          </div>
         </div>
         <TabBar
           :tabs="statusTabs"

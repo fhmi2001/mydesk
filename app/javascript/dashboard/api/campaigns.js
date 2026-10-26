@@ -34,6 +34,11 @@ class CampaignsAPI extends ApiClient {
       params: { page, status },
     });
   }
+
+  // Custom (MyDesk): ask the SMS provider, in the background, whether the sent numbers received the message
+  syncSmsDelivery(id) {
+    return axios.post(`${this.url}/${id}/sms_recipients/sync_delivery`);
+  }
 }
 
 export default new CampaignsAPI();

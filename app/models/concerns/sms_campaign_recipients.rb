@@ -21,7 +21,9 @@ module SmsCampaignRecipients
 
   def sms_delivery_stats
     counts = sms_campaign_recipients.group(:status).count
-    { total: counts.values.sum, queued: counts['queued'].to_i, sent: counts['sent'].to_i, failed: counts['failed'].to_i }
+    delivered = sms_campaign_recipients.where(delivery_status: SmsCampaignRecipient::DELIVERED).count
+    { total: counts.values.sum, queued: counts['queued'].to_i, sent: counts['sent'].to_i, failed: counts['failed'].to_i,
+      delivered: delivered }
   end
 
   private

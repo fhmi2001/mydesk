@@ -261,6 +261,7 @@
         "METRICS": {
           "TOTAL": "Numbers",
           "SENT": "Sent to the gateway",
+          "DELIVERED": "Delivered to handset",
           "FAILED": "Failed",
           "QUEUED": "Waiting",
           "SMS_USED": "SMS used"
@@ -286,7 +287,7 @@
         },
         "RECIPIENTS": {
           "TITLE": "Numbers",
-          "HINT": "The SMS ID and request ID are the references the SMS provider returned. Share them with the provider when following up on a message.",
+          "HINT": "The SMS ID and request ID are the references the SMS provider returned. Use \"Check delivery status\" to ask the provider which numbers received the message; it keeps these details for 3 months.",
           "FILTERS": {
             "ALL": "All"
           },
@@ -298,6 +299,7 @@
           "HEADERS": {
             "NUMBER": "Number",
             "STATUS": "Status",
+            "DELIVERY": "Delivery",
             "SMS_ID": "SMS ID",
             "REQUEST_ID": "Request ID",
             "ERROR": "Failure reason",
@@ -307,6 +309,28 @@
           "EMPTY_FILTER": "No numbers with this status.",
           "ERROR": "Could not load the numbers. Try again.",
           "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} number | Showing {startItem} - {endItem} of {totalItems} numbers"
+        },
+        "DELIVERY": {
+          "CHECK": "Check delivery status",
+          "CHECKING": "Checking delivery…",
+          "LAST_CHECKED": "Last checked {time}",
+          "NEVER_CHECKED": "Delivery has not been checked yet",
+          "DONE": "Delivery status updated",
+          "UP_TO_DATE": "Every sent number already has its final delivery status",
+          "ERROR": "Could not check the delivery status. Try again.",
+          "NOT_CHECKED": "Not checked",
+          "PRICE": "Cost {price}",
+          "STATUS": {
+            "DELIVERED": "Delivered",
+            "UNDELIVERED": "Not delivered",
+            "BLOCKED": "Blocked",
+            "REJECTED": "Rejected by SMS center",
+            "EXPIRED": "Expired",
+            "SENT": "Sent, awaiting handset",
+            "BUFFERED": "Buffered",
+            "IN_PROGRESS": "In progress",
+            "UNKNOWN": "Unknown"
+          }
         }
       }
     },

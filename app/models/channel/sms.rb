@@ -62,6 +62,11 @@ class Channel::Sms < ApplicationRecord
     send_to_bandwidth(body)
   end
 
+  # Custom (MyDesk): handset delivery result of a sent campaign SMS; nil when the provider cannot report it
+  def sms_delivery_details(message_id)
+    deewan_service.message_details(message_id) if provider == 'deewan'
+  end
+
   private
 
   def deewan_service
