@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-27T16:30:00Z",
+  "title": "Design System: MyDesk",
+  "extensions": {
+    "colorMeta": {
+      "brand-violet": { "role": "primary", "displayName": "Brand Violet", "canonical": "rgb(124 58 237)", "tonalRamp": ["#2E1065", "#4C1D95", "#5B21B6", "#6D28D9", "#7C3AED", "#A78BFA", "#DDD6FE", "#F5F3FF"] },
+      "violet-ink": { "role": "primary", "displayName": "Violet Ink", "canonical": "rgb(91 33 182)", "tonalRamp": ["#2E1065", "#3B0F7A", "#4C1D95", "#5B21B6", "#6D28D9", "#8B5CF6", "#C4B5FD", "#EDE9FE"] },
+      "violet-mist": { "role": "primary", "displayName": "Violet Mist", "canonical": "rgb(237 233 254)", "tonalRamp": ["#4C1D95", "#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#DDD6FE", "#EDE9FE", "#F5F3FF"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "rgb(28 32 36)", "tonalRamp": ["#111113", "#1C2024", "#2E3135", "#60646C", "#8B8D98", "#CDCED6", "#E8E8EC", "#F9F9FB"] },
+      "ink-muted": { "role": "neutral", "displayName": "Muted Ink", "canonical": "rgb(96 100 108)", "tonalRamp": ["#1C2024", "#363A3F", "#4B4F55", "#60646C", "#80838D", "#B9BBC6", "#E0E1E6", "#F9F9FB"] },
+      "ink-faint": { "role": "neutral", "displayName": "Faint Ink", "canonical": "rgb(139 141 152)", "tonalRamp": ["#2E3135", "#4B4F55", "#60646C", "#80838D", "#8B8D98", "#B9BBC6", "#E0E1E6", "#F9F9FB"] },
+      "canvas": { "role": "neutral", "displayName": "Canvas", "canonical": "rgb(247 247 247)", "tonalRamp": ["#1C1D20", "#3A3B3F", "#6B6C70", "#A3A4A8", "#D4D4D6", "#EAEAEA", "#F7F7F7", "#FFFFFF"] },
+      "surface": { "role": "neutral", "displayName": "Surface", "canonical": "rgb(254 254 254)", "tonalRamp": ["#141517", "#2E2F33", "#5E5F63", "#9A9B9F", "#CFD0D2", "#EDEDED", "#FAFAFA", "#FEFEFE"] },
+      "card": { "role": "neutral", "displayName": "Card", "canonical": "rgb(255 255 255)", "tonalRamp": ["#1C1E22", "#33363B", "#5F6268", "#999BA0", "#CFD0D3", "#EDEDEE", "#FAFAFA", "#FFFFFF"] },
+      "line-weak": { "role": "neutral", "displayName": "Weak Line", "canonical": "rgb(234 234 234)", "tonalRamp": ["#1F1F25", "#3A3A40", "#6A6A6F", "#A0A0A3", "#CFCFD1", "#EAEAEA", "#F4F4F4", "#FAFAFA"] },
+      "line-strong": { "role": "neutral", "displayName": "Strong Line", "canonical": "rgb(226 227 231)", "tonalRamp": ["#2E2D32", "#46464C", "#6E6F75", "#A2A3A8", "#CFD0D4", "#E2E3E7", "#EEEEF1", "#F8F8FA"] },
+      "signal-teal": { "role": "tertiary", "displayName": "Signal Teal", "canonical": "rgb(18 165 148)", "tonalRamp": ["#0D3D38", "#0B5E54", "#008573", "#12A594", "#53B9AB", "#9BE0D3", "#E0F8F3", "#F4FEFB"] },
+      "signal-teal-ink": { "role": "tertiary", "displayName": "Teal Ink", "canonical": "rgb(0 133 115)", "tonalRamp": ["#0D3D38", "#0B5E54", "#008573", "#12A594", "#53B9AB", "#9BE0D3", "#E0F8F3", "#F4FEFB"] },
+      "signal-ruby": { "role": "tertiary", "displayName": "Signal Ruby", "canonical": "rgb(229 70 102)", "tonalRamp": ["#64172B", "#8E1C3B", "#CA244D", "#E54666", "#EF7A92", "#F8BFC8", "#FEEAED", "#FFFCFD"] },
+      "signal-ruby-ink": { "role": "tertiary", "displayName": "Ruby Ink", "canonical": "rgb(202 36 77)", "tonalRamp": ["#64172B", "#8E1C3B", "#CA244D", "#E54666", "#EF7A92", "#F8BFC8", "#FEEAED", "#FFFCFD"] },
+      "signal-amber": { "role": "tertiary", "displayName": "Signal Amber", "canonical": "rgb(255 197 61)", "tonalRamp": ["#4F3422", "#7A4D06", "#AB6400", "#E2A336", "#FFC53D", "#FFDC7A", "#FFF7C2", "#FEFDFB"] },
+      "signal-amber-ink": { "role": "tertiary", "displayName": "Amber Ink", "canonical": "rgb(171 100 0)", "tonalRamp": ["#4F3422", "#7A4D06", "#AB6400", "#E2A336", "#FFC53D", "#FFDC7A", "#FFF7C2", "#FEFDFB"] },
+      "bubble-employee": { "role": "neutral", "displayName": "Employee Bubble", "canonical": "rgb(218 236 255)", "tonalRamp": ["#0F3966", "#1F5C99", "#3D82C7", "#6FA6DE", "#A6C9EE", "#DAECFF", "#ECF5FF", "#FBFDFF"] }
+    },
+    "typographyMeta": {
+      "headline": { "displayName": "Headline", "purpose": "Page titles and panel headers (text-heading-1)." },
+      "title": { "displayName": "Title", "purpose": "Section headings, card titles, the contact name in a conversation (text-heading-2)." },
+      "subtitle": { "displayName": "Subtitle", "purpose": "Card headings, breadcrumbs, table headers, field labels (text-heading-3)." },
+      "body": { "displayName": "Body", "purpose": "General text, table cells and messages (text-body-main)." },
+      "label": { "displayName": "Label", "purpose": "Metadata, timestamps, pills and helper text (text-label-small)." },
+      "button": { "displayName": "Button", "purpose": "Button labels (text-button / text-button-small)." }
+    },
+    "shadows": [
+      { "name": "overlay", "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)", "purpose": "Dropdowns, popovers, dialogs and toasts only; surfaces at rest are flat." }
+    ],
+    "motion": [
+      { "name": "press", "value": "transform scale(0.97–0.98) on :active", "purpose": "Button press feedback." },
+      { "name": "field-transition", "value": "all 500ms ease-in-out", "purpose": "Input outline and message changes." }
+    ],
+    "breakpoints": [
+      { "name": "xs", "value": "480px" },
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" },
+      { "name": "3xl", "value": "1900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one solid action in a view: create, send, save.",
+      "html": "<button class=\"ds-btn-primary\">إنشاء حملة</button>",
+      "css": ".ds-btn-primary { background: #7C3AED; color: #fff; height: 32px; padding: 0 12px; border: none; border-radius: 8px; font: 460 14px/21px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; cursor: pointer; transition: filter 0.15s, transform 0.1s; } .ds-btn-primary:hover { filter: brightness(1.1); } .ds-btn-primary:focus-visible { filter: brightness(1.1); outline: 2px solid #7C3AED; outline-offset: 2px; } .ds-btn-primary:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Faded Button",
+      "kind": "button",
+      "refersTo": "button-faded",
+      "description": "Secondary actions such as Details or Connect.",
+      "html": "<button class=\"ds-btn-faded\">التفاصيل</button>",
+      "css": ".ds-btn-faded { background: rgb(124 58 237 / 0.1); color: #5B21B6; height: 32px; padding: 0 12px; border: none; border-radius: 8px; font: 460 14px/21px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; cursor: pointer; transition: background 0.15s; } .ds-btn-faded:hover, .ds-btn-faded:focus-visible { background: rgb(124 58 237 / 0.2); } .ds-btn-faded:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; }"
+    },
+    {
+      "name": "Neutral Button",
+      "kind": "button",
+      "refersTo": "button-neutral",
+      "description": "Cancel, Refresh, Back: present but quiet.",
+      "html": "<button class=\"ds-btn-neutral\">إلغاء</button>",
+      "css": ".ds-btn-neutral { background: #fff; color: #1C2024; height: 32px; padding: 0 12px; border: none; outline: 1px solid #E2E3E7; outline-offset: -1px; border-radius: 8px; font: 460 14px/21px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; cursor: pointer; transition: background 0.15s; } .ds-btn-neutral:hover { background: rgb(196 197 198 / 0.22); } .ds-btn-neutral:focus-visible { outline: 2px solid #7C3AED; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Faint fill, hairline outline, violet on focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">العنوان</span><input class=\"ds-input\" placeholder=\"الرجاء إدخال عنوان الحملة\" /></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 4px; direction: rtl; } .ds-field-label { font: 500 14px/21px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; color: #1C2024; } .ds-input { height: 40px; padding: 0 12px; border: none; outline: 1px solid #EAEAEA; outline-offset: -1px; border-radius: 8px; background: rgb(0 0 0 / 0.03); color: #1C2024; font: 420 14px/21px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; transition: outline-color 0.2s; } .ds-input::placeholder { color: #80838D; } .ds-input:hover { outline-color: #CDCED6; } .ds-input:focus { outline-color: #7C3AED; }"
+    },
+    {
+      "name": "Sidebar Navigation",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Muted items; the current page in violet mist with violet ink.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/></svg>المحادثات</a><a class=\"ds-nav-item is-active\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M3 3v18h18\"/><path d=\"m19 9-5 5-4-4-3 3\"/></svg>التقارير</a></nav>",
+      "css": ".ds-nav { display: flex; flex-direction: column; gap: 2px; width: 200px; direction: rtl; background: #F7F7F7; padding: 8px; } .ds-nav-item { display: flex; align-items: center; gap: 8px; height: 32px; padding: 4px 8px; border-radius: 8px; color: #60646C; text-decoration: none; font: 420 14px/21px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; transition: background 0.15s; } .ds-nav-item:hover { background: rgb(196 197 198 / 0.22); } .ds-nav-item:focus-visible { outline: 2px solid #7C3AED; } .ds-nav-item.is-active { background: #EDE9FE; color: #5B21B6; font-weight: 500; }"
+    },
+    {
+      "name": "Status Pills",
+      "kind": "chip",
+      "refersTo": "status-pill",
+      "description": "Outcome language: 3-step background, 11-step text.",
+      "html": "<div class=\"ds-pills\"><span class=\"ds-pill ds-pill-teal\">مكتملة</span><span class=\"ds-pill ds-pill-amber\">قيد الإرسال</span><span class=\"ds-pill ds-pill-ruby\">فشلت</span><span class=\"ds-pill ds-pill-violet\">فتح</span></div>",
+      "css": ".ds-pills { display: flex; gap: 8px; direction: rtl; } .ds-pill { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 9999px; font: 500 12px/16px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; white-space: nowrap; } .ds-pill-teal { background: #E0F8F3; color: #008573; } .ds-pill-amber { background: #FFF7C2; color: #AB6400; } .ds-pill-ruby { background: #FEEAED; color: #CA244D; } .ds-pill-violet { background: #EDE9FE; color: #5B21B6; }"
+    },
+    {
+      "name": "Summary Tile",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The control room's gauge: icon well, tabular value, muted label.",
+      "html": "<div class=\"ds-tile\"><span class=\"ds-tile-icon\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M20 6 9 17l-5-5\"/></svg></span><span class=\"ds-tile-text\"><span class=\"ds-tile-value\">1,284</span><span class=\"ds-tile-label\">أُرسلت إلى البوابة</span></span></div>",
+      "css": ".ds-tile { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 12px; background: #fff; outline: 1px solid #EAEAEA; outline-offset: -1px; direction: rtl; width: 220px; } .ds-tile-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; background: rgb(196 197 198 / 0.22); color: #008573; } .ds-tile-text { display: flex; flex-direction: column; } .ds-tile-value { font: 600 18px/24px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; color: #1C2024; font-variant-numeric: tabular-nums; } .ds-tile-label { font: 420 12px/16px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; color: #60646C; }"
+    },
+    {
+      "name": "Section Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat white section with a hairline outline and 12px corners.",
+      "html": "<section class=\"ds-card\"><h2 class=\"ds-card-title\">تفاصيل الحملة</h2><p class=\"ds-card-body\">المحتوى داخل البطاقة بمسافة داخلية 24px ولا ظل لها.</p></section>",
+      "css": ".ds-card { padding: 24px; border-radius: 12px; background: #fff; outline: 1px solid #EAEAEA; outline-offset: -1px; direction: rtl; max-width: 420px; } .ds-card-title { margin: 0 0 16px; font: 500 16px/24px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; color: #1C2024; } .ds-card-body { margin: 0; font: 420 14px/21px Inter, Tajawal, system-ui, 'Segoe UI', Tahoma, sans-serif; color: #60646C; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Merchant's Control Room",
+    "overview": "MyDesk is the calm room a merchant runs their customer operation from. Everything that matters is in view and measured: conversations arriving from every channel, campaigns going out, orders changing state. The room is quiet so that what changes is impossible to miss. Neutral, flat surfaces carry the work; a single brand violet marks what you can act on and where you are; four signal colors report outcomes and nothing else.\n\nThe system is dense where people work and generous where they decide. Lists, tables and conversation cards are compact and scannable for the employee who lives in them all day; summaries, totals and page headers open up for the owner who reads them to decide. The interface is built Arabic-first and right-to-left, using logical properties so every layout mirrors without special cases.\n\nDepth comes from tone and a single hairline outline, not from shadows. Nothing floats unless it is temporarily on top of the work (menus, dialogs, toasts).",
+    "keyCharacteristics": [
+      "Flat neutral surfaces with 1px outlines; shadows only on overlays.",
+      "One brand violet for actions, selection and \"you are here\"; signal colors only for outcomes.",
+      "Compact working density in lists and tables, open spacing for headers and summaries.",
+      "Arabic-first, RTL by default, logical layout properties throughout.",
+      "Light and dark themes from the same tokens (CSS variables), never hard-coded per theme."
+    ],
+    "rules": [
+      { "name": "The One Violet Rule", "body": "The brand violet family (n-brand, n-blue-*) is the only violet. The Radix n-violet-* scale is not part of the MyDesk system; MyDesk screens never use it.", "section": "colors" },
+      { "name": "The Signals Report Outcomes Rule", "body": "Teal, ruby and amber appear only to report a result or state (sent, failed, pending). They never decorate, never color an icon for flavor, and never stand in for the brand.", "section": "colors" },
+      { "name": "The Three-Step Pill Rule", "body": "Every status pill is the signal's 3-step background with its 11-step text (e.g. teal-3 / teal-11). Never full-strength 9-step fills behind small text.", "section": "colors" },
+      { "name": "The Small Steps Rule", "body": "Hierarchy moves in steps of 2px and 20–40 weight units. A screen needs no type larger than 18px except a deliberate headline number in a summary.", "section": "typography" },
+      { "name": "The No Tracking on Arabic Rule", "body": "The negative letter-spacing in the type utilities is tuned for Inter. Arabic is a connected script: Tajawal text carries no letter-spacing (letter-spacing: normal in Arabic contexts).", "section": "typography" },
+      { "name": "The Tajawal Size Check Rule", "body": "Tajawal's Arabic letters sit smaller than Inter's Latin at the same pixel size. Check 12px labels and 14px table cells in Arabic on real screens; if they read small, raise Arabic text by 1px through the type utilities, never per component.", "section": "typography" },
+      { "name": "The Mirror Rule", "body": "Layout uses logical properties only (ms/me, ps/pe, start/end, text-start); direction-specific left/right appear only where a value is physical by nature (for example a phone number or URL forced dir=\"ltr\").", "section": "layout" },
+      { "name": "The Flat-At-Rest Rule", "body": "A card, panel, table or list item never carries a shadow at rest. If something needs to stand out, give it a tonal background (violet mist for selection) or a stronger outline, not depth.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use the brand violet family (n-brand, n-blue-3/9/11) for every action, selection and active state.",
+      "Do report outcomes with signal pills: teal-3/11 success, amber-3/11 in progress, ruby-3/11 failure.",
+      "Do separate surfaces with a 1px inset outline (outline-1 -outline-offset-1 outline-n-weak) and 12px corners.",
+      "Do use the existing type utilities (text-heading-1/2/3, text-body-main, text-label-small) instead of ad-hoc sizes, and tabular-nums for data.",
+      "Do write layout with logical properties so RTL and LTR both work, and force dir=\"ltr\" only on numbers, phone numbers, IDs and URLs.",
+      "Do use the shared components (Button, Input, BaseTable, Breadcrumb, TabBar, ComboBox) rather than restyling raw elements."
+    ],
+    "donts": [
+      "Don't use the Radix n-violet-* scale on MyDesk screens (One Violet Rule).",
+      "Don't put shadows on cards, panels, tables or list rows; shadows belong to overlays only.",
+      "Don't use signal colors for decoration, or full-strength signal fills behind small text.",
+      "Don't add letter-spacing to Arabic text, or request a Tajawal weight it does not have (600).",
+      "Don't use left/right physical properties for layout, or hard-code a color per theme instead of using the CSS-variable tokens.",
+      "Don't place more than one solid violet button in the same view."
+    ]
+  }
+}

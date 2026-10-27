@@ -119,6 +119,8 @@ export default {
     <V4Button
       :label="$t('CSAT_REPORTS.DOWNLOAD')"
       icon="i-ph-download-simple"
+      variant="faded"
+      color="slate"
       size="sm"
       @click="downloadReports"
     />

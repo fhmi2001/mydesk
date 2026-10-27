@@ -373,6 +373,7 @@ onMounted(() => {
         <span>
           <ToggleSwitch
             v-model="businessHoursSelected"
+            :aria-label="$t('REPORT.BUSINESS_HOURS')"
             @change="onBusinessHoursToggle"
           />
         </span>

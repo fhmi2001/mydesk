@@ -74,6 +74,20 @@ export default {
   },
 
   watch: {
+    // Custom (MyDesk): mirror the language and direction onto <html> too, so screen readers, the
+    // browser's own text handling and teleported overlays (outside #app) know the page is Arabic RTL
+    isRTL: {
+      immediate: true,
+      handler(value) {
+        document.documentElement.dir = value ? 'rtl' : 'ltr';
+      },
+    },
+    '$i18n.locale': {
+      immediate: true,
+      handler(value) {
+        document.documentElement.lang = value || 'en';
+      },
+    },
     currentAccountId: {
       immediate: true,
       handler() {

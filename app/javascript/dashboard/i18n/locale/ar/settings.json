@@ -325,7 +325,7 @@
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
     "PARTICIPATING_CONVERSATIONS": "شارك",
-    "UNATTENDED_CONVERSATIONS": "بدون حضور",
+    "UNATTENDED_CONVERSATIONS": "بلا رد",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
@@ -370,7 +370,7 @@
     "NEW_TEAM": "فريق جديد",
     "NEW_INBOX": "صندوق الوارد الجديد",
     "REPORTS_CONVERSATION": "المحادثات",
-    "CSAT": "تقييم رضاء العملاء",
+    "CSAT": "رضا العملاء",
     "LIVE_CHAT": "الدردشة المباشرة",
     "SMS": "رسائل SMS",
     "WHATSAPP": "واتساب",
@@ -422,7 +422,8 @@
     "DOCS": "قراءة المستندات",
     "SECURITY": "الأمان",
     "CAPTAIN_AI": "قائد",
-    "CONVERSATION_WORKFLOW": "سير عمل المحادثات"
+    "CONVERSATION_WORKFLOW": "سير عمل المحادثات",
+    "REPORTS_PERFORMANCE": "الأداء"
   },
   "DATA_IMPORTS": {
     "HEADER": "البيانات",

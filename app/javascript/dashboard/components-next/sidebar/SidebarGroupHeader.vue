@@ -46,9 +46,8 @@ const onClick = event => {
     :href="href"
     :title="label"
     :class="{
-      'text-n-violet-11 bg-n-violet-3 font-medium': isActive && !hasActiveChild,
-      'text-n-slate-12 font-medium [&_.size-4]:text-n-violet-10':
-        hasActiveChild,
+      'text-n-blue-11 bg-n-blue-3 font-medium': isActive && !hasActiveChild,
+      'text-n-slate-12 font-medium [&_.size-4]:text-n-blue-10': hasActiveChild,
       'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
     }"
     @click.stop="onClick"

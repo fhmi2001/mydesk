@@ -76,4 +76,18 @@
     letter-spacing: -0.24px;
     line-height: 18px; // 150%
   }
+
+  // Custom (MyDesk): Arabic is a connected script, so RTL text carries no tracking
+  // (the negative letter-spacing above is tuned for Inter's Latin)
+  [dir='rtl'] .text-body-main,
+  [dir='rtl'] .text-body-para,
+  [dir='rtl'] .text-heading-1,
+  [dir='rtl'] .text-heading-2,
+  [dir='rtl'] .text-heading-3,
+  [dir='rtl'] .text-label,
+  [dir='rtl'] .text-label-small,
+  [dir='rtl'] .text-button,
+  [dir='rtl'] .text-button-small {
+    letter-spacing: normal;
+  }
 }

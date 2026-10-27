@@ -25,14 +25,15 @@ const { calculateTrend, displayMetric, isAverageMetricType, fetchingStatus } =
   useReportMetrics(props.accountSummaryKey, props.summaryFetchingKey);
 
 const trendColor = (value, key) => {
+  // Custom (MyDesk): 11-step text colors keep the trend readable (DESIGN.md signal inks)
   if (isAverageMetricType(key)) {
     return value > 0
-      ? 'border-n-ruby-9 text-n-ruby-9'
-      : 'border-n-teal-10 text-n-teal-10';
+      ? 'border-n-ruby-9 text-n-ruby-11'
+      : 'border-n-teal-9 text-n-teal-11';
   }
   return value < 0
-    ? 'border-n-ruby-9 text-n-ruby-9'
-    : 'border-n-teal-10 text-n-teal-10';
+    ? 'border-n-ruby-9 text-n-ruby-11'
+    : 'border-n-teal-9 text-n-teal-11';
 };
 </script>
 
@@ -51,28 +52,41 @@ const trendColor = (value, key) => {
       >
         {{ t('REPORT.SUMMARY_FETCHING_FAILED') }}
       </div>
-      <div
+      <bdi
         v-else-if="fetchingStatus === STATUS.FINISHED"
-        class="text-xl font-medium"
+        class="text-xl font-semibold tabular-nums"
       >
         {{ displayMetric(metric.KEY) }}
-      </div>
+      </bdi>
       <div
         v-if="metric.trend && fetchingStatus === STATUS.FINISHED"
-        class="text-xs ml-4 flex items-center mb-0.5"
+        class="text-xs ms-3 flex items-center gap-1 mb-0.5"
+        :title="t('REPORT.TREND_VS_PREVIOUS')"
       >
         <div
           v-if="metric.trend < 0"
-          class="h-0 w-0 border-x-4 medium border-x-transparent border-t-[8px] mr-1"
+          class="h-0 w-0 border-x-4 medium border-x-transparent border-t-[8px]"
           :class="trendColor(metric.trend, metric.KEY)"
+          aria-hidden="true"
         />
         <div
           v-else
-          class="h-0 w-0 border-x-4 medium border-x-transparent border-b-[8px] mr-1"
+          class="h-0 w-0 border-x-4 medium border-x-transparent border-b-[8px]"
           :class="trendColor(metric.trend, metric.KEY)"
+          aria-hidden="true"
         />
-        <span class="font-medium" :class="trendColor(metric.trend, metric.KEY)">
+        <bdi
+          class="font-medium tabular-nums"
+          :class="trendColor(metric.trend, metric.KEY)"
+        >
           {{ calculateTrend(metric.KEY) }}%
+        </bdi>
+        <span class="sr-only">
+          {{
+            metric.trend < 0
+              ? t('REPORT.TREND_DOWN_SR')
+              : t('REPORT.TREND_UP_SR')
+          }}
         </span>
       </div>
     </div>

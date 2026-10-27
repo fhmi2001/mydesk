@@ -32,7 +32,7 @@ export default {
         size="14"
         icon="information"
         type="outline"
-        class="flex flex-shrink-0 text-sm font-normal sm:font-medium text-n-slate-10"
+        class="flex flex-shrink-0 text-sm font-normal sm:font-medium text-n-slate-11"
       />
     </span>
     <div

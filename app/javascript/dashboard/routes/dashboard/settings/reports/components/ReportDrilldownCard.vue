@@ -2,9 +2,11 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { formatTime } from '@chatwoot/utils';
-import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
+import {
+  formatDuration,
+  formatReportDate,
+} from 'dashboard/helper/reportFormatters';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
@@ -18,7 +20,7 @@ const props = defineProps({
   },
 });
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const route = useRoute();
 const { getPlainText } = useMessageFormatter();
 
@@ -35,7 +37,7 @@ const messageDirection = computed(() => message.value.message_type);
 const formatTimestamp = timestamp => {
   if (!timestamp) return '';
 
-  return format(fromUnixTime(timestamp), 'dd MMM yyyy, h:mm a');
+  return formatReportDate(fromUnixTime(timestamp), 'dateTime', locale?.value);
 };
 
 const compactTimestamp = timestamp => {
@@ -48,7 +50,7 @@ const metricValue = computed(() => {
   const value = props.record.metric_value;
   if (value === null || value === undefined) return '';
 
-  return formatTime(value) || `${value}`;
+  return formatDuration(value, locale?.value) || `${value}`;
 });
 
 const previewText = computed(() => {
@@ -163,7 +165,7 @@ const metadataAttributes = item => {
 };
 
 const metadataItemClass = item => [
-  'flex min-w-0 items-center gap-1 text-n-slate-10',
+  'flex min-w-0 items-center gap-1 text-n-slate-11',
   item.path ? 'group hover:text-n-blue-11 hover:underline' : '',
 ];
 
@@ -227,7 +229,7 @@ const openRecord = () => {
         </div>
       </div>
       <div
-        class="ms-2 flex shrink-0 items-center justify-end gap-1 text-end text-xs leading-4 text-n-slate-10"
+        class="ms-2 flex shrink-0 items-center justify-end gap-1 text-end text-xs leading-4 text-n-slate-11"
       >
         <slot name="timestamp">
           <span
@@ -244,13 +246,13 @@ const openRecord = () => {
             :conversation-id="conversation.id"
             :last-activity-timestamp="conversation.last_activity_at"
             :created-at-timestamp="conversation.created_at"
-            class="font-440 !text-xs !text-n-slate-10"
+            class="font-440 !text-xs !text-n-slate-11"
           />
           <span
             v-if="isEventBackedConversationRecord"
             v-tooltip.left="eventOccurredTooltip"
             :aria-label="eventOccurredTooltip"
-            class="whitespace-nowrap rounded bg-n-alpha-2 px-1 py-0.5 text-[11px] leading-4 text-n-slate-10"
+            class="whitespace-nowrap rounded bg-n-alpha-2 px-1 py-0.5 text-xs leading-4 text-n-slate-11"
           >
             {{ compactTimestamp(record.occurred_at) }}
           </span>

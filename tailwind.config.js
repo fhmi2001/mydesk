@@ -39,10 +39,11 @@ const tailwindConfig = {
   ],
   theme: {
     extend: {
+      // Custom (MyDesk): Arabic characters fall through Inter to Tajawal (see shared/assets/fonts/tajawal.scss)
       fontFamily: {
-        sans: defaultSansFonts,
-        inter: ['Inter', ...defaultSansFonts],
-        interDisplay: ['InterDisplay', ...defaultSansFonts],
+        sans: ['Tajawal', ...defaultSansFonts],
+        inter: ['Inter', 'Tajawal', ...defaultSansFonts],
+        interDisplay: ['InterDisplay', 'Tajawal', ...defaultSansFonts],
       },
       fontWeight: {
         420: '420',

@@ -169,6 +169,8 @@ export default {
     <V4Button
       :label="downloadButtonLabel"
       icon="i-ph-download-simple"
+      variant="faded"
+      color="slate"
       size="sm"
       @click="downloadReports"
     />

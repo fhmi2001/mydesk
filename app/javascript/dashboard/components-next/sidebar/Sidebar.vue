@@ -340,29 +340,19 @@ const closeMobileSidebar = () => {
   emit('closeMobileSidebar');
 };
 
+// Custom (MyDesk): one performance report (employees, inboxes, labels, teams behind a switch)
+// replaces the four separate overview entries
 const newReportRoutes = () => [
   {
-    name: 'Reports Agent',
-    label: t('SIDEBAR.REPORTS_AGENT'),
-    to: accountScopedRoute('agent_reports_index'),
-    activeOn: ['agent_reports_show'],
-  },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports_index'),
-  },
-  {
-    name: 'Reports Inbox',
-    label: t('SIDEBAR.REPORTS_INBOX'),
-    to: accountScopedRoute('inbox_reports_index'),
-    activeOn: ['inbox_reports_show'],
-  },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports_index'),
-    activeOn: ['team_reports_show'],
+    name: 'Reports Performance',
+    label: t('SIDEBAR.REPORTS_PERFORMANCE'),
+    to: accountScopedRoute('performance_reports'),
+    activeOn: [
+      'agent_reports_show',
+      'inbox_reports_show',
+      'label_reports_show',
+      'team_reports_show',
+    ],
   },
 ];
 
@@ -706,11 +696,16 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.CSAT'),
           to: accountScopedRoute('csat_reports'),
         },
-        {
-          name: 'Reports SLA',
-          label: t('SIDEBAR.REPORTS_SLA'),
-          to: accountScopedRoute('sla_reports'),
-        },
+        // Custom (MyDesk): SLA policies are Enterprise-only, so the report would only ever show 0%
+        ...(isOnChatwootCloud.value || isEnterprise
+          ? [
+              {
+                name: 'Reports SLA',
+                label: t('SIDEBAR.REPORTS_SLA'),
+                to: accountScopedRoute('sla_reports'),
+              },
+            ]
+          : []),
         {
           name: 'Reports Bot',
           label: t('SIDEBAR.REPORTS_BOT'),

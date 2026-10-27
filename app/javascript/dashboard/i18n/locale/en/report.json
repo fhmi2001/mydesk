@@ -314,7 +314,10 @@
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
       "PER_PAGE_TEMPLATE": "{size} / page"
-    }
+    },
+    "TREND_VS_PREVIOUS": "Change from the previous period",
+    "TREND_UP_SR": "up from the previous period",
+    "TREND_DOWN_SR": "down from the previous period"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -710,7 +713,9 @@
         "LABEL": "Handoff Rate",
         "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
       }
-    }
+    },
+    "NO_ACTIVITY": "No bot handled any conversation in this period, so there are no rates to show.",
+    "CONNECT_BOT": "Connect a bot"
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
@@ -836,6 +841,59 @@
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
     "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "CONVERSATIONS": "No. of conversations",
+    "EMPTY": {
+      "AGENT": "No employees yet. Invite your team from Settings › Employees.",
+      "INBOX": "No channels connected yet. Connect one from Settings › Channels.",
+      "LABEL": "No labels yet. Create labels from Settings › Labels to group conversations.",
+      "TEAM": "No teams yet. Create a team from Settings › Teams to compare their work."
+    }
+  },
+  "PERFORMANCE_REPORTS": {
+    "HEADER": "Performance",
+    "DESCRIPTION": "How fast and how well customers are served, by channel, employee, label or team.",
+    "DOWNLOAD": "Download table",
+    "BREAKDOWN": "Breakdown",
+    "VIEWS": {
+      "AGENT": "Employees",
+      "INBOX": "Inboxes",
+      "LABEL": "Labels",
+      "TEAM": "Teams"
+    },
+    "KPI": {
+      "CONVERSATIONS": "Conversations",
+      "RESOLVED": "{count} resolved",
+      "FIRST_RESPONSE": "First response (median)",
+      "RESOLUTION": "Resolution time (median)",
+      "UNANSWERED": "Waiting for a first reply",
+      "P90": "9 in 10 within {value}",
+      "NOT_ENOUGH": "Not enough data in this period",
+      "VS_PREVIOUS": "vs previous period",
+      "LIVE": "Right now"
+    },
+    "CHANNELS": {
+      "TITLE": "By channel",
+      "HINT": "Where conversations come from and how fast each channel is answered.",
+      "EMPTY": "No conversations in this period.",
+      "SHARE": "{value}% of conversations",
+      "HEADERS": {
+        "CHANNEL": "Channel",
+        "CONVERSATIONS": "Conversations",
+        "RESOLVED": "Resolved",
+        "FIRST_RESPONSE": "First response (median)"
+      },
+      "NAMES": {
+        "WHATSAPP": "WhatsApp",
+        "WEB_WIDGET": "Website chat",
+        "FACEBOOK": "Facebook Messenger",
+        "INSTAGRAM": "Instagram",
+        "X": "X",
+        "TELEGRAM": "Telegram",
+        "EMAIL": "Email",
+        "SMS": "SMS",
+        "API": "API",
+        "LINE": "LINE"
+      }
+    }
   }
 }

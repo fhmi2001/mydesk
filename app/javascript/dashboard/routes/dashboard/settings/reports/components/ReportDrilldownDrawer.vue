@@ -4,7 +4,7 @@ import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
-import { formatTime } from '@chatwoot/utils';
+import { formatDuration } from 'dashboard/helper/reportFormatters';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
@@ -36,7 +36,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'navigate']);
 
 const panelRef = ref(null);
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const router = useRouter();
 const getLabelById = useMapGetter('labels/getLabelById');
 const {
@@ -58,7 +58,7 @@ const bucketValue = computed(() => {
   if (props.bucketValue === null) return '';
 
   return props.isAverageMetric
-    ? formatTime(props.bucketValue)
+    ? formatDuration(props.bucketValue, locale?.value)
     : `${props.bucketValue}`;
 });
 
@@ -254,7 +254,7 @@ watch(
 
     <div
       v-else-if="!hasRecords"
-      class="flex h-40 items-center justify-center text-sm text-n-slate-10"
+      class="flex h-40 items-center justify-center text-sm text-n-slate-11"
     >
       {{ $t('REPORT.DRILLDOWN.EMPTY') }}
     </div>

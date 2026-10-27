@@ -85,6 +85,8 @@ export default {
     <V4Button
       :label="$t('SLA_REPORTS.DOWNLOAD_SLA_REPORTS')"
       icon="i-ph-download-simple"
+      variant="faded"
+      color="slate"
       size="sm"
       @click="downloadReports"
     />

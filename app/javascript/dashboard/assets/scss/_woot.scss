@@ -5,6 +5,8 @@
 
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 @import 'shared/assets/fonts/inter';
+// Custom (MyDesk): Arabic text in Tajawal (Latin stays in Inter)
+@import 'shared/assets/fonts/tajawal';
 
 // Typography Utilities
 @import 'typography';
@@ -22,6 +24,7 @@ html,
 body {
   font-family:
     'Inter',
+    'Tajawal',
     -apple-system,
     system-ui,
     BlinkMacSystemFont,

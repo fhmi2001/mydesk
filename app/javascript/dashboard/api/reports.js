@@ -127,6 +127,13 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  // Custom (MyDesk): medians, previous period and channels for the unified performance report
+  getPerformance({ from, to, businessHours } = {}) {
+    return axios.get(`${this.baseUrl()}/performance_report`, {
+      params: { since: from, until: to, business_hours: businessHours },
+    });
+  }
+
   getBotMetrics({ from, to } = {}) {
     return axios.get(`${this.url}/bot_metrics`, {
       params: { since: from, until: to },

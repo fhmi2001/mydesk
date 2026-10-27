@@ -422,7 +422,8 @@
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Conversation Workflow",
+    "REPORTS_PERFORMANCE": "Performance"
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",

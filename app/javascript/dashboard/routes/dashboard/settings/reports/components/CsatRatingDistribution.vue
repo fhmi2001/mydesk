@@ -38,7 +38,7 @@ const chartData = computed(() => ({
 
 <template>
   <div
-    class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+    class="outline-1 outline -outline-offset-1 outline-n-weak rounded-xl bg-n-solid-2 px-6 py-5"
   >
     <span class="text-sm font-medium text-n-slate-11">
       {{ $t('CSAT_REPORTS.METRIC.RATING_DISTRIBUTION') }}
@@ -66,7 +66,7 @@ const chartData = computed(() => ({
           <span class="text-sm font-medium text-n-slate-12">
             {{ formattedPercentage }}
           </span>
-          <span class="text-xs text-n-slate-10">({{ formattedValue }})</span>
+          <span class="text-xs text-n-slate-11">({{ formattedValue }})</span>
         </template>
       </PercentageChart>
       <div v-else class="h-6 w-full rounded bg-n-alpha-2" />

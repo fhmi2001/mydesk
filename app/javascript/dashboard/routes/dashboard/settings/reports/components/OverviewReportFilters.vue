@@ -35,7 +35,8 @@ const updateURLParams = () => {
     range: selectedDateRange.value,
   });
 
-  router.replace({ query: { ...params } });
+  // Custom (MyDesk): keep other query params (the performance report stores its view there)
+  router.replace({ query: { ...route.query, ...params } });
 };
 
 const emitChange = () => {
@@ -104,6 +105,7 @@ onMounted(() => {
       <span>
         <ToggleSwitch
           v-model="businessHoursSelected"
+          :aria-label="$t('REPORT.BUSINESS_HOURS')"
           @change="onBusinessHoursToggle"
         />
       </span>

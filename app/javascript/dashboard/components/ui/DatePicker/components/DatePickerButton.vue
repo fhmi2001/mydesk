@@ -1,7 +1,9 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { dateRanges } from '../helpers/DatePickerHelper';
-import { format, isSameYear, isValid } from 'date-fns';
+import { isSameYear, isValid } from 'date-fns';
+import { formatReportDate } from 'dashboard/helper/reportFormatters';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -27,24 +29,27 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['open', 'navigateMonth']);
+const { t, locale } = useI18n();
 
+// Custom (MyDesk): the range in the user's language («21 أكتوبر - 27 أكتوبر 2026»)
 const formatDateRange = computed(() => {
   const startDate = props.selectedStartDate;
   const endDate = props.selectedEndDate;
 
   if (!isValid(startDate) || !isValid(endDate)) {
-    return 'Select a date range';
+    return t('DATE_PICKER.SELECT_RANGE');
   }
 
   const crossesYears = !isSameYear(startDate, endDate);
+  const end = formatReportDate(endDate, 'date', locale?.value);
 
   // Always show years when crossing year boundaries
   if (crossesYears) {
-    return `${format(startDate, 'MMM d, yyyy')} - ${format(endDate, 'MMM d, yyyy')}`;
+    return `${formatReportDate(startDate, 'date', locale?.value)} - ${end}`;
   }
 
   // For same year, always show the year for clarity
-  return `${format(startDate, 'MMM d')} - ${format(endDate, 'MMM d, yyyy')}`;
+  return `${formatReportDate(startDate, 'day', locale?.value)} - ${end}`;
 });
 
 const activeDateRange = computed(

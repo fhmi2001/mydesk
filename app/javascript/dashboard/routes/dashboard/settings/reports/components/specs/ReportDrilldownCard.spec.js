@@ -146,7 +146,7 @@ describe('ReportDrilldownCard.vue', () => {
       true
     );
     expect(
-      links.every(link => link.classes().includes('text-n-slate-10'))
+      links.every(link => link.classes().includes('text-n-slate-11'))
     ).toBe(true);
     expect(
       links.every(link => !link.classes().includes('text-n-blue-11'))

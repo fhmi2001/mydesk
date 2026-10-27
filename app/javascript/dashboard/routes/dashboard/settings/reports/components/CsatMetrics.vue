@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
+import { formatNumber, NO_VALUE } from 'dashboard/helper/reportFormatters';
 import CsatMetricCard from './CsatMetricCard.vue';
 import CsatRatingDistribution from './CsatRatingDistribution.vue';
 
@@ -12,19 +14,22 @@ const uiFlags = useMapGetter('csat/getUIFlags');
 
 const isLoading = computed(() => uiFlags.value.isFetchingMetrics);
 
+const { locale } = useI18n();
+
 const responseCount = computed(() =>
-  metrics.value.totalResponseCount
-    ? metrics.value.totalResponseCount.toLocaleString()
-    : '0'
+  formatNumber(metrics.value.totalResponseCount, locale?.value)
 );
 
-const formatPercent = value => (value ? `${value}%` : '0%');
+// Custom (MyDesk): a rate over nothing is unknown («—»), not 0%. The score needs responses;
+// the response rate needs surveys sent.
+const formatPercent = (value, base) =>
+  base ? `${formatNumber(value, locale?.value)}%` : NO_VALUE;
 </script>
 
 <template>
   <div class="flex flex-col gap-4">
     <div
-      class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+      class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 outline-1 outline -outline-offset-1 outline-n-weak rounded-xl bg-n-solid-2 px-6 py-5"
     >
       <CsatMetricCard
         :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
@@ -38,7 +43,7 @@ const formatPercent = value => (value ? `${value}%` : '0%');
       <CsatMetricCard
         :label="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL')"
         :tooltip="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP')"
-        :value="formatPercent(satisfactionScore)"
+        :value="formatPercent(satisfactionScore, metrics.totalResponseCount)"
         :is-loading="isLoading"
       />
 
@@ -47,7 +52,7 @@ const formatPercent = value => (value ? `${value}%` : '0%');
       <CsatMetricCard
         :label="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL')"
         :tooltip="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP')"
-        :value="formatPercent(responseRate)"
+        :value="formatPercent(responseRate, metrics.totalSentMessagesCount)"
         :is-loading="isLoading"
       />
     </div>

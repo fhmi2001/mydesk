@@ -590,6 +590,8 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :accounts, only: [:create] do
         scope module: :accounts do
+          # Custom (MyDesk): headline numbers of the unified performance report
+          get 'performance_report', to: 'performance_reports#show'
           resources :summary_reports, only: [] do
             collection do
               get :agent

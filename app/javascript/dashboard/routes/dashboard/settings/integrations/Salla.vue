@@ -80,7 +80,7 @@ const eventLabels = computed(() => ({
   ),
 }));
 const EVENT_STYLES = {
-  'order.created': 'bg-n-violet-3 text-n-violet-11',
+  'order.created': 'bg-n-blue-3 text-n-blue-11',
   'order.status.updated': 'bg-n-blue-3 text-n-blue-11',
   'order.cancelled': 'bg-n-ruby-3 text-n-ruby-11',
   'order.refunded': 'bg-n-amber-3 text-n-amber-11',
@@ -213,7 +213,7 @@ onMounted(async () => {
             />
             <span
               v-else
-              class="grid text-lg font-semibold rounded-xl size-12 place-items-center bg-n-violet-3 text-n-violet-11"
+              class="grid text-lg font-semibold rounded-xl size-12 place-items-center bg-n-blue-3 text-n-blue-11"
             >
               {{ storeInitial }}
             </span>
@@ -227,7 +227,7 @@ onMounted(async () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 dir="ltr"
-                class="text-sm truncate text-start text-n-violet-11 hover:underline"
+                class="text-sm truncate text-start text-n-blue-11 hover:underline"
               >
                 {{ storeInfo.store_domain }}
               </a>

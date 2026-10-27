@@ -22,7 +22,7 @@ const shouldRenderComponent = computed(() => {
   return typeof props.component === 'function' || isVNode(props.component);
 });
 
-// Custom (MyDesk): the current page is marked in the brand violet (bg-n-violet-3 / text-n-violet-11)
+// Custom (MyDesk): the current page is marked in the brand violet (bg-n-blue-3 / text-n-blue-11)
 
 // Tree-line connector per leaf: vertical line (::before) + rounded elbow on the
 // last child (::after). Logical props (start / border-s / rounded-es)
@@ -48,7 +48,7 @@ const TREE_CONNECTOR =
       :title="label"
       class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg ltr:hover:bg-gradient-to-r rtl:hover:bg-gradient-to-l from-transparent via-n-slate-3/70 to-n-slate-3/70 group min-w-0"
       :class="{
-        'text-n-violet-11 bg-n-violet-3 font-medium active': active,
+        'text-n-blue-11 bg-n-blue-3 font-medium active': active,
       }"
     >
       <component

@@ -15,12 +15,12 @@ export default {
   <!-- Custom (MyDesk): a brand-violet mark and a heading instead of the stock illustration -->
   <div class="flex flex-col items-center justify-center h-full px-6">
     <div
-      class="relative grid mb-5 rounded-3xl size-20 place-items-center bg-n-violet-3 text-n-violet-11"
+      class="relative grid mb-5 rounded-3xl size-20 place-items-center bg-n-blue-3 text-n-blue-11"
       aria-hidden="true"
     >
       <span class="i-lucide-messages-square size-9" />
       <span
-        class="absolute grid rounded-full -bottom-1.5 -end-1.5 size-7 place-items-center bg-n-violet-9 text-white ring-4 ring-n-surface-1"
+        class="absolute grid rounded-full -bottom-1.5 -end-1.5 size-7 place-items-center bg-n-blue-9 text-white ring-4 ring-n-surface-1"
       >
         <span class="i-lucide-reply size-3.5" />
       </span>

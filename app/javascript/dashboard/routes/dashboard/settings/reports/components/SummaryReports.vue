@@ -1,7 +1,11 @@
 <script setup>
 import OverviewReportFilters from './OverviewReportFilters.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import { formatTime } from '@chatwoot/utils';
+import {
+  formatDuration,
+  formatNumber,
+  NO_VALUE,
+} from 'dashboard/helper/reportFormatters';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import Table from 'dashboard/components/table/Table.vue';
@@ -11,7 +15,7 @@ import {
   createColumnHelper,
   getCoreRowModel,
 } from '@tanstack/vue-table';
-import { computed, onMounted, ref, h } from 'vue';
+import { computed, onMounted, ref, h, watch } from 'vue';
 
 const props = defineProps({
   type: {
@@ -33,6 +37,12 @@ const props = defineProps({
   fetchItemsKey: {
     type: String,
     required: true,
+  },
+  // Custom (MyDesk): when the page owns the date / business-hours filter (performance report),
+  // the table follows it instead of rendering its own
+  filters: {
+    type: Object,
+    default: null,
   },
 });
 
@@ -60,13 +70,19 @@ const reportMetrics = useMapGetter([props.summaryKey]) || [];
 const getMetrics = id =>
   reportMetrics.value.find(metrics => metrics.id === Number(id)) || {};
 const columnHelper = createColumnHelper();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
+// Custom (MyDesk): figures line up (tabular) and stay in their own direction inside Arabic text
 const defaulSpanRender = cellProps =>
   h(
-    'span',
+    'bdi',
     {
-      class: cellProps.getValue() ? '' : 'text-n-slate-12',
+      class: [
+        'tabular-nums',
+        cellProps.getValue() === NO_VALUE
+          ? 'text-n-slate-10'
+          : 'text-n-slate-12',
+      ],
     },
     cellProps.getValue()
   );
@@ -104,9 +120,23 @@ const columns = computed(() => [
   }),
 ]);
 
-const renderAvgTime = value => (value ? formatTime(value) : '--');
+// Custom (MyDesk): Arabic durations, and one sign («—») for "nothing measured" across all reports
+const renderAvgTime = value =>
+  value ? formatDuration(value, locale?.value) : NO_VALUE;
 
-const renderCount = value => (value ? value.toLocaleString() : '--');
+const renderCount = value =>
+  value ? formatNumber(value, locale?.value) : NO_VALUE;
+
+// Custom (MyDesk): an empty table says what is missing instead of showing bare headers
+const emptyMessage = computed(
+  () =>
+    ({
+      agent: t('SUMMARY_REPORTS.EMPTY.AGENT'),
+      inbox: t('SUMMARY_REPORTS.EMPTY.INBOX'),
+      label: t('SUMMARY_REPORTS.EMPTY.LABEL'),
+      team: t('SUMMARY_REPORTS.EMPTY.TEAM'),
+    })[props.type]
+);
 
 const tableData = computed(() =>
   rowItems.value.map(row => {
@@ -154,14 +184,24 @@ const fetchAllData = () => {
   fetchReportsWithRetry();
 };
 
-onMounted(() => fetchAllData());
-
 const onFilterChange = updatedFilter => {
   from.value = updatedFilter.from;
   to.value = updatedFilter.to;
   businessHours.value = updatedFilter.businessHours;
   fetchAllData();
 };
+
+onMounted(() => {
+  if (!props.filters) fetchAllData();
+});
+
+watch(
+  () => props.filters,
+  value => {
+    if (value?.from && value?.to) onFilterChange(value);
+  },
+  { immediate: true, deep: true }
+);
 
 const table = useVueTable({
   get data() {
@@ -204,13 +244,20 @@ defineExpose({ downloadReports });
 
 <template>
   <OverviewReportFilters
+    v-if="!filters"
     :disabled="isLoading"
     @filter-change="onFilterChange"
   />
   <div
-    class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
+    class="relative flex-1 overflow-auto px-2 py-2 mt-5 outline-1 outline -outline-offset-1 outline-n-weak rounded-xl bg-n-solid-2"
   >
     <Table :table="table" />
+    <p
+      v-if="!isLoading && !tableData.length"
+      class="px-4 py-10 text-sm text-center text-n-slate-11"
+    >
+      {{ emptyMessage }}
+    </p>
     <Transition
       enter-active-class="transition-opacity duration-300 ease-out"
       leave-active-class="transition-opacity duration-200 ease-in"

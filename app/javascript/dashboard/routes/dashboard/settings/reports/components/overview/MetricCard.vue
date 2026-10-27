@@ -18,24 +18,23 @@ defineProps({
 </script>
 
 <template>
+  <!-- Custom (MyDesk): flat hairline card; header and body wrap instead of overflowing narrow screens -->
   <div
-    class="flex flex-col m-0.5 px-6 py-5 rounded-xl flex-grow text-n-slate-12 shadow outline-1 outline outline-n-container bg-n-solid-2 min-h-[10rem]"
+    class="flex flex-col min-w-0 px-6 py-5 rounded-xl flex-grow text-n-slate-12 outline-1 outline -outline-offset-1 outline-n-weak bg-n-solid-2 min-h-[10rem]"
   >
     <div
-      class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
+      class="flex flex-wrap items-center justify-between w-full mb-6 card-header gap-x-4 gap-y-2"
     >
       <slot name="header">
-        <div class="flex items-center gap-2 flex-row">
-          <h5 class="mb-0 text-n-slate-12 font-medium text-lg">
+        <div class="flex flex-row items-center gap-2">
+          <h2 class="mb-0 text-n-slate-12 text-heading-1">
             {{ header }}
-          </h5>
+          </h2>
           <span
             class="flex flex-row items-center py-0.5 px-2 rounded bg-n-teal-3 text-xs"
           >
-            <span
-              class="bg-n-teal-9 h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0"
-            />
-            <span class="text-xs text-n-teal-11">
+            <span class="bg-n-teal-9 h-1 w-1 rounded-full me-1" />
+            <span class="text-xs font-medium text-n-teal-12">
               {{ $t('OVERVIEW_REPORTS.LIVE') }}
             </span>
           </span>
@@ -47,7 +46,7 @@ defineProps({
     </div>
     <div
       v-if="!isLoading"
-      class="card-body max-w-full w-full ml-auto mr-auto justify-between flex"
+      class="flex flex-wrap justify-between w-full max-w-full mx-auto card-body gap-x-6 gap-y-4"
     >
       <slot />
     </div>

@@ -1,11 +1,11 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { HeatmapChart } from '@chatwoot/viz';
 
-import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 
 import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
+import { formatReportDate } from 'dashboard/helper/reportFormatters';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -35,10 +35,12 @@ const props = defineProps({
     required: true,
   },
 });
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
+// Custom (MyDesk): the row date in the user's language, not date-fns English
 function formatDate(dateString) {
-  return format(new Date(dateString), 'MMM d, yyyy');
+  // Day and month only: the range picker already states the year, and rows stay one short line
+  return formatReportDate(new Date(dateString), 'day', locale?.value);
 }
 
 const DAYS_OF_WEEK = [
@@ -98,6 +100,64 @@ const chartData = computed(() => {
 
 const heatmapColors = computed(() => COLOR_SCHEMES[props.colorScheme]);
 
+// Custom (MyDesk): the chart makes all 168 cells tab stops; keep one in the tab order and move
+// between cells with the arrow keys (roving tabindex), mirrored for right-to-left layouts.
+const COLUMN_COUNT = 24;
+const gridRef = ref(null);
+let observer;
+
+const focusableCells = () => [
+  ...(gridRef.value?.querySelectorAll('.cw-viz-heatmap__cell') ?? []),
+];
+
+const setActiveCell = (cells, active) => {
+  cells.forEach(cell =>
+    cell.setAttribute('tabindex', cell === active ? '0' : '-1')
+  );
+};
+
+const applyRovingTabindex = () => {
+  const cells = focusableCells();
+  if (!cells.length) return;
+  const current = cells.find(cell => cell.getAttribute('tabindex') === '0');
+  setActiveCell(cells, current ?? cells[0]);
+};
+
+const KEY_STEPS = { ArrowDown: COLUMN_COUNT, ArrowUp: -COLUMN_COUNT };
+
+const onGridKeydown = event => {
+  const cells = focusableCells();
+  const index = cells.indexOf(document.activeElement);
+  if (index === -1) return;
+
+  const isRtl = getComputedStyle(gridRef.value).direction === 'rtl';
+  const rowStart = index - (index % COLUMN_COUNT);
+  const steps = {
+    ...KEY_STEPS,
+    ArrowRight: isRtl ? -1 : 1,
+    ArrowLeft: isRtl ? 1 : -1,
+    Home: rowStart - index,
+    End: rowStart + COLUMN_COUNT - 1 - index,
+  };
+  if (!(event.key in steps)) return;
+
+  event.preventDefault();
+  const next =
+    cells[Math.min(Math.max(index + steps[event.key], 0), cells.length - 1)];
+  setActiveCell(cells, next);
+  next.focus();
+};
+
+// The grid only exists once loading ends, so (re)attach whenever it appears
+watch(gridRef, element => {
+  observer?.disconnect();
+  if (!element) return;
+  observer = new MutationObserver(applyRovingTabindex);
+  observer.observe(element, { childList: true, subtree: true });
+  nextTick(applyRovingTabindex);
+});
+onBeforeUnmount(() => observer?.disconnect());
+
 const colorSchemeClass = computed(() => {
   return props.colorScheme === 'green'
     ? '[--cw-viz-heatmap-focus-color:rgb(var(--teal-9))]'
@@ -139,18 +199,20 @@ const colorSchemeClass = computed(() => {
       </div>
     </div>
   </div>
-  <HeatmapChart
-    v-else
-    :data="chartData"
-    :aria-label="ariaLabel"
-    :colors="heatmapColors"
-    :format-value="formatValue"
-    :quantiles="QUANTILES"
-    :cell-min-width="24"
-    :gap="5"
-    :row-label-width="96"
-    zero-color="rgb(var(--solid-2))"
-    class="[--cw-viz-heatmap-level-0-color:rgb(var(--slate-2))] [--cw-viz-heatmap-cell-border-color:rgb(var(--border-strong))] [--cw-viz-heatmap-label-color:rgb(var(--slate-11))] [--cw-viz-heatmap-label-background:rgb(var(--solid-2))] [--cw-viz-heatmap-row-title-color:rgb(var(--slate-12))] [--cw-viz-heatmap-column-label-color:rgb(var(--slate-12))] [--cw-viz-heatmap-tooltip-border-color:rgb(var(--border-strong))] [--cw-viz-heatmap-tooltip-color:rgb(var(--slate-12))] [--cw-viz-heatmap-tooltip-background:rgb(var(--solid-2))] [--cw-viz-heatmap-tooltip-label-color:rgb(var(--slate-11))]"
-    :class="colorSchemeClass"
-  />
+  <!-- Custom (MyDesk): 12px labels (10–11px upstream), an hour label every 3 hours, one tab stop -->
+  <div v-else ref="gridRef" @keydown="onGridKeydown">
+    <HeatmapChart
+      :data="chartData"
+      :aria-label="ariaLabel"
+      :colors="heatmapColors"
+      :format-value="formatValue"
+      :quantiles="QUANTILES"
+      :cell-min-width="24"
+      :gap="5"
+      :row-label-width="96"
+      zero-color="rgb(var(--solid-2))"
+      class="[--cw-viz-heatmap-level-0-color:rgb(var(--slate-2))] [--cw-viz-heatmap-cell-border-color:rgb(var(--border-strong))] [--cw-viz-heatmap-label-color:rgb(var(--slate-11))] [--cw-viz-heatmap-label-background:rgb(var(--solid-2))] [--cw-viz-heatmap-row-title-color:rgb(var(--slate-12))] [--cw-viz-heatmap-column-label-color:rgb(var(--slate-12))] [--cw-viz-heatmap-tooltip-border-color:rgb(var(--border-strong))] [--cw-viz-heatmap-tooltip-color:rgb(var(--slate-12))] [--cw-viz-heatmap-tooltip-background:rgb(var(--solid-2))] [--cw-viz-heatmap-tooltip-label-color:rgb(var(--slate-11))] [--cw-viz-heatmap-column-label-font-size:12px] [--cw-viz-heatmap-row-description-font-size:12px] [--cw-viz-heatmap-row-title-font-size:13px] [&_.cw-viz-heatmap\_\_column-label:not(:nth-child(3n+2))]:invisible"
+      :class="colorSchemeClass"
+    />
+  </div>
 </template>

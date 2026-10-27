@@ -104,7 +104,7 @@ const toggleConversationLayout = () => {
       <!-- Custom (MyDesk): the active status filter is a state, so it carries the brand violet -->
       <span
         v-if="!hasAppliedFiltersOrActiveFolders"
-        class="px-2 py-0.5 my-0.5 mx-2 rounded-md capitalize bg-n-violet-3 text-xs font-medium text-n-violet-11 shrink-0"
+        class="px-2 py-0.5 my-0.5 mx-2 rounded-md capitalize bg-n-blue-3 text-xs font-medium text-n-blue-11 shrink-0"
       >
         {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
       </span>

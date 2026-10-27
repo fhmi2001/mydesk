@@ -109,7 +109,7 @@ describe('ReportContainer.vue', () => {
     expect(drawer.props()).toMatchObject({
       metric: 'conversations_count',
       metricName: 'REPORT.METRICS.CONVERSATIONS.NAME',
-      bucketLabel: '15-May',
+      bucketLabel: 'May 15',
       bucketTimestamp: 1621103400,
       from: 1621103400,
       to: 1621621800,
@@ -209,9 +209,14 @@ describe('ReportContainer.vue', () => {
     ).toBe(10800);
 
     const countWrapper = mountComponent();
+    // Counts step in whole numbers (no 0.5 conversations on the axis)
     expect(
-      countWrapper.findComponent({ name: 'BarChart' }).props('yStepSize')
-    ).toBeUndefined();
+      countWrapper.findComponent({ name: 'BarChart' }).props('yStepSize')({
+        min: 0,
+        max: 3,
+        tickCount: 5,
+      })
+    ).toBe(1);
     expect(
       countWrapper.findComponent({ name: 'BarChart' }).props('pointDescription')
     ).toBeUndefined();

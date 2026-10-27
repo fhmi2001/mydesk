@@ -190,21 +190,21 @@
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
         "TOOLTIP_DESCRIPTION": "بناءً على {count} محادثة | بناءً على {count} محادثات",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت أول رد هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "وقت إغلاق المحادثات",
+        "NAME": "وقت الحل",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
         "TOOLTIP_DESCRIPTION": "بناءً على {count} محادثة | بناءً على {count} محادثات",
         "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "عدد مرات الإغلاق",
+        "NAME": "المحادثات المحلولة",
         "DESC": "(الإجمالي)"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "عدد مرات الإغلاق",
+        "NAME": "المحادثات المحلولة",
         "DESC": "(الإجمالي)"
       },
       "BOT_HANDOFF_COUNT": {
@@ -288,7 +288,7 @@
     ],
     "BUSINESS_HOURS": "ساعات العمل",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "مسح الفلتر",
+      "CLEAR_FILTER": "مسح التصفية",
       "EMPTY_LIST": "لم يتم العثور على النتائج"
     },
     "DRILLDOWN": {
@@ -314,7 +314,10 @@
     "PAGINATION": {
       "RESULTS": "عرض {start} إلى {end} من {total} نتيجة",
       "PER_PAGE_TEMPLATE": "{size} / صفحة"
-    }
+    },
+    "TREND_VS_PREVIOUS": "التغيّر عن الفترة السابقة",
+    "TREND_UP_SR": "ارتفاع عن الفترة السابقة",
+    "TREND_DOWN_SR": "انخفاض عن الفترة السابقة"
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للموظفين",
@@ -345,16 +348,16 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت أول رد هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "وقت إغلاق المحادثات",
+        "NAME": "وقت الحل",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
         "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "عدد مرات الإغلاق",
+        "NAME": "المحادثات المحلولة",
         "DESC": "(الإجمالي)"
       }
     },
@@ -390,12 +393,12 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "نظرة عامة على التسميات",
+    "HEADER": "نظرة عامة على الوسوم",
     "DESCRIPTION": "تابع أداء الوسوم عبر مؤشرات رئيسية تشمل المحادثات وأوقات الرد وأوقات الحل والحالات المحلولة. انقر على اسم الوسم لتفاصيل أكثر.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_LABEL_REPORTS": "تحميل تقارير التسمية",
-    "FILTER_DROPDOWN_LABEL": "حدد التسمية",
+    "DOWNLOAD_LABEL_REPORTS": "تنزيل تقارير الوسوم",
+    "FILTER_DROPDOWN_LABEL": "اختر الوسم",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
         "LABELS": "ابحث عن تصنيفات"
@@ -418,16 +421,16 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت أول رد هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "وقت إغلاق المحادثات",
+        "NAME": "وقت الحل",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
         "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "عدد مرات الإغلاق",
+        "NAME": "المحادثات المحلولة",
         "DESC": "(الإجمالي)"
       }
     },
@@ -467,7 +470,7 @@
     "DESCRIPTION": "اطّلع بسرعة على أداء قنواتك عبر مؤشرات رئيسية مثل المحادثات وأوقات الرد وأوقات الحل والحالات المحلولة في مكان واحد. انقر على اسم القناة لتفاصيل أكثر.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_INBOX_REPORTS": "تحميل تقارير صندوق الوارد",
+    "DOWNLOAD_INBOX_REPORTS": "تنزيل تقارير صندوق الوارد",
     "FILTER_DROPDOWN_LABEL": "اختر صندوق الوارد",
     "ALL_INBOXES": "كل القنوات",
     "SEARCH_INBOX": "البحث عن قناة",
@@ -493,16 +496,16 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت أول رد هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "وقت إغلاق المحادثات",
+        "NAME": "وقت الحل",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
         "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "عدد مرات الإغلاق",
+        "NAME": "المحادثات المحلولة",
         "DESC": "(الإجمالي)"
       }
     },
@@ -542,7 +545,7 @@
     "DESCRIPTION": "احصل على لمحة عن أداء فريقك عبر مؤشرات أساسية تشمل المحادثات وأوقات الرد وأوقات الحل والحالات المحلولة. انقر على اسم الفريق لتفاصيل أكثر.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_TEAM_REPORTS": "تحميل تقارير الفريق",
+    "DOWNLOAD_TEAM_REPORTS": "تنزيل تقارير الفريق",
     "FILTER_DROPDOWN_LABEL": "اختيار فريق",
     "FILTERS": {
       "ADD_FILTER": "إضافة تصفية",
@@ -569,16 +572,16 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت أول رد هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "وقت إغلاق المحادثات",
+        "NAME": "وقت الحل",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
         "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "عدد مرات الإغلاق",
+        "NAME": "المحادثات المحلولة",
         "DESC": "(الإجمالي)"
       }
     },
@@ -614,10 +617,10 @@
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "تقارير CSAT",
+    "HEADER": "رضا العملاء",
     "NO_RECORDS": "لا توجد ردود بعد",
     "NO_RECORDS_DESCRIPTION": "ستظهر ردود استبيانات الرضا هنا عندما يبدأ العملاء بتقديم ملاحظاتهم.",
-    "DOWNLOAD": "تحميل تقرير رضاء خدمة العملاء",
+    "DOWNLOAD": "تنزيل تقرير رضا العملاء",
     "DOWNLOAD_FAILED": "فشل تنزيل تقارير رضا العملاء",
     "FILTERS": {
       "ADD_FILTER": "إضافة تصفية",
@@ -668,7 +671,7 @@
       },
       "RESPONSE_RATE": {
         "LABEL": "معدل الاستجابة",
-        "TOOLTIP": "العدد الإجمالي للردود / العدد الإجمالي لرسائل الاستقصاء التي أرسلتها CSAT * 100"
+        "TOOLTIP": "العدد الإجمالي للردود / العدد الإجمالي لاستبيانات الرضا المرسلة * 100"
       },
       "RATING_DISTRIBUTION": "توزيع التقييم"
     },
@@ -710,7 +713,9 @@
         "LABEL": "معدل التحويل",
         "TOOLTIP": "المحادثات المحولة إلى الموظفين ÷ المحادثات التي تولاها البوت × 100"
       }
-    }
+    },
+    "NO_ACTIVITY": "لم يتولَّ الرد الآلي أي محادثة في هذه الفترة، فلا توجد نسب لعرضها.",
+    "CONNECT_BOT": "اربط رداً آلياً"
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "نظرة عامة",
@@ -719,8 +724,8 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "المحادثات المفتوحة",
       "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",
-      "OPEN": "فتح",
-      "UNATTENDED": "بدون حضور",
+      "OPEN": "مفتوحة",
+      "UNATTENDED": "بلا رد",
       "UNASSIGNED": "غير مسند",
       "PENDING": "معلق"
     },
@@ -744,8 +749,8 @@
       "NO_AGENTS": "لا توجد أي محادثات من قبل الموظفين",
       "TABLE_HEADER": {
         "AGENT": "موظف الدعم",
-        "OPEN": "فتح",
-        "UNATTENDED": "بدون حضور",
+        "OPEN": "مفتوحة",
+        "UNATTENDED": "بلا رد",
         "STATUS": "الحالة"
       }
     },
@@ -756,8 +761,8 @@
       "NO_TEAMS": "لا توجد بيانات متاحة",
       "TABLE_HEADER": {
         "TEAM": "الفريق",
-        "OPEN": "فتح",
-        "UNATTENDED": "بدون حضور",
+        "OPEN": "مفتوحة",
+        "UNATTENDED": "بلا رد",
         "STATUS": "الحالة"
       }
     },
@@ -784,9 +789,9 @@
     "DOWNLOAD_SLA_REPORTS": "تنزيل تقارير مستوى الخدمة",
     "DOWNLOAD_FAILED": "فشل تنزيل تقارير مستوى الخدمة",
     "DROPDOWN": {
-      "ADD_FIlTER": "إضافة فلتر",
+      "ADD_FIlTER": "إضافة تصفية",
       "CLEAR_ALL": "مسح الكل",
-      "CLEAR_FILTER": "مسح الفلتر",
+      "CLEAR_FILTER": "مسح التصفية",
       "EMPTY_LIST": "لم يتم العثور على النتائج",
       "NO_FILTER": "لا توجد فلاتر متاحة",
       "SEARCH": "البحث في الفلاتر",
@@ -833,9 +838,62 @@
     "TEAM": "الفريق",
     "LABEL": "الوسم",
     "AVG_RESOLUTION_TIME": "متوسط وقت الحل",
-    "AVG_FIRST_RESPONSE_TIME": "متوسط وقت الرد الأول",
+    "AVG_FIRST_RESPONSE_TIME": "متوسط وقت أول رد",
     "AVG_REPLY_TIME": "متوسط وقت انتظار العميل",
-    "RESOLUTION_COUNT": "عدد مرات الإغلاق",
-    "CONVERSATIONS": "عدد المحادثات"
+    "RESOLUTION_COUNT": "المحادثات المحلولة",
+    "CONVERSATIONS": "عدد المحادثات",
+    "EMPTY": {
+      "AGENT": "لا يوجد موظفون بعد. أضف فريقك من الإعدادات ← الموظفون.",
+      "INBOX": "لا توجد قنوات مربوطة بعد. اربط قناة من الإعدادات ← قنوات التواصل.",
+      "LABEL": "لا توجد وسوم بعد. أنشئ وسوماً من الإعدادات ← الوسوم لتجميع المحادثات.",
+      "TEAM": "لا توجد فرق بعد. أنشئ فريقاً من الإعدادات ← الفرق لمقارنة أدائها."
+    }
+  },
+  "PERFORMANCE_REPORTS": {
+    "HEADER": "الأداء",
+    "DESCRIPTION": "سرعة خدمة العملاء وجودتها حسب القناة والموظف والوسم والفريق.",
+    "DOWNLOAD": "تنزيل الجدول",
+    "BREAKDOWN": "التفصيل",
+    "VIEWS": {
+      "AGENT": "الموظفون",
+      "INBOX": "صناديق الوارد",
+      "LABEL": "الوسوم",
+      "TEAM": "الفرق"
+    },
+    "KPI": {
+      "CONVERSATIONS": "المحادثات",
+      "RESOLVED": "{count} محلولة",
+      "FIRST_RESPONSE": "وقت أول رد (الوسيط)",
+      "RESOLUTION": "وقت الحل (الوسيط)",
+      "UNANSWERED": "بانتظار أول رد",
+      "P90": "9 من كل 10 خلال {value}",
+      "NOT_ENOUGH": "لا توجد بيانات كافية في هذه الفترة",
+      "VS_PREVIOUS": "عن الفترة السابقة",
+      "LIVE": "الآن"
+    },
+    "CHANNELS": {
+      "TITLE": "حسب القناة",
+      "HINT": "من أين تأتي المحادثات، وبأي سرعة يُرد على كل قناة.",
+      "EMPTY": "لا توجد محادثات في هذه الفترة.",
+      "SHARE": "{value}% من المحادثات",
+      "HEADERS": {
+        "CHANNEL": "القناة",
+        "CONVERSATIONS": "المحادثات",
+        "RESOLVED": "المحلولة",
+        "FIRST_RESPONSE": "وقت أول رد (الوسيط)"
+      },
+      "NAMES": {
+        "WHATSAPP": "واتساب",
+        "WEB_WIDGET": "دردشة الموقع",
+        "FACEBOOK": "فيسبوك ماسنجر",
+        "INSTAGRAM": "إنستغرام",
+        "X": "X",
+        "TELEGRAM": "تيليجرام",
+        "EMAIL": "البريد الإلكتروني",
+        "SMS": "رسائل SMS",
+        "API": "API",
+        "LINE": "LINE"
+      }
+    }
   }
 }

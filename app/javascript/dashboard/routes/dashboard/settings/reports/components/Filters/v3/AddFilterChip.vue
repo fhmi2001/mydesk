@@ -68,7 +68,7 @@ const closeDropdown = () => {
     <template v-if="showMenu" #dropdown>
       <FilterListDropdown
         v-on-clickaway="closeDropdown"
-        class="left-0 md:right-0 top-10"
+        class="start-0 md:end-0 top-10"
       >
         <template #listItem>
           <FilterDropdownEmptyState
@@ -91,7 +91,7 @@ const closeDropdown = () => {
                   $t(`${placeholderI18nKey}.${item.type.toUpperCase()}`)
                 "
                 :enable-search="enableSearch"
-                class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
+                class="flex flex-col w-[216px] overflow-y-auto top-0 start-36"
                 @select="addFilter"
               />
             </template>

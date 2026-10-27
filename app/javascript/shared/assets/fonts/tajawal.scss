@@ -1,0 +1,39 @@
+// Custom (MyDesk): Tajawal for Arabic text (SIL Open Font License, see Tajawal/OFL.txt).
+// Only the Arabic subset is loaded: the font stack is "Inter, Tajawal, …", so Latin letters and digits
+// stay in Inter and every Arabic character falls through to Tajawal.
+// Tajawal ships static 400 / 500 / 700 weights while the type utilities use Inter's fine weights
+// (420, 440, 460, 520, …). Each face claims a weight range so those requests land on the intended
+// static weight instead of the browser rounding body text up to 500.
+$tajawal-arabic-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
+  U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41,
+  U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 100 479;
+  font-display: swap;
+  src: url('shared/assets/fonts/Tajawal/tajawal-arabic-400-normal.woff2')
+    format('woff2');
+  unicode-range: $tajawal-arabic-range;
+}
+
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 480 599;
+  font-display: swap;
+  src: url('shared/assets/fonts/Tajawal/tajawal-arabic-500-normal.woff2')
+    format('woff2');
+  unicode-range: $tajawal-arabic-range;
+}
+
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+  src: url('shared/assets/fonts/Tajawal/tajawal-arabic-700-normal.woff2')
+    format('woff2');
+  unicode-range: $tajawal-arabic-range;
+}

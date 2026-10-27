@@ -5,11 +5,6 @@ import { frontendURL } from '../../../../helper/URLHelper';
 import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
 
-import AgentReportsIndex from './AgentReportsIndex.vue';
-import InboxReportsIndex from './InboxReportsIndex.vue';
-import LabelReportsIndex from './LabelReportsIndex.vue';
-import TeamReportsIndex from './TeamReportsIndex.vue';
-
 import AgentReportsShow from './AgentReportsShow.vue';
 import InboxReportsShow from './InboxReportsShow.vue';
 import LabelReportsShow from './LabelReportsShow.vue';
@@ -26,6 +21,7 @@ import LiveReports from './LiveReports.vue';
 import MonitorShow from './monitors/MonitorShow.vue';
 import MonitorsIndex from './monitors/MonitorsIndex.vue';
 import SLAReports from './SLAReports.vue';
+import PerformanceReports from './PerformanceReports.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -65,12 +61,26 @@ const oldReportRoutes = [
   },
 ];
 
+// Custom (MyDesk): the four overview tables now live in one performance report; the old addresses
+// open it on the matching view so bookmarks and links keep working
+const toPerformance = view => to => ({
+  name: 'performance_reports',
+  params: to.params,
+  query: { ...to.query, view },
+});
+
 const revisedReportRoutes = [
+  {
+    path: 'performance',
+    name: 'performance_reports',
+    meta,
+    component: PerformanceReports,
+  },
   {
     path: 'agents_overview',
     name: 'agent_reports_index',
     meta,
-    component: AgentReportsIndex,
+    redirect: toPerformance('agent'),
   },
   {
     path: 'agents/:id',
@@ -83,7 +93,7 @@ const revisedReportRoutes = [
     path: 'inboxes_overview',
     name: 'inbox_reports_index',
     meta,
-    component: InboxReportsIndex,
+    redirect: toPerformance('inbox'),
   },
   {
     path: 'inboxes/:id',
@@ -95,7 +105,7 @@ const revisedReportRoutes = [
     path: 'teams_overview',
     name: 'team_reports_index',
     meta,
-    component: TeamReportsIndex,
+    redirect: toPerformance('team'),
   },
   {
     path: 'teams/:id',
@@ -107,7 +117,7 @@ const revisedReportRoutes = [
     path: 'labels_overview',
     name: 'label_reports_index',
     meta,
-    component: LabelReportsIndex,
+    redirect: toPerformance('label'),
   },
   {
     path: 'labels/:id',
@@ -155,10 +165,17 @@ export default {
         },
         ...oldReportRoutes,
         ...revisedReportRoutes,
+        // Custom (MyDesk): SLA policies are Enterprise-only; with Enterprise disabled the report is unreachable
         {
           path: 'sla',
           name: 'sla_reports',
-          meta,
+          meta: {
+            ...meta,
+            installationTypes: [
+              INSTALLATION_TYPES.ENTERPRISE,
+              INSTALLATION_TYPES.CLOUD,
+            ],
+          },
           component: SLAReports,
         },
         {

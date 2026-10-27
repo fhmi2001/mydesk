@@ -1,5 +1,11 @@
+import { getCurrentInstance } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
-import { formatTime } from '@chatwoot/utils';
+import {
+  formatDuration,
+  formatNumber,
+  NO_VALUE,
+} from 'dashboard/helper/reportFormatters';
 
 /**
  * A composable function for report metrics calculations and display.
@@ -13,6 +19,8 @@ export function useReportMetrics(
 ) {
   const accountSummary = useMapGetter(accountSummaryKey);
   const fetchingStatus = useMapGetter(summarFetchingKey);
+  // useI18n needs a component; outside one (unit tests) formatting falls back to English
+  const locale = getCurrentInstance() ? useI18n().locale : null;
 
   /**
    * Calculates the trend percentage for a given metric.
@@ -46,11 +54,13 @@ export function useReportMetrics(
    * @param {string} key - The key of the metric to display.
    * @returns {string} The formatted metric value as a string.
    */
+  // Custom (MyDesk): localized durations; an average with nothing measured shows «—», not a zero result
   const displayMetric = key => {
+    const value = accountSummary.value[key];
     if (isAverageMetricType(key)) {
-      return formatTime(accountSummary.value[key]);
+      return value ? formatDuration(value, locale?.value) : NO_VALUE;
     }
-    return Number(accountSummary.value[key] || '').toLocaleString();
+    return formatNumber(value, locale?.value);
   };
 
   return {

@@ -142,7 +142,7 @@ const table = useVueTable({
 
 <template>
   <div
-    class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 overflow-hidden"
+    class="outline-1 outline -outline-offset-1 outline-n-weak rounded-xl bg-n-solid-2 overflow-hidden"
   >
     <CsatTableLoader v-if="isLoading" />
 
@@ -156,7 +156,7 @@ const table = useVueTable({
               :style="{
                 width: header.getSize() ? `${header.getSize()}px` : 'auto',
               }"
-              class="text-left py-3 px-5 font-medium text-sm text-n-slate-12"
+              class="text-start py-3 px-5 font-medium text-sm text-n-slate-12"
             >
               {{ header.column.columnDef.header }}
             </th>
@@ -195,7 +195,7 @@ const table = useVueTable({
               <td class="py-4 px-5">
                 <span
                   v-if="!row.feedbackText"
-                  class="text-n-slate-10 italic text-sm"
+                  class="text-n-slate-11 italic text-sm"
                 >
                   {{ $t('CSAT_REPORTS.NO_FEEDBACK') }}
                 </span>
@@ -209,7 +209,7 @@ const table = useVueTable({
                   :user="row.assignedAgent"
                   :size="28"
                 />
-                <span v-else class="text-n-slate-10 text-sm italic">
+                <span v-else class="text-n-slate-11 text-sm italic">
                   {{ $t('CSAT_REPORTS.NO_AGENT') }}
                 </span>
               </td>

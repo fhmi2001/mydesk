@@ -3,8 +3,11 @@ import { mapGetters } from 'vuex';
 import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
 import { GROUP_BY_FILTER } from './constants';
 import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
-import { formatTime } from '@chatwoot/utils';
+import {
+  formatDuration,
+  formatNumber,
+  formatReportDate,
+} from 'dashboard/helper/reportFormatters';
 import { useAlert } from 'dashboard/composables';
 import ChartStats from './components/ChartElements/ChartStats.vue';
 import BarChart from 'shared/components/charts/BarChart.vue';
@@ -126,6 +129,8 @@ export default {
         return { categories: [], series: [] };
       }
       const data = this.accountReport.data[metric.KEY];
+      // Custom (MyDesk): axis dates in the user's language («21 أكتوبر»), not date-fns English
+      const locale = this.$i18n?.locale;
       const categories = data.map(element => {
         if (this.groupBy?.period === GROUP_BY_FILTER[2].period) {
           let week_date = new Date(fromUnixTime(element.timestamp));
@@ -133,18 +138,23 @@ export default {
           const last_day = first_day + 6;
           const week_first_date = new Date(week_date.setDate(first_day));
           const week_last_date = new Date(week_date.setDate(last_day));
-          return `${format(week_first_date, 'dd-MMM')} - ${format(
-            week_last_date,
-            'dd-MMM'
-          )}`;
+          return `${formatReportDate(week_first_date, 'day', locale)} - ${formatReportDate(week_last_date, 'day', locale)}`;
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[3].period) {
-          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+          return formatReportDate(
+            fromUnixTime(element.timestamp),
+            'month',
+            locale
+          );
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[4].period) {
-          return format(fromUnixTime(element.timestamp), 'yyyy');
+          return formatReportDate(
+            fromUnixTime(element.timestamp),
+            'year',
+            locale
+          );
         }
-        return format(fromUnixTime(element.timestamp), 'dd-MMM');
+        return formatReportDate(fromUnixTime(element.timestamp), 'day', locale);
       });
 
       return {
@@ -172,14 +182,15 @@ export default {
       return `${metric.NAME}, ${groupingLabels[this.groupBy.period]}`;
     },
     getValueFormatter(metric) {
+      const locale = this.$i18n?.locale;
       if (!this.isAverageMetricType(metric.KEY)) {
-        return value => Number(value).toLocaleString();
+        return value => formatNumber(value, locale);
       }
 
       return (value, dataPoint) => {
         if (!dataPoint && value === 0) return '0';
 
-        return formatTime(value || 0);
+        return formatDuration(value || 0, locale);
       };
     },
     getPointDescription(metric) {
@@ -212,6 +223,10 @@ export default {
           ? step
           : closestStep;
       });
+    },
+    // Custom (MyDesk): counts are whole numbers, so their axis never shows 0.2 / 0.4 ticks
+    getCountStepSize({ min, max, tickCount }) {
+      return Math.max(1, Math.ceil((max - min) / Math.max(tickCount - 1, 1)));
     },
     isDrilldownEnabled() {
       return !!(this.from && this.to);
@@ -295,7 +310,7 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 mt-4"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 outline-1 outline -outline-offset-1 outline-n-weak rounded-xl bg-n-solid-2 mt-4"
   >
     <div
       v-for="metric in metrics"
@@ -322,14 +337,16 @@ export default {
             :format-value="getValueFormatter(metric)"
             :point-description="getPointDescription(metric)"
             :y-step-size="
-              isAverageMetricType(metric.KEY) ? getDurationStepSize : undefined
+              isAverageMetricType(metric.KEY)
+                ? getDurationStepSize
+                : getCountStepSize
             "
             :height="288"
             timeseries
             :clickable="isDrilldownEnabled()"
             @item-click="onChartElementClick(metric, $event)"
           />
-          <span v-else class="text-sm text-n-slate-10">
+          <span v-else class="text-sm text-n-slate-11">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}
           </span>
         </div>
