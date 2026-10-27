@@ -11,6 +11,7 @@ import Linear from './Linear.vue';
 import Stripe from './Stripe.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
+import Salla from './Salla.vue';
 import GoogleTranslate from './GoogleTranslate.vue';
 
 export const redirectShopifyIfUnavailable = async (to, _from, next) => {
@@ -130,6 +131,17 @@ export default {
           },
           beforeEnter: redirectShopifyIfUnavailable,
           props: route => ({ error: route.query.error }),
+        },
+        // Custom (MyDesk): Salla store connection
+        {
+          path: 'salla',
+          name: 'settings_integrations_salla',
+          component: Salla,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+          props: route => ({ result: route.query.salla }),
         },
         {
           path: ':integration_id',

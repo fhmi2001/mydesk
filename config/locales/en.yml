@@ -460,6 +460,10 @@ en:
     online:
       delete: '%{contact_name} is Online, please try again later'
   integration_apps:
+    salla:
+      name: 'Salla'
+      short_description: 'Receive order events from your Salla store.'
+      description: 'Connect your Salla store to receive new orders and order status changes, the base for automatic WhatsApp and SMS order notifications.'
     stripe:
       name: 'Stripe'
       short_description: 'View customer billing details in conversations.'

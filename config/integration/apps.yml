@@ -336,3 +336,14 @@ leadsquared:
       'conversation_activity_score',
       'transcript_activity_score',
     ]
+
+# Custom (MyDesk): Salla stores (orders and order status events)
+salla:
+  id: salla
+  logo: salla.png
+  i18n_key: salla
+  hook_type: account
+  allow_multiple_hooks: false
+  # Store details only; the refresh token never leaves the server
+  visible_properties:
+    ['store_name', 'store_username', 'store_domain', 'store_avatar', 'connected_at', 'expires_at', 'disabled_reason']

@@ -464,6 +464,11 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            # Custom (MyDesk): Salla store connection
+            resource :salla, controller: 'salla', only: [:destroy] do
+              get :auth
+              get :events
+            end
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth
@@ -737,6 +742,8 @@ Rails.application.routes.draw do
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   post 'webhooks/stripe_app', to: 'webhooks/stripe_app#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
+  # Custom (MyDesk): Salla store webhooks (orders, app install/uninstall)
+  post 'webhooks/salla', to: 'webhooks/salla#events'
 
   namespace :twitter do
     resource :callback, only: [:show]
@@ -750,6 +757,11 @@ Rails.application.routes.draw do
   end
 
   namespace :shopify do
+    resource :callback, only: [:show]
+  end
+
+  # Custom (MyDesk): Salla OAuth redirect
+  namespace :salla do
     resource :callback, only: [:show]
   end
 

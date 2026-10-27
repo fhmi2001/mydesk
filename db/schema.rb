@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_194244) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_205549) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1630,6 +1630,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_194244) do
     t.index ["account_id", "date", "dimension_type", "dimension_id", "metric"], name: "index_rollup_unique_key", unique: true
     t.index ["account_id", "dimension_type", "date"], name: "index_rollup_summary"
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
+  end
+
+  create_table "salla_events", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "hook_id"
+    t.string "merchant_id", null: false
+    t.string "event", null: false
+    t.string "order_id"
+    t.string "order_reference"
+    t.string "status_name"
+    t.string "customer_name"
+    t.string "customer_mobile"
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_salla_events_on_account_id_and_created_at"
+    t.index ["account_id", "event"], name: "index_salla_events_on_account_id_and_event"
   end
 
   create_table "sla_events", force: :cascade do |t|

@@ -428,6 +428,10 @@ ar:
     online:
       delete: '%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً'
   integration_apps:
+    salla:
+      name: 'سلة'
+      short_description: 'استقبل أحداث الطلبات من متجرك على سلة.'
+      description: 'اربط متجرك على سلة لتصلك الطلبات الجديدة وتغيّرات حالة الطلب، تمهيداً لإرسال إشعارات الطلبات تلقائياً عبر واتساب وSMS.'
     stripe:
       name: 'Stripe'
       short_description: 'View customer billing details in conversations.'

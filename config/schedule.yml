@@ -92,3 +92,9 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# Custom (MyDesk): renew Salla store tokens before they expire (daily at 03:00)
+salla_refresh_tokens_job:
+  cron: '0 3 * * *'
+  class: 'Salla::RefreshTokensJob'
+  queue: scheduled_jobs

@@ -505,6 +505,55 @@
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
       }
+    },
+    "SALLA": {
+      "HEADER": "Salla",
+      "NOT_CONFIGURED": "Salla is not available yet. The platform administrator needs to add the Salla app keys in Super Admin > Salla.",
+      "CONNECT": "Connect Salla store",
+      "RECONNECT": "Reconnect",
+      "DELETE": {
+        "TITLE": "Disconnect Salla store",
+        "MESSAGE": "MyDesk will stop receiving orders from this store. You can connect it again at any time."
+      },
+      "RESULT": {
+        "CONNECTED": "Your Salla store is connected",
+        "DENIED": "The connection was cancelled on Salla. Try again and approve MyDesk.",
+        "STORE_TAKEN": "This Salla store is already connected to another MyDesk account.",
+        "FAILED": "Could not connect the store. Try again in a moment.",
+        "ERROR": "Could not start the connection. Make sure the Salla app keys are set in Super Admin."
+      },
+      "STORE": {
+        "TITLE": "Connected store",
+        "CONNECTED_AT": "Connected",
+        "VALID_UNTIL": "Access renews automatically before",
+        "DOMAIN": "Store link",
+        "DISABLED": "The connection expired. Reconnect the store to keep receiving orders."
+      },
+      "EVENTS": {
+        "TITLE": "Latest store events",
+        "HINT": "New orders and order changes arrive here the moment they happen in your store. Order notifications by WhatsApp and SMS will be built on these events.",
+        "REFRESH": "Refresh",
+        "EMPTY": "No events yet. Create or update an order in your Salla store to test the connection.",
+        "ERROR": "Could not load the events. Try again.",
+        "HEADERS": {
+          "EVENT": "Event",
+          "ORDER": "Order",
+          "STATUS": "Status",
+          "CUSTOMER": "Customer",
+          "TIME": "Time"
+        },
+        "TYPES": {
+          "CREATED": "New order",
+          "UPDATED": "Order updated",
+          "STATUS_UPDATED": "Status changed",
+          "CANCELLED": "Order cancelled",
+          "REFUNDED": "Order refunded",
+          "DELETED": "Order deleted",
+          "PAYMENT_UPDATED": "Payment updated",
+          "SHIPMENT_CREATED": "Shipment created",
+          "OTHER": "Order event"
+        }
+      }
     }
   },
   "CAPTAIN": {

@@ -701,3 +701,21 @@
   value: 'production'
   locked: false
 ## ---- End of mobile incoming-call push ---- ##
+
+## ---- Custom (MyDesk): Salla integration ---- ##
+- name: SALLA_CLIENT_ID
+  display_title: 'Salla Client ID'
+  description: 'The Client ID of the MyDesk app on Salla Partners (App Keys)'
+  locked: false
+  type: secret
+- name: SALLA_CLIENT_SECRET
+  display_title: 'Salla Client Secret'
+  description: 'The Client Secret of the MyDesk app on Salla Partners (App Keys)'
+  locked: false
+  type: secret
+- name: SALLA_WEBHOOK_SECRET
+  display_title: 'Salla Webhook Secret'
+  description: 'The Webhook Secret of the MyDesk app on Salla Partners (Webhooks/Notifications), used to verify incoming webhooks'
+  locked: false
+  type: secret
+## ---- End of Salla integration ---- ##

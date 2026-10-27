@@ -156,3 +156,10 @@ shopify:
   enabled: true
   icon: 'i-logos-shopify'
   config_key: 'shopify'
+# Custom (MyDesk)
+salla:
+  name: 'Salla'
+  description: 'Configuration for connecting merchant stores on Salla'
+  enabled: true
+  icon: 'i-lucide-shopping-bag'
+  config_key: 'salla'
