@@ -132,6 +132,11 @@ export const AUTOMATIONS = {
         key: 'send_message',
         name: 'SEND_MESSAGE',
       },
+      // Custom (MyDesk): send through another channel (SMS, WhatsApp Web, email)
+      {
+        key: 'send_message_via_inbox',
+        name: 'SEND_MESSAGE_VIA_INBOX',
+      },
       {
         key: 'send_email_transcript',
         name: 'SEND_EMAIL_TRANSCRIPT',
@@ -270,6 +275,11 @@ export const AUTOMATIONS = {
       {
         key: 'send_message',
         name: 'SEND_MESSAGE',
+      },
+      // Custom (MyDesk): send through another channel (SMS, WhatsApp Web, email)
+      {
+        key: 'send_message_via_inbox',
+        name: 'SEND_MESSAGE_VIA_INBOX',
       },
       {
         key: 'send_email_transcript',
@@ -418,6 +428,11 @@ export const AUTOMATIONS = {
         key: 'send_message',
         name: 'SEND_MESSAGE',
       },
+      // Custom (MyDesk): send through another channel (SMS, WhatsApp Web, email)
+      {
+        key: 'send_message_via_inbox',
+        name: 'SEND_MESSAGE_VIA_INBOX',
+      },
       {
         key: 'send_email_transcript',
         name: 'SEND_EMAIL_TRANSCRIPT',
@@ -559,6 +574,11 @@ export const AUTOMATIONS = {
         key: 'send_message',
         name: 'SEND_MESSAGE',
       },
+      // Custom (MyDesk): send through another channel (SMS, WhatsApp Web, email)
+      {
+        key: 'send_message_via_inbox',
+        name: 'SEND_MESSAGE_VIA_INBOX',
+      },
       {
         key: 'send_email_transcript',
         name: 'SEND_EMAIL_TRANSCRIPT',
@@ -685,6 +705,11 @@ export const AUTOMATIONS = {
       {
         key: 'send_message',
         name: 'SEND_MESSAGE',
+      },
+      // Custom (MyDesk): send through another channel (SMS, WhatsApp Web, email)
+      {
+        key: 'send_message_via_inbox',
+        name: 'SEND_MESSAGE_VIA_INBOX',
       },
       {
         key: 'send_email_transcript',
@@ -816,6 +841,12 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'send_message',
     label: 'SEND_MESSAGE',
     inputType: 'textarea',
+  },
+  // Custom (MyDesk): a channel picker and the message
+  {
+    key: 'send_message_via_inbox',
+    label: 'SEND_MESSAGE_VIA_INBOX',
+    inputType: 'inbox_message',
   },
   {
     key: 'add_private_note',

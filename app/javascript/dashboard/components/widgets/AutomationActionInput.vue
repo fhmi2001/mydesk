@@ -1,5 +1,7 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
+// Custom (MyDesk): channel + message of "send a message through a channel"
+import AutomationActionInboxMessageInput from './AutomationActionInboxMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -12,6 +14,7 @@ const CONTACT_EMAIL_TOKEN = '{{contact.email}}';
 export default {
   components: {
     AutomationActionTeamMessageInput,
+    AutomationActionInboxMessageInput,
     AutomationActionFileInput,
     WootMessageEditor,
     NextButton,
@@ -99,7 +102,9 @@ export default {
       }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea', 'email'].includes(this.inputType);
+      return ['team_message', 'inbox_message', 'textarea', 'email'].includes(
+        this.inputType
+      );
     },
     castMessageVmodel: {
       get() {
@@ -213,6 +218,11 @@ export default {
         v-else-if="inputType === 'team_message'"
         v-model="action_params"
         :teams="dropdownValues"
+        :dropdown-max-height="dropdownMaxHeight"
+      />
+      <AutomationActionInboxMessageInput
+        v-else-if="inputType === 'inbox_message'"
+        v-model="action_params"
         :dropdown-max-height="dropdownMaxHeight"
       />
       <WootMessageEditor

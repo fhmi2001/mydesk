@@ -156,6 +156,16 @@ const validateSingleAction = action => {
     'pending_conversation',
   ];
 
+  // Custom (MyDesk): "send a message through a channel" needs both the channel and the message
+  if (action.action_name === 'send_message_via_inbox') {
+    const params = Array.isArray(action.action_params)
+      ? action.action_params[0]
+      : action.action_params;
+    return params?.inbox_id && params?.message?.trim()
+      ? null
+      : ACTION_PARAMETERS_REQUIRED;
+  }
+
   if (
     !noParamActions.includes(action.action_name) &&
     (!action.action_params || action.action_params.length === 0)

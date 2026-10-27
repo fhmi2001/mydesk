@@ -98,6 +98,8 @@ export function useEditableAutomation() {
         message: params[0].message,
       };
     }
+    // Custom (MyDesk): back to the object the input edits; a [{...}] array would be saved as [undefined]
+    if (inputType === 'inbox_message') return { ...params[0] };
     return [...params];
   };
 

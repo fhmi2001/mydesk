@@ -162,7 +162,18 @@
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
       "URL_INPUT_PLACEHOLDER": "Enter URL",
-      "INSERT_CONTACT_EMAIL": "Use contact's email"
+      "INSERT_CONTACT_EMAIL": "Use contact's email",
+      "INBOX_MESSAGE": {
+        "CHANNEL_PLACEHOLDER": "Choose the channel",
+        "MESSAGE_PLACEHOLDER": "Message to send to the customer",
+        "HINT": "Sent to the customer's mobile number (SMS, WhatsApp Web) or email address. If the customer has none, nothing is sent.",
+        "NO_CHANNELS": "No channel can start a conversation yet. Add an SMS, WhatsApp Web or email inbox first.",
+        "KINDS": {
+          "SMS": "SMS",
+          "WHATSAPP_WEB": "WhatsApp Web",
+          "EMAIL": "Email"
+        }
+      }
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -221,7 +232,8 @@
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
-      "PENDING_CONVERSATION": "Mark conversation as pending"
+      "PENDING_CONVERSATION": "Mark conversation as pending",
+      "SEND_MESSAGE_VIA_INBOX": "Send a message through a channel"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",

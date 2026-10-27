@@ -162,7 +162,18 @@
       "TEAM_DROPDOWN_PLACEHOLDER": "اختيار فريق",
       "EMAIL_INPUT_PLACEHOLDER": "أدخل البريد الإلكتروني",
       "URL_INPUT_PLACEHOLDER": "أدخل رابط",
-      "INSERT_CONTACT_EMAIL": "Use contact's email"
+      "INSERT_CONTACT_EMAIL": "استخدام بريد العميل",
+      "INBOX_MESSAGE": {
+        "CHANNEL_PLACEHOLDER": "اختر القناة",
+        "MESSAGE_PLACEHOLDER": "نص الرسالة التي تصل إلى العميل",
+        "HINT": "تُرسل إلى رقم جوال العميل (SMS، واتساب ويب) أو بريده الإلكتروني. إن لم يكن لديه رقم أو بريد فلن تُرسل.",
+        "NO_CHANNELS": "لا توجد قناة تستطيع بدء محادثة بعد. أضف صندوق وارد SMS أو واتساب ويب أو بريد أولاً.",
+        "KINDS": {
+          "SMS": "SMS",
+          "WHATSAPP_WEB": "واتساب ويب",
+          "EMAIL": "بريد إلكتروني"
+        }
+      }
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
@@ -197,31 +208,32 @@
     "EVENTS": {
       "CONVERSATION_CREATED": "تم إنشاء المحادثة",
       "CONVERSATION_UPDATED": "تم تحديث المحادثة",
-      "MESSAGE_CREATED": "Message Created",
-      "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened",
+      "MESSAGE_CREATED": "تم إنشاء رسالة",
+      "CONVERSATION_RESOLVED": "تم إغلاق المحادثة",
+      "CONVERSATION_OPENED": "تم فتح المحادثة",
       "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
-      "ASSIGN_AGENT": "Assign to Agent",
-      "ASSIGN_TEAM": "Assign a Team",
-      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_AGENT": "إسناد إلى موظف",
+      "ASSIGN_TEAM": "إسناد إلى فريق",
+      "REMOVE_ASSIGNED_AGENT": "إلغاء إسناد الموظف",
+      "REMOVE_ASSIGNED_TEAM": "إلغاء إسناد الفريق",
+      "ADD_LABEL": "إضافة وسم",
+      "REMOVE_LABEL": "إزالة وسم",
+      "SEND_EMAIL_TO_TEAM": "إرسال بريد إلى فريق",
+      "SEND_EMAIL_TRANSCRIPT": "إرسال نص المحادثة بالبريد",
       "MUTE_CONVERSATION": "كتم المحادثة",
       "SNOOZE_CONVERSATION": "تأجيل المحادثة",
-      "RESOLVE_CONVERSATION": "إعادة فتح المحادثة",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "RESOLVE_CONVERSATION": "إغلاق المحادثة",
+      "SEND_WEBHOOK_EVENT": "إرسال حدث Webhook",
+      "SEND_ATTACHMENT": "إرسال مرفق",
+      "SEND_MESSAGE": "إرسال رسالة في المحادثة",
+      "ADD_PRIVATE_NOTE": "إضافة ملاحظة خاصة",
       "CHANGE_PRIORITY": "تغيير الأولوية",
-      "ADD_SLA": "Add SLA",
+      "ADD_SLA": "إضافة SLA",
       "OPEN_CONVERSATION": "فتح المحادثة",
-      "PENDING_CONVERSATION": "تحديد المحادثة كمعلقة"
+      "PENDING_CONVERSATION": "تحديد المحادثة كمعلقة",
+      "SEND_MESSAGE_VIA_INBOX": "إرسال رسالة عبر قناة"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",

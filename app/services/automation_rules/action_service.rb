@@ -45,6 +45,16 @@ class AutomationRules::ActionService < ActionService
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
+  # Custom (MyDesk): [{ inbox_id:, message: }], the message sent to the contact through that inbox
+  def send_message_via_inbox(params)
+    config = (params&.first || {}).with_indifferent_access
+    inbox = @account.inboxes.find_by(id: config[:inbox_id])
+    return if inbox.nil?
+
+    AutomationRules::SendViaInboxService.new(rule: @rule, conversation: @conversation, inbox: inbox,
+                                             message: config[:message]).perform
+  end
+
   def add_private_note(message)
     return if conversation_a_tweet?
 
