@@ -1,0 +1,149 @@
+<%# Custom (MyDesk): WhatsApp Web (QR) gateway: health, version and updates, numbers %>
+<% scope = "super_admin.whatsapp_web" %>
+<% content_for(:title) { t("super_admin.navigation.whatsapp_web") } %>
+<%
+  checks = [
+    { label: t("#{scope}.health.configured"), ok: @overview.configured?, icon: "i-lucide-settings-2",
+      hint: @overview.configured? ? WhatsappWeb::Config.api_url : t("#{scope}.health.configured_hint") },
+    { label: t("#{scope}.health.reachable"), ok: @overview.reachable?, icon: "i-lucide-plug-zap",
+      hint: @overview.reachable? ? t("#{scope}.health.reachable_hint") : (@overview.error || t("#{scope}.health.unreachable_hint")) },
+    { label: t("#{scope}.health.trusted"), ok: @overview.trusted?, icon: "i-lucide-shield-check",
+      hint: t("#{scope}.health.trusted_hint") }
+  ]
+  states = {
+    "open" => [t("#{scope}.numbers.states.open"), :success],
+    "connecting" => [t("#{scope}.numbers.states.connecting"), :warning],
+    "close" => [t("#{scope}.numbers.states.close"), :danger]
+  }
+  stable = @releases.latest_stable
+  upcoming = @releases.upcoming
+%>
+
+<%= render "section", title: t("super_admin.navigation.whatsapp_web"), description: t("#{scope}.description"),
+                      icon: "i-lucide-message-circle" do %>
+  <div class="divide-y divide-n-weak rounded-xl border border-n-weak bg-n-solid-1">
+    <% checks.each do |check| %>
+      <div class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 px-5 py-4">
+        <%= render "icon_tile", icon: check[:icon] %>
+        <div class="min-w-0">
+          <h2 class="text-heading-3"><%= check[:label] %></h2>
+          <p class="mt-0.5 break-words text-body-main text-n-slate-11"><%= check[:hint] %></p>
+        </div>
+        <%= render "badge", label: t("#{scope}.health.#{check[:ok] ? 'ok' : 'failing'}"), tone: check[:ok] ? :success : :danger %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render "card", title: t("#{scope}.updates.title"),
+                     meta: (t("#{scope}.updates.checked_at", time: time_ago_in_words(@releases.checked_at)) if @releases.checked_at) do %>
+    <dl class="grid grid-cols-1 border-b border-n-weak sm:grid-cols-3">
+      <% [[t("#{scope}.updates.current"), @overview.version], [t("#{scope}.updates.latest"), stable&.tag],
+          [t("#{scope}.updates.whatsapp_web"), @overview.whatsapp_web_version]].each do |label, value| %>
+        <div class="flex items-baseline justify-between gap-4 border-b border-n-weak px-5 py-3 last:border-b-0 sm:flex-col sm:border-b-0 sm:border-e sm:last:border-e-0">
+          <dt class="text-body-main text-n-slate-11"><%= label %></dt>
+          <dd class="font-mono text-sm text-n-slate-12" dir="ltr"><%= value.presence || "—" %></dd>
+        </div>
+      <% end %>
+    </dl>
+
+    <div class="space-y-4 px-5 py-4">
+      <% if @releases.error %>
+        <p class="flex items-start gap-2 text-body-main text-n-amber-11">
+          <span class="i-lucide-cloud-off size-4 shrink-0 translate-y-0.5"></span>
+          <%= t("#{scope}.updates.check_failed", error: @releases.error) %>
+        </p>
+      <% elsif @releases.update_available? %>
+        <div class="space-y-3 rounded-lg border border-n-amber-6 bg-n-amber-2 p-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <%= render "badge", label: t("#{scope}.updates.available", version: stable.tag), tone: :warning %>
+            <span class="text-body-main text-n-slate-11"><%= l(Time.zone.parse(stable.published_at).to_date, format: :long) %></span>
+            <%= link_to t("#{scope}.updates.release_notes"), stable.url, target: "_blank", rel: "noopener", class: "text-body-main text-n-blue-11 hover:underline" %>
+          </div>
+          <% if stable.requires_license? %>
+            <p class="text-body-main text-n-amber-11"><%= t("#{scope}.updates.license_warning") %></p>
+          <% end %>
+          <p class="text-body-main text-n-slate-12"><%= t("#{scope}.updates.how_to") %></p>
+          <pre class="overflow-x-auto rounded-lg border border-n-weak bg-n-slate-2 p-3 font-mono text-xs text-n-slate-12 dark:bg-n-solid-2" dir="ltr"><%= t("#{scope}.updates.steps", version: stable.tag) %></pre>
+        </div>
+      <% elsif @overview.version %>
+        <p class="flex items-center gap-2 text-body-main text-n-teal-11">
+          <span class="i-lucide-circle-check size-4 shrink-0"></span>
+          <%= t("#{scope}.updates.up_to_date") %>
+        </p>
+      <% end %>
+
+      <% if upcoming %>
+        <div class="flex flex-wrap items-start gap-x-3 gap-y-1.5 rounded-lg border border-n-weak p-4">
+          <%= render "badge", label: t("#{scope}.updates.upcoming", version: upcoming.tag), tone: :info %>
+          <p class="min-w-0 flex-1 text-body-main text-n-slate-11">
+            <%= t("#{scope}.updates.upcoming_hint") %>
+            <% if upcoming.requires_license? %><%= t("#{scope}.updates.upcoming_license") %><% end %>
+          </p>
+          <%= link_to t("#{scope}.updates.release_notes"), upcoming.url, target: "_blank", rel: "noopener", class: "text-body-main text-n-blue-11 hover:underline" %>
+        </div>
+      <% end %>
+
+      <%= render "button", label: t("#{scope}.updates.check_now"), variant: :secondary, icon: "i-lucide-refresh-cw",
+                           post_to: refresh_super_admin_whatsapp_web_status_path %>
+    </div>
+  <% end %>
+
+  <%= render "card", title: t("#{scope}.numbers.title"), count: @overview.numbers.size do %>
+    <% if @overview.numbers.empty? %>
+      <%= render "super_admin/user_diagnostics/empty", icon: "i-lucide-smartphone", title: t("#{scope}.numbers.empty.title"),
+                                                       description: t("#{scope}.numbers.empty.description") %>
+    <% else %>
+      <div class="overflow-x-auto">
+        <%= render "table", caption: t("#{scope}.numbers.title") do %>
+          <thead>
+            <tr>
+              <% %w[number status account inbox messages created].each do |column| %>
+                <th><%= t("#{scope}.numbers.columns.#{column}") %></th>
+              <% end %>
+              <th><span class="sr-only"><%= t("#{scope}.numbers.columns.actions") %></span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @overview.numbers.each do |number| %>
+              <% label, tone = states.fetch(number.state.to_s, [number.state.to_s.presence || "—", :neutral]) %>
+              <tr>
+                <td>
+                  <div class="font-medium tabular-nums" dir="ltr"><%= number.phone || "—" %></div>
+                  <div class="text-xs text-n-slate-11"><%= number.profile_name.presence || number.name %></div>
+                </td>
+                <td><%= render "badge", label: label, tone: tone %></td>
+                <td>
+                  <% if number.inbox %>
+                    <%= link_to number.inbox.account.name, super_admin_account_path(number.inbox.account) %>
+                  <% else %>
+                    —
+                  <% end %>
+                </td>
+                <td>
+                  <% if number.inbox %>
+                    <%= number.inbox.name %>
+                  <% else %>
+                    <%= render "badge", label: t("#{scope}.numbers.orphan"), tone: :warning %>
+                  <% end %>
+                </td>
+                <td class="tabular-nums"><%= number_with_delimiter(number.messages) %></td>
+                <td class="whitespace-nowrap tabular-nums text-n-slate-11"><%= number.created_at&.strftime("%Y-%m-%d") || "—" %></td>
+                <td class="text-end">
+                  <% if number.orphan? %>
+                    <%= button_to t("#{scope}.numbers.remove"), remove_number_super_admin_whatsapp_web_status_path,
+                                  method: :delete, params: { name: number.name },
+                                  data: { confirm: t("#{scope}.numbers.remove_confirm", name: number.name) },
+                                  class: "inline-flex h-8 items-center rounded-lg border border-n-ruby-6 px-3 text-button text-n-ruby-11 hover:bg-n-ruby-3" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        <% end %>
+      </div>
+      <% if @overview.numbers.any?(&:orphan?) %>
+        <p class="border-t border-n-weak px-4 py-3 text-label-small text-n-slate-11"><%= t("#{scope}.numbers.orphan_hint") %></p>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

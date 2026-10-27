@@ -860,6 +860,65 @@ en:
     instance_status:
       description: 'Versions and connection status of the services this installation runs on.'
       details: 'Details'
+    # Custom (MyDesk): Super Admin > Monitor > WhatsApp Web
+    whatsapp_web:
+      description: 'The gateway that links WhatsApp numbers by QR code (Evolution API): its health, version, updates, and every number on it.'
+      health:
+        configured: 'Gateway settings'
+        configured_hint: 'Set the gateway URL and key in Settings > WhatsApp Web.'
+        reachable: 'Gateway reachable'
+        reachable_hint: 'The platform can reach the gateway and read its status.'
+        unreachable_hint: 'The platform cannot reach the gateway.'
+        trusted: 'Replies allowed to the gateway'
+        trusted_hint: 'The gateway host must be listed in SAFE_FETCH_TRUSTED_HOSTS, or agent replies are blocked.'
+        ok: 'OK'
+        failing: 'Needs attention'
+      updates:
+        title: 'Version and updates'
+        checked_at: 'Checked %{time} ago'
+        current: 'Running'
+        latest: 'Latest stable'
+        whatsapp_web: 'WhatsApp Web version'
+        up_to_date: 'The gateway runs the latest stable version.'
+        available: 'v%{version} is available'
+        release_notes: 'Release notes'
+        license_warning: 'From 2.4.0 every gateway must be activated once against the Evolution Foundation licensing server (free, sends a heartbeat every 30 minutes). Read the release notes before updating.'
+        how_to: 'To update, back up the evolution database, set the new image tag and restart the gateway:'
+        steps: |-
+          # deploy/whatsapp/docker-compose.yaml
+          image: evoapicloud/evolution-api:v%{version}
+
+          docker compose -f deploy/whatsapp/docker-compose.yaml pull
+          docker compose -f deploy/whatsapp/docker-compose.yaml up -d
+        upcoming: 'v%{version} in testing'
+        upcoming_hint: 'A release candidate, not recommended for production yet.'
+        upcoming_license: ' It will require licence activation.'
+        check_now: 'Check for updates'
+        checked: 'Checked GitHub for new gateway releases.'
+        check_failed: 'Could not check for updates: %{error}'
+      numbers:
+        title: 'Numbers'
+        columns:
+          number: 'Number'
+          status: 'Status'
+          account: 'Account'
+          inbox: 'Inbox'
+          messages: 'Messages'
+          created: 'Added'
+          actions: 'Actions'
+        states:
+          open: 'Connected'
+          connecting: 'Waiting for QR scan'
+          close: 'Disconnected'
+        orphan: 'No inbox'
+        orphan_hint: 'Numbers marked "No inbox" belong to inboxes that were deleted. They still use the gateway; remove them when they are no longer needed.'
+        remove: 'Remove'
+        remove_confirm: 'Remove %{name} from the gateway? The phone is unlinked and its gateway history deleted.'
+        removed: 'Removed %{name} from the gateway.'
+        still_linked: 'This number still has an inbox. Unlink it from the inbox settings instead.'
+        empty:
+          title: 'No numbers yet'
+          description: 'Numbers appear here once an account adds a WhatsApp Web inbox.'
     login:
       heading: 'Howdy, admin 👋'
       email: 'Email Address'
@@ -888,6 +947,7 @@ en:
       instance_health: 'Instance Health'
       user_diagnostics: 'User Diagnostics'
       sidekiq_dashboard: 'Sidekiq Dashboard'
+      whatsapp_web: 'WhatsApp Web' # Custom (MyDesk)
       tabs:
         agent_bots: 'Bots'
         platform_apps: 'Apps'

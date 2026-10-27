@@ -840,6 +840,65 @@ ar:
     instance_status:
       description: 'Versions and connection status of the services this installation runs on.'
       details: 'التفاصيل'
+    # Custom (MyDesk): Super Admin > Monitor > WhatsApp Web
+    whatsapp_web:
+      description: 'بوابة ربط أرقام واتساب برمز QR (Evolution API): حالتها وإصدارها وتحديثاتها وكل الأرقام المربوطة بها.'
+      health:
+        configured: 'إعدادات البوابة'
+        configured_hint: 'اضبط عنوان البوابة ومفتاحها من الإعدادات > WhatsApp Web.'
+        reachable: 'الاتصال بالبوابة'
+        reachable_hint: 'المنصة تصل إلى البوابة وتقرأ حالتها.'
+        unreachable_hint: 'المنصة لا تصل إلى البوابة.'
+        trusted: 'السماح بالردود إلى البوابة'
+        trusted_hint: 'يجب إدراج اسم البوابة في SAFE_FETCH_TRUSTED_HOSTS، وإلا تُحجب ردود الموظفين.'
+        ok: 'سليم'
+        failing: 'يحتاج انتباه'
+      updates:
+        title: 'الإصدار والتحديثات'
+        checked_at: 'آخر فحص منذ %{time}'
+        current: 'الإصدار الحالي'
+        latest: 'أحدث إصدار مستقر'
+        whatsapp_web: 'إصدار واتساب ويب'
+        up_to_date: 'البوابة تعمل بأحدث إصدار مستقر.'
+        available: 'الإصدار v%{version} متاح'
+        release_notes: 'ملاحظات الإصدار'
+        license_warning: 'بدءاً من 2.4.0 يجب تفعيل كل بوابة مرة واحدة عبر خادم تراخيص Evolution Foundation (مجاني، ويرسل إشارة اتصال كل 30 دقيقة). اقرأ ملاحظات الإصدار قبل التحديث.'
+        how_to: 'للتحديث: خذ نسخة احتياطية من قاعدة evolution، ثم غيّر رقم الإصدار وأعد تشغيل البوابة:'
+        steps: |-
+          # deploy/whatsapp/docker-compose.yaml
+          image: evoapicloud/evolution-api:v%{version}
+
+          docker compose -f deploy/whatsapp/docker-compose.yaml pull
+          docker compose -f deploy/whatsapp/docker-compose.yaml up -d
+        upcoming: 'الإصدار v%{version} قيد الاختبار'
+        upcoming_hint: 'إصدار تجريبي، لا يُنصح به للإنتاج بعد.'
+        upcoming_license: ' وسيتطلب تفعيل الترخيص.'
+        check_now: 'فحص التحديثات'
+        checked: 'تم فحص GitHub بحثاً عن إصدارات جديدة للبوابة.'
+        check_failed: 'تعذّر فحص التحديثات: %{error}'
+      numbers:
+        title: 'الأرقام'
+        columns:
+          number: 'الرقم'
+          status: 'الحالة'
+          account: 'الحساب'
+          inbox: 'صندوق الوارد'
+          messages: 'الرسائل'
+          created: 'تاريخ الإضافة'
+          actions: 'إجراءات'
+        states:
+          open: 'متصل'
+          connecting: 'بانتظار مسح QR'
+          close: 'غير متصل'
+        orphan: 'بلا صندوق وارد'
+        orphan_hint: 'الأرقام المعلّمة «بلا صندوق وارد» تخص صناديق وارد حُذفت، وما زالت تستخدم البوابة. احذفها إن لم تعد تحتاجها.'
+        remove: 'حذف'
+        remove_confirm: 'حذف %{name} من البوابة؟ سيُفصل الجوال ويُحذف سجله في البوابة.'
+        removed: 'تم حذف %{name} من البوابة.'
+        still_linked: 'هذا الرقم ما زال مرتبطاً بصندوق وارد. افصله من إعدادات صندوق الوارد.'
+        empty:
+          title: 'لا توجد أرقام بعد'
+          description: 'تظهر الأرقام هنا بعد أن يضيف حساب صندوق وارد من نوع واتساب ويب.'
     login:
       heading: 'Howdy, admin 👋'
       email: 'عنوان البريد الإلكتروني'
@@ -868,6 +927,7 @@ ar:
       instance_health: 'Instance Health'
       user_diagnostics: 'User Diagnostics'
       sidekiq_dashboard: 'Sidekiq Dashboard'
+      whatsapp_web: 'واتساب ويب' # Custom (MyDesk)
       tabs:
         agent_bots: 'الروبوتات'
         platform_apps: 'Apps'

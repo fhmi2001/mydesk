@@ -839,6 +839,11 @@ Rails.application.routes.draw do
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :platform_banners
       resource :instance_status, only: [:show]
+      # Custom (MyDesk): WhatsApp Web (QR) gateway health, numbers and updates
+      resource :whatsapp_web_status, only: [:show] do
+        post :refresh
+        delete :remove_number
+      end
 
       resources :search, only: [] do
         collection do

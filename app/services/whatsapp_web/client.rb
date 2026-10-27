@@ -51,6 +51,16 @@ class WhatsappWeb::Client
     { state: qr.dig('instance', 'state') || state, qr_code: qr['base64'] }
   end
 
+  # { 'version' => '2.3.7', 'whatsappWebVersion' => ..., 'manager' => ... }
+  def server_info
+    request(:get, '/')
+  end
+
+  # Every number on the gateway, with its phone, profile, state and message counts
+  def fetch_instances
+    request(:get, '/instance/fetchInstances', array: true)
+  end
+
   def logout(name)
     request(:delete, "/instance/logout/#{escape(name)}")
   end
@@ -63,14 +73,15 @@ class WhatsappWeb::Client
 
   def escape(name) = ERB::Util.url_encode(name)
 
-  def request(method, path, body: nil)
+  def request(method, path, body: nil, array: false)
     response = HTTParty.send(method, "#{WhatsappWeb::Config.api_url}#{path}",
                              headers: { 'apikey' => WhatsappWeb::Config.api_key, 'Content-Type' => 'application/json' },
                              body: body&.to_json, timeout: TIMEOUT)
-    parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
-    raise Error, error_message(parsed, response.code) unless response.success?
+    parsed = response.parsed_response
+    raise Error, error_message(parsed.is_a?(Hash) ? parsed : {}, response.code) unless response.success?
+    return Array(parsed) if array
 
-    parsed
+    parsed.is_a?(Hash) ? parsed : {}
   rescue HTTParty::Error, SocketError, Timeout::Error, Errno::ECONNREFUSED => e
     raise Error, "WhatsApp gateway unreachable: #{e.message}"
   end

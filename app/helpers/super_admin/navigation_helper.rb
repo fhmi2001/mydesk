@@ -23,7 +23,7 @@ module SuperAdmin::NavigationHelper
   # Heading each feature's page sits under in the settings list. Pages not listed stay at the top.
   SETTINGS_GROUPS = {
     'super_admin.navigation.settings_groups.product' => %w[saml custom_branding captain],
-    'super_admin.navigation.settings_groups.channels' => %w[email messenger instagram tiktok],
+    'super_admin.navigation.settings_groups.channels' => %w[email messenger instagram tiktok whatsapp_web],
     'super_admin.navigation.settings_groups.authentication' => %w[google microsoft],
     'super_admin.navigation.settings_groups.integrations' => %w[stripe linear notion slack whatsapp_embedded shopify]
   }.freeze
@@ -33,7 +33,7 @@ module SuperAdmin::NavigationHelper
   end
 
   def monitor_open?
-    controller_name.in? %w[instance_statuses user_diagnostics]
+    controller_name.in? %w[instance_statuses user_diagnostics whatsapp_web_statuses] # Custom (MyDesk): + WhatsApp Web
   end
 
   def settings_pages
@@ -92,6 +92,9 @@ module SuperAdmin::NavigationHelper
         active: controller_name == 'instance_statuses' },
       { label: t('super_admin.navigation.user_diagnostics'), url: super_admin_user_diagnostics_path, icon: 'i-lucide-stethoscope',
         active: controller_name == 'user_diagnostics' },
+      # Custom (MyDesk): the WhatsApp Web (QR) gateway
+      { label: t('super_admin.navigation.whatsapp_web'), url: super_admin_whatsapp_web_status_path, icon: 'i-lucide-message-circle',
+        active: controller_name == 'whatsapp_web_statuses' },
       { label: t('super_admin.navigation.sidekiq_dashboard'), url: sidekiq_web_path, icon: 'i-lucide-layers', external: true }
     ]
   end
