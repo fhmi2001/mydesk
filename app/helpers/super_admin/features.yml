@@ -163,3 +163,9 @@ salla:
   enabled: true
   icon: 'i-lucide-shopping-bag'
   config_key: 'salla'
+whatsapp_web:
+  name: 'WhatsApp Web'
+  description: 'Gateway for linking WhatsApp numbers by QR code (Evolution API)'
+  enabled: true
+  icon: 'i-logos-whatsapp-icon'
+  config_key: 'whatsapp_web'

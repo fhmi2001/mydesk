@@ -1,0 +1,34 @@
+# MyDesk: WhatsApp (QR / WhatsApp Web) gateway, Evolution API.
+#
+# Kept outside Chatwoot's own compose files on purpose: it is a separate Docker project
+# (`mydesk-whatsapp`) that only talks to Chatwoot through its public API and an API-channel
+# inbox webhook, so upstream Chatwoot updates never touch or remove it.
+#
+#   docker compose -f deploy/whatsapp/docker-compose.yaml -p mydesk-whatsapp up -d
+#
+# Manager UI (instances, QR codes): http://localhost:8080/manager
+name: mydesk-whatsapp
+
+services:
+  evolution-api:
+    # Pinned: 2.4+ requires activation against the Evolution Foundation licensing server
+    image: evoapicloud/evolution-api:v2.3.7
+    container_name: mydesk-evolution-api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - '8080:8080'
+    volumes:
+      - evolution_instances:/evolution/instances
+    networks:
+      - chatwoot
+
+volumes:
+  evolution_instances:
+
+networks:
+  # Join Chatwoot's network so both sides reach each other by service name
+  # (evolution-api -> rails:3000, postgres, redis; sidekiq -> evolution-api:8080)
+  chatwoot:
+    external: true
+    name: ${CHATWOOT_NETWORK:-chatwoot_default}

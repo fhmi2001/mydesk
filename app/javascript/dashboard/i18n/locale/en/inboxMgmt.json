@@ -642,6 +642,10 @@
           "VOICE": {
             "TITLE": "Voice",
             "DESCRIPTION": "Integrate with Twilio Voice"
+          },
+          "WHATSAPP_WEB": {
+            "TITLE": "WhatsApp Web",
+            "DESCRIPTION": "Link any WhatsApp number by scanning a QR code"
           }
         }
       },
@@ -1680,6 +1684,41 @@
       "SAVE": "Save sender names",
       "SUCCESS": "Sender names saved",
       "ERROR": "Could not save the sender names. Please try again."
+    },
+    "WHATSAPP_WEB": {
+      "TITLE": "WhatsApp Web",
+      "DESC": "Link a WhatsApp or WhatsApp Business number by scanning a QR code, the same way you use WhatsApp Web. Messages arrive in this inbox and your team replies from here.",
+      "NOT_CONFIGURED": "WhatsApp Web is not available yet. The platform administrator needs to set the gateway in Super Admin > WhatsApp Web.",
+      "NAME": {
+        "LABEL": "Inbox name",
+        "PLACEHOLDER": "For example: Store WhatsApp",
+        "HELP": "Shown to your team only.",
+        "TAKEN": "An inbox with this name already exists. Choose another name."
+      },
+      "WARNING": "This connection is unofficial: avoid bulk messages from this number, or WhatsApp may ban it. Use the official WhatsApp channel for campaigns.",
+      "SUBMIT": "Create and show QR code",
+      "CONTINUE": "Continue",
+      "LATER": "Link the phone later",
+      "DISCONNECT": "Unlink number",
+      "ERROR": "Could not reach the WhatsApp gateway. Try again in a moment.",
+      "QR": {
+        "WAITING": "Waiting for the phone to scan the code",
+        "EXPIRED": "The code expired before it was scanned",
+        "REFRESH": "Show a new code",
+        "ALT": "WhatsApp QR code",
+        "STEP_OPEN": "Open WhatsApp on the phone of the number you want to link.",
+        "STEP_LINKED": "Tap Menu or Settings, then Linked devices, then Link a device.",
+        "STEP_SCAN": "Point the phone at this code.",
+        "NOTE": "The code refreshes on its own. Keep the phone connected to the internet."
+      },
+      "CONNECTED": {
+        "TITLE": "The number is linked",
+        "DESCRIPTION": "New WhatsApp messages now arrive in this inbox."
+      },
+      "SETTINGS": {
+        "LABEL": "WhatsApp connection",
+        "HELP": "The link with the phone. If it drops, scan a new code here."
+      }
     }
   }
 }

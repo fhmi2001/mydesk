@@ -12,6 +12,11 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     SHOPIFY_PARTNER_ACCESS_TOKEN
     SHOPIFY_PARTNER_API_VERSION
   ].freeze
+  # Custom (MyDesk): the MyDesk app on Salla Partners, and the WhatsApp Web (QR) gateway
+  MYDESK_CONFIGS = {
+    'salla' => %w[SALLA_CLIENT_ID SALLA_CLIENT_SECRET SALLA_WEBHOOK_SECRET],
+    'whatsapp_web' => %w[WHATSAPP_WEB_API_URL WHATSAPP_WEB_API_KEY WHATSAPP_WEB_CHATWOOT_URL]
+  }.freeze
 
   before_action :set_config
   before_action :allowed_configs
@@ -62,8 +67,6 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     mapping = {
       'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
       'shopify' => SHOPIFY_CONFIGS,
-      # Custom (MyDesk): the MyDesk app on Salla Partners
-      'salla' => %w[SALLA_CLIENT_ID SALLA_CLIENT_SECRET SALLA_WEBHOOK_SECRET],
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
       'email' => %w[MAILER_INBOUND_EMAIL_DOMAIN ACCOUNT_EMAILS_LIMIT ACCOUNT_EMAILS_PLAN_LIMITS],
       'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
@@ -76,7 +79,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       'google' => %w[GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET GOOGLE_OAUTH_REDIRECT_URI ENABLE_GOOGLE_OAUTH_LOGIN],
       'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT
                       CAPTAIN_OPENROUTER_API_KEY CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT]
-    }
+    }.merge(MYDESK_CONFIGS)
 
     @allowed_configs = mapping.fetch(@config, general_configs)
   end

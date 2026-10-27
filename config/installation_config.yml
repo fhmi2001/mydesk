@@ -719,3 +719,19 @@
   locked: false
   type: secret
 ## ---- End of Salla integration ---- ##
+
+## ---- Custom (MyDesk): WhatsApp Web (QR) gateway ---- ##
+- name: WHATSAPP_WEB_API_URL
+  display_title: 'Gateway URL'
+  description: 'How the platform reaches the Evolution API gateway, e.g. http://evolution-api:8080'
+  locked: false
+- name: WHATSAPP_WEB_API_KEY
+  display_title: 'Gateway API key'
+  description: 'AUTHENTICATION_API_KEY of the gateway (deploy/whatsapp/.env)'
+  locked: false
+  type: secret
+- name: WHATSAPP_WEB_CHATWOOT_URL
+  display_title: 'Platform URL for the gateway'
+  description: 'How the gateway reaches the platform API, e.g. http://rails:3000. Defaults to FRONTEND_URL'
+  locked: false
+## ---- End of WhatsApp Web gateway ---- ##

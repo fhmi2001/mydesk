@@ -17,6 +17,9 @@ import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
 import HmacSecretKey from './components/HmacSecretKey.vue';
 import DeewanSenderNames from './DeewanSenderNames.vue';
+// Custom (MyDesk): WhatsApp Web (QR) link status
+import WhatsappWebConnection from '../components/WhatsappWebConnection.vue';
+import { isWhatsappWebInbox } from 'dashboard/helper/whatsappWeb';
 
 export default {
   components: {
@@ -30,6 +33,7 @@ export default {
     WhatsappBusinessManagementToken,
     HmacSecretKey,
     DeewanSenderNames,
+    WhatsappWebConnection,
   },
   mixins: [inboxMixin],
   props: {
@@ -87,6 +91,7 @@ export default {
     this.setDefaults();
   },
   methods: {
+    isWhatsappWebInbox,
     setDefaults() {
       this.isSettingDefaults = true;
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
@@ -331,6 +336,13 @@ export default {
     </SettingsAccordion>
   </div>
   <div v-else-if="isAPIInbox">
+    <SettingsFieldSection
+      v-if="isWhatsappWebInbox(inbox)"
+      :label="$t('INBOX_MGMT.WHATSAPP_WEB.SETTINGS.LABEL')"
+      :help-text="$t('INBOX_MGMT.WHATSAPP_WEB.SETTINGS.HELP')"
+    >
+      <WhatsappWebConnection :inbox-id="inbox.id" manage />
+    </SettingsFieldSection>
     <SettingsFieldSection
       :label="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
       :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"

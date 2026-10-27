@@ -13,6 +13,8 @@ import Telegram from './channels/Telegram.vue';
 import Instagram from './channels/Instagram.vue';
 import Tiktok from './channels/Tiktok.vue';
 import Voice from './channels/Voice.vue';
+// Custom (MyDesk): WhatsApp Web (QR) through the Evolution API gateway
+import WhatsappWeb from './channels/WhatsappWeb.vue';
 
 const channelViewList = {
   facebook: Facebook,
@@ -28,6 +30,7 @@ const channelViewList = {
   instagram: Instagram,
   tiktok: Tiktok,
   voice: Voice,
+  whatsapp_web: WhatsappWeb,
 };
 
 export default defineComponent({

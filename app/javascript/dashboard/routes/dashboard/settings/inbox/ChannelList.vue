@@ -42,6 +42,13 @@ const channelList = computed(() => {
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP.DESCRIPTION'),
       icon: 'i-woot-whatsapp',
     },
+    // Custom (MyDesk): WhatsApp Web, linked by scanning a QR code
+    {
+      key: 'whatsapp_web',
+      title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP_WEB.TITLE'),
+      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP_WEB.DESCRIPTION'),
+      icon: 'i-woot-whatsapp',
+    },
     {
       key: 'sms',
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.SMS.TITLE'),

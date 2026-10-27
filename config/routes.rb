@@ -441,6 +441,12 @@ Rails.application.routes.draw do
             post 'manual/:inbox_id/setup_webhook', to: 'manual_setup#setup_webhook'
           end
 
+          # Custom (MyDesk): WhatsApp Web (QR) channel through the Evolution API gateway
+          resource :whatsapp_web, controller: 'whatsapp_web', only: [:show, :create] do
+            get 'inboxes/:inbox_id/connection', action: :connection
+            delete 'inboxes/:inbox_id/connection', action: :logout
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resource :stripe, controller: 'stripe', only: [:show, :destroy] do
