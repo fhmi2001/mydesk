@@ -30,5 +30,7 @@ if ! docker compose exec -T postgres psql -U postgres -tAc "SELECT 1 FROM pg_dat
   echo "Created database: evolution"
 fi
 
+bash "$here/grant_db_access.sh"
+
 docker compose -f "$here/docker-compose.yaml" up -d
 echo "Gateway starting: http://localhost:8080/manager"

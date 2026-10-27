@@ -11,6 +11,8 @@ class SafeFetch::PrivateNetworkRequest
     (SsrfFilter::DEFAULT_MAX_REDIRECTS + 1).times do
       uri = URI(url)
       validate_scheme!(uri)
+      # Custom (MyDesk): a request let through for a trusted host may not redirect to an untrusted one
+      raise SsrfFilter::PrivateIPAddress, "Host '#{uri.hostname}' is not trusted" unless SafeFetch.private_request_allowed?(uri)
 
       response, next_url = fetch_once(uri, resolved_addresses(uri.hostname).sample.to_s, original_uri, &)
       return response if next_url.nil?

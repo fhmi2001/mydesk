@@ -36,4 +36,16 @@ module SafeFetch
   def self.allow_private_network?
     ActiveModel::Type::Boolean.new.cast(ENV.fetch('SAFE_FETCH_ALLOW_PRIVATE_NETWORK', false))
   end
+
+  # Custom (MyDesk): named internal services the platform may call although they resolve to private
+  # addresses, e.g. the WhatsApp Web gateway (SAFE_FETCH_TRUSTED_HOSTS=evolution-api). Exact host names
+  # only; every other private address, including redirects away from these hosts, stays blocked.
+  def self.trusted_host?(uri)
+    trusted = ENV.fetch('SAFE_FETCH_TRUSTED_HOSTS', '').split(',').map { |host| host.strip.downcase }.compact_blank
+    trusted.include?(uri&.host.to_s.downcase)
+  end
+
+  def self.private_request_allowed?(uri)
+    allow_private_network? || trusted_host?(uri)
+  end
 end

@@ -23,13 +23,7 @@ class Api::V1::Accounts::WhatsappWebController < Api::V1::Accounts::BaseControll
 
     instance_name = "mydesk-#{Current.account.id}-#{SecureRandom.hex(4)}"
     inbox = create_inbox(inbox_name, instance_name)
-    begin
-      client.create_instance(name: instance_name, account_id: Current.account.id, token: Current.user.access_token.token,
-                             inbox_name: inbox_name)
-    rescue WhatsappWeb::Client::Error
-      inbox.destroy!
-      raise
-    end
+    register_number(instance_name, inbox)
 
     render json: { id: inbox.id, name: inbox.name }
   end
@@ -58,6 +52,16 @@ class Api::V1::Accounts::WhatsappWebController < Api::V1::Accounts::BaseControll
     @inbox = Current.account.inboxes.find(params[:inbox_id])
     @instance_name = WhatsappWeb::Config.instance_name_for(@inbox)
     render json: { error: 'Not a WhatsApp Web inbox' }, status: :unprocessable_entity unless @instance_name
+  end
+
+  # The inbox is removed again if the gateway refuses the number
+  def register_number(instance_name, inbox)
+    client.create_instance(name: instance_name, account_id: Current.account.id, token: Current.user.access_token.token,
+                           inbox_name: inbox.name)
+    client.register_receipts_webhook(instance_name)
+  rescue WhatsappWeb::Client::Error
+    inbox.destroy!
+    raise
   end
 
   def create_inbox(inbox_name, instance_name)

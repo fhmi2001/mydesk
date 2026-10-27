@@ -15,13 +15,29 @@ class WhatsappWeb::Client
               chatwootToken: token,
               chatwootUrl: WhatsappWeb::Config.chatwoot_url,
               chatwootNameInbox: inbox_name,
-              chatwootSignMsg: true,
+              # Replies go out as the store, without "Agent name:" on top
+              chatwootSignMsg: false,
               chatwootReopenConversation: true,
               chatwootConversationPending: false,
               chatwootImportContacts: false,
               chatwootImportMessages: false,
               chatwootMergeBrazilContacts: false,
               autoCreate: false
+            })
+  end
+
+  # The gateway's own Chatwoot integration does not pass on delivered / read receipts, so have it post
+  # them to the platform (Webhooks::WhatsappWebController) with a per-number secret
+  def register_receipts_webhook(name)
+    request(:post, "/webhook/set/#{escape(name)}", body: {
+              webhook: {
+                enabled: true,
+                url: WhatsappWeb::Config.receipts_url_for(name),
+                headers: { 'X-MyDesk-Token' => WhatsappWeb::Config.receipts_token_for(name) },
+                byEvents: false,
+                base64: false,
+                events: ['MESSAGES_UPDATE']
+              }
             })
   end
 

@@ -752,6 +752,8 @@ Rails.application.routes.draw do
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
   # Custom (MyDesk): Salla store webhooks (orders, app install/uninstall)
   post 'webhooks/salla', to: 'webhooks/salla#events'
+  # Custom (MyDesk): WhatsApp Web (QR) delivery / read receipts from the gateway
+  post 'webhooks/whatsapp_web/:instance', to: 'webhooks/whatsapp_web#receipts'
 
   namespace :twitter do
     resource :callback, only: [:show]

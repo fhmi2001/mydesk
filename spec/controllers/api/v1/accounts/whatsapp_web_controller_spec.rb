@@ -40,13 +40,22 @@ RSpec.describe 'WhatsApp Web (QR) channel API', type: :request do
       request_stub = stub_request(:post, "#{gateway}/instance/create")
                      .with(headers: { 'apikey' => 'test-key' },
                            body: hash_including('instanceName' => instance_name, 'chatwootAccountId' => account.id.to_s,
-                                                'chatwootNameInbox' => 'Store WhatsApp', 'autoCreate' => false))
+                                                'chatwootNameInbox' => 'Store WhatsApp', 'autoCreate' => false,
+                                                'chatwootSignMsg' => false))
                      .to_return(status: 201, body: { instance: { instanceName: instance_name } }.to_json,
                                 headers: { 'Content-Type' => 'application/json' })
+      receipts_stub = stub_request(:post, "#{gateway}/webhook/set/#{instance_name}")
+                      .with(body: hash_including('webhook' => hash_including(
+                        'url' => "http://rails:3000/webhooks/whatsapp_web/#{instance_name}",
+                        'events' => ['MESSAGES_UPDATE'],
+                        'headers' => { 'X-MyDesk-Token' => WhatsappWeb::Config.receipts_token_for(instance_name) }
+                      )))
+                      .to_return(status: 201, body: '{}', headers: { 'Content-Type' => 'application/json' })
 
       post base_path, params: { name: ' Store WhatsApp ' }, headers: admin.create_new_auth_token, as: :json
 
       expect(request_stub).to have_been_requested
+      expect(receipts_stub).to have_been_requested
       expect(response).to have_http_status(:success)
       inbox = account.inboxes.find(response.parsed_body['id'])
       expect(inbox.name).to eq('Store WhatsApp')

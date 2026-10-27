@@ -44,7 +44,8 @@ class SafeFetch::Fetcher
   end
 
   def perform_request(&)
-    return SafeFetch::PrivateNetworkRequest.new(options).perform(&) if SafeFetch.allow_private_network?
+    # Custom (MyDesk): also for trusted internal hosts (SafeFetch.trusted_host?)
+    return SafeFetch::PrivateNetworkRequest.new(options).perform(&) if SafeFetch.private_request_allowed?(options.uri)
 
     SsrfFilter.public_send(options.method, options.url, **options.request_options, &)
   end

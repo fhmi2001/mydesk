@@ -30,7 +30,7 @@ print(json.dumps({
     "chatwootToken": token,
     "chatwootUrl": "http://rails:3000",
     "chatwootNameInbox": inbox,
-    "chatwootSignMsg": True,
+    "chatwootSignMsg": False,
     "chatwootReopenConversation": True,
     "chatwootConversationPending": False,
     "chatwootImportContacts": False,
