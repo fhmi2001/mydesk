@@ -1,5 +1,6 @@
 <script>
 import { ref } from 'vue';
+import { useMediaQuery } from '@vueuse/core';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -123,12 +124,23 @@ export default {
       type: Boolean,
       default: false,
     },
+    // Custom (MyDesk): tools and Send of the one-row composer (see ReplyBox)
+    chatBar: {
+      type: Boolean,
+      default: false,
+    },
+    // Only private notes are allowed here, so the note switch cannot turn back to reply
+    isReplyRestricted: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'requestContactInfoTemplate',
+    'toggleNoteMode',
   ],
   setup(props) {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -156,11 +168,15 @@ export default {
     };
 
     useKeyboardEvents(keyboardEvents);
+    const isCompact = useMediaQuery('(max-width: 639px)');
+    const isTrayOpen = ref(false);
 
     return {
       setSignatureFlagForInbox,
       fetchSignatureFlagFromUISettings,
       uploadRef,
+      isCompact,
+      isTrayOpen,
     };
   },
   computed: {
@@ -173,6 +189,25 @@ export default {
       return {
         'is-note-mode': this.isNote,
       };
+    },
+    // Custom (MyDesk): plain icons in the one-row composer, soft buttons in the classic toolbar
+    toolVariant() {
+      return this.chatBar ? 'ghost' : 'faded';
+    },
+    sendAsIcon() {
+      return this.chatBar || this.isCompact;
+    },
+    // Whether the "+" tray would hold anything
+    hasExtraTools() {
+      return (
+        (this.isCompact && !this.isEditorDisabled) ||
+        (!this.isRecordingAudio && this.showAudioRecorderButton) ||
+        this.showMessageSignatureButton ||
+        this.enableWhatsAppTemplates ||
+        this.enableContentTemplates ||
+        !!this.enableInsertArticleInReply ||
+        !this.isOnPrivateNote
+      );
     },
     showAttachButton() {
       if (this.isEditorDisabled) return false;
@@ -261,6 +296,14 @@ export default {
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
+    // Custom (MyDesk): the "+" tray of the one-row composer
+    closeTray() {
+      this.isTrayOpen = false;
+    },
+    onTrayEmoji() {
+      this.closeTray();
+      this.toggleEmojiPicker();
+    },
     toggleInsertArticle() {
       this.$emit('toggleInsertArticle');
     },
@@ -269,15 +312,23 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between p-3" :class="wrapClass">
-    <div class="left-wrap">
+  <!-- Custom (MyDesk): with `chatBar` the panel becomes the tools and Send of the one-row composer
+       (ReplyBox lays them out around the text box): attach, private note, emoji and AI in the row, the
+       other tools in a "+" tray. Without it (email), the classic toolbar below the editor. -->
+  <div
+    class="flex justify-between p-3"
+    :class="[wrapClass, { 'composer-bar': chatBar }]"
+  >
+    <div class="left-wrap" :class="{ relative: chatBar }">
       <NextButton
-        v-if="!isEditorDisabled"
+        v-if="!isEditorDisabled && !(chatBar && isCompact)"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+        :aria-label="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="i-ph-smiley-sticker"
-        slate
-        faded
-        sm
+        color="slate"
+        :variant="toolVariant"
+        size="sm"
+        :class="{ 'order-3': chatBar }"
         @click="toggleEmojiPicker"
       />
       <FileUpload
@@ -294,74 +345,172 @@ export default {
           direct_upload_url: '/rails/active_storage/direct_uploads',
           direct_upload: true,
         }"
+        :class="{ 'order-1': chatBar }"
         @input-file="onFileUpload"
       >
         <NextButton
           v-if="showAttachButton"
           v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+          :aria-label="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
           icon="i-ph-paperclip"
-          slate
-          faded
-          sm
+          color="slate"
+          :variant="toolVariant"
+          size="sm"
         />
       </FileUpload>
       <NextButton
-        v-if="showAudioRecorderButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
-        slate
-        faded
-        sm
-        @click="toggleAudioRecorder"
-      />
-      <NextButton
-        v-if="showAudioPlayStopButton"
-        :icon="audioRecorderPlayStopIcon"
-        slate
-        faded
-        sm
-        :label="recordingAudioDurationText"
-        @click="toggleAudioRecorderPlayPause"
-      />
-      <NextButton
-        v-if="showMessageSignatureButton"
-        v-tooltip.top-end="signatureToggleTooltip"
-        icon="i-ph-signature"
-        slate
-        faded
-        sm
-        @click="toggleMessageSignature"
-      />
-      <NextButton
-        v-if="enableWhatsAppTemplates"
-        v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
-        icon="i-ph-whatsapp-logo"
-        slate
-        faded
-        sm
-        @click="$emit('selectWhatsappTemplate')"
-      />
-      <RequestContactInfoButton
-        v-if="!isOnPrivateNote"
-        @request-template="$emit('requestContactInfoTemplate')"
-      />
-      <NextButton
-        v-if="enableContentTemplates"
-        v-tooltip.top-end="'Content Templates'"
-        icon="i-ph-whatsapp-logo"
-        slate
-        faded
-        sm
-        @click="$emit('selectContentTemplate')"
-      />
-      <VideoCallButton
-        v-if="
-          (isAWebWidgetInbox || isAPIInbox) &&
-          !isOnPrivateNote &&
-          !isEditorDisabled
+        v-if="chatBar"
+        v-tooltip.top-end="
+          isOnPrivateNote
+            ? $t('CONVERSATION.REPLYBOX.NOTE_TOGGLE.TO_REPLY')
+            : $t('CONVERSATION.REPLYBOX.NOTE_TOGGLE.TO_NOTE')
         "
-        :conversation-id="conversationId"
+        :aria-label="$t('CONVERSATION.REPLYBOX.PRIVATE_NOTE')"
+        :aria-pressed="isOnPrivateNote"
+        icon="i-lucide-message-square-lock"
+        :color="isOnPrivateNote ? 'amber' : 'slate'"
+        :variant="isOnPrivateNote ? 'faded' : 'ghost'"
+        size="sm"
+        :disabled="isOnPrivateNote && isReplyRestricted"
+        class="order-2"
+        @click="$emit('toggleNoteMode')"
       />
+      <template v-if="!chatBar || isRecordingAudio">
+        <NextButton
+          v-if="showAudioRecorderButton"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+          :aria-label="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+          :icon="
+            !isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'
+          "
+          color="slate"
+          :variant="toolVariant"
+          size="sm"
+          :class="{ 'order-3': chatBar }"
+          @click="toggleAudioRecorder"
+        />
+        <NextButton
+          v-if="showAudioPlayStopButton"
+          :icon="audioRecorderPlayStopIcon"
+          color="slate"
+          :variant="toolVariant"
+          size="sm"
+          :label="recordingAudioDurationText"
+          :class="{ 'order-3': chatBar }"
+          @click="toggleAudioRecorderPlayPause"
+        />
+      </template>
+      <!-- "+" and its tray share one container, so clicking "+" again is not an outside click -->
+      <div
+        v-on-clickaway="closeTray"
+        :class="chatBar ? 'relative order-4 flex' : 'contents'"
+      >
+        <NextButton
+          v-if="chatBar && hasExtraTools"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.MORE_TOOLS')"
+          :aria-label="$t('CONVERSATION.REPLYBOX.MORE_TOOLS')"
+          :aria-expanded="isTrayOpen"
+          aria-controls="composer-extra-tools"
+          icon="i-lucide-plus"
+          color="slate"
+          :variant="isTrayOpen ? 'faded' : 'ghost'"
+          size="sm"
+          class="[&_span]:transition-transform"
+          :class="{ '[&_span]:rotate-45': isTrayOpen }"
+          @click="isTrayOpen = !isTrayOpen"
+        />
+        <!-- Classic: these tools sit inline (display: contents). One-row: a tray above "+". -->
+        <div
+          v-show="!chatBar || isTrayOpen"
+          id="composer-extra-tools"
+          :class="
+            chatBar
+              ? 'absolute bottom-full start-0 z-30 mb-2 flex w-max max-w-[calc(100vw-2rem)] flex-wrap items-center gap-1 rounded-xl bg-n-solid-2 p-1.5 shadow-lg outline outline-1 -outline-offset-1 outline-n-weak'
+              : 'contents'
+          "
+          @click="closeTray"
+        >
+          <NextButton
+            v-if="chatBar && isCompact && !isEditorDisabled"
+            v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+            :aria-label="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+            icon="i-ph-smiley-sticker"
+            color="slate"
+            variant="ghost"
+            size="sm"
+            @click.stop="onTrayEmoji"
+          />
+          <slot v-if="chatBar && isCompact" name="ai" :in-tray="true" />
+          <NextButton
+            v-if="chatBar && !isRecordingAudio && showAudioRecorderButton"
+            v-tooltip.top-end="
+              $t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')
+            "
+            :aria-label="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+            icon="i-ph-microphone"
+            color="slate"
+            variant="ghost"
+            size="sm"
+            @click="toggleAudioRecorder"
+          />
+          <NextButton
+            v-if="showMessageSignatureButton"
+            v-tooltip.top-end="signatureToggleTooltip"
+            :aria-label="signatureToggleTooltip"
+            icon="i-ph-signature"
+            color="slate"
+            :variant="toolVariant"
+            size="sm"
+            @click="toggleMessageSignature"
+          />
+          <NextButton
+            v-if="enableWhatsAppTemplates"
+            v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
+            :aria-label="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
+            icon="i-ph-whatsapp-logo"
+            color="slate"
+            :variant="toolVariant"
+            size="sm"
+            @click="$emit('selectWhatsappTemplate')"
+          />
+          <RequestContactInfoButton
+            v-if="!isOnPrivateNote"
+            @request-template="$emit('requestContactInfoTemplate')"
+          />
+          <NextButton
+            v-if="enableContentTemplates"
+            v-tooltip.top-end="'Content Templates'"
+            icon="i-ph-whatsapp-logo"
+            color="slate"
+            :variant="toolVariant"
+            size="sm"
+            @click="$emit('selectContentTemplate')"
+          />
+          <VideoCallButton
+            v-if="
+              (isAWebWidgetInbox || isAPIInbox) &&
+              !isOnPrivateNote &&
+              !isEditorDisabled
+            "
+            :conversation-id="conversationId"
+          />
+          <NextButton
+            v-if="enableInsertArticleInReply"
+            v-tooltip.top-end="
+              $t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')
+            "
+            :aria-label="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+            icon="i-ph-article-ny-times"
+            color="slate"
+            :variant="toolVariant"
+            size="sm"
+            @click="toggleInsertArticle"
+          />
+        </div>
+      </div>
+      <div v-if="chatBar && !isCompact" class="order-5">
+        <slot name="ai" :in-tray="false" />
+      </div>
       <transition name="modal-fade">
         <div
           v-show="uploadRef && uploadRef.dropActive"
@@ -373,24 +522,20 @@ export default {
           </h4>
         </div>
       </transition>
-      <NextButton
-        v-if="enableInsertArticleInReply"
-        v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
-        icon="i-ph-article-ny-times"
-        slate
-        faded
-        sm
-        @click="toggleInsertArticle"
-      />
     </div>
     <div class="right-wrap">
+      <!-- Custom (MyDesk): Send is an icon in the one-row composer and on phones (it points the
+           reading direction), a labelled button otherwise -->
       <NextButton
-        :label="sendButtonText"
+        v-tooltip.top-end="sendAsIcon ? sendButtonText : null"
+        :label="sendAsIcon ? undefined : sendButtonText"
+        :icon="sendAsIcon ? 'i-lucide-send-horizontal' : undefined"
+        :aria-label="sendButtonText"
         type="submit"
         sm
         :color="isNote ? 'amber' : 'blue'"
         :disabled="isSendDisabled"
-        class="flex-shrink-0"
+        class="flex-shrink-0 rtl:[&_span]:-scale-x-100"
         @click="onSend"
       />
     </div>
@@ -404,6 +549,14 @@ export default {
 
 .right-wrap {
   @apply flex;
+}
+
+// Custom (MyDesk): finger-sized tools and Send on touch screens (44px)
+@media (pointer: coarse) {
+  .left-wrap :deep(button),
+  .right-wrap :deep(button) {
+    @apply min-h-11 min-w-11;
+  }
 }
 
 :deep(.file-uploads) {

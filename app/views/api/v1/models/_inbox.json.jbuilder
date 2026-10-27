@@ -77,6 +77,8 @@ json.line_channel_id resource.channel.try(:line_channel_id) if resource.channel_
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
+# Custom (MyDesk): WhatsApp Web (QR) inboxes are API channels; the medium lets the UI show them as WhatsApp
+json.medium 'whatsapp_web' if WhatsappWeb::Config.instance_name_for(resource)
 if resource.twilio?
   json.content_templates resource.channel.try(:content_templates)
   if Current.account_user&.administrator?

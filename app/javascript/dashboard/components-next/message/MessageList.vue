@@ -1,5 +1,8 @@
 <script setup>
 import { computed, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useLocale } from 'shared/composables/useLocale';
+import { dayKey, dayLabel } from 'dashboard/helper/localizedTime';
 import Message from './Message.vue';
 import CampaignMessage from './CampaignMessage.vue';
 import { MESSAGE_TYPES } from './constants.js';
@@ -75,6 +78,75 @@ const timeline = computed(() => {
     })),
   ].sort((a, b) => a.createdAt - b.createdAt);
 });
+
+// Custom (MyDesk): a run of system events (assignment, priority, status, labels...) folds behind one
+// toggle so the conversation itself stays in view. The latest event of the run stays visible, since it
+// tells the current state.
+const ACTIVITY_RUN_MIN = 3;
+const expandedRuns = reactive(new Set());
+const isActivity = entry =>
+  entry.message?.messageType === MESSAGE_TYPES.ACTIVITY;
+
+// Custom (MyDesk): a heading at each new day («اليوم», «أمس», «السبت، 25 أكتوبر»); a folded run
+// never crosses midnight, so every day keeps its own events
+const { t } = useI18n();
+const { resolvedLocale } = useLocale();
+const dayLabels = computed(() => ({
+  today: t('CONVERSATION.DAY_SEPARATOR.TODAY'),
+  yesterday: t('CONVERSATION.DAY_SEPARATOR.YESTERDAY'),
+}));
+
+const rows = computed(() => {
+  const list = timeline.value.map((entry, index) => ({
+    key: entry.key,
+    entry,
+    index,
+    day: dayKey(entry.createdAt),
+  }));
+  const result = [];
+  let currentDay = null;
+  let start = 0;
+  while (start < list.length) {
+    const { day, entry } = list[start];
+    if (day !== currentDay) {
+      currentDay = day;
+      result.push({
+        key: `day-${day}`,
+        separator: dayLabel(
+          entry.createdAt,
+          resolvedLocale.value,
+          dayLabels.value
+        ),
+      });
+    }
+
+    let end = start;
+    while (
+      end < list.length &&
+      list[end].day === day &&
+      isActivity(list[end].entry)
+    ) {
+      end += 1;
+    }
+
+    if (end - start >= ACTIVITY_RUN_MIN) {
+      const run = list.slice(start, end);
+      const key = `activity-run-${run[0].key}`;
+      const expanded = expandedRuns.has(key);
+      result.push({ key, fold: { key, hidden: run.length - 1, expanded } });
+      result.push(...(expanded ? run : run.slice(-1)));
+    } else {
+      result.push(...list.slice(start, Math.max(end, start + 1)));
+    }
+    start = Math.max(end, start + 1);
+  }
+  return result;
+});
+
+const toggleRun = key => {
+  if (expandedRuns.has(key)) expandedRuns.delete(key);
+  else expandedRuns.add(key);
+};
 
 // Cache for fetched reply messages to avoid duplicate API calls
 const fetchedReplyMessages = reactive(new Map());
@@ -186,25 +258,61 @@ const getInReplyToMessage = parentMessage => {
 <template>
   <ul class="px-4 bg-n-surface-1">
     <slot name="beforeAll" />
-    <template v-for="(entry, index) in timeline" :key="entry.key">
-      <slot
-        v-if="firstUnreadId && entry.message?.id === firstUnreadId"
-        name="unreadBadge"
-      />
-      <CampaignMessage v-if="entry.recipient" :recipient="entry.recipient" />
-      <Message
-        v-else
-        v-bind="entry.message"
-        :is-email-inbox="isAnEmailChannel"
-        :in-reply-to="getInReplyToMessage(entry.message)"
-        :group-with-next="
-          shouldGroupWithNext(entry.message, timeline[index + 1]?.message)
-        "
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-user-id="currentUserId"
-        data-clarity-mask="True"
-        @retry="emit('retry', entry.message)"
-      />
+    <template v-for="{ key, separator, fold, entry, index } in rows" :key="key">
+      <li
+        v-if="separator"
+        class="flex justify-center pt-4 pb-2"
+        role="separator"
+        :aria-label="separator"
+      >
+        <span
+          class="inline-flex items-center h-6 px-2.5 rounded-full text-label-small font-medium text-n-slate-11 bg-n-alpha-2"
+        >
+          {{ separator }}
+        </span>
+      </li>
+      <li v-else-if="fold" class="flex justify-center py-1">
+        <button
+          type="button"
+          class="inline-flex items-center h-6 gap-1 px-2 rounded-lg text-label-small text-n-slate-11 bg-n-alpha-2 hover:bg-n-alpha-3 hover:text-n-slate-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
+          :aria-expanded="fold.expanded"
+          @click="toggleRun(fold.key)"
+        >
+          <span class="i-lucide-history size-3.5" aria-hidden="true" />
+          {{
+            fold.expanded
+              ? t('CONVERSATION.ACTIVITY_FOLD.HIDE')
+              : t('CONVERSATION.ACTIVITY_FOLD.SHOW', { count: fold.hidden })
+          }}
+          <span
+            class="size-3.5"
+            :class="
+              fold.expanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+            "
+            aria-hidden="true"
+          />
+        </button>
+      </li>
+      <template v-else>
+        <slot
+          v-if="firstUnreadId && entry.message?.id === firstUnreadId"
+          name="unreadBadge"
+        />
+        <CampaignMessage v-if="entry.recipient" :recipient="entry.recipient" />
+        <Message
+          v-else
+          v-bind="entry.message"
+          :is-email-inbox="isAnEmailChannel"
+          :in-reply-to="getInReplyToMessage(entry.message)"
+          :group-with-next="
+            shouldGroupWithNext(entry.message, timeline[index + 1]?.message)
+          "
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :current-user-id="currentUserId"
+          data-clarity-mask="True"
+          @retry="emit('retry', entry.message)"
+        />
+      </template>
     </template>
     <slot name="after" />
   </ul>

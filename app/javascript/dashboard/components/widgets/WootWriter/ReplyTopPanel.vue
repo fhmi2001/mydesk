@@ -1,24 +1,17 @@
 <script>
-import { ref } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useCaptain } from 'dashboard/composables/useCaptain';
-import { useTrack } from 'dashboard/composables';
-import { vOnClickOutside } from '@vueuse/components';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import EditorModeToggle from './EditorModeToggle.vue';
-import CopilotMenuBar from './CopilotMenuBar.vue';
+// Custom (MyDesk): the AI button lives in its own component, shared with the one-row composer
+import ComposerAiButton from './ComposerAiButton.vue';
 
 export default {
   name: 'ReplyTopPanel',
   components: {
     NextButton,
     EditorModeToggle,
-    CopilotMenuBar,
-  },
-  directives: {
-    OnClickOutside: vOnClickOutside,
+    ComposerAiButton,
   },
   props: {
     mode: {
@@ -78,30 +71,6 @@ export default {
       setReplyMode(newMode);
     };
 
-    const { captainTasksEnabled } = useCaptain();
-    const showCopilotMenu = ref(false);
-    const copilotToggleRef = ref(null);
-
-    const handleCopilotAction = (actionKey, data) => {
-      emit('executeCopilotAction', actionKey, data || props.editorContent);
-      showCopilotMenu.value = false;
-    };
-
-    const toggleCopilotMenu = () => {
-      const isOpening = !showCopilotMenu.value;
-      if (isOpening) {
-        useTrack(CAPTAIN_EVENTS.EDITOR_AI_MENU_OPENED, {
-          conversationId: props.conversationId,
-          entryPoint: 'top_panel',
-        });
-      }
-      showCopilotMenu.value = isOpening;
-    };
-
-    const handleClickOutside = () => {
-      showCopilotMenu.value = false;
-    };
-
     const keyboardEvents = {
       'Alt+KeyP': {
         action: () => handleNoteClick(),
@@ -119,12 +88,6 @@ export default {
       handleReplyClick,
       handleNoteClick,
       REPLY_EDITOR_MODES,
-      captainTasksEnabled,
-      handleCopilotAction,
-      showCopilotMenu,
-      copilotToggleRef,
-      toggleCopilotMenu,
-      handleClickOutside,
     };
   },
   computed: {
@@ -151,9 +114,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex justify-between gap-2 h-[3.25rem] items-center ltr:pl-3 ltr:pr-2 rtl:pr-3 rtl:pl-2"
-  >
+  <div class="flex justify-between gap-2 h-[3.25rem] items-center ps-3 pe-2">
     <EditorModeToggle
       :mode="mode"
       :disabled="disabled"
@@ -167,38 +128,27 @@ export default {
         </span>
       </div>
     </div>
-    <div v-if="captainTasksEnabled" class="flex items-center gap-2">
-      <div class="relative">
-        <NextButton
-          ref="copilotToggleRef"
-          ghost
-          :disabled="disabled || isEditorDisabled"
-          :class="{
-            'text-n-violet-9 hover:enabled:!bg-n-violet-3': !showCopilotMenu,
-            'text-n-violet-9 bg-n-violet-3': showCopilotMenu,
-          }"
-          sm
-          icon="i-ph-sparkle-fill"
-          @click="toggleCopilotMenu"
-        />
-        <CopilotMenuBar
-          v-if="showCopilotMenu"
-          v-on-click-outside="[
-            handleClickOutside,
-            { ignore: [copilotToggleRef] },
-          ]"
-          :has-selection="false"
-          :has-content="hasContent"
-          :conversation-id="conversationId"
-          class="ltr:right-0 rtl:left-0 bottom-full mb-2"
-          @execute-copilot-action="handleCopilotAction"
-        />
-      </div>
+    <!-- Custom (MyDesk): resizing works without AI too, so only the AI menu depends on Captain tasks;
+         both buttons get a name, and the AI one the brand violet (One Violet Rule) -->
+    <div
+      class="flex items-center gap-2 touch:[&_button]:min-h-11 touch:[&_button]:min-w-11"
+    >
+      <ComposerAiButton
+        :conversation-id="conversationId"
+        :disabled="disabled || isEditorDisabled"
+        :editor-content="editorContent"
+        :has-content="hasContent"
+        @execute-copilot-action="
+          (actionKey, data) => $emit('executeCopilotAction', actionKey, data)
+        "
+      />
       <NextButton
+        v-tooltip.top="$t('CONVERSATION.REPLYBOX.RESIZE_EDITOR')"
         ghost
         class="text-n-slate-11"
         sm
         icon="i-lucide-maximize-2"
+        :aria-label="$t('CONVERSATION.REPLYBOX.RESIZE_EDITOR')"
         @click="$emit('toggleEditorSize')"
       />
     </div>

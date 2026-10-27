@@ -17,9 +17,12 @@ const props = defineProps({
 
 const emit = defineEmits(['collapse']);
 
-const DEFAULT_HEIGHT = 120;
-const MIN_HEIGHT = 80;
 const MIN_MESSAGES_HEIGHT = 200;
+// Custom (MyDesk): on phones the reply opens at about two lines so the conversation keeps the screen;
+// it still grows with the text and can be dragged taller. Read once, when the composer mounts.
+const isCompact = !!window.matchMedia?.('(max-width: 639px)').matches;
+const DEFAULT_HEIGHT = isCompact ? 48 : 120;
+const MIN_HEIGHT = isCompact ? 40 : 80;
 const EXPAND_RATIO = 0.5;
 const RESET_DELAY_MS = 120;
 const COLLAPSE_DISTANCE = 48;

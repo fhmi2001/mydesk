@@ -54,7 +54,7 @@
     "UNMUTE_CONTACT": "إلغاء حجب جهة الاتصال",
     "MUTED_SUCCESS": "تم حظر جهة الاتصال هذه بنجاح، لن يتم إعلامك بأي محادثات في المستقبل.",
     "UNMUTED_SUCCESS": "تم إلغاء حجب جهة الاتصال بنجاح.",
-    "SEND_TRANSCRIPT": "إرسال النص",
+    "SEND_TRANSCRIPT": "إرسال نص المحادثة بالبريد",
     "EDIT_LABEL": "تعديل",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "سمات مخصصة",

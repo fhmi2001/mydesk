@@ -3,6 +3,7 @@ import {
   TWILIO_CHANNEL_MEDIUM,
   isVoiceCallEnabled,
   getInboxVoiceIcon,
+  isWhatsappWebMedium,
 } from 'dashboard/helper/inbox';
 import { computed } from 'vue';
 
@@ -66,6 +67,11 @@ export function useChannelIcon(inbox) {
       icon = 'i-woot-whatsapp';
     }
 
+    // Custom (MyDesk): WhatsApp Web (QR) inboxes are API channels shown as WhatsApp
+    if (isWhatsappWebMedium(type, inboxDetails.medium)) {
+      icon = 'i-woot-whatsapp';
+    }
+
     // Voice-enabled inboxes use the combined channel + voice-wave badge glyph.
     if (isVoiceCallEnabled(inboxDetails)) {
       icon = getInboxVoiceIcon(type, inboxDetails.medium);
@@ -93,6 +99,11 @@ export function useChannelBrandIcon(inbox) {
       type === INBOX_TYPES.TWILIO &&
       inboxDetails.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
     ) {
+      icon = channelTypeBrandIconMap['Channel::Whatsapp'];
+    }
+
+    // Custom (MyDesk): WhatsApp Web (QR)
+    if (isWhatsappWebMedium(type, inboxDetails.medium)) {
       icon = channelTypeBrandIconMap['Channel::Whatsapp'];
     }
 

@@ -13,7 +13,6 @@ import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
-import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
 import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
 
 export default {
@@ -21,7 +20,6 @@ export default {
     ChatList,
     ConversationBox,
     CmdBarConversationSnooze,
-    SidepanelSwitch,
     ConversationSidebar,
   },
   beforeRouteLeave(to, from, next) {
@@ -213,7 +211,7 @@ export default {
       :inbox-id="inboxId"
       :is-on-expanded-layout="isOnExpandedLayout"
     >
-      <SidepanelSwitch v-if="currentChat.id" />
+      <!-- Custom (MyDesk): the side-panel switch lives in ConversationHeader now -->
     </ConversationBox>
     <ConversationSidebar v-if="shouldShowSidebar" :current-chat="currentChat" />
     <CmdBarConversationSnooze />

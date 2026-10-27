@@ -11,7 +11,6 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { emitter } from 'shared/helpers/mitt';
-import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
 
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
@@ -217,7 +216,7 @@ onMounted(async () => {
           :inbox-id="inboxId"
           :is-on-expanded-layout="false"
         >
-          <SidepanelSwitch v-if="currentChat.id" />
+          <!-- Custom (MyDesk): the side-panel switch lives in ConversationHeader now -->
         </ConversationBox>
         <ConversationSidebar
           v-if="isContactPanelOpen"

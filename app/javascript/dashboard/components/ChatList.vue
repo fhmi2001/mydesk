@@ -8,6 +8,7 @@ import {
 } from 'dashboard/composables/store.js';
 
 import ChatListHeader from './ChatListHeader.vue';
+import ConversationListSearch from './widgets/conversation/ConversationListSearch.vue';
 import ConversationList from './ConversationList.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
@@ -927,6 +928,8 @@ watch(appliedFilters, () => resetBulkActions());
       @reset-filters="resetFilters"
       @basic-filter-change="onBasicFilterChange"
     />
+    <!-- Custom (MyDesk): search where the sidebar is hidden (below md) -->
+    <ConversationListSearch />
 
     <TeleportWithDirection
       v-if="showAddFoldersModal"

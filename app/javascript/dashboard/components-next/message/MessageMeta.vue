@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { useLocale } from 'shared/composables/useLocale';
+import { isArabic, messageDateTime } from 'dashboard/helper/localizedTime';
 
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -35,8 +37,13 @@ const {
   contentAttributes,
 } = useMessageContext();
 
+const { resolvedLocale } = useLocale();
+
+// Custom (MyDesk): «28 أكتوبر، 12:16 ص» in Arabic instead of the English "Oct 28, 12:16 AM"
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  isArabic(resolvedLocale.value)
+    ? messageDateTime(createdAt.value, resolvedLocale.value)
+    : messageTimestamp(createdAt.value, 'LLL d, h:mm a')
 );
 
 const exactTime = computed(() => exactTimestamp(createdAt.value));

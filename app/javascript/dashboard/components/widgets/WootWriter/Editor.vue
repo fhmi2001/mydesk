@@ -27,6 +27,7 @@ import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { vOnClickOutside } from '@vueuse/components';
+import { useMediaQuery } from '@vueuse/core';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
@@ -616,8 +617,11 @@ function toggleSignatureInEditor(signatureEnabled) {
   emitOnChange();
 }
 
+// Custom (MyDesk): touch keyboards have no Shift, so there Enter always adds a line (Send sends)
+const isTouchInput = useMediaQuery('(pointer: coarse)');
+
 function isEnterToSendEnabled() {
-  return isEditorHotKeyEnabled('enter');
+  return !isTouchInput.value && isEditorHotKeyEnabled('enter');
 }
 
 function isCmdPlusEnterToSendEnabled() {

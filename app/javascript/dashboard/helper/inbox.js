@@ -222,6 +222,11 @@ export const getInboxClassByType = (type, phoneNumber) => {
   }
 };
 
+// Custom (MyDesk): WhatsApp Web (QR) inboxes are API channels with medium "whatsapp_web" (inbox payload)
+export const WHATSAPP_WEB_MEDIUM = 'whatsapp_web';
+export const isWhatsappWebMedium = (type, medium) =>
+  type === INBOX_TYPES.API && medium === WHATSAPP_WEB_MEDIUM;
+
 export const getInboxIconByType = (
   type,
   medium,
@@ -239,6 +244,8 @@ export const getInboxIconByType = (
   if (type === INBOX_TYPES.TWILIO && medium === 'whatsapp') {
     return iconMap[INBOX_TYPES.WHATSAPP];
   }
+
+  if (isWhatsappWebMedium(type, medium)) return iconMap[INBOX_TYPES.WHATSAPP];
 
   return iconMap[type] ?? defaultIcon;
 };

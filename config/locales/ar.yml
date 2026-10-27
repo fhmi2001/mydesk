@@ -326,6 +326,12 @@ ar:
     attachment: 'المرفقات'
     no_content: 'لا يوجد محتوى'
   conversations:
+    # Custom (MyDesk): priority names inside activity messages (the raw value otherwise)
+    priority_names:
+      low: 'منخفضة'
+      medium: 'متوسطة'
+      high: 'عالية'
+      urgent: 'عاجلة'
     captain:
       handoff: 'تحويل إلى وكيل آخر لمزيد من المساعدة.'
     messages:

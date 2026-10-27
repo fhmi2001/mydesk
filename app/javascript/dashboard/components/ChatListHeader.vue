@@ -109,7 +109,10 @@ const toggleConversationLayout = () => {
         {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
       </span>
     </div>
-    <div class="flex items-center gap-1">
+    <!-- Custom (MyDesk): finger-sized (44px) on touch screens -->
+    <div
+      class="flex items-center gap-1 touch:[&_button]:min-h-11 touch:[&_button]:min-w-11"
+    >
       <template v-if="hasAppliedFilters && !hasActiveFolders">
         <div class="relative">
           <NextButton

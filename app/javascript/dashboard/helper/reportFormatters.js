@@ -12,10 +12,10 @@ const ARABIC_UNITS = [
   { seconds: 1, label: 'ث' },
 ];
 
-const isArabic = locale => String(locale || '').startsWith('ar');
+export const isArabic = locale => String(locale || '').startsWith('ar');
 
 // Western digits and the Gregorian calendar, the convention of Saudi commerce screens
-const intlLocale = locale =>
+export const intlLocale = locale =>
   isArabic(locale) ? 'ar-u-nu-latn-ca-gregory' : locale || 'en';
 
 export const formatNumber = (value, locale) =>

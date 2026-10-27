@@ -1,5 +1,6 @@
 <script>
 import { defineAsyncComponent, getCurrentInstance, useTemplateRef } from 'vue';
+import { useMediaQuery } from '@vueuse/core';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -11,6 +12,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import ComposerAiButton from 'dashboard/components/widgets/WootWriter/ComposerAiButton.vue';
 import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import CopilotEditorSection from './CopilotEditorSection.vue';
@@ -74,6 +76,7 @@ export default {
     EmojiIconPicker,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
+    ComposerAiButton,
     ReplyEmailHead,
     ReplyToMessage,
     ReplyTopPanel,
@@ -98,6 +101,9 @@ export default {
     const copilot = useCopilotReply();
     const macroExecution = useMacroExecution();
     const shortcutKey = useKbd(['$mod', '+', 'enter']);
+    // Custom (MyDesk): phones and tablets have no Shift key, so there Enter adds a line and the
+    // Send button sends (the editor's compact height lives in ResizableEditorWrapper)
+    const isTouchComposer = useMediaQuery('(pointer: coarse)');
 
     // Options API state and methods live on the instance proxy
     const { proxy } = getCurrentInstance();
@@ -116,7 +122,7 @@ export default {
       },
       Enter: {
         action: e => {
-          if (isComposing(e)) return;
+          if (isComposing(e) || isTouchComposer.value) return;
           if (proxy.isAValidEvent('enter')) {
             proxy.onSendReply();
             e.preventDefault();
@@ -160,6 +166,7 @@ export default {
       copilot,
       shortcutKey,
       macroExecution,
+      isTouchComposer,
     };
   },
   data() {
@@ -246,6 +253,11 @@ export default {
         this.isAPIInbox
       );
     },
+    // Custom (MyDesk): chat channels get the one-row composer (tools, a text box that grows with the
+    // text, Send). Email keeps the full editor for its To/CC/subject, and so does Captain's editor.
+    isChatBar() {
+      return !this.isAnEmailChannel && !this.copilot.isActive.value;
+    },
     canSendPublicReply() {
       return (
         this.isWithinMessagingWindow &&
@@ -318,6 +330,17 @@ export default {
           return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_API');
         }
         return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED');
+      }
+      // Custom (MyDesk): a one-line box gets a short hint; touch screens get no keyboard shortcuts
+      if (this.isChatBar) {
+        return this.isPrivate
+          ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT_BAR')
+          : this.$t('CONVERSATION.FOOTER.MSG_INPUT_BAR');
+      }
+      if (this.isTouchComposer) {
+        return this.isPrivate
+          ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT_TOUCH')
+          : this.$t('CONVERSATION.FOOTER.MSG_INPUT_TOUCH');
       }
       return this.isPrivate
         ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
@@ -410,6 +433,7 @@ export default {
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
       }
+      if (this.isTouchComposer) return sendMessageText;
       const keyLabel = this.isEditorHotKeyEnabled('cmd_enter')
         ? `(${this.shortcutKey})`
         : '(↵)';
@@ -1035,6 +1059,15 @@ export default {
         this.toggleAudioRecorder();
       }
     },
+    // Custom (MyDesk): the note switch of the one-row composer
+    toggleNoteMode() {
+      if (this.isOnPrivateNote) {
+        if (this.canSendPublicReply)
+          this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
+        return;
+      }
+      this.setReplyMode(REPLY_EDITOR_MODES.NOTE);
+    },
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';
     },
@@ -1349,8 +1382,11 @@ export default {
 
 <template>
   <ReplyBoxBanner :message="message" :is-on-private-note="isOnPrivateNote" />
-  <div class="reply-box" :class="replyBoxClass">
+  <div class="reply-box" :class="[replyBoxClass, { 'is-chat-bar': isChatBar }]">
+    <!-- Custom (MyDesk): hidden (not removed) in the one-row composer, so its Alt+P / Alt+L
+         shortcuts keep working; the row has its own note switch and AI button -->
     <ReplyTopPanel
+      v-show="!isChatBar"
       :mode="replyType"
       :conversation-id="conversationId"
       :is-reply-restricted="!canSendPublicReply"
@@ -1492,6 +1528,23 @@ export default {
           "
           class="mb-2"
         />
+        <p
+          v-if="isChatBar && isMessageLengthReachingThreshold"
+          class="pb-1 mb-0 text-xs tabular-nums"
+          :class="
+            charactersRemaining < 0 ? 'text-n-ruby-11' : 'text-n-slate-11'
+          "
+        >
+          {{
+            charactersRemaining < 0
+              ? $t('CONVERSATION.REPLYBOX.CHARS_OVER', {
+                  count: -charactersRemaining,
+                })
+              : $t('CONVERSATION.REPLYBOX.CHARS_LEFT', {
+                  count: charactersRemaining,
+                })
+          }}
+        </p>
       </div>
     </Transition>
 
@@ -1539,11 +1592,26 @@ export default {
         :message="message"
         :portal-slug="connectedPortalSlug"
         :new-conversation-modal-active="newConversationModalActive"
+        :chat-bar="isChatBar"
+        :is-reply-restricted="!canSendPublicReply"
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
         @toggle-insert-article="toggleInsertArticle"
         @request-contact-info-template="openContactInfoTemplateModal"
-      />
+        @toggle-note-mode="toggleNoteMode"
+      >
+        <template #ai="{ inTray }">
+          <ComposerAiButton
+            :conversation-id="conversationId"
+            :disabled="isEditorDisabled || showAudioRecorderEditor"
+            :editor-content="message"
+            :has-content="hasMeaningfulEditorContent"
+            entry-point="composer_bar"
+            :menu-align="inTray ? 'start' : 'end'"
+            @execute-copilot-action="executeCopilotAction"
+          />
+        </template>
+      </ReplyBottomPanel>
     </Transition>
 
     <WhatsappTemplates
@@ -1615,5 +1683,85 @@ export default {
     transform: rotate(0deg);
     @apply ltr:left-1 rtl:right-1 -bottom-2;
   }
+}
+
+// Custom (MyDesk): the one-row composer. In reading order: the tools, a text box that grows with
+// every new line (up to 40% of the screen, then it scrolls), and Send. ReplyBottomPanel's root is
+// `display: contents`, so its tools and its Send button are placed directly in this grid.
+.reply-box.is-chat-bar {
+  @apply grid items-end gap-x-2 gap-y-1 p-2 border-0 bg-transparent;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'tools editor send';
+
+  &.is-private {
+    @apply bg-transparent;
+  }
+
+  // Static so the emoji picker and the editor menus anchor to the whole bar, not the text box
+  .reply-box__top {
+    grid-area: editor;
+    @apply static m-0 min-w-0 rounded-xl bg-n-solid-1 px-3 py-2 outline outline-1 -outline-offset-1 outline-n-weak transition-[outline-color,background-color] duration-150;
+
+    &:focus-within {
+      @apply outline-n-brand;
+    }
+  }
+
+  &.is-private .reply-box__top {
+    @apply bg-n-solid-amber outline-n-amber-7;
+  }
+
+  :deep(.composer-bar) {
+    display: contents;
+  }
+
+  :deep(.left-wrap) {
+    grid-area: tools;
+    @apply gap-1 pb-0.5;
+  }
+
+  :deep(.right-wrap) {
+    grid-area: send;
+    @apply pb-0.5;
+  }
+
+  // The text box sizes itself to its content instead of the drag-resized height
+  :deep(.resizable-editor-split) {
+    height: auto !important;
+  }
+
+  :deep(.editor-mount) {
+    @apply min-h-0;
+  }
+
+  :deep(.resizable-editor-body),
+  :deep(.ProseMirror-woot-style) {
+    @apply min-h-6 max-h-[40vh] overflow-y-auto;
+  }
+
+  // One line of text is the whole box; paragraphs keep a small gap between them. Important beats the
+  // editor's own `p:last-child { margin-bottom: 10px !important }` (.popover-prosemirror-menu).
+  :deep(.ProseMirror p) {
+    @apply my-0 #{!important};
+  }
+
+  :deep(.ProseMirror p + p) {
+    @apply mt-1.5;
+  }
+
+  .emoji-dialog {
+    @apply bottom-full top-auto mb-2 start-2 end-auto;
+
+    &::before {
+      @apply hidden;
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+// Custom (MyDesk): the one-row composer grows with its text, so the drag handle above it has no job
+.resizable-editor-wrapper:has(.reply-box.is-chat-bar) > .cursor-row-resize {
+  @apply hidden;
 }
 </style>

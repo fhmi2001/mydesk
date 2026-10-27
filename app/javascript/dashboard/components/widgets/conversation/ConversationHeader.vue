@@ -16,6 +16,7 @@ import { useInbox } from 'dashboard/composables/useInbox';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
 
 const props = defineProps({
   chat: {
@@ -113,27 +114,31 @@ const copyConversationId = async () => {
 </script>
 
 <template>
+  <!-- Custom (MyDesk): one row at every width (it stacked into two below 1280px), so the messages keep
+       the height; on phones the contact details open from here instead of a button floating over them -->
   <div
     ref="conversationHeader"
-    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-3 pt-3 pb-2 h-24 xl:h-12"
+    class="flex flex-row items-center justify-between flex-none w-full min-w-0 gap-2 px-3 h-14"
   >
-    <div
-      class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0 xl:flex-1"
-    >
+    <div class="flex items-center justify-start flex-1 min-w-0">
       <BackButton
         v-if="showBackButton"
         :back-url="backButtonUrl"
-        class="me-2"
+        hide-label-on-mobile
+        class="me-1 sm:me-2 justify-center"
       />
-      <Avatar
-        :name="currentContact.name"
-        :src="currentContact.thumbnail"
-        :size="36"
-        :status="currentContact.availability_status"
-        hide-offline-status
-      />
+      <!-- Custom (MyDesk): on phones the name needs the room more than the avatar does -->
+      <span class="max-sm:hidden contents">
+        <Avatar
+          :name="currentContact.name"
+          :src="currentContact.thumbnail"
+          :size="36"
+          :status="currentContact.availability_status"
+          hide-offline-status
+        />
+      </span>
       <!-- Custom (MyDesk): the customer's name leads the conversation as its heading -->
-      <div class="flex flex-col items-start min-w-0 ms-2.5 overflow-hidden">
+      <div class="flex flex-col items-start min-w-0 sm:ms-2.5 overflow-hidden">
         <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
           <span class="truncate text-heading-2 text-n-slate-12">
             {{ currentContact.name }}
@@ -178,7 +183,7 @@ const copyConversationId = async () => {
       </div>
     </div>
     <div
-      class="flex flex-row items-center justify-start xl:justify-end flex-shrink-0 gap-2 w-full xl:w-auto header-actions-wrap"
+      class="flex flex-row items-center justify-end flex-shrink-0 gap-1 sm:gap-2 header-actions-wrap touch:[&_button]:min-h-11 touch:[&_button]:min-w-11"
     >
       <SLACardLabel
         v-if="hasSlaPolicyId"
@@ -188,6 +193,8 @@ const copyConversationId = async () => {
         class="hidden md:flex"
       />
       <ConversationCallButton :inbox="inbox" :chat="currentChat" />
+      <!-- Custom (MyDesk): contact details (and Copilot) next to «إغلاق», not floating over the messages -->
+      <SidepanelSwitch inline />
       <MoreActions :conversation-id="currentChat.id" />
     </div>
   </div>

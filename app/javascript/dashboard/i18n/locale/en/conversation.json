@@ -179,6 +179,13 @@
         "RT": "RT {status}",
         "MISSED": "missed",
         "DUE": "due"
+      },
+      "ACTIONS": {
+        "ASSIGN": "Assign to an agent",
+        "ASSIGN_TITLE": "Assign the conversation to",
+        "ON_HOLD": "Put on hold",
+        "SNOOZE": "Snooze…",
+        "SEARCH_AGENT": "Search agents"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -313,7 +320,11 @@
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click here to update",
-      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates",
+      "MSG_INPUT_TOUCH": "Type your reply. Type / for a canned response.",
+      "PRIVATE_MSG_INPUT_TOUCH": "A note for your team only; the customer does not see it.",
+      "MSG_INPUT_BAR": "Write a reply… or / for a canned response",
+      "PRIVATE_MSG_INPUT_BAR": "Note for your team only, the customer will not see it…"
     },
     "REPLYBOX": {
       "REPLY": "Reply",
@@ -363,6 +374,15 @@
         "SHOW_TOOLTIP": "Show trimmed content",
         "HIDE_TOOLTIP": "Hide trimmed content",
         "REMOVE": "Remove quoted text"
+      },
+      "AI_ASSIST": "Write with AI",
+      "RESIZE_EDITOR": "Resize reply box",
+      "MORE_TOOLS": "More tools",
+      "CHARS_LEFT": "{count} characters left",
+      "CHARS_OVER": "{count} characters over the limit",
+      "NOTE_TOGGLE": {
+        "TO_NOTE": "Private note (only your team sees it)",
+        "TO_REPLY": "Back to replying to the customer"
       }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
@@ -442,6 +462,14 @@
       "UNMUTE": "Unmute mic",
       "VIEW_CHAT_HISTORY": "View chat history",
       "GO_TO_CONVERSATION": "Go to conversation thread"
+    },
+    "ACTIVITY_FOLD": {
+      "SHOW": "Show earlier updates ({count})",
+      "HIDE": "Hide updates"
+    },
+    "DAY_SEPARATOR": {
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday"
     }
   },
   "EMAIL_TRANSCRIPT": {

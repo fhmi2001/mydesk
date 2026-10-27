@@ -20,7 +20,15 @@ module PriorityActivityMessageHandler
   def build_priority_change_content(user_name, old_priority = nil, new_priority = nil)
     change_type = get_priority_change_type(old_priority, new_priority)
 
-    I18n.t("conversations.activity.priority.#{change_type}", user_name: user_name, new_priority: new_priority, old_priority: old_priority)
+    I18n.t("conversations.activity.priority.#{change_type}", user_name: user_name, new_priority: priority_name(new_priority),
+                                                             old_priority: priority_name(old_priority))
+  end
+
+  # Custom (MyDesk): the priority in the reader's language («عالية»); locales without names keep the raw value
+  def priority_name(priority)
+    return priority if priority.blank?
+
+    I18n.t("conversations.priority_names.#{priority}", default: priority.to_s)
   end
 
   def get_priority_change_type(old_priority, new_priority)

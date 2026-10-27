@@ -1,13 +1,19 @@
 <script setup>
 import { computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { useLocale } from 'shared/composables/useLocale';
+import { isArabic, messageDateTime } from 'dashboard/helper/localizedTime';
 import BaseBubble from './Base.vue';
 import { useMessageContext } from '../provider.js';
 
 const { content, createdAt } = useMessageContext();
+const { resolvedLocale } = useLocale();
 
+// Custom (MyDesk): the hover time in Arabic too
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  isArabic(resolvedLocale.value)
+    ? messageDateTime(createdAt.value, resolvedLocale.value)
+    : messageTimestamp(createdAt.value, 'LLL d, h:mm a')
 );
 </script>
 

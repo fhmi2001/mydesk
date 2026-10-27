@@ -5,6 +5,7 @@ const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
 
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { isArabic, shortTimeAgo } from 'dashboard/helper/localizedTime';
 
 export default {
   name: 'TimeAgo',
@@ -37,10 +38,23 @@ export default {
     };
   },
   computed: {
+    // Custom (MyDesk): «2 س • 1 س» in Arabic. The *TimeAgo strings are refreshed by the timer, so
+    // reading them here keeps the Arabic values ticking too.
+    usesArabic() {
+      return isArabic(this.$i18n?.locale);
+    },
     lastActivityTime() {
+      if (this.usesArabic) {
+        return (
+          this.lastActivityAtTimeAgo && shortTimeAgo(this.lastActivityTimestamp)
+        );
+      }
       return shortTimestamp(this.lastActivityAtTimeAgo);
     },
     createdAtTime() {
+      if (this.usesArabic) {
+        return this.createdAtTimeAgo && shortTimeAgo(this.createdAtTimestamp);
+      }
       return shortTimestamp(this.createdAtTimeAgo);
     },
     createdAt() {
@@ -112,8 +126,10 @@ export default {
       popperClass: 'whitespace-pre-line',
       delay: { show: 1000, hide: 0 },
     }"
-    class="ml-auto leading-4 text-xxs text-n-slate-10 hover:text-n-slate-11"
+    class="ms-auto leading-4 text-xxs text-n-slate-11 hover:text-n-slate-12"
   >
-    <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
+    <span class="tabular-nums">{{
+      `${createdAtTime} • ${lastActivityTime}`
+    }}</span>
   </div>
 </template>

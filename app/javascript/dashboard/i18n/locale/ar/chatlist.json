@@ -143,6 +143,10 @@
     "SHOW_QUOTED_TEXT": "إظهار النص المقتبس",
     "MESSAGE_READ": "قراءة",
     "SENDING": "جارٍ الإرسال",
-    "UNREAD_COUNT_OVERFLOW": "9+"
+    "UNREAD_COUNT_OVERFLOW": "9+",
+    "LIST_SEARCH": {
+      "LABEL": "بحث",
+      "PLACEHOLDER": "ابحث في المحادثات وجهات الاتصال"
+    }
   }
 }
