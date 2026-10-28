@@ -1,0 +1,5 @@
+# Custom (MyDesk): WhatsApp Web (QR) copy shown on messages, kept apart from Chatwoot's en.yml
+en:
+  whatsapp_web:
+    errors:
+      not_sent: 'WhatsApp did not accept this message after several tries. Check the number is still linked, then retry.'
