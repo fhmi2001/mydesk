@@ -1,6 +1,6 @@
 <script setup>
 // Custom (MyDesk): Settings > Integrations > Smart Assistant. The merchant turns the assistant on, feeds its
-// knowledge base, shapes how it replies, picks the channels it answers on, and tries it out.
+// knowledge base, shapes how it replies, picks the channels it answers on, tries it out, and sees its token cost.
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -15,12 +15,15 @@ import KnowledgeBase from './smartAssistant/KnowledgeBase.vue';
 import BehaviorSettings from './smartAssistant/BehaviorSettings.vue';
 import ChannelSettings from './smartAssistant/ChannelSettings.vue';
 import TestChat from './smartAssistant/TestChat.vue';
+import UsageReport from './smartAssistant/UsageReport.vue';
+import { sumTotals, useUsageFormat } from './smartAssistant/useUsageFormat';
 
-const TABS = ['KNOWLEDGE', 'BEHAVIOR', 'CHANNELS', 'TEST'];
+const TABS = ['KNOWLEDGE', 'BEHAVIOR', 'CHANNELS', 'TEST', 'USAGE'];
+const USAGE_TAB = TABS.indexOf('USAGE');
 const SECTION_CLASSES =
   'flex flex-col gap-5 p-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak bg-n-card';
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const store = useStore();
 
 const isLoaded = ref(false);
@@ -35,8 +38,8 @@ const tabs = computed(() =>
   TABS.map(key => ({ key, label: t(`SMART_ASSISTANT.TABS.${key}`) }))
 );
 
-const numberFormat = computed(() => new Intl.NumberFormat(locale.value));
-const formatNumber = value => numberFormat.value.format(value);
+const { formatNumber, formatUsd, formatSar } = useUsageFormat();
+const monthCost = computed(() => sumTotals(usage.value.tokens.this_month).cost);
 
 const stats = computed(() => [
   {
@@ -56,6 +59,14 @@ const stats = computed(() => [
     key: 'handoffs',
     label: t('SMART_ASSISTANT.USAGE.HANDOFFS'),
     value: formatNumber(usage.value.handoffs_this_month),
+  },
+  {
+    key: 'cost',
+    label: t('SMART_ASSISTANT.USAGE.COST'),
+    value: formatUsd(monthCost.value),
+    detail: t('SMART_ASSISTANT.USAGE_REPORT.IN_SAR', {
+      amount: formatSar(monthCost.value),
+    }),
   },
 ]);
 
@@ -95,6 +106,14 @@ const save = async changes => {
   } finally {
     isSaving.value = false;
   }
+};
+
+// Usage grows with every reply, so it is read again when the merchant opens the usage tab
+const selectTab = async tab => {
+  activeTab.value = TABS.indexOf(tab.key);
+  if (activeTab.value !== USAGE_TAB) return;
+  const { data } = await smartAssistantAPI.show();
+  usage.value = data.usage;
 };
 
 const isEnabled = computed({
@@ -159,7 +178,7 @@ onMounted(async () => {
           </div>
 
           <dl
-            class="grid grid-cols-1 gap-px overflow-hidden sm:grid-cols-3 rounded-xl bg-n-weak outline outline-1 -outline-offset-1 outline-n-weak"
+            class="grid grid-cols-1 gap-px overflow-hidden sm:grid-cols-2 lg:grid-cols-4 rounded-xl bg-n-weak outline outline-1 -outline-offset-1 outline-n-weak"
           >
             <div
               v-for="stat in stats"
@@ -167,7 +186,7 @@ onMounted(async () => {
               class="flex flex-col gap-1 px-4 py-3 bg-n-card"
             >
               <dt class="text-xs text-n-slate-11">{{ stat.label }}</dt>
-              <dd class="flex items-baseline gap-1.5">
+              <dd class="flex flex-wrap items-baseline gap-x-1.5">
                 <span
                   class="text-xl font-semibold tabular-nums text-n-slate-12"
                 >
@@ -197,7 +216,7 @@ onMounted(async () => {
           <TabBar
             :tabs="tabs"
             :initial-active-tab="activeTab"
-            @tab-changed="tab => (activeTab = TABS.indexOf(tab.key))"
+            @tab-changed="selectTab"
           />
         </div>
 
@@ -224,6 +243,7 @@ onMounted(async () => {
             :assistant-name="assistant.name"
             :can-test="configured"
           />
+          <UsageReport v-if="activeTab === USAGE_TAB" :usage="usage" />
         </div>
       </div>
     </template>

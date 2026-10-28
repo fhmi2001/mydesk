@@ -26,6 +26,18 @@ RSpec.describe 'Smart assistant API', type: :request do
     expect(response.parsed_body['usage']).to include('replies_this_month' => 0, 'monthly_limit' => 1000)
   end
 
+  it "shows the account's own token usage and cost" do
+    SmartAssistant::Usage.create!(account: account, kind: :reply, model: 'gpt-6-luna', input_tokens: 900, output_tokens: 60, cost: 0.00012)
+    SmartAssistant::Usage.create!(account: create(:account), kind: :reply, model: 'gpt-6-luna', input_tokens: 5, cost: 1)
+
+    get base_url, headers: admin.create_new_auth_token, as: :json
+
+    tokens = response.parsed_body.dig('usage', 'tokens')
+    expect(tokens['this_month']['reply']).to include('input_tokens' => 900, 'output_tokens' => 60, 'calls' => 1)
+    expect(tokens['this_month']['reply']['cost'].to_d).to eq(BigDecimal('0.00012'))
+    expect(tokens['months'].pluck('calls')).to eq([1])
+  end
+
   it 'turns the assistant on for the chosen inboxes' do
     patch base_url, params: { smart_assistant: { enabled: true, inbox_ids: [inbox.id], tone: 'formal' } },
                     headers: admin.create_new_auth_token, as: :json
@@ -54,7 +66,8 @@ RSpec.describe 'Smart assistant API', type: :request do
                              headers: admin.create_new_auth_token, as: :json
 
     expect(response.parsed_body).to eq('reply' => 'Hello!', 'handoff' => false, 'sources' => [])
-    expect(SmartAssistant::Responder).to have_received(:new).with(assistant: anything, messages: [{ role: :user, content: 'Hi' }])
+    expect(SmartAssistant::Responder).to have_received(:new)
+      .with(assistant: anything, messages: [{ role: :user, content: 'Hi' }], usage_kind: :test)
   end
 
   it 'rejects a test that does not end with the customer' do

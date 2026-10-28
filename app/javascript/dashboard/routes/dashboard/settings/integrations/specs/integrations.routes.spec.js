@@ -31,6 +31,9 @@ vi.mock('../Stripe.vue', () => ({ default: {} }));
 vi.mock('../Linear.vue', () => ({ default: {} }));
 vi.mock('../Notion.vue', () => ({ default: {} }));
 vi.mock('../Shopify.vue', () => ({ default: {} }));
+// Custom (MyDesk)
+vi.mock('../Salla.vue', () => ({ default: {} }));
+vi.mock('../SmartAssistant.vue', () => ({ default: {} }));
 vi.mock('../GoogleTranslate.vue', () => ({ default: {} }));
 
 describe('integration settings routes', () => {

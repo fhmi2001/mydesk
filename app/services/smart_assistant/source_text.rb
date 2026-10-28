@@ -32,7 +32,9 @@ class SmartAssistant::SourceText
 
   def document_text
     source.file.blob.open do |file|
-      next SmartAssistant::LlmClient.new.extract_text(file.path, PDF_PROMPT) if source.file.blob.content_type == 'application/pdf'
+      if source.file.blob.content_type == 'application/pdf'
+        next SmartAssistant::LlmClient.new(account: source.account, kind: :knowledge).extract_text(file.path, PDF_PROMPT)
+      end
 
       File.read(file.path, encoding: 'bom|utf-8')
     end

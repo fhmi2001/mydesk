@@ -24,7 +24,7 @@ class SmartAssistant::IngestSourceJob < ApplicationJob
 
   def store_chunks(source, text)
     passages = split(text)
-    vectors = SmartAssistant::LlmClient.new.embed(passages)
+    vectors = SmartAssistant::LlmClient.new(account: source.account, kind: :knowledge).embed(passages)
     now = Time.current
     rows = passages.zip(vectors).map do |content, embedding|
       { account_id: source.account_id, smart_assistant_source_id: source.id, content: content, embedding: embedding,

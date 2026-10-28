@@ -27,7 +27,8 @@ class SmartAssistant::Responder
     strict: true
   }.freeze
 
-  pattr_initialize [:assistant!, :messages!]
+  # usage_kind: the SmartAssistant::Usage kind the calls are counted under (reply, or test for the test chat)
+  pattr_initialize [:assistant!, :messages!, { usage_kind: :reply }]
 
   def perform
     passages = relevant_passages
@@ -42,7 +43,7 @@ class SmartAssistant::Responder
   private
 
   def client
-    @client ||= SmartAssistant::LlmClient.new
+    @client ||= SmartAssistant::LlmClient.new(account: assistant.account, kind: usage_kind)
   end
 
   def relevant_passages

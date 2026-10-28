@@ -16,13 +16,43 @@
       "OF_LIMIT": "of {limit}",
       "CONVERSATIONS": "Conversations answered",
       "HANDOFFS": "Handed to the team",
+      "COST": "Cost this month",
       "LIMIT_REACHED": "This month's replies are used up. New conversations go straight to your team until next month."
     },
     "TABS": {
       "KNOWLEDGE": "Knowledge base",
       "BEHAVIOR": "Behavior",
       "CHANNELS": "Channels and timing",
-      "TEST": "Try it"
+      "TEST": "Try it",
+      "USAGE": "Usage and cost"
+    },
+    "USAGE_REPORT": {
+      "TITLE": "Usage and cost",
+      "HINT": "Every call to the AI model is counted here, with its tokens and its cost at OpenAI's prices for {model}. Usage is counted from the day this report was added.",
+      "TOKENS": "Tokens this month",
+      "TOKENS_SPLIT": "{input} read · {output} written",
+      "COST": "Cost this month",
+      "IN_SAR": "≈ {amount}",
+      "CALLS": "AI calls this month",
+      "BY_KIND": "This month by use",
+      "BY_MONTH": "By month",
+      "EMPTY": "No usage yet.",
+      "TOTAL": "Total",
+      "KINDS": {
+        "reply": "Customer replies",
+        "test": "Test chat",
+        "knowledge": "Reading the knowledge base"
+      },
+      "HEADERS": {
+        "KIND": "Use",
+        "CALLS": "Calls",
+        "INPUT": "Tokens read",
+        "OUTPUT": "Tokens written",
+        "COST": "Cost (USD)",
+        "COST_SAR": "Cost (SAR)",
+        "MONTH": "Month",
+        "TOKENS": "Tokens"
+      }
     },
     "KNOWLEDGE": {
       "TITLE": "Knowledge base",

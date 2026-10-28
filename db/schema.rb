@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_28_181626) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_28_195051) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1705,6 +1705,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_28_181626) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["smart_assistant_id"], name: "index_smart_assistant_sources_on_smart_assistant_id"
+  end
+
+  create_table "smart_assistant_usages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.integer "kind", null: false
+    t.string "model", null: false
+    t.integer "input_tokens", default: 0, null: false
+    t.integer "output_tokens", default: 0, null: false
+    t.integer "cached_tokens", default: 0, null: false
+    t.decimal "cost", precision: 14, scale: 8
+    t.datetime "created_at", null: false
+    t.index ["account_id", "created_at"], name: "index_smart_assistant_usages_on_account_id_and_created_at"
   end
 
   create_table "smart_assistants", force: :cascade do |t|

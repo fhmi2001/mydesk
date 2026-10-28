@@ -4,6 +4,7 @@ class Api::V1::Accounts::Integrations::SmartAssistantController < Api::V1::Accou
   MAX_TEST_MESSAGES = 20
   TEST_MESSAGE_LENGTH = 2000
   TEST_ROLES = %w[user assistant].freeze
+  HISTORY_MONTHS = 6
 
   before_action :check_authorization
   before_action :ensure_configured, only: [:test]
@@ -25,7 +26,7 @@ class Api::V1::Accounts::Integrations::SmartAssistantController < Api::V1::Accou
 
   # Replies to a conversation typed in the settings page, without touching any real conversation
   def test
-    result = SmartAssistant::Responder.new(assistant: @assistant, messages: test_messages).perform
+    result = SmartAssistant::Responder.new(assistant: @assistant, messages: test_messages, usage_kind: :test).perform
     render json: result
   end
 
@@ -74,7 +75,18 @@ class Api::V1::Accounts::Integrations::SmartAssistantController < Api::V1::Accou
       replies_this_month: @assistant.replies_this_month,
       monthly_limit: SmartAssistant::Config.monthly_reply_limit,
       conversations_this_month: @assistant.monthly_replies.distinct.count(:conversation_id),
-      handoffs_this_month: @assistant.handoffs_this_month
+      handoffs_this_month: @assistant.handoffs_this_month,
+      model: SmartAssistant::Config.model,
+      tokens: tokens_usage
+    }
+  end
+
+  # This month's tokens and cost per kind of call, and the totals of the last months
+  def tokens_usage
+    usages = SmartAssistant::Usage.where(account_id: Current.account.id)
+    {
+      this_month: usages.in_month(Time.current).totals_by_kind,
+      months: usages.where(created_at: (HISTORY_MONTHS - 1).months.ago.beginning_of_month..).totals_by_month
     }
   end
 end
