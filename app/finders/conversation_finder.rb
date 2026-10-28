@@ -128,8 +128,19 @@ class ConversationFinder
       @conversations = @conversations.where(id: participant_conversation_ids)
     when 'unattended'
       @conversations = @conversations.unattended
+    # Custom (MyDesk): the «غير مقروءة» chip of the conversation list
+    when 'unread'
+      @conversations = @conversations.where(unread_messages_exist)
     end
     @conversations
+  end
+
+  # Same rule as Conversation.unread_messages_count_arel: an incoming message the agents have not seen yet
+  def unread_messages_exist
+    Message.where('messages.conversation_id = conversations.id AND messages.account_id = conversations.account_id')
+           .incoming
+           .where('conversations.agent_last_seen_at IS NULL OR messages.created_at > conversations.agent_last_seen_at')
+           .arel.exists
   end
 
   def filter_by_query

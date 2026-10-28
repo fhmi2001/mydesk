@@ -11,6 +11,11 @@ vi.mock('dashboard/composables/useUISettings', async () => {
   };
 });
 
+vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
+vi.mock('dashboard/composables/useKeyboardEvents', () => ({
+  useKeyboardEvents: vi.fn(),
+}));
+
 const mountHeader = props =>
   shallowMount(ChatListHeader, {
     props: {
@@ -67,6 +72,57 @@ describe('ChatListHeader', () => {
     expect(wrapper.find('#toggleConversationFilterButton').exists()).toBe(
       false
     );
+  });
+
+  const assigneeItems = [
+    { key: 'me', name: 'Assigned to me', count: 4 },
+    { key: 'unassigned', name: 'Unassigned', count: 2 },
+    { key: 'all', name: 'All conversations', count: 12 },
+  ];
+
+  it('titles the plain list with its view and counts it underneath', () => {
+    const wrapper = mountHeader({
+      assigneeItems,
+      activeAssignee: 'unassigned',
+      isViewTitle: true,
+      unreadCount: 1,
+    });
+
+    expect(wrapper.find('h1').text()).toBe('Unassigned');
+    expect(wrapper.find('p').text()).toBe(
+      'CHAT_LIST.VIEWS.COUNT · CHAT_LIST.VIEWS.UNREAD'
+    );
+  });
+
+  it('keeps a scoped title and names the view in the count line', () => {
+    const wrapper = mountHeader({
+      pageTitle: 'WhatsApp',
+      assigneeItems,
+      activeAssignee: 'me',
+    });
+
+    expect(wrapper.find('h1').text()).toBe('WhatsApp');
+    expect(wrapper.find('p').text()).toBe(
+      'Assigned to me · CHAT_LIST.VIEWS.COUNT'
+    );
+  });
+
+  it('switches the view from the title menu', async () => {
+    const wrapper = mountHeader({ assigneeItems, activeAssignee: 'me' });
+
+    await wrapper.find('button[aria-haspopup="menu"]').trigger('click');
+    const items = wrapper.findAll('[role="menuitemradio"]');
+    expect(items).toHaveLength(3);
+    await items[2].trigger('click');
+
+    expect(wrapper.emitted('assigneeChange')).toEqual([['all']]);
+    expect(wrapper.find('[role="menu"]').exists()).toBe(false);
+  });
+
+  it('has no view menu while filters narrow the list', () => {
+    const wrapper = mountHeader({ assigneeItems, hasAppliedFilters: true });
+
+    expect(wrapper.find('button[aria-haspopup="menu"]').exists()).toBe(false);
   });
 
   it('keeps the folder controls when a folder is active', () => {

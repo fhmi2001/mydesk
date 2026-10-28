@@ -13,7 +13,7 @@ import ConversationList from './ConversationList.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
 import SaveCustomView from 'next/filter/SaveCustomView.vue';
-import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
+import ConversationListChips from './widgets/conversation/ConversationListChips.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
@@ -62,7 +62,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['conversationLoad']);
-const { uiSettings } = useUISettings();
+const { uiSettings, updateUISettings } = useUISettings();
 const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
@@ -74,6 +74,9 @@ const resolveAttributesModalRef = ref(null);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
+// Custom (MyDesk): the «غير مقروءة» / «بدون رد» chips narrow the open conversations through
+// conversation_type, which routes such as mentions already set themselves
+const quickFilter = ref(null);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
@@ -176,17 +179,28 @@ const userPermissions = computed(() => {
   return getUserPermissions(currentUser.value, currentAccountId.value);
 });
 
+const VIEW_ORDER = ['all', 'me', 'unassigned'];
 const assigneeTabItems = computed(() => {
-  return filterItemsByPermission(
-    ASSIGNEE_TYPE_TAB_PERMISSIONS,
-    userPermissions.value,
-    item => item.permissions
-  ).map(({ key, count: countKey }) => ({
-    key,
-    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-    count: conversationStats.value[countKey] || 0,
-  }));
+  return (
+    filterItemsByPermission(
+      ASSIGNEE_TYPE_TAB_PERMISSIONS,
+      userPermissions.value,
+      item => item.permissions
+    )
+      .map(({ key, count: countKey }) => ({
+        key,
+        name: t(`CHAT_LIST.VIEWS.${key}`),
+        count: conversationStats.value[countKey] || 0,
+      }))
+      // Custom (MyDesk): the sidebar order (all, mine, unassigned)
+      .sort((a, b) => VIEW_ORDER.indexOf(a.key) - VIEW_ORDER.indexOf(b.key))
+  );
 });
+
+const isAssigneeAllowed = key =>
+  assigneeTabItems.value.some(item => item.key === key);
+
+const activeChip = computed(() => quickFilter.value || activeStatus.value);
 
 const showAssigneeInConversationCard = computed(() => {
   return (
@@ -256,7 +270,7 @@ const conversationFilters = computed(() => {
     page: conversationListPagination.value,
     labels: props.label ? [props.label] : undefined,
     teamId: props.teamId || undefined,
-    conversationType: props.conversationType || undefined,
+    conversationType: props.conversationType || quickFilter.value || undefined,
   };
 });
 
@@ -353,6 +367,24 @@ const conversationList = computed(() => {
 
   return localConversationList;
 });
+
+// Custom (MyDesk): counted from the loaded list, so it shows only once the whole view is loaded
+const unreadInView = computed(() => {
+  if (hasAppliedFiltersOrActiveFolders.value) return null;
+  const list = conversationList.value;
+  if (list.length < activeAssigneeTabCount.value) return null;
+  return list.filter(conversation => conversation.unread_count > 0).length;
+});
+
+// On the plain conversations page the header titles the view («المسندة لي»...)
+const isViewTitle = computed(
+  () =>
+    !props.conversationInbox &&
+    !props.teamId &&
+    !props.label &&
+    !props.conversationType &&
+    !props.foldersId
+);
 
 const showEndOfListMessage = computed(() => {
   return !!(
@@ -647,6 +679,26 @@ function updateAssigneeTab(selectedTab) {
   }
 }
 
+// Custom (MyDesk): the sidebar views link here with ?assignee=me|unassigned|all
+function onAssigneeChange(key) {
+  updateAssigneeTab(key);
+  if (route.name === 'home') {
+    router.replace({ query: { ...route.query, assignee: key } });
+  }
+}
+
+function onChipChange(key) {
+  const isQuickFilter = ['unread', 'unattended'].includes(key);
+  const status = isQuickFilter ? wootConstants.STATUS_TYPE.OPEN : key;
+  quickFilter.value = isQuickFilter ? key : null;
+  activeStatus.value = status;
+  store.dispatch('setChatStatusFilter', status);
+  updateUISettings({
+    conversations_filter_by: { status, order_by: activeSortBy.value },
+  });
+  resetAndFetchData();
+}
+
 function onBasicFilterChange(value, type) {
   if (type === 'status') {
     activeStatus.value = value;
@@ -831,6 +883,10 @@ useEmitter('fetch_conversation_stats', () => {
 });
 
 onMounted(() => {
+  const { assignee } = route.query;
+  if (assignee && isAssigneeAllowed(assignee)) {
+    activeAssigneeTab.value = assignee;
+  }
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
@@ -886,7 +942,17 @@ watch(
 );
 watch(
   computed(() => props.conversationType),
-  () => resetAndFetchData()
+  conversationType => {
+    if (conversationType) quickFilter.value = null;
+    resetAndFetchData();
+  }
+);
+
+watch(
+  () => route.query.assignee,
+  assignee => {
+    if (assignee && isAssigneeAllowed(assignee)) updateAssigneeTab(assignee);
+  }
 );
 
 watch(activeFolder, (newVal, oldVal) => {
@@ -918,10 +984,14 @@ watch(appliedFilters, () => resetBulkActions());
       :contact-filter="appliedContactFilter"
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
-      :active-status="activeStatus"
       :is-on-expanded-layout="isOnExpandedLayout"
       :conversation-stats="conversationStats"
       :is-list-loading="chatListLoading && !conversationList.length"
+      :assignee-items="assigneeTabItems"
+      :active-assignee="activeAssigneeTab"
+      :is-view-title="isViewTitle"
+      :unread-count="unreadInView"
+      @assignee-change="onAssigneeChange"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
@@ -952,12 +1022,11 @@ watch(appliedFilters, () => resetBulkActions());
       @close="onCloseDeleteFoldersModal"
     />
 
-    <ChatTypeTabs
+    <ConversationListChips
       v-if="!hasAppliedFiltersOrActiveFolders"
-      :items="assigneeTabItems"
-      :active-tab="activeAssigneeTab"
-      is-compact
-      @chat-tab-change="updateAssigneeTab"
+      :model-value="activeChip"
+      :hide-quick-filters="!!conversationType"
+      @update:model-value="onChipChange"
     />
 
     <p

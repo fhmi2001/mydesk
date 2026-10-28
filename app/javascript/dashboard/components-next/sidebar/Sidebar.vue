@@ -29,6 +29,12 @@ import {
   resolveSidebarSort,
   sortSidebarItems,
 } from 'dashboard/helper/sidebarSort';
+import { useRoute } from 'vue-router';
+import {
+  getUserPermissions,
+  filterItemsByPermission,
+} from 'dashboard/helper/permissionsHelper.js';
+import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -358,6 +364,37 @@ const newReportRoutes = () => [
 
 const reportRoutes = computed(() => newReportRoutes());
 
+// Custom (MyDesk): the conversation views (mine / unassigned / all) are sidebar links to the
+// conversations page with ?assignee=; the one the list shows is marked, also with a chat open
+const route = useRoute();
+const currentUser = useMapGetter('getCurrentUser');
+const chatListFilters = useMapGetter('getChatListFilters');
+const ASSIGNEE_VIEW_ICONS = {
+  all: 'i-lucide-inbox',
+  me: 'i-lucide-user-round',
+  unassigned: 'i-lucide-user-round-x',
+};
+const assigneeViews = computed(() => {
+  const permissions = getUserPermissions(currentUser.value, accountId.value);
+  const isPlainList = ['home', 'inbox_conversation'].includes(route.name);
+  const activeKey = chatListFilters.value?.assigneeType;
+  const allowedKeys = filterItemsByPermission(
+    ASSIGNEE_TYPE_TAB_PERMISSIONS,
+    permissions,
+    item => item.permissions
+  ).map(({ key }) => key);
+  return ['all', 'me', 'unassigned']
+    .filter(key => allowedKeys.includes(key))
+    .map(key => ({
+      name: `View-${key}`,
+      label: t(`CHAT_LIST.VIEWS.${key}`),
+      icon: ASSIGNEE_VIEW_ICONS[key],
+      badgeCount: key === 'all' ? allUnreadCount.value : 0,
+      isActive: isPlainList && activeKey === key,
+      to: accountScopedRoute('home', {}, { assignee: key }),
+    }));
+});
+
 const menuItems = computed(() => {
   return [
     {
@@ -375,13 +412,40 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.CONVERSATIONS'),
       icon: 'i-lucide-message-circle',
       children: [
+        // Custom (MyDesk): channels first, then the views (as in the reference inbox)
         {
-          name: 'All',
-          label: t('SIDEBAR.ALL_CONVERSATIONS'),
-          icon: 'i-lucide-inbox',
-          badgeCount: allUnreadCount.value,
-          activeOn: ['inbox_conversation'],
-          to: accountScopedRoute('home'),
+          name: 'Channels',
+          label: t('SIDEBAR.CHANNELS'),
+          icon: 'i-lucide-mailbox',
+          activeOn: ['conversation_through_inbox'],
+          ...buildSortConfig(SIDEBAR_SORT_SECTIONS.CHANNELS),
+          collapsible: true,
+          showTreeLine: true,
+          children: sortedInboxes.value.map(inbox => ({
+            name: `${inbox.name}-${inbox.id}`,
+            label: inbox.name,
+            badgeCount: getInboxUnreadCount.value(inbox.id),
+            icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
+            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
+            component: leafProps =>
+              h(ChannelLeaf, {
+                label: leafProps.label,
+                active: leafProps.active,
+                inbox,
+                badgeCount: leafProps.badgeCount,
+              }),
+          })),
+        },
+        ...assigneeViews.value,
+        {
+          name: 'Unattended',
+          activeOn: ['conversation_through_unattended'],
+          label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
+          icon: 'i-lucide-clock-alert',
+          badgeCount: hasFilteredUnreadCounts.value
+            ? unattendedUnreadCount.value
+            : 0,
+          to: accountScopedRoute('conversation_unattended'),
         },
         {
           name: 'Mentions',
@@ -402,16 +466,6 @@ const menuItems = computed(() => {
             : 0,
           activeOn: ['conversation_through_participating'],
           to: accountScopedRoute('conversation_participating'),
-        },
-        {
-          name: 'Unattended',
-          activeOn: ['conversation_through_unattended'],
-          label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
-          icon: 'i-lucide-clock-alert',
-          badgeCount: hasFilteredUnreadCounts.value
-            ? unattendedUnreadCount.value
-            : 0,
-          to: accountScopedRoute('conversation_unattended'),
         },
         {
           name: 'Folders',
@@ -450,29 +504,6 @@ const menuItems = computed(() => {
                 })
               : undefined,
             to: accountScopedRoute('team_conversations', { teamId: team.id }),
-          })),
-        },
-        {
-          name: 'Channels',
-          label: t('SIDEBAR.CHANNELS'),
-          icon: 'i-lucide-mailbox',
-          activeOn: ['conversation_through_inbox'],
-          ...buildSortConfig(SIDEBAR_SORT_SECTIONS.CHANNELS),
-          collapsible: true,
-          showTreeLine: true,
-          children: sortedInboxes.value.map(inbox => ({
-            name: `${inbox.name}-${inbox.id}`,
-            label: inbox.name,
-            badgeCount: getInboxUnreadCount.value(inbox.id),
-            icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
-            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-            component: leafProps =>
-              h(ChannelLeaf, {
-                label: leafProps.label,
-                active: leafProps.active,
-                inbox,
-                badgeCount: leafProps.badgeCount,
-              }),
           })),
         },
         {

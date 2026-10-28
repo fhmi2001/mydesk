@@ -7,6 +7,7 @@ import MessagePreview from './MessagePreview.vue';
 import InboxName from '../InboxName.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
+import CardStatusBadge from './conversationCardComponents/CardStatusBadge.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
 import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard/UnreadBadge.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
@@ -226,15 +227,19 @@ watch(
         </p>
         <UnreadBadge v-if="hasUnread" :count="unreadCount" class="shrink-0" />
       </div>
-      <CardLabels
-        v-if="showLabelsSection"
-        :conversation-labels="chat.labels"
-        class="mt-0.5 mx-2 mb-0"
-      >
-        <template v-if="hasSlaPolicyId" #before>
-          <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
-        </template>
-      </CardLabels>
+      <!-- Custom (MyDesk): the status leads the row under the message, the labels follow it -->
+      <div class="flex items-end gap-1.5 min-w-0 mt-1 mx-2">
+        <CardStatusBadge :status="chat.status" class="shrink-0" />
+        <CardLabels
+          v-if="showLabelsSection"
+          :conversation-labels="chat.labels"
+          class="flex-1 min-w-0 mb-0"
+        >
+          <template v-if="hasSlaPolicyId" #before>
+            <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
+          </template>
+        </CardLabels>
+      </div>
     </div>
   </div>
 </template>

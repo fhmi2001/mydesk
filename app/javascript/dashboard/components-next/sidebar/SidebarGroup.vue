@@ -127,9 +127,13 @@ const visibleChildren = computed(() => {
 const accessibleItems = computed(() => {
   if (!hasChildren.value) return [];
 
-  return visibleChildren.value
-    .flatMap(child => child.children || child)
-    .filter(child => child.to && isAllowed(child.to));
+  // Custom (MyDesk): direct links come before sub-group items, so a group whose first
+  // child is a sub-group (Conversations › Channels) still opens on its first view
+  const direct = visibleChildren.value.filter(child => !child.children);
+  const nested = visibleChildren.value.flatMap(child => child.children || []);
+  return [...direct, ...nested].filter(
+    child => child.to && isAllowed(child.to)
+  );
 });
 
 const hasAccessibleChildren = computed(() => {
@@ -155,7 +159,17 @@ const isActive = computed(() => {
 // nested correctly, so we need to check the active state ourselves
 // TODO: Audit the routes and fix the nesting and remove this
 const activeChild = computed(() => {
-  const pathSame = navigableChildren.value.find(
+  // Custom (MyDesk): a child may state whether it is active (the conversation views share one
+  // path and differ by ?assignee=); those children are left out of the path matching below
+  const statedActive = navigableChildren.value.find(
+    child => child.isActive === true
+  );
+  if (statedActive) return statedActive;
+  const matchable = navigableChildren.value.filter(
+    child => typeof child.isActive !== 'boolean'
+  );
+
+  const pathSame = matchable.find(
     child => child.to && route.path === resolvePath(child.to)
   );
   if (pathSame) return pathSame;
@@ -165,7 +179,7 @@ const activeChild = computed(() => {
   // So we need to rank them based on the params
   // For example, contacts segment list in the sidebar effectively has the same name
   // But the params are different
-  const activeOnPages = navigableChildren.value.filter(child =>
+  const activeOnPages = matchable.filter(child =>
     child.activeOn?.includes(route.name)
   );
 
@@ -186,12 +200,19 @@ const activeChild = computed(() => {
     return rankedPage ?? activeOnPages[0];
   }
 
-  return navigableChildren.value.find(child => {
+  return matchable.find(child => {
     if (!child.to) return false;
     const childPath = resolvePath(child.to);
     return route.path === childPath || route.path.startsWith(`${childPath}/`);
   });
 });
+
+// isActive only steers activeChild; it is not a leaf prop
+const leafProps = child => {
+  const bound = { ...child };
+  delete bound.isActive;
+  return bound;
+};
 
 const hasActiveChild = computed(() => {
   return activeChild.value !== undefined;
@@ -321,7 +342,7 @@ watch(
           <SidebarGroupLeaf
             v-else-if="isAllowed(child.to)"
             v-show="isExpanded || activeChild?.name === child.name"
-            v-bind="child"
+            v-bind="leafProps(child)"
             :active="activeChild?.name === child.name"
           />
         </template>

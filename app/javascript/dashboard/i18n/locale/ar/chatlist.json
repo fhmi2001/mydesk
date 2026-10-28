@@ -10,11 +10,31 @@
     "FETCH_ERROR": "تعذر تحميل المحادثات. الرجاء المحاولة مرة أخرى.",
     "TAB_HEADING": "المحادثات",
     "MENTION_HEADING": "الإشارات",
-    "UNATTENDED_HEADING": "بدون حضور",
+    "UNATTENDED_HEADING": "بدون رد",
     "SEARCH": {
       "INPUT": "البحث عن جهات الاتصال، المحادثات، قوالب الردود الجاهزة .."
     },
     "FILTER_ALL": "الكل",
+    "VIEWS": {
+      "me": "المسندة لي",
+      "unassigned": "غير المسندة",
+      "all": "كل المحادثات",
+      "MENU_LABEL": "تبديل العرض",
+      "COUNT": "{count} محادثة",
+      "UNREAD": "{count} غير مقروءة"
+    },
+    "QUICK_FILTERS": {
+      "LABEL": "تصفية المحادثات",
+      "all": "الكل",
+      "open": "مفتوحة",
+      "unread": "غير مقروءة",
+      "unattended": "بدون رد",
+      "pending": "قيد الانتظار",
+      "snoozed": "مؤجلة",
+      "resolved": "مغلقة"
+    },
+    "NEW_CONVERSATION": "محادثة جديدة",
+    "SEARCH_CONVERSATIONS": "بحث",
     "ASSIGNEE_TYPE_TABS": {
       "me": "محادثاتي",
       "unassigned": "غير معيّن",

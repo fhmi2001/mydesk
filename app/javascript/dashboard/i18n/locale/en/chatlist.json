@@ -15,6 +15,26 @@
       "INPUT": "Search for People, Chats, Saved Replies .."
     },
     "FILTER_ALL": "All",
+    "VIEWS": {
+      "me": "Assigned to me",
+      "unassigned": "Unassigned",
+      "all": "All conversations",
+      "MENU_LABEL": "Switch view",
+      "COUNT": "{count} conversations",
+      "UNREAD": "{count} unread"
+    },
+    "QUICK_FILTERS": {
+      "LABEL": "Filter conversations",
+      "all": "All",
+      "open": "Open",
+      "unread": "Unread",
+      "unattended": "Unreplied",
+      "pending": "Pending",
+      "snoozed": "Snoozed",
+      "resolved": "Resolved"
+    },
+    "NEW_CONVERSATION": "New conversation",
+    "SEARCH_CONVERSATIONS": "Search",
     "ASSIGNEE_TYPE_TABS": {
       "me": "Mine",
       "unassigned": "Unassigned",
