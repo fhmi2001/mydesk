@@ -12,6 +12,7 @@ import Stripe from './Stripe.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 import Salla from './Salla.vue';
+import SmartAssistant from './SmartAssistant.vue';
 import GoogleTranslate from './GoogleTranslate.vue';
 
 export const redirectShopifyIfUnavailable = async (to, _from, next) => {
@@ -142,6 +143,16 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ result: route.query.salla }),
+        },
+        // Custom (MyDesk): the built-in smart assistant
+        {
+          path: 'smart_assistant',
+          name: 'settings_integrations_smart_assistant',
+          component: SmartAssistant,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
         },
         {
           path: ':integration_id',

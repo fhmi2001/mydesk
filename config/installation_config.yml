@@ -735,3 +735,19 @@
   description: 'How the gateway reaches the platform API, e.g. http://rails:3000. Defaults to FRONTEND_URL'
   locked: false
 ## ---- End of WhatsApp Web gateway ---- ##
+
+## ---- Custom (MyDesk): smart assistant ---- ##
+- name: SMART_ASSISTANT_OPENAI_API_KEY
+  display_title: 'OpenAI API key'
+  description: 'The platform OpenAI key that every account smart assistant uses for replies and knowledge embeddings'
+  locked: false
+  type: secret
+- name: SMART_ASSISTANT_MODEL
+  display_title: 'Reply model'
+  description: 'OpenAI model for the replies. Leave empty for the default assistant model in config/llm.yml'
+  locked: false
+- name: SMART_ASSISTANT_MONTHLY_REPLY_LIMIT
+  display_title: 'Monthly replies per account'
+  description: 'Replies each account assistant may send per month before conversations go straight to the team (default 1000)'
+  locked: false
+## ---- End of smart assistant ---- ##

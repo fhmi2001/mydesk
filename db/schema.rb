@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_205549) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_28_181626) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1677,6 +1677,51 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_205549) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "smart_assistant_chunks", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "smart_assistant_source_id", null: false
+    t.text "content", null: false
+    t.vector "embedding", limit: 1536
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_smart_assistant_chunks_on_account_id"
+    t.index ["embedding"], name: "index_smart_assistant_chunks_on_embedding", opclass: :vector_cosine_ops, using: :hnsw
+    t.index ["smart_assistant_source_id"], name: "index_smart_assistant_chunks_on_smart_assistant_source_id"
+  end
+
+  create_table "smart_assistant_sources", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "smart_assistant_id", null: false
+    t.integer "kind", null: false
+    t.integer "status", default: 0, null: false
+    t.string "title", null: false
+    t.text "content"
+    t.string "url"
+    t.string "error_message"
+    t.integer "chunks_count", default: 0, null: false
+    t.datetime "synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["smart_assistant_id"], name: "index_smart_assistant_sources_on_smart_assistant_id"
+  end
+
+  create_table "smart_assistants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "agent_bot_id"
+    t.boolean "enabled", default: false, null: false
+    t.bigint "inbox_ids", default: [], null: false, array: true
+    t.string "name", null: false
+    t.string "tone", default: "friendly", null: false
+    t.text "instructions"
+    t.string "reply_mode", default: "always", null: false
+    t.boolean "handoff_when_unsure", default: true, null: false
+    t.text "handoff_message"
+    t.integer "max_replies", default: 10, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_smart_assistants_on_account_id", unique: true
   end
 
   create_table "sms_campaign_recipients", force: :cascade do |t|

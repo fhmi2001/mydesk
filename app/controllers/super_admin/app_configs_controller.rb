@@ -12,10 +12,11 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     SHOPIFY_PARTNER_ACCESS_TOKEN
     SHOPIFY_PARTNER_API_VERSION
   ].freeze
-  # Custom (MyDesk): the MyDesk app on Salla Partners, and the WhatsApp Web (QR) gateway
+  # Custom (MyDesk): the MyDesk app on Salla Partners, the WhatsApp Web (QR) gateway and the smart assistant
   MYDESK_CONFIGS = {
     'salla' => %w[SALLA_CLIENT_ID SALLA_CLIENT_SECRET SALLA_WEBHOOK_SECRET],
-    'whatsapp_web' => %w[WHATSAPP_WEB_API_URL WHATSAPP_WEB_API_KEY WHATSAPP_WEB_CHATWOOT_URL]
+    'whatsapp_web' => %w[WHATSAPP_WEB_API_URL WHATSAPP_WEB_API_KEY WHATSAPP_WEB_CHATWOOT_URL],
+    'smart_assistant' => %w[SMART_ASSISTANT_OPENAI_API_KEY SMART_ASSISTANT_MODEL SMART_ASSISTANT_MONTHLY_REPLY_LIMIT]
   }.freeze
 
   before_action :set_config

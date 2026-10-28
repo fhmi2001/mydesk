@@ -1,0 +1,14 @@
+# Custom (MyDesk): smart assistant copy, kept apart from Chatwoot's ar.yml
+ar:
+  integration_apps:
+    smart_assistant:
+      name: 'المساعد الذكي'
+      short_description: 'مساعد ذكي يرد على عملائك من قاعدة معرفتك.'
+      description: 'رُدّ على عملائك على مدار الساعة من قاعدة معرفتك الخاصة، وحوّل المحادثة إلى فريقك متى احتاج العميل إلى موظف.'
+  smart_assistant:
+    default_name: 'المساعد الذكي'
+    bot_description: 'يرد على العملاء من قاعدة المعرفة (الإعدادات > خيارات الربط > المساعد الذكي)'
+    errors:
+      not_configured: 'المساعد الذكي غير مفعّل على المنصة بعد.'
+      inbox_has_bot: 'صندوق %{inbox} مرتبط ببوت آخر. افصله أولاً.'
+      no_text: 'لم نجد نصاً مقروءاً في هذا المصدر.'

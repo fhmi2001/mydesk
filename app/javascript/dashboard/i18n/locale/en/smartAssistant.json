@@ -1,0 +1,135 @@
+{
+  "SMART_ASSISTANT": {
+    "HEADER": "Smart Assistant",
+    "BACK": "Integrations",
+    "HERO": {
+      "TITLE": "Your assistant answers customers from your knowledge",
+      "DESCRIPTION": "Add what customers usually ask about, pick the channels, and the assistant replies right away. It hands the conversation to your team whenever a person is needed.",
+      "ENABLE": "Assistant is on",
+      "DISABLED": "Assistant is off",
+      "NOT_CONFIGURED": "The smart assistant isn't available on this platform yet. Contact the platform administrator.",
+      "NEEDS_INBOX": "Choose at least one channel in the Channels tab so the assistant has somewhere to reply.",
+      "NEEDS_KNOWLEDGE": "Add your first knowledge source so the assistant has something to answer from."
+    },
+    "USAGE": {
+      "REPLIES": "Replies this month",
+      "OF_LIMIT": "of {limit}",
+      "CONVERSATIONS": "Conversations answered",
+      "HANDOFFS": "Handed to the team",
+      "LIMIT_REACHED": "This month's replies are used up. New conversations go straight to your team until next month."
+    },
+    "TABS": {
+      "KNOWLEDGE": "Knowledge base",
+      "BEHAVIOR": "Behavior",
+      "CHANNELS": "Channels and timing",
+      "TEST": "Try it"
+    },
+    "KNOWLEDGE": {
+      "TITLE": "Knowledge base",
+      "HINT": "The assistant answers only from these sources. Keep prices, shipping, returns and working hours up to date.",
+      "ADD": "Add source",
+      "EMPTY_TITLE": "No knowledge yet",
+      "EMPTY_HINT": "Start with your shipping and returns policy, or a page from your store.",
+      "SYNC": "Read again",
+      "DELETE": "Delete",
+      "PASSAGES": "{count} passages",
+      "UPDATED": "Updated {time}",
+      "ERROR": "Couldn't load the knowledge base.",
+      "DELETED": "Source deleted",
+      "DELETE_CONFIRM": {
+        "TITLE": "Delete this source?",
+        "MESSAGE": "The assistant will stop using “{title}”.",
+        "CONFIRM": "Delete"
+      },
+      "KINDS": {
+        "faq": "Question and answer",
+        "text": "Text",
+        "website": "Web page",
+        "document": "Document"
+      },
+      "STATUS": {
+        "pending": "Waiting",
+        "processing": "Reading",
+        "ready": "Ready",
+        "failed": "Failed"
+      }
+    },
+    "ADD_SOURCE": {
+      "TITLE": "Add a knowledge source",
+      "SAVE": "Add",
+      "CANCEL": "Cancel",
+      "QUESTION": "Question",
+      "QUESTION_PLACEHOLDER": "How long does delivery take?",
+      "ANSWER": "Answer",
+      "ANSWER_PLACEHOLDER": "Orders reach Riyadh in 1 to 2 working days and other cities in 3 to 5.",
+      "TEXT_TITLE": "Title",
+      "TEXT_TITLE_PLACEHOLDER": "Returns policy",
+      "TEXT": "Text",
+      "TEXT_PLACEHOLDER": "Paste the policy, product details or anything customers ask about",
+      "URL": "Page address",
+      "URL_HINT": "The assistant reads this one page. Add each important page on its own.",
+      "FILE": "Document",
+      "FILE_HINT": "PDF, TXT, Markdown or CSV, up to 10 MB",
+      "CHOOSE_FILE": "Choose a file",
+      "ADDED": "Source added. The assistant is reading it now.",
+      "ERROR": "Couldn't add the source."
+    },
+    "BEHAVIOR": {
+      "NAME": "Assistant name",
+      "NAME_HINT": "Customers see this name on the assistant's replies.",
+      "TONE": "Tone",
+      "TONES": {
+        "friendly": {
+          "LABEL": "Friendly",
+          "DESCRIPTION": "Warm and personal, like a helpful shop assistant"
+        },
+        "formal": {
+          "LABEL": "Formal",
+          "DESCRIPTION": "Polite and professional"
+        }
+      },
+      "INSTRUCTIONS": "Instructions",
+      "INSTRUCTIONS_PLACEHOLDER": "For example: greet customers by name, suggest our bestsellers, never promise same-day delivery.",
+      "INSTRUCTIONS_HINT": "Extra guidance on how to answer. The assistant still never makes up information.",
+      "HANDOFF_TITLE": "Handing over to the team",
+      "HANDOFF_HINT": "The assistant keeps the conversation until it hands over, and the conversation is then assigned to an agent, or until an agent assigns it to themselves. Opening a conversation to read it doesn't take it from the assistant.",
+      "UNSURE": "Hand over when the answer isn't in the knowledge base",
+      "UNSURE_HINT": "When off, the assistant says it doesn't have that information instead.",
+      "MAX_REPLIES": "Hand over after this many assistant replies in one conversation",
+      "HANDOFF_MESSAGE": "Message when handing over at that limit",
+      "HANDOFF_MESSAGE_PLACEHOLDER": "Thanks for your patience, a team member will continue with you shortly.",
+      "SAVE": "Save changes",
+      "SAVED": "Settings saved",
+      "ERROR": "Couldn't save the settings."
+    },
+    "CHANNELS": {
+      "TITLE": "Channels",
+      "HINT": "New conversations on these channels go to the assistant first.",
+      "EMPTY": "No channels yet. Add one from Settings > Inboxes.",
+      "WHEN_TITLE": "When the assistant replies",
+      "MODES": {
+        "always": {
+          "LABEL": "All the time",
+          "DESCRIPTION": "Every new conversation, day and night"
+        },
+        "outside_working_hours": {
+          "LABEL": "Outside working hours",
+          "DESCRIPTION": "Only while the channel is closed, based on its working hours. During working hours your team replies."
+        }
+      },
+      "WORKING_HOURS_HINT": "Working hours are set per channel under Settings > Inboxes > Business hours."
+    },
+    "TEST": {
+      "TITLE": "Try the assistant",
+      "HINT": "Write as a customer would. This chat is private and uses your saved settings and knowledge.",
+      "PLACEHOLDER": "Ask something a customer would ask",
+      "SEND": "Send",
+      "RESET": "Start over",
+      "EMPTY": "Try “What's your returns policy?”",
+      "HANDOFF": "Would hand over to the team here",
+      "SOURCES": "Answered from:",
+      "THINKING": "Writing a reply",
+      "ERROR": "Couldn't get a reply. Try again."
+    }
+  }
+}

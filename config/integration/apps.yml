@@ -347,3 +347,11 @@ salla:
   # Store details only; the refresh token never leaves the server
   visible_properties:
     ['store_name', 'store_username', 'store_domain', 'store_avatar', 'connected_at', 'expires_at', 'disabled_reason']
+
+# Custom (MyDesk): the built-in smart assistant (settings live in smart_assistants, not in hooks)
+smart_assistant:
+  id: smart_assistant
+  logo: smart_assistant.png
+  i18n_key: smart_assistant
+  hook_type: account
+  allow_multiple_hooks: false

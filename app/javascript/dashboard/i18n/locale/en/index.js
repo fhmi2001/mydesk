@@ -25,6 +25,8 @@ import inbox from './inbox.json';
 import inboxMgmt from './inboxMgmt.json';
 import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
+// Custom (MyDesk)
+import smartAssistant from './smartAssistant.json';
 import labelsMgmt from './labelsMgmt.json';
 import login from './login.json';
 import macros from './macros.json';
@@ -73,6 +75,7 @@ export default {
   ...inboxMgmt,
   ...integrationApps,
   ...integrations,
+  ...smartAssistant,
   ...labelsMgmt,
   ...login,
   ...macros,

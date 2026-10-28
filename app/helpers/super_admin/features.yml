@@ -169,3 +169,9 @@ whatsapp_web:
   enabled: true
   icon: 'i-logos-whatsapp-icon'
   config_key: 'whatsapp_web'
+smart_assistant:
+  name: 'Smart Assistant'
+  description: 'OpenAI key, reply model and monthly reply limit for the account smart assistants'
+  enabled: true
+  icon: 'i-lucide-sparkles'
+  config_key: 'smart_assistant'

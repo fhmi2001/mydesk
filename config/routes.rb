@@ -475,6 +475,13 @@ Rails.application.routes.draw do
               get :auth
               get :events
             end
+            # Custom (MyDesk): smart assistant settings, test chat and knowledge base
+            resource :smart_assistant, controller: 'smart_assistant', only: [:show, :update] do
+              post :test
+              resources :sources, controller: 'smart_assistant_sources', only: [:index, :create, :destroy] do
+                post :sync, on: :member
+              end
+            end
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth

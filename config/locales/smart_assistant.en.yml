@@ -1,0 +1,14 @@
+# Custom (MyDesk): smart assistant copy, kept apart from Chatwoot's en.yml
+en:
+  integration_apps:
+    smart_assistant:
+      name: 'Smart Assistant'
+      short_description: 'An AI assistant that answers your customers from your knowledge base.'
+      description: 'Answer customers around the clock from your own knowledge base, and hand the conversation to your team whenever a person is needed.'
+  smart_assistant:
+    default_name: 'Smart Assistant'
+    bot_description: 'Answers customers from the knowledge base (Settings > Integrations > Smart Assistant)'
+    errors:
+      not_configured: 'The smart assistant is not set up on this platform yet.'
+      inbox_has_bot: '%{inbox} already has another bot connected. Disconnect it first.'
+      no_text: 'No readable text was found in this source.'
