@@ -13,10 +13,10 @@ const mountBadge = status =>
 
 describe('CardStatusBadge', () => {
   it.each([
-    ['open', 'text-n-teal-11', 'i-lucide-circle-dot'],
+    ['open', 'text-n-blue-11', 'i-lucide-circle-dot'],
     ['pending', 'text-n-amber-11', 'i-lucide-circle-pause'],
-    ['snoozed', 'text-n-iris-11', 'i-lucide-alarm-clock'],
-    ['resolved', 'text-n-slate-11', 'i-lucide-circle-check'],
+    ['snoozed', 'text-n-slate-11', 'i-lucide-alarm-clock'],
+    ['resolved', 'text-n-teal-11', 'i-lucide-circle-check'],
   ])('names %s in its own colour and icon', (status, tone, icon) => {
     const wrapper = mountBadge(status);
 

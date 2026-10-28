@@ -273,8 +273,13 @@ The control room's gauges.
 
 ### Conversation card
 The employee's unit of work.
-- **Structure:** 40px avatar, then the name and time on one line, then the last message with the unread badge at its end; channel name and labels as small metadata.
+- **Structure:** 40px avatar, then the name and time on one line, then the last message with the unread badge at its end; channel name and labels as small metadata. Under the message, a status pill leads the labels row.
+- **Status pill:** each status keeps one colour and one icon: open in violet (the work to act on), pending in amber, resolved in teal, snoozed in neutral slate.
 - **States:** the open conversation has a violet mist background; unread conversations show a semibold name and violet time.
+
+### Filter chips
+- **Style:** fully round, 28px high (36px on touch), 14px text, hairline weak outline; the active chip is violet mist with violet ink. They wrap onto a second row rather than scroll, so every filter stays in view.
+- **Uses:** the status and quick views of the conversation list (all, open, unread, unreplied, pending, snoozed, closed), one active at a time.
 
 ## Do's and Don'ts
 

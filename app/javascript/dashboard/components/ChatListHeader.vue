@@ -104,8 +104,15 @@ const subtitle = computed(() => {
 });
 
 const isViewMenuOpen = ref(false);
+const viewMenuTrigger = ref(null);
 const closeViewMenu = () => {
   isViewMenuOpen.value = false;
+};
+// Escape closes the menu and hands focus back to the title it opened from
+const dismissViewMenu = () => {
+  if (!isViewMenuOpen.value) return;
+  closeViewMenu();
+  viewMenuTrigger.value?.focus();
 };
 
 const selectView = key => {
@@ -167,10 +174,12 @@ const toggleConversationLayout = () => {
       <div
         v-on-click-outside="closeViewMenu"
         class="relative flex flex-col min-w-0 -ms-1"
+        @keydown.esc.stop="dismissViewMenu"
       >
         <h1 class="flex min-w-0 text-heading-1 text-n-slate-12" :title="title">
           <button
             v-if="showViewMenu"
+            ref="viewMenuTrigger"
             v-tooltip.bottom="$t('CHAT_LIST.VIEWS.MENU_LABEL')"
             type="button"
             aria-haspopup="menu"
@@ -317,7 +326,7 @@ const toggleConversationLayout = () => {
             v-tooltip.top-end="$t('CHAT_LIST.NEW_CONVERSATION')"
             :aria-label="$t('CHAT_LIST.NEW_CONVERSATION')"
             icon="i-lucide-plus"
-            class="!rounded-full"
+            faded
             xs
           />
         </template>

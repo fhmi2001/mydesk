@@ -51,7 +51,7 @@ const select = key => {
       class="h-7 touch:h-9 px-3 rounded-full text-sm whitespace-nowrap flex-none outline outline-1 -outline-offset-1 transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-n-blue-8 focus-visible:ring-offset-1"
       :class="
         chip.key === modelValue
-          ? 'bg-n-blue-9 outline-n-blue-9 text-white font-medium'
+          ? 'bg-n-blue-3 outline-n-blue-6 text-n-blue-11 font-medium'
           : 'outline-n-weak text-n-slate-12 hover:bg-n-alpha-2'
       "
       @click="select(chip.key)"

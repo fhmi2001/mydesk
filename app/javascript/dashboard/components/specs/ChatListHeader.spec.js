@@ -119,6 +119,16 @@ describe('ChatListHeader', () => {
     expect(wrapper.find('[role="menu"]').exists()).toBe(false);
   });
 
+  it('closes the view menu on Escape', async () => {
+    const wrapper = mountHeader({ assigneeItems, activeAssignee: 'me' });
+
+    await wrapper.find('button[aria-haspopup="menu"]').trigger('click');
+    await wrapper.find('[role="menu"]').trigger('keydown', { key: 'Escape' });
+
+    expect(wrapper.find('[role="menu"]').exists()).toBe(false);
+    expect(wrapper.emitted('assigneeChange')).toBeUndefined();
+  });
+
   it('has no view menu while filters narrow the list', () => {
     const wrapper = mountHeader({ assigneeItems, hasAppliedFilters: true });
 
