@@ -1,12 +1,12 @@
 {
   "SESSION_LIMIT": {
-    "TITLE": "Active session limit reached",
-    "DESCRIPTION": "You have reached your limit of active sessions. Please end a session before logging in.",
-    "END": "End",
-    "END_ALL": "End all sessions",
-    "LOG_IN": "Log in",
-    "CANCEL": "Back to login",
-    "UNKNOWN_DEVICE": "Unknown device",
-    "STARTED": "Started"
+    "TITLE": "بلغت الحد الأقصى للجلسات النشطة",
+    "DESCRIPTION": "وصلت إلى الحد المسموح من الجلسات النشطة. أنهِ إحدى الجلسات قبل تسجيل الدخول.",
+    "END": "إنهاء",
+    "END_ALL": "إنهاء كل الجلسات",
+    "LOG_IN": "تسجيل الدخول",
+    "CANCEL": "العودة لتسجيل الدخول",
+    "UNKNOWN_DEVICE": "جهاز غير معروف",
+    "STARTED": "بدأت"
   }
 }

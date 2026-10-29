@@ -3,22 +3,22 @@
     "MODAL": {
       "TITLE": "قوالب الواتساب",
       "SUBTITLE": "حدد القالب الذي تريد إرساله",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TEMPLATE_SELECTED_SUBTITLE": "إعداد القالب: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "نماذج البحث",
       "NO_TEMPLATES_FOUND": "لم يتم العثور على قوالب",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "الترويسة",
+      "BODY": "النص",
+      "FOOTER": "التذييل",
+      "BUTTONS": "الأزرار",
       "CATEGORY": "الفئة",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "محتوى الوسائط",
+      "MEDIA_CONTENT_FALLBACK": "محتوى وسائط",
+      "NO_TEMPLATES_AVAILABLE": "لا توجد قوالب واتساب. اضغط تحديث لمزامنة القوالب من واتساب.",
+      "REFRESH_BUTTON": "تحديث القوالب",
+      "REFRESH_SUCCESS": "بدأ تحديث القوالب، وقد يستغرق دقيقة أو دقيقتين.",
+      "REFRESH_ERROR": "تعذّر تحديث القوالب. حاول مرة أخرى.",
       "LABELS": {
         "LANGUAGE": "اللغة",
         "TEMPLATE_BODY": "نص القالب",
@@ -27,22 +27,22 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "المتغيرات",
-      "HEADER_VARIABLES_LABEL": "Header variables",
+      "HEADER_VARIABLES_LABEL": "متغيرات الترويسة",
       "LANGUAGE": "اللغة",
       "CATEGORY": "الفئة",
       "VARIABLE_PLACEHOLDER": "أدخل قيمة {variable}",
       "GO_BACK_LABEL": "العودة للخلف",
       "SEND_MESSAGE_LABEL": "إرسال الرسالة",
       "FORM_ERROR_MESSAGE": "يرجى ملء جميع المتغيرات قبل الإرسال",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "MEDIA_HEADER_LABEL": "ترويسة {type}",
+      "OTP_CODE": "أدخل رمز التحقق (4 إلى 8 أرقام)",
+      "EXPIRY_MINUTES": "أدخل مدة الصلاحية بالدقائق",
+      "BUTTON_PARAMETERS": "معاملات الأزرار",
+      "BUTTON_LABEL": "الزر {index}",
+      "COUPON_CODE": "أدخل كود الخصم (15 حرفاً كحد أقصى)",
+      "MEDIA_URL_LABEL": "أدخل رابط {type}",
+      "DOCUMENT_NAME_PLACEHOLDER": "أدخل اسم الملف (مثل: Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "أدخل معامل الزر"
     }
   }
 }

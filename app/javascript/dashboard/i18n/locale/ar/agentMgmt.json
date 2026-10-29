@@ -98,7 +98,7 @@
       }
     },
     "SEARCH_PLACEHOLDER": "البحث عن موظفين...",
-    "NO_RESULTS": "No agents found matching your search",
+    "NO_RESULTS": "لا يوجد موظفون يطابقون بحثك",
     "SEARCH": {
       "NO_RESULTS": "لم يتم العثور على النتائج."
     },

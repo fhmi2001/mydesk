@@ -3,9 +3,9 @@
     "FETCHING": "جلب التكاملات",
     "NO_HOOK_CONFIGURED": "لا يوجد {integrationId} تكاملات مكونة في هذا الحساب.",
     "HEADER": "التطبيقات",
-    "COUNT": "{n} integration | {n} integrations",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "NO_RESULTS": "No results found matching your search",
+    "COUNT": "{n} تكامل | {n} تكاملات",
+    "SEARCH_PLACEHOLDER": "بحث...",
+    "NO_RESULTS": "لا توجد نتائج تطابق بحثك",
     "STATUS": {
       "ENABLED": "مفعل",
       "DISABLED": "معطّل"
@@ -46,7 +46,7 @@
           "PLACEHOLDER": "اختر صندوق الوارد"
         },
         "SUBMIT": "إنشاء",
-        "VALIDATING_OPENAI": "Validating with OpenAI...",
+        "VALIDATING_OPENAI": "جارٍ التحقق مع OpenAI...",
         "CANCEL": "إلغاء"
       },
       "API": {
@@ -61,7 +61,7 @@
       "BUTTON_TEXT": "قطع الاتصال"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow منصة لمعالجة اللغة الطبيعية لبناء واجهات المحادثة. ربطها مع {installationName} يتيح للبوت استقبال الاستفسارات أولاً وتحويلها للموظفين عند الحاجة، فيساعد في تأهيل العملاء المحتملين وتخفيف عبء الموظفين بالرد على الأسئلة الشائعة. لإضافة Dialogflow أنشئ حساب خدمة (Service Account) في Google Console وشارك بياناته. راجع التوثيق للتفاصيل"
     }
   }
 }

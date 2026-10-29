@@ -428,38 +428,38 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "حملات واتساب",
+      "NEW_CAMPAIGN": "إنشاء حملة",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "لا توجد حملات واتساب",
+        "SUBTITLE": "أطلق حملة واتساب للوصول إلى عملائك مباشرة، وأرسل العروض والإعلانات بسهولة. اضغط «إنشاء حملة» للبدء."
       },
       "CARD": {
-        "ANALYTICS": "View analytics",
+        "ANALYTICS": "عرض الإحصائيات",
         "STATUS": {
-          "PROCESSING": "Processing",
+          "PROCESSING": "قيد الإرسال",
           "COMPLETED": "مكتمل",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "مجدولة"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
+          "SENT_FROM": "أُرسلت من",
           "ON": "on"
         }
       },
       "FORM": {
-        "CREATE_TITLE": "Create campaign",
-        "LIVE_TEST": "Live test",
-        "LIVE_TEST_TOOLTIP": "Live test will be available soon",
-        "SCHEDULE": "Schedule campaign",
-        "SCHEDULED_FOR": "Scheduled for {date}",
-        "RESCHEDULE": "Reschedule",
-        "DISCARD": "Discard changes",
-        "SAVE": "Save changes",
+        "CREATE_TITLE": "إنشاء حملة",
+        "LIVE_TEST": "اختبار مباشر",
+        "LIVE_TEST_TOOLTIP": "الاختبار المباشر سيتوفر قريباً",
+        "SCHEDULE": "جدولة الحملة",
+        "SCHEDULED_FOR": "مجدولة في {date}",
+        "RESCHEDULE": "إعادة الجدولة",
+        "DISCARD": "تجاهل التغييرات",
+        "SAVE": "حفظ التغييرات",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
+          "TITLE": "الإعدادات الأساسية",
           "NAME": {
             "LABEL": "العنوان",
-            "PLACEHOLDER": "Enter the title of the campaign"
+            "PLACEHOLDER": "أدخل عنوان الحملة"
           },
           "INBOX": {
             "LABEL": "صندوق الوارد",
@@ -468,91 +468,91 @@
         },
         "AUDIENCE": {
           "TITLE": "الجمهور",
-          "TIER_DESCRIPTION": "Your WhatsApp account can message up to {tier}.",
-          "TIER_UNKNOWN": "Select an inbox to see the messaging limit of your WhatsApp account.",
+          "TIER_DESCRIPTION": "يمكن لحساب واتساب لديك مراسلة حتى {tier}.",
+          "TIER_UNKNOWN": "اختر صندوق وارد لمعرفة حد المراسلة لحساب واتساب.",
           "LEARN_MORE": "اعرف المزيد",
           "LABELS": {
             "LABEL": "الوسوم",
             "PLACEHOLDER": "حدد أوسمة العملاء"
           },
-          "SELECTED_COUNT": "{count} contacts selected",
+          "SELECTED_COUNT": "{count} جهة اتصال محددة",
           "VIEW": "عرض",
-          "EMPTY_STATE": "Select at least one label to build the audience.",
+          "EMPTY_STATE": "اختر تصنيفاً واحداً على الأقل لتحديد الجمهور.",
           "CONTACTS": {
             "TITLE": "جهات الاتصال",
             "TAGGED_WITH": "مشار إليه بواسطة",
-            "SEARCH_PLACEHOLDER": "Search by name, email or phone number",
-            "EMPTY_STATE": "No contacts found"
+            "SEARCH_PLACEHOLDER": "ابحث بالاسم أو البريد أو رقم الجوال",
+            "EMPTY_STATE": "لا توجد جهات اتصال"
           }
         },
         "TEMPLATE": {
-          "TITLE": "Template",
+          "TITLE": "القالب",
           "SELECT": {
-            "LABEL": "Template",
-            "PLACEHOLDER": "Select a template"
+            "LABEL": "القالب",
+            "PLACEHOLDER": "اختر قالباً"
           },
-          "EMPTY_STATE": "Select an inbox to load its approved templates",
-          "NO_TEMPLATES": "This inbox has no approved templates that can be used in a campaign",
-          "HEADER_LABEL": "Header",
-          "INVALID_MEDIA_URL": "Enter a valid HTTP or HTTPS URL.",
-          "HEADER_PLACEHOLDER": "Enter {type} header",
-          "DOCUMENT_NAME_PLACEHOLDER": "Enter document name",
-          "BODY_LABEL": "Body",
-          "BUTTONS_LABEL": "Buttons",
-          "VARIABLE_PLACEHOLDER": "Enter variable {variable}",
-          "BUTTON_PLACEHOLDER": "Enter parameter for button {index}"
+          "EMPTY_STATE": "اختر صندوق وارد لتحميل قوالبه المعتمدة",
+          "NO_TEMPLATES": "لا توجد في هذا الصندوق قوالب معتمدة يمكن استخدامها في حملة",
+          "HEADER_LABEL": "الترويسة",
+          "INVALID_MEDIA_URL": "أدخل رابطاً صحيحاً يبدأ بـ HTTP أو HTTPS.",
+          "HEADER_PLACEHOLDER": "أدخل ترويسة {type}",
+          "DOCUMENT_NAME_PLACEHOLDER": "أدخل اسم المستند",
+          "BODY_LABEL": "النص",
+          "BUTTONS_LABEL": "الأزرار",
+          "VARIABLE_PLACEHOLDER": "أدخل قيمة المتغير {variable}",
+          "BUTTON_PLACEHOLDER": "أدخل معامل الزر {index}"
         },
         "ACCOUNT_INFORMATION": {
-          "TITLE": "Account information",
-          "MESSAGING_TIER": "Messaging tier",
-          "ACCOUNT_STATUS": "Account status",
-          "ACCOUNT_HEALTH": "Account health",
-          "STATUS_DESCRIPTION": "Current mode of this WhatsApp number",
-          "HEALTH_DESCRIPTION": "Quality rating assigned by Meta",
-          "EMPTY_STATE": "Select an inbox to see its WhatsApp account information.",
+          "TITLE": "معلومات الحساب",
+          "MESSAGING_TIER": "مستوى المراسلة",
+          "ACCOUNT_STATUS": "حالة الحساب",
+          "ACCOUNT_HEALTH": "جودة الحساب",
+          "STATUS_DESCRIPTION": "الوضع الحالي لرقم واتساب هذا",
+          "HEALTH_DESCRIPTION": "تقييم الجودة الصادر من Meta",
+          "EMPTY_STATE": "اختر صندوق وارد لعرض معلومات حساب واتساب الخاص به.",
           "UNAVAILABLE": "غير متاح",
-          "OPEN": "Open in WhatsApp Manager"
+          "OPEN": "فتح في WhatsApp Manager"
         },
         "PREVIEW": {
           "TITLE": "معاينة الرسالة",
-          "EMPTY_STATE": "Select a template to preview the message.",
-          "FOOTNOTE": "This may vary slightly per OS. Perform a live test to confirm. Default values for the highlighted variables will be stored upon saving."
+          "EMPTY_STATE": "اختر قالباً لمعاينة الرسالة.",
+          "FOOTNOTE": "قد يختلف الشكل قليلاً حسب نظام التشغيل؛ أجرِ اختباراً مباشراً للتأكد. تُحفظ القيم الافتراضية للمتغيرات المظللة عند الحفظ."
         },
         "SCHEDULE_POPOVER": {
-          "LABEL": "Schedule",
+          "LABEL": "الجدولة",
           "CANCEL": "إلغاء",
           "CREATE": "إنشاء"
         },
         "API": {
-          "CREATE_SUCCESS": "WhatsApp campaign created successfully",
+          "CREATE_SUCCESS": "أُنشئت حملة واتساب بنجاح",
           "CREATE_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى.",
-          "UPDATE_SUCCESS": "WhatsApp campaign updated successfully",
+          "UPDATE_SUCCESS": "حُدّثت حملة واتساب بنجاح",
           "UPDATE_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى."
         }
       },
       "ANALYTICS": {
-        "LOADING": "Loading analytics...",
-        "EMPTY": "No delivery records found.",
-        "EMPTY_FILTER": "No {status} delivery records found.",
-        "DELIVERIES_ERROR": "Delivery records couldn't be loaded. Refresh the page to try again.",
+        "LOADING": "جارٍ تحميل الإحصائيات...",
+        "EMPTY": "لا توجد سجلات تسليم.",
+        "EMPTY_FILTER": "لا توجد سجلات تسليم بحالة {status}.",
+        "DELIVERIES_ERROR": "تعذّر تحميل سجلات التسليم. حدّث الصفحة وحاول مرة أخرى.",
         "EMPTY_STATE": {
           "ERROR": {
-            "TITLE": "Analytics couldn't be loaded",
-            "DESCRIPTION": "Refresh the page to try again."
+            "TITLE": "تعذّر تحميل الإحصائيات",
+            "DESCRIPTION": "حدّث الصفحة وحاول مرة أخرى."
           },
           "PENDING": {
-            "TITLE": "Delivery data will appear once sending begins",
-            "DESCRIPTION": "There are no delivery records for this campaign yet."
+            "TITLE": "ستظهر بيانات التسليم بعد بدء الإرسال",
+            "DESCRIPTION": "لا توجد سجلات تسليم لهذه الحملة بعد."
           },
           "UNAVAILABLE": {
-            "TITLE": "Analytics aren't available for this campaign",
-            "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
+            "TITLE": "الإحصائيات غير متاحة لهذه الحملة",
+            "DESCRIPTION": "لم تُسجّل بيانات تسليم لهذه الحملة. يحدث هذا للحملات المرسلة قبل إضافة إحصائيات الحملات."
           }
         },
-        "PROCESSING_NOTICE": "This campaign is still sending. Counts, percentages, and delivery records are partial and include only contacts processed so far. More contacts will appear as sending continues.",
-        "RATE": "{value}% of audience",
-        "SENT_ON": "Sent on {date}",
-        "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} contacts",
+        "PROCESSING_NOTICE": "الحملة ما زالت قيد الإرسال. الأعداد والنسب وسجلات التسليم جزئية وتشمل فقط من عولجوا حتى الآن، وستظهر جهات أخرى مع استمرار الإرسال.",
+        "RATE": "{value}% من الجمهور",
+        "SENT_ON": "أُرسلت في {date}",
+        "PAGE_INFO": "عرض {startItem} - {endItem} من {totalItems} جهة اتصال | عرض {startItem} - {endItem} من {totalItems} جهات اتصال",
         "BREADCRUMB": {
           "CAMPAIGNS": "الحملات",
           "WHATSAPP": "واتساب"
@@ -563,79 +563,79 @@
         "METRICS": {
           "AUDIENCE": {
             "LABEL": "الجمهور",
-            "HINT": "Contacts included in this campaign."
+            "HINT": "جهات الاتصال المشمولة في هذه الحملة."
           },
           "SENT": {
-            "LABEL": "Submitted to WhatsApp",
-            "HINT": "Messages accepted by WhatsApp for delivery."
+            "LABEL": "مُرسلة إلى واتساب",
+            "HINT": "الرسائل التي قبلها واتساب للتسليم."
           },
           "DELIVERED": {
-            "LABEL": "Delivered",
-            "HINT": "Messages that reached the contact's device. Read messages are included."
+            "LABEL": "مُسلّمة",
+            "HINT": "الرسائل التي وصلت إلى جهاز العميل، وتشمل المقروءة."
           },
           "READ": {
             "LABEL": "قراءة",
-            "HINT": "Messages opened by the contact."
+            "HINT": "الرسائل التي فتحها العميل."
           },
           "FAILED": {
-            "LABEL": "Failed",
-            "HINT": "Messages WhatsApp could not deliver."
+            "LABEL": "فشلت",
+            "HINT": "الرسائل التي تعذّر على واتساب تسليمها."
           },
           "SKIPPED": {
-            "LABEL": "Skipped",
-            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+            "LABEL": "مُتخطاة",
+            "HINT": "جهات تُخطيت قبل الإرسال، غالباً لعدم وجود رقم جوال أو لعدم صحته."
           }
         },
         "STATUS": {
-          "QUEUED": "Queued",
-          "SENT": "Awaiting delivery update",
-          "DELIVERED": "Delivered",
+          "QUEUED": "في قائمة الانتظار",
+          "SENT": "بانتظار تحديث التسليم",
+          "DELIVERED": "مُسلّمة",
           "READ": "قراءة",
-          "FAILED": "Failed",
-          "SKIPPED": "Skipped"
+          "FAILED": "فشلت",
+          "SKIPPED": "مُتخطاة"
         },
         "BREAKDOWN": {
-          "TITLE": "Delivery breakdown",
-          "DELIVERY_RATE": "{value}% delivered",
+          "TITLE": "تفاصيل التسليم",
+          "DELIVERY_RATE": "{value}% مُسلّمة",
           "LEGEND": {
             "READ": "قراءة",
-            "DELIVERED": "Delivered",
-            "FAILED": "Failed",
-            "SKIPPED": "Skipped",
-            "PENDING": "Queued or awaiting update"
+            "DELIVERED": "مُسلّمة",
+            "FAILED": "فشلت",
+            "SKIPPED": "مُتخطاة",
+            "PENDING": "في الانتظار أو بانتظار التحديث"
           }
         },
         "TABLE": {
-          "TITLE": "Deliveries",
+          "TITLE": "عمليات التسليم",
           "CONTACT": "جهات الاتصال",
           "STATUS": "الحالة",
           "MESSAGE": "رسالة",
-          "MESSAGE_NOT_GENERATED": "Not generated",
-          "REASON": "Reason",
-          "ERROR_CODE": "Code {code}"
+          "MESSAGE_NOT_GENERATED": "لم تُنشأ",
+          "REASON": "السبب",
+          "ERROR_CODE": "الرمز {code}"
         },
         "PAYWALL": {
-          "TITLE": "Unlock campaign analytics",
-          "AVAILABLE_ON": "Campaign analytics is available on Business and Enterprise plans.",
-          "UPGRADE_PROMPT": "Upgrade to track campaign delivery, read status, and failed messages.",
-          "UPGRADE_NOW": "View plans",
-          "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+          "TITLE": "افتح إحصائيات الحملات",
+          "AVAILABLE_ON": "إحصائيات الحملات متاحة في باقتي الأعمال والمؤسسات.",
+          "UPGRADE_PROMPT": "رقِّ باقتك لمتابعة تسليم الحملات وحالة القراءة والرسائل الفاشلة.",
+          "UPGRADE_NOW": "عرض الباقات",
+          "CANCEL_ANYTIME": "يمكنك تغيير باقتك أو إلغاؤها في أي وقت."
         },
         "ENTERPRISE_PAYWALL": {
-          "AVAILABLE_ON": "Campaign analytics is available on paid self-hosted plans.",
-          "UPGRADE_PROMPT": "Upgrade your installation to track campaign delivery, read status, and failed messages.",
-          "ASK_ADMIN": "Contact your instance administrator to upgrade."
+          "AVAILABLE_ON": "إحصائيات الحملات متاحة في الباقات المدفوعة.",
+          "UPGRADE_PROMPT": "رقِّ باقتك لمتابعة تسليم الحملات وحالة القراءة والرسائل الفاشلة.",
+          "ASK_ADMIN": "تواصل مع مسؤول المنصة للترقية."
         }
       }
     },
     "HISTORY": {
-      "LABEL": "Campaign",
-      "LOAD_MORE": "Load earlier campaigns"
+      "LABEL": "الحملة",
+      "LOAD_MORE": "تحميل الحملات الأقدم"
     },
     "CONFIRM_DELETE": {
       "TITLE": "هل أنت متأكد من الحذف?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
-      "WHATSAPP_DESCRIPTION": "Deleting this campaign will also remove its saved message history and delivery details. Messages already sent on WhatsApp will remain. This cannot be undone.",
+      "DESCRIPTION": "الحذف نهائي ولا يمكن التراجع عنه.",
+      "WHATSAPP_DESCRIPTION": "حذف الحملة يزيل أيضاً سجل رسائلها وتفاصيل التسليم المحفوظة. الرسائل المرسلة على واتساب تبقى كما هي. لا يمكن التراجع عن ذلك.",
       "CONFIRM": "حذف",
       "API": {
         "SUCCESS_MESSAGE": "تم حذف الحملة بنجاح",

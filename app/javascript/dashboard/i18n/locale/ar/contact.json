@@ -142,11 +142,11 @@
         },
         "LINKEDIN": {
           "PLACEHOLDER": "أدخل اسم مستخدم Linkedin",
-          "LABEL": "LinkedIn"
+          "LABEL": "لينكدإن"
         },
         "GITHUB": {
           "PLACEHOLDER": "أدخل اسم المستخدم في Github",
-          "LABEL": "Github"
+          "LABEL": "GitHub"
         }
       }
     },
@@ -170,7 +170,7 @@
       },
       "INBOX": {
         "LABEL": "صندوق الوارد",
-        "PLACEHOLDER": "اختيار مصدر البريد الوارد",
+        "PLACEHOLDER": "اختيار صندوق الوارد",
         "ERROR": "حدد صندوق الوارد"
       },
       "SUBJECT": {
@@ -381,7 +381,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "عرض {startItem} - {endItem} من {totalItems} جهة اتصال | عرض {startItem} - {endItem} من {totalItems} جهات اتصال"
     },
     "FILTER": {
       "NAME": "الاسم",

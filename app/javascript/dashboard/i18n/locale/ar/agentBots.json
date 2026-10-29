@@ -2,16 +2,16 @@
   "AGENT_BOTS": {
     "HEADER": "الروبوتات",
     "LOADING_EDITOR": "جار جلب المحرر...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
-    "LEARN_MORE": "Learn about agent bots",
-    "COUNT": "{n} bot | {n} bots",
-    "SEARCH_PLACEHOLDER": "Search bots...",
-    "NO_RESULTS": "No bots found matching your search",
-    "GLOBAL_BOT": "System bot",
+    "DESCRIPTION": "البوتات أعضاء مميزون في فريقك؛ تتولى المهام البسيطة لتتفرغ أنت لما يهم. يمكنك إدارة البوتات من هذه الصفحة أو إنشاء بوت جديد بزر «إضافة بوت».",
+    "LEARN_MORE": "تعرّف على البوتات",
+    "COUNT": "{n} بوت | {n} بوتات",
+    "SEARCH_PLACEHOLDER": "ابحث في البوتات...",
+    "NO_RESULTS": "لا توجد بوتات تطابق بحثك",
+    "GLOBAL_BOT": "بوت النظام",
     "GLOBAL_BOT_BADGE": "النظام",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "حُذفت صورة البوت بنجاح",
+      "ERROR_DELETE": "تعذّر حذف صورة البوت، حاول مرة أخرى"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "اختر الروبوت",
@@ -25,7 +25,7 @@
       "SELECT_PLACEHOLDER": "اختر الروبوت"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "إضافة بوت",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "API": {
         "SUCCESS_MESSAGE": "تمت إضافة الروبوت بنجاح.",
@@ -33,10 +33,10 @@
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "لا توجد بوتات. يمكنك إنشاء بوت بالضغط على زر «إضافة بوت».",
       "LOADING": "جار جلب الروبوتات...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "تفاصيل البوت",
         "URL": "رابط Webhook",
         "ACTIONS": "الإجراءات"
       }
@@ -46,7 +46,7 @@
       "TITLE": "حذف الروبوت",
       "CONFIRM": {
         "TITLE": "تأكيد الحذف",
-        "MESSAGE": "Are you sure you want to delete {name}?",
+        "MESSAGE": "هل تريد حذف {name}؟",
         "YES": "نعم، احذف",
         "NO": "لا، احتفظ"
       },
@@ -64,29 +64,29 @@
       }
     },
     "SECRET": {
-      "LABEL": "Webhook Secret",
-      "COPY": "Copy secret to clipboard",
-      "COPY_SUCCESS": "Secret copied to clipboard",
-      "TOGGLE": "Toggle secret visibility",
-      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
-      "DONE": "Done",
-      "RESET_SUCCESS": "Webhook secret regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+      "LABEL": "المفتاح السري للـ Webhook",
+      "COPY": "نسخ المفتاح السري",
+      "COPY_SUCCESS": "نُسخ المفتاح السري",
+      "TOGGLE": "إظهار المفتاح السري أو إخفاؤه",
+      "CREATED_DESC": "استخدم المفتاح السري أدناه للتحقق من توقيع طلبات الـ Webhook. انسخه الآن، ويمكنك أيضاً إيجاده لاحقاً في إعدادات البوت.",
+      "DONE": "تم",
+      "RESET_SUCCESS": "أُعيد إنشاء المفتاح السري بنجاح",
+      "RESET_ERROR": "تعذّرت إعادة إنشاء المفتاح السري. حاول مرة أخرى"
     },
     "ACCESS_TOKEN": {
       "TITLE": "رمز المصادقة",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "DESCRIPTION": "انسخ رمز الوصول واحفظه في مكان آمن",
+      "COPY_SUCCESSFUL": "نُسخ رمز الوصول",
+      "RESET_SUCCESS": "أُعيد إنشاء رمز الوصول بنجاح",
+      "RESET_ERROR": "تعذّرت إعادة إنشاء رمز الوصول. حاول مرة أخرى"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "صورة البوت"
       },
       "NAME": {
         "LABEL": "اسم الروبوت",
-        "PLACEHOLDER": "Enter bot name",
+        "PLACEHOLDER": "أدخل اسم البوت",
         "REQUIRED": "اسم الروبوت مطلوب"
       },
       "DESCRIPTION": {
@@ -96,19 +96,19 @@
       "WEBHOOK_URL": {
         "LABEL": "رابط Webhook",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "رابط الـ Webhook مطلوب"
       },
       "ERRORS": {
         "NAME": "اسم الروبوت مطلوب",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "URL": "رابط الـ Webhook مطلوب",
+        "VALID_URL": "أدخل رابطاً صحيحاً يبدأ بـ http:// أو https://"
       },
       "CANCEL": "إلغاء",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "إنشاء البوت",
+      "UPDATE": "تحديث البوت"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "اربط بوت Webhook بخدماتك الخاصة. يستقبل البوت أحداث المحادثات ويعالجها ويمكنه الرد عليها."
     },
     "TYPES": {
       "WEBHOOK": "روبوت الـWebhook"

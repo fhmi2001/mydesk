@@ -15,7 +15,7 @@
       "LABEL": "ترتيب",
       "OPTIONS": {
         "ASCENDING": "تصاعدي",
-        "DESCENDING": "Descending"
+        "DESCENDING": "تنازلي"
       }
     },
     "SEARCH_PLACEHOLDER": "البحث في الشركات...",
@@ -23,151 +23,151 @@
     "UNNAMED": "شركة بلا اسم",
     "CONTACTS_COUNT": "جهة اتصال {n} | {n} جهات الاتصال",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "إضافة شركة"
     },
     "SELECTOR": {
-      "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "PLACEHOLDER": "اختر شركة",
+      "CREATE_OPTION": "إضافة \"{name}\""
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "إضافة بيانات الشركة",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "إضافة الشركة"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "أُنشئت الشركة.",
+        "ERROR": "تعذّر إنشاء الشركة."
       }
     },
     "DETAIL": {
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "الشركة غير موجودة",
+        "SUBTITLE": "ربما حُذفت هذه الشركة أو لم تعد متاحة في هذا الحساب."
       },
       "HEADER": {
         "EDIT": "تعديل",
-        "MORE": "Show more",
-        "LESS": "Show less",
-        "OPEN_COUNT": "{count} open | {count} open",
-        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+        "MORE": "عرض المزيد",
+        "LESS": "عرض أقل",
+        "OPEN_COUNT": "{count} مفتوحة | {count} مفتوحة",
+        "REFRESH_WITH_TIME": "تحديث الملف (آخر تحديث {time})"
       },
       "FACTS": {
-        "INDUSTRY": "Industry",
-        "SIZE": "Employees",
-        "LOCATION": "Based in",
-        "ADDED": "Added",
-        "UNKNOWN": "Unknown",
+        "INDUSTRY": "القطاع",
+        "SIZE": "الموظفون",
+        "LOCATION": "المقر",
+        "ADDED": "أُضيفت",
+        "UNKNOWN": "غير معروف",
         "YES": "نعم",
         "NO": "لا"
       },
       "PEOPLE": {
         "ADD": "إضافة",
-        "SEARCH": "Search people",
-        "EMPTY": "No one from this company yet.",
-        "NO_MATCHES": "No people match your search.",
-        "DIALOG_TITLE": "Add people to {name}"
+        "SEARCH": "ابحث في الأشخاص",
+        "EMPTY": "لا يوجد أحد من هذه الشركة بعد.",
+        "NO_MATCHES": "لا يوجد أشخاص يطابقون بحثك.",
+        "DIALOG_TITLE": "إضافة أشخاص إلى {name}"
       },
       "TABS": {
         "CONVERSATIONS": "المحادثات",
         "NOTES": "ملاحظات",
-        "PEOPLE": "People"
+        "PEOPLE": "الأشخاص"
       },
       "ACTIVITY": {
         "TODAY": "اليوم",
         "YESTERDAY": "الأمس",
         "SYSTEM_AUTHOR": "النظام",
-        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
-        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
-        "LOAD_MORE": "Load more",
-        "SEARCH_NOTES": "Search notes",
-        "NO_MATCHING_NOTES": "No notes match your search.",
-        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+        "EMPTY_CONVERSATIONS": "لا توجد محادثات بعد. ستظهر هنا عندما يتواصل أشخاص هذه الشركة.",
+        "EMPTY_NOTES": "لا توجد ملاحظات بعد. الملاحظات المضافة لأشخاص هذه الشركة تظهر هنا.",
+        "LOAD_MORE": "تحميل المزيد",
+        "SEARCH_NOTES": "ابحث في الملاحظات",
+        "NO_MATCHING_NOTES": "لا توجد ملاحظات تطابق بحثك.",
+        "NO_MATCHING_CONVERSATIONS": "لا توجد محادثات تطابق هذه الفلاتر."
       },
       "EDIT": {
-        "TITLE": "Edit company",
-        "SAVE": "Save changes",
+        "TITLE": "تعديل الشركة",
+        "SAVE": "حفظ التغييرات",
         "DESCRIPTION": "الوصف",
         "DETAILS": "التفاصيل",
         "CITY": "المدينة",
         "COUNTRY": "الدولة",
         "PHONE": "هاتف",
         "SOCIAL": {
-          "TITLE": "Social profiles",
-          "LINKEDIN": "LinkedIn",
+          "TITLE": "حسابات التواصل الاجتماعي",
+          "LINKEDIN": "لينكدإن",
           "X": "X",
           "FACEBOOK": "فيسبوك",
-          "INSTAGRAM": "Instagram",
+          "INSTAGRAM": "إنستغرام",
           "GITHUB": "GitHub",
-          "YOUTUBE": "YouTube"
+          "YOUTUBE": "يوتيوب"
         },
         "PLACEHOLDERS": {
           "DOMAIN": "acme.com",
-          "INDUSTRY": "Software",
+          "INDUSTRY": "تجارة إلكترونية",
           "EMPLOYEES": "51 to 200",
-          "USERNAME": "username"
+          "USERNAME": "اسم المستخدم"
         }
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "البحث عن صفات...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "لا توجد سمات مخصصة للشركات بعد.",
+        "NO_ATTRIBUTES": "لا توجد سمات مطابقة.",
+        "UNUSED_ATTRIBUTES": "{count} سمة غير مستخدمة | {count} سمات غير مستخدمة",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
+          "UPDATE_SUCCESS": "حُدّثت سمة الشركة.",
+          "UPDATE_ERROR": "تعذّر تحديث سمة الشركة.",
+          "DELETE_SUCCESS": "أُزيلت سمة الشركة.",
+          "DELETE_ERROR": "تعذّرت إزالة سمة الشركة."
         },
         "TITLE": "الخصائص المخصصة"
       },
       "CONTACTS": {
         "LOADING": "جاري جلب جهات الاتصال...",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "UNNAMED_CONTACT": "جهة اتصال بلا اسم",
         "ACTIONS": {
-          "ADD": "Add contact",
-          "REMOVE": "Remove contact"
+          "ADD": "إضافة جهة اتصال",
+          "REMOVE": "إزالة جهة الاتصال"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
+            "DESCRIPTION": "ابحث عن جهة اتصال موجودة واربطها بهذه الشركة.",
             "SEARCH_PLACEHOLDER": "البحث في جهات الاتصال...",
-            "INITIAL": "Start typing to search contacts.",
+            "INITIAL": "ابدأ الكتابة للبحث في جهات الاتصال.",
             "EMPTY": "لم يتم العثور على جهات اتصال.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "CONFIRM_TITLE": "ربط جهة الاتصال",
+            "CONFIRM_DESCRIPTION": "تأكد من الشركة وجهة الاتصال قبل ربطهما.",
             "COMPANY_LABEL": "المنشأة",
             "CONTACT_LABEL": "جهات الاتصال",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "CURRENT_COMPANY": "مرتبطة حالياً بـ {companyName}",
+            "ADD": "ربط جهة الاتصال",
             "CANCEL": "إلغاء"
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "رُبطت جهة الاتصال بالشركة.",
+          "ADD_ERROR": "تعذّر ربط جهة الاتصال بالشركة.",
+          "REASSIGN_SUCCESS": "نُقلت جهة الاتصال إلى الشركة.",
+          "REASSIGN_ERROR": "تعذّر نقل جهة الاتصال إلى الشركة.",
+          "REMOVE_SUCCESS": "أُزيلت جهة الاتصال من الشركة.",
+          "REMOVE_ERROR": "تعذّرت إزالة جهة الاتصال من الشركة."
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "UPDATING": "جارٍ تحديث شعار الشركة...",
+        "UPLOAD_SUCCESS": "حُدّث شعار الشركة.",
+        "UPLOAD_ERROR": "تعذّر تحديث شعار الشركة.",
+        "DELETE_SUCCESS": "أُزيل شعار الشركة.",
+        "DELETE_ERROR": "تعذّرت إزالة شعار الشركة."
       },
       "PROFILE": {
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "DESCRIPTION_PLACEHOLDER": "أضف وصفاً قصيراً لهذه الشركة",
         "ACTIONS": {
-          "REFRESH": "Refresh profile"
+          "REFRESH": "تحديث الملف"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company.",
-          "REFRESH_SUCCESS": "Company profile refreshed.",
-          "REFRESH_ERROR": "Could not refresh the company profile."
+          "UPDATE_SUCCESS": "حُدّثت الشركة.",
+          "UPDATE_ERROR": "تعذّر تحديث الشركة.",
+          "REFRESH_SUCCESS": "حُدّث ملف الشركة.",
+          "REFRESH_ERROR": "تعذّر تحديث ملف الشركة."
         },
         "FIELDS": {
           "NAME": "الاسم",
@@ -175,39 +175,39 @@
         }
       },
       "DELETE": {
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "BUTTON": "حذف الشركة",
+        "TITLE": "حذف الشركة؟",
+        "DESCRIPTION": "ستُحذف الشركة ويُفك ارتباط كل جهات الاتصال بها، مع بقاء جهات الاتصال نفسها.",
+        "DESCRIPTION_WITH_NAME": "ستُحذف {companyName} ويُفك ارتباط كل جهات الاتصال بها، مع بقاء جهات الاتصال نفسها.",
+        "CONFIRM": "حذف الشركة",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "حُذفت الشركة.",
+          "ERROR": "تعذّر حذف الشركة."
         }
       },
       "CONVERSATION_FILTERS": {
         "BUTTON": "تصفية",
-        "BUTTON_WITH_COUNT": "Filter ({count})",
-        "ANY": "Any"
+        "BUTTON_WITH_COUNT": "فلترة ({count})",
+        "ANY": "الكل"
       },
       "ENRICHMENT_UPGRADE": {
-        "TITLE": "Enrich company profiles on the Business plan",
-        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
-        "UPGRADE": "See plans"
+        "TITLE": "إثراء ملفات الشركات متاح في باقة الأعمال",
+        "DESCRIPTION": "تعبئة وصف الشركة وقطاعها وحجمها وموقعها وحساباتها الاجتماعية تلقائياً من نطاقها. متاح في باقتي الأعمال والمؤسسات.",
+        "UPGRADE": "عرض الباقات"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "لم يتم العثور على شركات"
     },
     "CARD": {
-      "EMPLOYEES": "{count} employees"
+      "EMPLOYEES": "{count} موظف"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Companies",
-      "AVAILABLE_ON": "Companies is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "رقِّ باقتك لاستخدام الشركات",
+      "AVAILABLE_ON": "ميزة الشركات غير متاحة في الباقة المجانية.",
+      "UPGRADE_PROMPT": "رقِّ باقتك لتجميع جهات الاتصال حسب الشركة، ورؤية كل المحادثات مع كل حساب، وحفظ بيانات الشركة في مكان واحد.",
+      "UPGRADE_NOW": "الترقية الآن",
+      "CANCEL_ANYTIME": "يمكنك تغيير باقتك أو إلغاؤها في أي وقت"
     }
   },
   "COMPANIES_LAYOUT": {

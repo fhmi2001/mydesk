@@ -1,59 +1,59 @@
 {
   "CUSTOM_ROLE": {
-    "HEADER": "Custom Roles",
-    "LEARN_MORE": "Learn more about custom roles",
-    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-    "COUNT": "{n} custom role | {n} custom roles",
-    "HEADER_BTN_TXT": "Add custom role",
-    "LOADING": "Fetching custom roles...",
-    "SEARCH_PLACEHOLDER": "Search custom roles...",
-    "NO_RESULTS": "No custom roles found matching your search",
+    "HEADER": "الأدوار المخصصة",
+    "LEARN_MORE": "تعرّف على الأدوار المخصصة",
+    "DESCRIPTION": "الأدوار المخصصة ينشئها مالك الحساب أو المسؤول، وتُسند إلى الموظفين لتحديد صلاحياتهم داخل الحساب. يمكنك إنشاؤها بصلاحيات ومستويات وصول تناسب احتياجات منشأتك.",
+    "COUNT": "{n} دور مخصص | {n} أدوار مخصصة",
+    "HEADER_BTN_TXT": "إضافة دور مخصص",
+    "LOADING": "جارٍ جلب الأدوار المخصصة...",
+    "SEARCH_PLACEHOLDER": "ابحث في الأدوار المخصصة...",
+    "NO_RESULTS": "لا توجد أدوار مخصصة تطابق بحثك",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام.",
     "PAYWALL": {
-      "TITLE": "Upgrade to create custom roles",
-      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "رقِّ باقتك لإنشاء أدوار مخصصة",
+      "AVAILABLE_ON": "ميزة الأدوار المخصصة متاحة في باقتي الأعمال والمؤسسات فقط.",
+      "UPGRADE_PROMPT": "رقِّ باقتك للحصول على مزايا متقدمة مثل إدارة الفرق والأتمتة والسمات المخصصة وغيرها.",
+      "UPGRADE_NOW": "الترقية الآن",
+      "CANCEL_ANYTIME": "يمكنك تغيير باقتك أو إلغاؤها في أي وقت"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "ميزة الأدوار المخصصة متاحة في الباقات المدفوعة فقط.",
+      "UPGRADE_PROMPT": "رقِّ إلى باقة مدفوعة للحصول على مزايا متقدمة مثل سجل التدقيق وسعة الموظفين وغيرها.",
+      "ASK_ADMIN": "تواصل مع مسؤول الحساب للترقية."
     },
     "LIST": {
-      "404": "There are no custom roles available in this account.",
-      "TITLE": "Manage custom roles",
-      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "404": "لا توجد أدوار مخصصة في هذا الحساب.",
+      "TITLE": "إدارة الأدوار المخصصة",
+      "DESC": "الأدوار المخصصة ينشئها مالك الحساب أو المسؤول، وتُسند إلى الموظفين لتحديد صلاحياتهم داخل الحساب. يمكنك إنشاؤها بصلاحيات ومستويات وصول تناسب احتياجات منشأتك.",
       "TABLE_HEADER": {
         "NAME": "الاسم",
         "DESCRIPTION": "الوصف",
-        "PERMISSIONS": "Permissions",
+        "PERMISSIONS": "الصلاحيات",
         "ACTIONS": "الإجراءات"
       }
     },
     "PERMISSIONS": {
-      "CONVERSATION_MANAGE": "Manage all conversations",
-      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
-      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
-      "CONTACT_MANAGE": "Manage contacts",
-      "REPORT_MANAGE": "Manage reports",
-      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+      "CONVERSATION_MANAGE": "إدارة كل المحادثات",
+      "CONVERSATION_UNASSIGNED_MANAGE": "إدارة المحادثات غير المسندة والمسندة إليه",
+      "CONVERSATION_PARTICIPATING_MANAGE": "إدارة المحادثات التي يشارك فيها والمسندة إليه",
+      "CONTACT_MANAGE": "إدارة جهات الاتصال",
+      "REPORT_MANAGE": "إدارة التقارير",
+      "KNOWLEDGE_BASE_MANAGE": "إدارة قاعدة المعرفة"
     },
     "FORM": {
       "NAME": {
         "LABEL": "الاسم",
-        "PLACEHOLDER": "Please enter a name.",
+        "PLACEHOLDER": "أدخل اسماً.",
         "ERROR": "الاسم مطلوب."
       },
       "DESCRIPTION": {
         "LABEL": "الوصف",
-        "PLACEHOLDER": "Please enter a description.",
+        "PLACEHOLDER": "أدخل وصفاً.",
         "ERROR": "الوصف مطلوب."
       },
       "PERMISSIONS": {
-        "LABEL": "Permissions",
-        "ERROR": "Permissions are required."
+        "LABEL": "الصلاحيات",
+        "ERROR": "الصلاحيات مطلوبة."
       },
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "API": {
@@ -61,26 +61,26 @@
       }
     },
     "ADD": {
-      "TITLE": "Add custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "إضافة دور مخصص",
+      "DESC": "تتيح لك الأدوار المخصصة إنشاء أدوار بصلاحيات ومستويات وصول تناسب احتياجات منشأتك.",
       "SUBMIT": "إرسال",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role added successfully."
+        "SUCCESS_MESSAGE": "أُضيف الدور المخصص بنجاح."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "تعديل",
-      "TITLE": "Edit custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "تعديل الدور المخصص",
+      "DESC": "تتيح لك الأدوار المخصصة إنشاء أدوار بصلاحيات ومستويات وصول تناسب احتياجات منشأتك.",
       "SUBMIT": "تحديث",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role updated successfully."
+        "SUCCESS_MESSAGE": "حُدّث الدور المخصص بنجاح."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "SUCCESS_MESSAGE": "حُذف الدور المخصص بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "CONFIRM": {

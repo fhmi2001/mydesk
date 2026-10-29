@@ -1,22 +1,22 @@
 {
   "REGISTER": {
     "TRY_WOOT": "تسجيل حساب",
-    "GET_STARTED": "Get started with Chatwoot",
+    "GET_STARTED": "ابدأ مع MyDesk",
     "TITLE": "تسجيل",
     "TESTIMONIAL_HEADER": "إن كل ما يلزم هو خطوة واحدة للمضي قدما",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TESTIMONIAL_CONTENT": "خطوة واحدة تفصلك عن التواصل مع عملائك والاحتفاظ بهم وكسب عملاء جدد.",
     "TERMS_ACCEPT": "من خلال التسجيل، فإنك توافق على <a href=\"https://www.chatwoot.com/terms\">شروط الخدمة</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">سياسة الخصوصية</a>",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "التسجيل عبر Google"
     },
     "SHOPIFY": {
-      "TITLE": "Set up Chatwoot for your Shopify store",
-      "DESCRIPTION": "Create your account to continue to Shopify App Pricing and choose a plan."
+      "TITLE": "جهّز MyDesk لمتجرك على Shopify",
+      "DESCRIPTION": "أنشئ حسابك للمتابعة إلى صفحة الأسعار في Shopify واختيار الباقة."
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "اسم المنشأة",
+      "PLACEHOLDER": "أدخل اسم منشأتك، مثل: متجر الرياض",
+      "ERROR": "اسم المنشأة قصير جداً."
     },
     "FULL_NAME": {
       "LABEL": "الاسم الكامل",
@@ -25,19 +25,19 @@
     },
     "EMAIL": {
       "LABEL": "البريد الإلكتروني للعمل",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "أدخل بريد العمل، مثل: name{'@'}store{'.'}sa",
+      "ERROR": "أدخل بريد عمل صحيحاً."
     },
     "PASSWORD": {
       "LABEL": "كلمة المرور",
       "PLACEHOLDER": "كلمة المرور",
       "ERROR": "كلمة المرور قصيرة جداً",
       "IS_INVALID_PASSWORD": "يجب أن تحتوي كلمة المرور على الأقل على حرف كبير واحد وحرف صغير واحد ورقم واحد وحرف خاص واحد",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "REQUIREMENTS_LENGTH": "6 أحرف على الأقل",
+      "REQUIREMENTS_UPPERCASE": "حرف إنجليزي كبير واحد على الأقل",
+      "REQUIREMENTS_LOWERCASE": "حرف إنجليزي صغير واحد على الأقل",
+      "REQUIREMENTS_NUMBER": "رقم واحد على الأقل",
+      "REQUIREMENTS_SPECIAL": "رمز خاص واحد على الأقل"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "تأكيد كلمة المرور",
@@ -45,17 +45,17 @@
       "ERROR": "كلمة المرور غير متطابقة."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
+      "SUCCESS_MESSAGE": "تم التسجيل بنجاح",
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "SUBMIT": "إرسال",
     "HAVE_AN_ACCOUNT": "هل لديك حساب مسبق؟",
     "VERIFY_EMAIL": {
-      "TITLE": "Check your inbox",
-      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "TITLE": "تحقق من بريدك",
+      "DESCRIPTION": "أرسلنا رابط تفعيل إلى {email}. اضغط الرابط لتأكيد بريدك والبدء.",
       "RESEND": "إعادة إرسال رسالة التحقق",
-      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
-      "RESEND_ERROR": "Could not send verification email. Please try again."
+      "RESEND_SUCCESS": "أُرسل بريد التفعيل. تحقق من صندوق الوارد.",
+      "RESEND_ERROR": "تعذّر إرسال بريد التفعيل. حاول مرة أخرى."
     }
   }
 }

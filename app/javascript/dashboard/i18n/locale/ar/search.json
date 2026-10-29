@@ -5,16 +5,16 @@
       "CONTACTS": "جهات الاتصال",
       "CONVERSATIONS": "المحادثات",
       "MESSAGES": "الرسائل",
-      "ARTICLES": "Articles"
+      "ARTICLES": "المقالات"
     },
     "SECTION": {
       "CONTACTS": "جهات الاتصال",
       "CONVERSATIONS": "المحادثات",
       "MESSAGES": "الرسائل",
-      "ARTICLES": "Articles"
+      "ARTICLES": "المقالات"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
+    "VIEW_MORE": "عرض المزيد",
+    "LOAD_MORE": "تحميل المزيد",
     "SEARCHING_DATA": "جاري البحث",
     "LOADING_DATA": "جار التحميل",
     "EMPTY_STATE": "لم يتم العثور على {item} للطلب '{query}'",
@@ -22,7 +22,7 @@
     "PLACEHOLDER_KEYBINDING": "/للتركيز",
     "INPUT_PLACEHOLDER": "أكتب 3 أحرف أو أكثر للبحث",
     "RECENT_SEARCHES": "عمليات البحث الأخيرة",
-    "CLEAR_ALL": "Clear all",
+    "CLEAR_ALL": "مسح الكل",
     "MOST_RECENT": "الأحدث",
     "EMPTY_STATE_DEFAULT": "البحث عن طريق معرف المحادثة أو البريد الإلكتروني أو رقم الهاتف أو الرسائل للحصول على نتائج بحث أفضل. ",
     "BOT_LABEL": "رد آلي",
@@ -34,7 +34,7 @@
     "EMAIL_SUBJECT": "الموضوع",
     "PRIVATE": "ملاحظة خاصة",
     "TRANSCRIPT": "النص",
-    "CREATED_AT": "created {time}",
+    "CREATED_AT": "أُنشئت {time}",
     "UPDATED_AT": "تم التحديث {time}",
     "SORT_BY": {
       "RELEVANCE": "ذات صلة"

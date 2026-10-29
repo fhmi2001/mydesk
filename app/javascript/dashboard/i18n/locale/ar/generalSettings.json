@@ -160,12 +160,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
       }
     },
-    "UPDATE_CHATWOOT": "يتوفر تحديث {latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
+    "UPDATE_CHATWOOT": "يتوفر تحديث {latestChatwootVersion} لـ MyDesk. الرجاء التحديث.",
     "LEARN_MORE": "اعرف المزيد",
     "PAYMENT_PENDING": "دفعة حسابك متأخرة. يرجى تحديث بيانات الدفع لتجنب إلغاء الاشتراك.",
     "PAYMENT_PENDING_AGENT": "دفعة حسابك متأخرة. يرجى التواصل مع المسؤول لتسويتها.",
     "UPGRADE": "رقِّ باقتك لمواصلة استخدام المنصة",
-    "LIMITS_UPGRADE": "لقد تجاوز حسابك حدود الاستخدام، يرجى ترقية خطتك للاستمرار في استخدام Chatwoot",
+    "LIMITS_UPGRADE": "لقد تجاوز حسابك حدود الاستخدام، يرجى ترقية خطتك للاستمرار في استخدام MyDesk",
     "OPEN_BILLING": "فتح الفواتير"
   },
   "FORMS": {

@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "تسجيل الدخول إلى Chatwoot",
+    "TITLE": "تسجيل الدخول إلى MyDesk",
     "EMAIL": {
       "LABEL": "البريد الإلكتروني",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -17,25 +17,25 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "تسجيل الدخول بواسطة جوجل",
-      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
+      "BUSINESS_ACCOUNTS_ONLY": "لا يمكنك إنشاء حساب جديد ببريد إلكتروني شخصي. سجّل باستخدام بريد العمل.",
       "NO_ACCOUNT_FOUND": "لم نتمكن من العثور على حساب لعنوان البريد الإلكتروني الخاص بك.",
-      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
+      "SHOPIFY_INSTALLATION_FAILED": "تعذّر إكمال التثبيت من Shopify. أعد بدء التثبيت من Shopify."
     },
     "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
     "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",
     "SUBMIT": "تسجيل الدخول",
     "SAML": {
-      "LABEL": "Login via SSO",
-      "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "LABEL": "الدخول عبر SSO",
+      "TITLE": "بدء الدخول الموحد (SSO)",
+      "SUBTITLE": "أدخل بريد العمل للوصول إلى منشأتك",
+      "BACK_TO_LOGIN": "الدخول بكلمة المرور",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "بريد العمل",
+        "PLACEHOLDER": "أدخل بريد العمل"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "المتابعة عبر SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "فشل التحقق عبر SSO. تحقق من بياناتك وحاول مرة أخرى."
       }
     }
   }

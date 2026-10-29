@@ -2,12 +2,12 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "إنشاء فريق جديد",
     "HEADER": "الفرق",
-    "LOADING": "Fetching teams",
+    "LOADING": "جارٍ جلب الفرق",
     "DESCRIPTION": "الفرق تتيح لك تنظيم الموظفين في مجموعات بناءً على مسؤولياتهم. يمكن للموظف أن يكون عضوًا في أكثر من فريق. لتحقيق التعاون في العمل, يمكنك إسناد المحادثات لفرق محددة.",
     "LEARN_MORE": "لمعرفة المزيد حول الفرق",
-    "COUNT": "{n} team | {n} teams",
+    "COUNT": "{n} فريق | {n} فرق",
     "SEARCH_PLACEHOLDER": "البحث عن فريق...",
-    "NO_RESULTS": "No teams found matching your search",
+    "NO_RESULTS": "لا توجد فرق تطابق بحثك",
     "LIST": {
       "404": "لا يوجد موظفي دعم مرتبطين بهذا الحساب.",
       "EDIT_TEAM": "تعديل الفريق",

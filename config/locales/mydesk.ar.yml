@@ -1,0 +1,527 @@
+# Custom (MyDesk): Arabic for server strings that Chatwoot's ar.yml leaves missing or in English.
+# Loaded after ar.yml (alphabetical), so these values win; Chatwoot updates never touch this file.
+ar:
+  inbox:
+    call_business_hours:
+      unsupported_inbox: ساعات العمل للمكالمات تتطلب صندوق وارد صوتياً عبر Twilio
+      invalid_settings: حدّد قيمة نعم/لا لساعات العمل ونصاً للإعلان
+      message_required: أضف الرسالة التي يسمعها المتصلون خارج ساعات العمل
+      message_too_long: يجب ألا تتجاوز رسالة خارج الدوام 1000 حرف
+    reauthorization:
+      success: أُعيد ربط القناة بنجاح
+      not_required: صندوق الوارد هذا لا يحتاج إعادة ربط
+      invalid_channel: نوع القناة لا يدعم إعادة الربط
+  errors:
+    account_saml_settings:
+      invalid_certificate: يجب أن تكون شهادة X.509 صحيحة بصيغة PEM
+      metadata_url:
+        invalid_url: يجب أن يكون رابط HTTPS صحيحاً
+        blocked_address: يشير إلى عنوان لا يمكن الوصول إليه. استخدم اسم مضيف عاماً لمزوّد الهوية
+        http_error: أعاد خطأ. تأكد أنه رابط البيانات الوصفية من مزوّد الهوية
+        unreachable: تعذّر الوصول إليه. تأكد أن مزوّد الهوية متصل ولديه شهادة TLS صالحة
+        too_large: أعاد استجابة أكبر من أن تكون بيانات SAML وصفية
+        not_metadata: لم يُعِد بيانات وصفية لمزوّد هوية SAML
+    voice:
+      announcement_audio_mismatch: الصوت المولّد لا يطابق نص الإعلان، ولم يتغير إعلانك المحفوظ. حاول مرة أخرى.
+      call_already_accepted: "%{agent_name} يتولى المكالمة بالفعل."
+    conversations:
+      anonymous_caller_reply: لا يمكن إرسال الرسائل لأن رقم هذا المتصل غير متاح.
+      resolved: المحادثة مغلقة ولا تقبل رسائل جديدة
+      unread_counts:
+        feature_not_enabled: ميزة عدّاد الرسائل غير المقروءة غير مفعّلة لهذا الحساب
+    inboxes:
+      bot_provider_conflict: افصل %{current_provider} قبل ربط %{requested_provider}
+      smtp:
+        authentication_error: فشل التحقق من SMTP. تأكد من بيانات الدخول.
+        connection_error: تعذّر الاتصال بخادم SMTP. تحقق من عنوان الخادم والمنفذ.
+        ssl_error: خطأ في SSL/TLS. تحقق من إعدادات التشفير.
+        smtp_error: خطأ في خادم SMTP. راجع الإعدادات وحاول مرة أخرى.
+    notification_subscription:
+      voip_attributes_required: اشتراك إشعارات VoIP يحتاج device_id و push_token
+    account:
+      not_authorized: ليست لديك صلاحية الوصول إلى هذا الحساب
+      email_limit_exceeded: بلغ هذا الحساب الحد اليومي لإرسال البريد
+      reporting_timezone:
+        invalid: ليست منطقة زمنية صحيحة
+      support_email:
+        invalid: ليس بريداً إلكترونياً صحيحاً
+    signup:
+      blocked_domain: هذا النطاق غير مسموح. إذا كنت ترى أن هذا خطأ، تواصل مع الدعم.
+    assignment_policy:
+      not_found: سياسة الإسناد غير موجودة
+    attachments:
+      invalid: مرفق غير صالح
+    upload:
+      missing_input: لم يُرفع ملف أو رابط
+      invalid_url: الرابط غير صحيح
+      fetch_failed: تعذّر جلب الملف من الرابط
+      fetch_failed_with_message: 'تعذّر جلب الملف من الرابط: %{message}'
+      file_too_large: حجم الملف يتجاوز الحد المسموح
+      unsupported_content_type: نوع الملف غير مدعوم (الصور والفيديو فقط)
+      unexpected: حدث خطأ غير متوقع
+    database:
+      query_canceled: استغرق الطلب وقتاً طويلاً. حاول مرة أخرى.
+    saml:
+      feature_not_enabled: ميزة SAML غير مفعّلة لهذا الحساب
+      sso_not_enabled: الدخول الموحد SAML غير مفعّل في هذه المنصة
+      multi_account_invitation_not_allowed: لا يمكن إضافة مستخدمين مرتبطين بحساب آخر أثناء تفعيل SAML
+    companies:
+      domain:
+        invalid: يجب أن يكون اسم نطاق صحيحاً
+      search:
+        query_missing: حدّد نص البحث في المعامل q
+      social_profiles:
+        invalid: روابط الحسابات الاجتماعية يجب أن تبدأ بـ http:// أو https://
+      enrichment:
+        plan_required: إثراء بيانات الشركات متاح في باقتي الأعمال والمؤسسات
+        not_configured: إثراء بيانات الشركات غير مُعدّ في هذه المنصة
+        domain_missing: أضف نطاقاً للشركة قبل تحديث ملفها
+        not_found: لم نجد معلومات لنطاق هذه الشركة
+    messages:
+      search:
+        time_range_limit_exceeded: البحث محدود بآخر %{days} يوماً
+    dyte:
+      realtimekit_credentials_required: بيانات Cloudflare RealtimeKit مطلوبة. احذف تكامل Dyte الحالي وأنشئه من جديد ببيانات Cloudflare RealtimeKit.
+    cloudflare:
+      realtimekit:
+        invalid_credentials: بيانات Cloudflare RealtimeKit غير صحيحة. تحقق من Account ID وRealtimeKit App ID وصلاحيات API token.
+        missing_credentials: مطلوب Cloudflare Account ID وRealtimeKit App ID وAPI token.
+        invalid_api_token: رمز Cloudflare API غير صالح أو غير مفعّل. أنشئ رمزاً جديداً بصلاحية Realtime Admin.
+        invalid_account_or_permissions: Cloudflare Account ID غير صحيح، أو أن الرمز لا يملك صلاحية Realtime Admin لهذا الحساب.
+        app_not_found: لم يُعثر على RealtimeKit App ID في حساب Cloudflare هذا. تحقق من التطبيق المختار.
+        verification_failed: تعذّر التحقق من بيانات Cloudflare RealtimeKit الآن. حاول مرة أخرى.
+    whatsapp:
+      token_exchange_failed: تعذّر الحصول على رمز الوصول. حاول مرة أخرى.
+      invalid_token_permissions: رمز الوصول لا يملك الصلاحيات المطلوبة لواتساب.
+      phone_info_fetch_failed: تعذّر جلب معلومات رقم الجوال. حاول مرة أخرى.
+      phone_number_already_exists: 'توجد قناة لهذا الرقم بالفعل: %{phone_number}. تواصل مع الدعم إذا استمرت المشكلة'
+      message_outside_messaging_window: لم تُرسل الرسالة لأن نافذة خدمة العملاء في واتساب (24 ساعة) مغلقة ولم تُحدّد معاملات قالب. أرسل رسالة بقالب معتمد بدلاً منها.
+      authentication_template_requires_phone: قوالب التحقق تتطلب رقم واتساب ولا يمكن إرسالها لجهة اتصال معرّفة بـ BSUID فقط.
+      template_category_required_for_bsuid: تعذّر التحقق من فئة القالب لجهة الاتصال المعرّفة بـ BSUID فقط.
+      contact_info_request:
+        unsupported_provider: طلب معلومات جهة الاتصال متاح حالياً لصناديق WhatsApp Cloud فقط.
+        phone_already_available: جهة الاتصال لديها رقم جوال بالفعل.
+        invalid_identifier: يمكن طلب معلومات جهة الاتصال فقط من مستخدم واتساب مرتبط بالنشاط التجاري.
+        outside_messaging_window: يمكن طلب معلومات جهة الاتصال فقط خلال نافذة خدمة العملاء في واتساب (24 ساعة).
+        template_not_configured: خارج نافذة الـ 24 ساعة يلزم قالب واتساب معتمد يحتوي زر طلب معلومات الاتصال.
+        pending_request: يوجد طلب معلومات اتصال قيد الانتظار بالفعل.
+      reauthorization:
+        generic: تعذّرت إعادة ربط واتساب. حاول مرة أخرى.
+        not_supported: إعادة الربط غير مدعومة لهذا النوع من قنوات واتساب.
+      calls:
+        not_enabled: المكالمات غير مفعّلة لصندوق الوارد هذا
+        already_ended: انتهت هذه المكالمة بالفعل
+        already_accepted: قبل موظف آخر المكالمة بالفعل
+        no_recording: لم يُرفع ملف تسجيل
+        recording_disabled: تسجيل المكالمات معطّل لصندوق الوارد هذا
+        no_message: لا توجد رسالة مرتبطة بالمكالمة
+        sdp_offer_required: sdp_offer مطلوب
+        contact_phone_required: رقم جوال جهة الاتصال مطلوب
+        permission_request_failed: تعذّر إرسال طلب إذن الاتصال
+    google_translate:
+      invalid_credentials: مفتاح Google Cloud هذا لا يعمل. تحقق من معرّف المشروع وملف المفتاح وحاول مرة أخرى.
+    openai:
+      invalid_api_key: مفتاح OpenAI API غير صالح أو أُلغي. تحقق منه في لوحة OpenAI.
+    custom_filters:
+      invalid_query_operator: يجب أن يكون معامل الاستعلام "AND" أو "OR".
+    custom_attribute_definition:
+      attribute_key_format: يجب أن يحتوي فقط على حروف إنجليزية وأرقام وشرطة سفلية وشرطة ونقاط
+      key_conflict: هذا المفتاح غير مسموح لأنه قد يتعارض مع السمات الافتراضية.
+    mfa:
+      already_enabled: التحقق بخطوتين مفعّل بالفعل
+      not_enabled: التحقق بخطوتين غير مفعّل
+      invalid_code: رمز التحقق غير صحيح
+      invalid_backup_code: الرمز الاحتياطي غير صحيح
+      invalid_token: رمز التحقق بخطوتين غير صالح أو منتهي
+      invalid_credentials: بيانات الدخول أو رمز التحقق غير صحيحة
+      feature_unavailable: ميزة التحقق بخطوتين غير متاحة. يجب ضبط مفاتيح التشفير.
+      setup_required: حسابك يتطلب التحقق بخطوتين. فعّله لمتابعة تسجيل الدخول.
+      enrollment_required: هذا الحساب يتطلب التحقق بخطوتين. فعّله من إعدادات ملفك الشخصي لاستعادة الوصول عبر API.
+      interactive_session_required: لا يمكن إدارة إعدادات التحقق بخطوتين برمز وصول API. سجّل الدخول إلى لوحة التحكم بدلاً من ذلك.
+      enforced_cannot_disable: حسابك يتطلب التحقق بخطوتين، ولا يمكن تعطيله.
+    auto_translate:
+      invalid_messages: رسائل غير صالحة
+    device_verification:
+      invalid_token: رمز التحقق غير صالح أو منتهي، سجّل الدخول مرة أخرى لاستلام رمز جديد
+      invalid_code: الرمز غير صحيح. أدخل الرمز المكوّن من 6 أرقام المرسل إلى بريدك.
+      expired: انتهت صلاحية رمز التحقق، سجّل الدخول مرة أخرى لاستلام رمز جديد
+      locked: أُدخلت رموز خاطئة كثيرة، سجّل الدخول مرة أخرى لاستلام رمز جديد
+      stale: تغيّر حسابك منذ إصدار هذا الرمز، سجّل الدخول مرة أخرى
+      rate_limited: محاولات تحقق كثيرة، حاول لاحقاً أو أعد تعيين كلمة المرور
+      code_field_required: أدخل الرمز المكوّن من 6 أرقام المرسل إلى بريدك في حقل رمز التحقق، وليس في حقل الرمز الاحتياطي
+    billing:
+      invalid_currency: عملة الفوترة غير صالحة
+      currency_locked: لا يمكن تغيير عملة الفوترة بعد إعدادها
+      provider_action_unavailable: هذا الإجراء غير متاح للحسابات المفوترة عبر Shopify
+      shopify_pricing_unavailable: أسعار تطبيقات Shopify غير متاحة الآن
+      shopify_verification_failed: تعذّر التحقق من فوترة Shopify الآن
+    topup:
+      credits_required: مقدار الرصيد مطلوب
+      invalid_credits: مقدار الرصيد غير صالح
+      invalid_option: خيار الشحن غير صالح
+      plan_not_eligible: شحن الرصيد متاح للباقات المدفوعة فقط. رقِّ باقتك أولاً.
+      stripe_customer_not_configured: عميل Stripe غير مُعدّ
+      no_payment_method: لا توجد وسيلة دفع. أضف وسيلة دفع قبل الشراء.
+    reports:
+      date_range_too_long: لا يمكن أن تتجاوز الفترة 6 أشهر
+  conversations:
+    messages:
+      voice_call:
+        unknown_caller: متصل غير معروف
+        twilio: مكالمة صوتية
+        whatsapp: مكالمة واتساب
+      instagram_shared_story_content: قصة مشاركة
+      instagram_shared_post_content: منشور مشارك
+      whatsapp:
+        call_permission_request_body: نود الاتصال بك بخصوص محادثتك.
+        flow_response: أرسل رداً على نموذج
+        request_contact_info: هل تود مشاركة رقم جوالك معنا؟
+        unsupported_message: هذه الرسالة غير متاحة.
+    activity:
+      captain:
+        resolved_with_reason: أغلق %{user_name} المحادثة (%{reason})
+        resolved_by_tool: 'أغلق %{user_name} المحادثة: %{reason}'
+        open_with_reason: فتح %{user_name} المحادثة (%{reason})
+        auto_opened_after_agent_reply: فُتحت المحادثة تلقائياً بعد رد موظف
+      agent_bot:
+        error_moved_to_open: فتح النظام المحادثة بسبب خطأ في البوت.
+      linear:
+        issue_created: أنشأ %{user_name} مهمة Linear %{issue_id}
+        issue_linked: ربط %{user_name} مهمة Linear %{issue_id}
+        issue_unlinked: فك %{user_name} ربط مهمة Linear %{issue_id}
+      whatsapp_call:
+        permission_requested: أُرسل طلب إذن اتصال إلى %{contact_name}.
+        permission_granted: وافق %{contact_name} على طلب إذن الاتصال.
+      csat:
+        not_sent_due_to_messaging_window: لم يُرسل استبيان رضا العملاء بسبب قيود الرسائل الصادرة
+      auto_resolve:
+        not_sent_due_to_messaging_window: لم تُرسل رسالة الإغلاق التلقائي بسبب قيود الرسائل الصادرة
+      auto_resolution_message: أُغلقت المحادثة لعدم النشاط فترة من الوقت. ابدأ محادثة جديدة إذا احتجت مساعدة أخرى.
+    reply:
+      new_messages: لديك رسائل جديدة في محادثتك.
+      attachments: 'المرفقات:'
+      rate_conversation_html: اضغط %{link} لتقييم المحادثة.
+      rate_conversation_link: هنا
+    captain:
+      handoff: تحويل إلى موظف لمزيد من المساعدة.
+  captain:
+    copilot_workflows_disabled: مهام المساعد المرافق معطّلة لهذا الحساب.
+    copilot:
+      approval_superseded: أرسل الموظف رسالة جديدة بدل الموافقة على هذا التغيير.
+      approval_rejected: رفض الموظف هذا التغيير.
+      approval_already_decided: تمت الموافقة على هذا التغيير أو رفضه مسبقاً.
+      approval_expired: لم يوافق الموظف على هذا التغيير خلال %{minutes} دقيقة.
+      approval_expired_notice: انتهت صلاحية هذا التغيير. اطلب من المساعد المرافق اقتراحه مرة أخرى.
+      reply_suggestion_discarded: تغيّرت المحادثة أثناء كتابة المساعد المرافق للرد، فتم تجاهل الاقتراح.
+      reply_suggestion_failed: تعذّر على المساعد المرافق توليد رد. حاول مرة أخرى.
+    copilot_error: اربط مساعداً بصندوق الوارد هذا لاستخدام المساعد المرافق
+    copilot_limit: نفد رصيد المساعد المرافق. يمكنك شراء رصيد إضافي من قسم الفوترة.
+    documents:
+      limit_exceeded: تجاوزت الحد المسموح من المستندات
+      pdf_format_error: يجب أن يكون ملف PDF
+      pdf_size_error: يجب أن يكون أقل من 10 ميجابايت
+      markdown_format_error: يجب أن يكون ملف Markdown
+      markdown_size_error: يجب ألا يتجاوز 10,000 حرف
+      multiple_files_error: المستند يحتوي ملفاً مرفوعاً واحداً فقط
+      sync_not_supported_for_pdf: المزامنة غير مدعومة لمستندات PDF
+      sync_not_supported_for_file: المزامنة غير مدعومة للمستندات المرفوعة
+      sync_only_available_documents: المزامنة متاحة فقط للمستندات المعالجة
+      sync_already_in_progress: مزامنة المستند جارية بالفعل
+    email_verification:
+      subject: رمز التحقق من %{inbox_name}
+      heading: رمز التحقق الخاص بك
+      instructions: أدخل هذا الرمز في محادثتك مع %{inbox_name} لتأكيد بريدك. صلاحيته %{minutes} دقيقة.
+      ignore: إذا لم تطلب هذا الرمز فتجاهل هذه الرسالة، ولا تشارك الرمز مع أي أحد.
+    custom_tool:
+      slug_generation_failed: تعذّر إنشاء معرّف فريد بعد 5 محاولات
+      limit_exceeded: الحد الأقصى %{limit} أدوات مخصصة لكل مساعد
+      installed_read_only: الأدوات المثبّتة من ملف تعريف للقراءة فقط. يمكنك تفعيلها أو تعطيلها أو تغيير شرط التحقق من البريد فقط.
+      headers:
+        invalid: يجب أن تكون كائناً من أسماء الترويسات وقيمها
+        too_many: لا يمكن أن تحتوي أكثر من %{limit} عنصر
+        duplicate: لا يمكن تكرار اسم الترويسة
+        invalid_name: "%{name} ليس اسم ترويسة صحيحاً"
+        reserved: "%{name} تديره MyDesk ولا يمكن ضبطه"
+        invalid_value: قيمة %{name} يجب أن تكون نصاً ثابتاً لا يتجاوز 1 كيلوبايت، دون متغيرات أو رموز تحكم
+      param_schema:
+        invalid: يجب أن تسرد المعاملات بحقول معروفة وقيم بسيطة
+      settings:
+        invalid: يجب أن تكون كائناً
+        unknown: 'تحتوي إعدادات غير معروفة: %{names}'
+        not_boolean: يجب أن تكون القيم true أو false
+    tools_manifest:
+      invalid_source: أدخل مجموعة أدوات من كتالوج الكابتن بصيغة chatwoot/tools/folder
+      invalid_configuration: إعداد غير صالح
+      disabled: تثبيت الأدوات من ملف تعريف غير مفعّل
+  administrator_notifications:
+    captain:
+      response_usage_alert:
+        subject: رصيد الكابتن لديك أوشك على النفاد
+        usage_html: استهلك %{account_name} أكثر من 80% من رصيد ردود الذكاء الاصطناعي لفترة الفوترة الحالية.
+        balance: استُهلك %{consumed} من الرصيد، وتبقّى %{remaining}.
+        action: عرض الاستهلاك وإضافة رصيد
+  auth:
+    saml:
+      authentication_failed: فشل التحقق. تحقق من بياناتك وحاول مرة أخرى.
+  messages:
+    reset_password: استلمنا طلب إعادة تعيين كلمة المرور. إذا كان البريد مسجلاً لدينا فستصلك رسالة بالتعليمات.
+    reset_password_saml_user: هذا الحساب يستخدم الدخول الموحد SAML، لذا إعادة تعيين كلمة المرور غير متاحة. تواصل مع المسؤول.
+    login_saml_user: هذا الحساب يستخدم الدخول الموحد SAML. سجّل الدخول عبر مزوّد SAML الخاص بمنشأتك.
+    saml_not_available: الدخول الموحد SAML غير متاح في هذه المنصة.
+    mfa_sign_in_required: حسابك يتطلب التحقق بخطوتين. سجّل الدخول للمتابعة.
+  data_imports:
+    intercom:
+      activities:
+        assignment: أسند %{actor} المحادثة
+        assignment_with_target: أسند %{actor} المحادثة إلى %{target}
+        assign_and_reopen: أسند %{actor} المحادثة وأعاد فتحها
+        assign_and_reopen_with_target: أسند %{actor} المحادثة إلى %{target} وأعاد فتحها
+        open: فتح %{actor} المحادثة
+        close: أغلق %{actor} المحادثة
+        snoozed: أجّل %{actor} المحادثة
+        participant_added: أضاف %{actor} مشاركاً
+        participant_added_with_target: أضاف %{actor} %{target} كمشارك
+        participant_removed: أزال %{actor} مشاركاً
+        participant_removed_with_target: أزال %{actor} %{target} من المشاركين
+        conversation_attribute_updated: حدّث %{actor} سمات المحادثة
+        ticket_attribute_updated: حدّث %{actor} سمات التذكرة
+        ticket_state_updated: حدّث %{actor} حالة التذكرة
+        custom_action_started: بدأ %{actor} إجراءً مخصصاً
+        custom_action_finished: أنهى %{actor} إجراءً مخصصاً
+        quick_reply: استخدم %{actor} رداً سريعاً
+        generic: سجّل %{actor} %{event}
+  profile_settings:
+    sessions:
+      cannot_revoke_current: لا يمكنك إنهاء الجلسة الحالية.
+  profile:
+    mfa:
+      enabled: فُعّل التحقق بخطوتين بنجاح
+      disabled: عُطّل التحقق بخطوتين بنجاح
+  reports:
+    conversation_csv:
+      resolution_count: عدد مرات الإغلاق
+    csat:
+      headers:
+        review_notes: ملاحظات المراجعة
+        agent_name: اسم الموظف
+    agent_csv:
+      agent_name: اسم الموظف
+  notifications:
+    notification_title:
+      voice_call_missed: مكالمة فائتة · %{inbox_name}
+  integration_apps:
+    stripe:
+      short_description: اعرض بيانات فوترة العميل داخل المحادثات.
+      description: اعرض بيانات العميل واشتراكاته وأحدث فواتيره من Stripe بجانب محادثاتك.
+    dyte:
+      short_description: ابدأ مكالمات فيديو أو صوت مع العملاء مباشرة من MyDesk.
+      description: يتيح Cloudflare RealtimeKit لموظفيك بدء مكالمات فيديو أو صوت مع عملائك مباشرة من MyDesk.
+    slack:
+      short_description: استقبل الإشعارات ورد على المحادثات مباشرة من Slack.
+    dialogflow:
+      short_description: أنشئ بوتات تتولى الاستفسارات الأولى قبل تحويلها للموظفين.
+      description: أنشئ بوتات محادثة واربطها بصندوق الوارد بسهولة، لتتولى الاستفسارات الأولى قبل تحويلها إلى موظف خدمة العملاء.
+    google_translate:
+      short_description: ترجمة رسائل العملاء تلقائياً للموظفين.
+      description: يساعد تكامل ترجمة Google الموظفين على ترجمة رسائل العملاء بسهولة، إذ يكتشف اللغة تلقائياً ويحوّلها إلى اللغة المفضلة لدى الموظف أو المسؤول.
+    openai:
+      short_description: اقتراحات ردود وتلخيص وتحسين للرسائل بالذكاء الاصطناعي.
+      description: استفد من النماذج اللغوية الكبيرة من OpenAI في اقتراح الردود والتلخيص وإعادة الصياغة والتدقيق الإملائي.
+    linear:
+      short_description: أنشئ مهام Linear واربطها مباشرة من المحادثات.
+    notion:
+      short_description: اربط قواعد البيانات والمستندات والصفحات مباشرة مع الكابتن.
+      description: اربط مساحة Notion ليصل الكابتن إلى محتوى قواعد البيانات والمستندات والصفحات ويولّد منه ردوداً ذكية، فيقدّم دعماً أكثر ارتباطاً بالسياق.
+    shopify:
+      short_description: اطّلع على تفاصيل الطلبات وبيانات العملاء من متجرك على Shopify.
+      description: اربط متجرك على Shopify للاطلاع على تفاصيل الطلبات ومعلومات العملاء وبيانات المنتجات داخل المحادثات، ليقدّم فريقك مساعدة أسرع وأكثر ارتباطاً بالسياق.
+    leadsquared:
+      short_description: زامن جهات الاتصال والمحادثات مع LeadSquared CRM.
+      description: زامن جهات الاتصال والمحادثات مع LeadSquared CRM. ينشئ التكامل العملاء المحتملين تلقائياً عند إضافة جهات اتصال جديدة، ويسجّل نشاط المحادثات ليحصل فريق المبيعات على السياق كاملاً.
+    dashboard_apps:
+      description: تتيح لك تطبيقات لوحة التحكم تضمين تطبيقات تعرض بيانات العميل أو طلباته أو سجل مدفوعاته، فيحصل موظفو خدمة العملاء على سياق أوضح.
+  public_portal:
+    search:
+      results_for: نتائج البحث عن '%{query}'
+      no_results: لا توجد نتائج لـ '%{query}'
+      found_results:
+        zero: لا توجد نتائج
+        one: وُجدت نتيجة واحدة
+        two: وُجدت نتيجتان
+        few: وُجدت %{count} نتائج
+        many: وُجدت %{count} نتيجة
+        other: وُجدت %{count} نتيجة
+    sidebar:
+      recommended: مقالات مقترحة
+      recommended_subtitle: مقالات مختارة لتبدأ بها.
+      recommended_label: 'مواضيع مقترحة:'
+    header:
+      visit_website: زيارة الموقع
+      recommended: مقالات مقترحة
+    not_active:
+      title: مركز المساعدة غير متاح
+      description: تواصل مع مسؤول الموقع لمزيد من المعلومات.
+      action: إذا كنت المسؤول، رقِّ باقتك لاستعادة الوصول.
+  auto_assignment:
+    default_policy_name: السياسة الافتراضية
+    policy_actor: نظام الأتمتة عبر %{policy_name}
+  automation:
+    system_name: نظام الأتمتة
+  crm:
+    no_message: لا توجد رسائل في المحادثة
+    attachment: "[مرفق: %{type}]"
+    created_activity: |
+      بدأت محادثة جديدة على %{brand_name}
+
+      القناة: %{channel_info}
+      الإنشاء: %{formatted_creation_time}
+      رقم المحادثة: %{display_id}
+      عرضها في %{brand_name}: %{url}
+    transcript_activity: |
+      نص المحادثة من %{brand_name}
+
+      القناة: %{channel_info}
+      رقم المحادثة: %{display_id}
+      عرضها في %{brand_name}: %{url}
+
+      النص:
+      %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: صندوق الوارد مُسند لهذه السياسة بالفعل
+  portals:
+    analytics:
+      invalid_configuration: إعداد التحليلات غير صالح
+    articles:
+      captain_not_available: الترجمة تتطلب تفعيل الكابتن لهذا الحساب
+    send_instructions:
+      invalid_email_format: صيغة البريد غير صحيحة
+      custom_domain_not_configured: النطاق الخاص غير مُعدّ
+      instructions_sent_successfully: أُرسلت التعليمات بنجاح
+      subject: أكمل إعداد %{custom_domain}
+    ssl_status:
+      custom_domain_not_configured: النطاق الخاص غير مُعدّ
+  installation:
+    onboarding:
+      heading: "أهلاً بك في MyDesk \U0001F44B"
+      company_placeholder: 'أدخل اسم منشأتك، مثل: متجر الرياض'
+      email: بريد العمل
+      password_placeholder: أدخل كلمة مرور من 6 أحرف أو أكثر.
+      subscribe: اشترك في ملاحظات الإصدارات والنشرة البريدية واستبيانات رأي المنتج.
+      submit: إنهاء الإعداد
+  secure_password:
+    character:
+      zero: حرف
+      one: حرف
+      two: حرفين
+      few: أحرف
+      many: حرفاً
+      other: حرف
+    types:
+      uppercase: كبير
+      downcase: صغير
+      lowercase: صغير
+      number: رقم
+      special: خاص
+    password_has_required_content:
+      errors:
+        messages:
+          unknown_characters: تحتوي %{count} %{subject} غير مسموح
+          minimum_characters: يجب أن تحتوي %{count} %{subject} %{type} على الأقل
+          maximum_characters: يجب أن تحتوي أقل من %{count} %{subject} %{type}
+          minimum_length: يجب أن تحتوي %{count} %{subject} على الأقل
+          maximum_length: يجب أن تحتوي أقل من %{count} %{subject}
+    password_disallows_frequent_reuse:
+      errors:
+        messages:
+          password_is_recent: لا يمكن إعادة استخدام آخر %{count} كلمات مرور
+    password_disallows_frequent_changes:
+      errors:
+        messages:
+          password_is_recent: لا يمكن تغيير كلمة المرور أكثر من مرة كل %{timeframe}
+    password_requires_regular_updates:
+      alerts:
+        messages:
+          password_updated: حُدّثت كلمة المرور.
+      errors:
+        messages:
+          password_expired: انتهت صلاحية كلمة المرور. يجب تغييرها كل %{timeframe}
+    datetime:
+      precise_distance_in_words:
+        half_a_minute: نصف دقيقة
+        less_than_x_seconds:
+          zero: 0 ثانية
+          one: ثانية
+          two: ثانيتين
+          few: "%{count} ثوانٍ"
+          many: "%{count} ثانية"
+          other: "%{count} ثانية"
+        x_seconds:
+          zero: 0 ثانية
+          one: ثانية
+          two: ثانيتين
+          few: "%{count} ثوانٍ"
+          many: "%{count} ثانية"
+          other: "%{count} ثانية"
+        less_than_x_minutes:
+          zero: 0 دقيقة
+          one: دقيقة
+          two: دقيقتين
+          few: "%{count} دقائق"
+          many: "%{count} دقيقة"
+          other: "%{count} دقيقة"
+        x_minutes:
+          zero: 0 دقيقة
+          one: دقيقة
+          two: دقيقتين
+          few: "%{count} دقائق"
+          many: "%{count} دقيقة"
+          other: "%{count} دقيقة"
+        about_x_hours:
+          zero: 0 ساعة
+          one: ساعة
+          two: ساعتين
+          few: "%{count} ساعات"
+          many: "%{count} ساعة"
+          other: "%{count} ساعة"
+        x_days:
+          zero: 0 يوم
+          one: يوم
+          two: يومين
+          few: "%{count} أيام"
+          many: "%{count} يوماً"
+          other: "%{count} يوم"
+        about_x_months:
+          zero: 0 شهر
+          one: شهر
+          two: شهرين
+          few: "%{count} أشهر"
+          many: "%{count} شهراً"
+          other: "%{count} شهر"
+        x_months:
+          zero: 0 شهر
+          one: شهر
+          two: شهرين
+          few: "%{count} أشهر"
+          many: "%{count} شهراً"
+          other: "%{count} شهر"
+        about_x_years:
+          zero: 0 سنة
+          one: سنة
+          two: سنتين
+          few: "%{count} سنوات"
+          many: "%{count} سنة"
+          other: "%{count} سنة"
+        over_x_years:
+          zero: 0 سنة
+          one: سنة
+          two: سنتين
+          few: "%{count} سنوات"
+          many: "%{count} سنة"
+          other: "%{count} سنة"
+        almost_x_years:
+          zero: 0 سنة
+          one: سنة
+          two: سنتين
+          few: "%{count} سنوات"
+          many: "%{count} سنة"
+          other: "%{count} سنة"

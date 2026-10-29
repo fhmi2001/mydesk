@@ -99,7 +99,7 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "رمز المصادقة",
-        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot",
+        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع MyDesk",
         "PAID_PLAN_NOTE": "رموز الوصول للـ API متاحة في الباقات المدفوعة.",
         "COPY": "نسخ",
         "RESET": "إعادة تعيين",
@@ -394,7 +394,7 @@
     "HELP_CENTER": {
       "TITLE": "مركز المساعدة",
       "ARTICLES": "المقالات",
-      "CATEGORIES": "الفئات",
+      "CATEGORIES": "الأقسام",
       "LOCALES": "اللغات",
       "SETTINGS": "الإعدادات"
     },
@@ -616,7 +616,7 @@
       "DESCRIPTION": "أدر الاستخدام والرصيد للمساعد الذكي.",
       "BUTTON_TXT": "شراء رصيد إضافي",
       "DOCUMENTS": "المستندات",
-      "RESPONSES": "Responses",
+      "RESPONSES": "الرصيد",
       "UPGRADE": "المساعد الذكي غير متاح في الباقة المجانية. رقِّ الآن للوصول إلى المساعدين والمساعد المرافق والمزيد.",
       "REFRESH_CREDITS": "تحديث"
     },
@@ -690,14 +690,23 @@
     "SAML_DISABLED_MESSAGE": "SAML SSO معطل حالياً. يرجى التواصل مع المسؤول لتفعيله.",
     "NO_SETTINGS_AVAILABLE": "لا توجد إعدادات أمان متاحة في هذه المنصة. اضبط مفاتيح تشفير التحقق بخطوتين لتفعيل فرضه.",
     "SAML": {
-      "TITLE": "SAML SSO",
+      "TITLE": "الدخول الموحد SAML",
       "NOTE": "اضبط تسجيل الدخول الموحد SAML لحسابك. سيسجل المستخدمون الدخول عبر مزود الهوية بدل البريد وكلمة المرور.",
       "ACS_URL": {
-        "LABEL": "ACS URL",
+        "LABEL": "رابط ACS",
         "TOOLTIP": "رابط Assertion Consumer Service - اضبطه في مزود الهوية كوجهة لردود SAML"
       },
+      "SOURCE": {
+        "METADATA_URL": "رابط Metadata",
+        "MANUAL": "يدوي"
+      },
+      "METADATA_URL": {
+        "LABEL": "رابط Metadata",
+        "HELP": "يُقرأ رابط SSO وEntity ID وشهادة التوقيع من هذا الرابط، وتتحدث تلقائياً عند اقتراب انتهاء الشهادة. إذا غيّرها مزود الهوية قبل ذلك، انقر على تحديث Metadata.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
+      },
       "SSO_URL": {
-        "LABEL": "SSO URL",
+        "LABEL": "رابط SSO",
         "HELP": "الرابط الذي تُرسل إليه طلبات توثيق SAML",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
@@ -712,7 +721,7 @@
       },
       "COPY_SUCCESS": "تم نسخ الكود إلى الحافظة بنجاح",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
+        "LABEL": "معرّف مزوّد الخدمة (SP Entity ID)",
         "HELP": "معرّف فريد لهذا التطبيق كمزود خدمة (يُنشأ تلقائياً).",
         "TOOLTIP": "معرّف فريد للمنصة كمزود خدمة - اضبطه في إعدادات مزود الهوية"
       },
@@ -722,20 +731,21 @@
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
       "UPDATE_BUTTON": "تحديث إعدادات SAML",
+      "REFRESH_BUTTON": "تحديث Metadata",
       "API": {
         "SUCCESS": "تم تحديث إعدادات SAML بنجاح",
+        "REFRESH_SUCCESS": "تم تحديث Metadata من مزود الهوية",
+        "REFRESH_ERROR": "فشل تحديث Metadata",
         "ERROR": "فشل تحديث إعدادات SAML",
         "ERROR_LOADING": "فشل تحميل إعدادات SAML",
-        "DISABLED": "تم تعطيل إعدادات SAML بنجاح",
-        "REFRESH_SUCCESS": "تم تحديث Metadata من مزود الهوية",
-        "REFRESH_ERROR": "فشل تحديث Metadata"
+        "DISABLED": "تم تعطيل إعدادات SAML بنجاح"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "رابط SSO وEntity ID لمزود الهوية والشهادة حقول مطلوبة",
+        "METADATA_URL_ERROR": "يرجى إدخال رابط Metadata صالح",
         "SSO_URL_ERROR": "يرجى إدخال رابط SSO صالح",
         "CERTIFICATE_ERROR": "الشهادة مطلوبة",
-        "IDP_ENTITY_ID_ERROR": "Entity ID لمزود الهوية مطلوب",
-        "METADATA_URL_ERROR": "يرجى إدخال رابط Metadata صالح"
+        "IDP_ENTITY_ID_ERROR": "Entity ID لمزود الهوية مطلوب"
       },
       "ENTERPRISE_PAYWALL": {
         "AVAILABLE_ON": "ميزة SAML SSO متاحة في باقات المؤسسات فقط.",
@@ -756,16 +766,7 @@
       "INFO_SECTION": {
         "TITLE": "معلومات مزود الخدمة",
         "TOOLTIP": "انسخ هذه القيم واضبطها في مزود الهوية لإنشاء اتصال SAML"
-      },
-      "SOURCE": {
-        "METADATA_URL": "رابط Metadata",
-        "MANUAL": "يدوي"
-      },
-      "METADATA_URL": {
-        "LABEL": "رابط Metadata",
-        "HELP": "يُقرأ رابط SSO وEntity ID وشهادة التوقيع من هذا الرابط، وتتحدث تلقائياً عند اقتراب انتهاء الشهادة. إذا غيّرها مزود الهوية قبل ذلك، انقر على تحديث Metadata."
-      },
-      "REFRESH_BUTTON": "تحديث Metadata"
+      }
     }
   },
   "CONVERSATION_WORKFLOW": {

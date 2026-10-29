@@ -131,8 +131,8 @@
     "COVERAGE_HELP": "هذا النطاق يشمل فترات لم تُفحص بالكامل، لذا قد تكون الأعداد ناقصة.",
     "REFRESHED": "آخر تحديث في {time}. تظهر التحديثات تلقائياً.",
     "USAGE": {
-      "LIMIT_REACHED": "This account has used its {limit} monitor calls for this month.",
-      "RESETS": "New evaluations and previews are on hold until {time}. Existing results remain available.",
+      "LIMIT_REACHED": "استهلك هذا الحساب {limit} عملية تصنيف بالذكاء الاصطناعي المتاحة هذا الشهر. المراقِبات وشروط الكابتن في الأتمتة واقتراحات التصنيفات والأولوية تتشارك هذا الرصيد.",
+      "RESETS": "تقييمات المراقِبات ومعايناتها وشروط الكابتن في الأتمتة واقتراحات التصنيفات والأولوية غير متاحة حتى {time}. النتائج الحالية تبقى متاحة.",
       "REACHED_AT": "تم بلوغ الحد في {time}."
     },
     "STATES": {
@@ -156,7 +156,7 @@
       "PROVIDER_BUSY": "مزود التقييم مشغول. المحادثات المعلقة تحتاج تقييماً آخر.",
       "PROVIDER_UNAVAILABLE": "مزود التقييم غير متاح مؤقتاً، وقد تتأخر التحديثات.",
       "BUDGET_LIMIT": "تم بلوغ حد التقييم اليومي. سيُستأنف العمل المعلق بعد إعادة تعيينه.",
-      "MONTHLY_LIMIT": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
+      "MONTHLY_LIMIT": "بلغ هذا الحساب حده الشهري المشترك لتصنيف الذكاء الاصطناعي. ستُستأنف التقييمات المعلّقة الشهر القادم.",
       "CONTEXT_LIMIT": "بعض المحادثات طويلة جداً لتقييمها بالكامل، لذا استُبعدت من النتائج.",
       "INVALID_PARAMETERS": "تحقق من الاسم والشرط ونطاق التاريخ والفترة.",
       "TOO_MANY_BUCKETS": "اختر نطاق تاريخ أقصر أو فترة أكبر. يعرض الرسم حتى 744 عموداً.",

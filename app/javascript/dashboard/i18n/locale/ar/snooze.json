@@ -1,71 +1,71 @@
 {
   "SNOOZE_PARSER": {
     "UNITS": {
-      "MINUTE": "minute",
-      "MINUTES": "minutes",
-      "HOUR": "hour",
+      "MINUTE": "دقيقة",
+      "MINUTES": "دقائق",
+      "HOUR": "ساعة",
       "HOURS": "ساعات",
       "DAY": "اليوم",
-      "DAYS": "days",
+      "DAYS": "أيام",
       "WEEK": "اليوم",
-      "WEEKS": "weeks",
+      "WEEKS": "أسابيع",
       "MONTH": "الأسبوع",
-      "MONTHS": "months",
+      "MONTHS": "أشهر",
       "YEAR": "الشهر",
-      "YEARS": "years"
+      "YEARS": "سنوات"
     },
-    "HALF": "half",
+    "HALF": "نصف",
     "NEXT": "التالي",
-    "THIS": "this",
+    "THIS": "هذا",
     "AT": "at",
     "IN": "in",
-    "FROM_NOW": "from now",
-    "NEXT_YEAR": "next year",
+    "FROM_NOW": "من الآن",
+    "NEXT_YEAR": "السنة القادمة",
     "MERIDIEM": {
       "AM": "am",
       "PM": "pm"
     },
     "RELATIVE": {
       "TOMORROW": "غداً",
-      "DAY_AFTER_TOMORROW": "day after tomorrow",
+      "DAY_AFTER_TOMORROW": "بعد غد",
       "NEXT_WEEK": "الأسبوع القادم",
-      "NEXT_MONTH": "next month",
-      "THIS_WEEKEND": "this weekend",
-      "NEXT_WEEKEND": "next weekend"
+      "NEXT_MONTH": "الشهر القادم",
+      "THIS_WEEKEND": "نهاية هذا الأسبوع",
+      "NEXT_WEEKEND": "نهاية الأسبوع القادم"
     },
     "TIME_OF_DAY": {
-      "MORNING": "morning",
-      "AFTERNOON": "afternoon",
-      "EVENING": "evening",
-      "NIGHT": "night",
-      "NOON": "noon",
-      "MIDNIGHT": "midnight"
+      "MORNING": "صباحاً",
+      "AFTERNOON": "بعد الظهر",
+      "EVENING": "مساءً",
+      "NIGHT": "ليلاً",
+      "NOON": "الظهر",
+      "MIDNIGHT": "منتصف الليل"
     },
     "WORD_NUMBERS": {
-      "ONE": "one",
-      "TWO": "two",
-      "THREE": "three",
-      "FOUR": "four",
-      "FIVE": "five",
-      "SIX": "six",
-      "SEVEN": "seven",
-      "EIGHT": "eight",
-      "NINE": "nine",
-      "TEN": "ten",
-      "TWELVE": "twelve",
-      "FIFTEEN": "fifteen",
-      "TWENTY": "twenty",
-      "THIRTY": "thirty"
+      "ONE": "واحد",
+      "TWO": "اثنين",
+      "THREE": "ثلاثة",
+      "FOUR": "أربعة",
+      "FIVE": "خمسة",
+      "SIX": "ستة",
+      "SEVEN": "سبعة",
+      "EIGHT": "ثمانية",
+      "NINE": "تسعة",
+      "TEN": "عشرة",
+      "TWELVE": "اثنا عشر",
+      "FIFTEEN": "خمسة عشر",
+      "TWENTY": "عشرين",
+      "THIRTY": "ثلاثين"
     },
     "ORDINALS": {
-      "FIRST": "first",
-      "SECOND": "second",
-      "THIRD": "third",
-      "FOURTH": "fourth",
-      "FIFTH": "fifth"
+      "FIRST": "الأول",
+      "SECOND": "الثاني",
+      "THIRD": "الثالث",
+      "FOURTH": "الرابع",
+      "FIFTH": "الخامس"
     },
     "OF": "of",
-    "AFTER": "after",
+    "AFTER": "بعد",
     "WEEK": "اليوم",
     "DAY": "اليوم"
   }

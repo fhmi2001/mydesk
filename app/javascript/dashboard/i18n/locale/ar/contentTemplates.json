@@ -1,34 +1,34 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "قوالب Twilio",
+      "SUBTITLE": "اختر قالب Twilio الذي تريد إرساله",
+      "TEMPLATE_SELECTED_SUBTITLE": "إعداد القالب: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "نماذج البحث",
       "NO_TEMPLATES_FOUND": "لم يتم العثور على قوالب",
       "NO_CONTENT": "لا يوجد محتوى",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "الترويسة",
+      "BODY": "النص",
+      "FOOTER": "التذييل",
+      "BUTTONS": "الأزرار",
       "CATEGORY": "الفئة",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "محتوى الوسائط",
+      "MEDIA_CONTENT_FALLBACK": "محتوى وسائط",
+      "NO_TEMPLATES_AVAILABLE": "لا توجد قوالب Twilio. اضغط تحديث لمزامنة القوالب من Twilio.",
+      "REFRESH_BUTTON": "تحديث القوالب",
+      "REFRESH_SUCCESS": "بدأ تحديث القوالب، وقد يستغرق دقيقة أو دقيقتين.",
+      "REFRESH_ERROR": "تعذّر تحديث القوالب. حاول مرة أخرى.",
       "LABELS": {
         "LANGUAGE": "اللغة",
         "TEMPLATE_BODY": "نص القالب",
         "CATEGORY": "الفئة"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
-        "CALL_TO_ACTION": "Call to Action",
+        "MEDIA": "وسائط",
+        "QUICK_REPLY": "رد سريع",
+        "CALL_TO_ACTION": "دعوة لإجراء",
         "TEXT": "النص"
       }
     },
@@ -40,8 +40,8 @@
       "GO_BACK_LABEL": "العودة للخلف",
       "SEND_MESSAGE_LABEL": "إرسال الرسالة",
       "FORM_ERROR_MESSAGE": "يرجى ملء جميع المتغيرات قبل الإرسال",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_HEADER_LABEL": "ترويسة {type}",
+      "MEDIA_URL_LABEL": "أدخل رابط الوسائط كاملاً",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {

@@ -1,7 +1,7 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "عرض {startItem} - {endItem} من {totalItems} عنصر | عرض {startItem} - {endItem} من {totalItems} عناصر",
+    "CURRENT_PAGE_INFO": "{currentPage} من {totalPages} صفحة | {currentPage} من {totalPages} صفحات"
   },
   "COMBOBOX": {
     "PLACEHOLDER": "اختر خياراً...",
