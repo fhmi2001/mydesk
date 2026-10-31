@@ -47,6 +47,6 @@ class Api::V1::Accounts::Crm::TasksController < Api::V1::Accounts::Crm::BaseCont
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :due_at, :assignee_id, :contact_id, :deal_id, :conversation_id)
+    params.require(:task).permit(:title, :description, :due_at, :assignee_id, :contact_id, :deal_id, :conversation_id, :kind)
   end
 end

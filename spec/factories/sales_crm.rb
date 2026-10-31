@@ -35,6 +35,7 @@ FactoryBot.define do
     stage { pipeline.stages.find(&:open?) || pipeline.first_open_stage }
     sequence(:title) { |n| "Deal #{n}" }
     amount_cents { 100_000 }
+    close_date { Date.current + 30 }
     currency { 'SAR' }
     status { :open }
   end

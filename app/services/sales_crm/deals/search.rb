@@ -27,9 +27,12 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
     search(relation, filters[:q])
   end
 
+  # Per stage: how many deals, their total, and the total weighted by each deal's probability (its own, else the stage's)
   def counts_for(relation)
-    relation.group(:stage_id).pluck(:stage_id, Arel.sql('COUNT(*)'), Arel.sql('COALESCE(SUM(amount_cents), 0)'))
-            .to_h { |id, count, total| [id, { count: count, total_cents: total.to_i }] }
+    relation.joins(:stage).group(:stage_id)
+            .pluck(:stage_id, Arel.sql('COUNT(*)'), Arel.sql('COALESCE(SUM(crm_deals.amount_cents), 0)'),
+                   Arel.sql('COALESCE(SUM(crm_deals.amount_cents * COALESCE(crm_deals.probability_override, crm_stages.probability)), 0) / 100'))
+            .to_h { |id, count, total, weighted| [id, { count: count, total_cents: total.to_i, weighted_cents: weighted.to_i }] }
   end
 
   def search(relation, query)
@@ -45,7 +48,7 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
     ranked = relation.select('crm_deals.*, ROW_NUMBER() OVER (PARTITION BY stage_id ORDER BY position ASC, id DESC) AS stage_rank')
     SalesCrm::Deal.from(ranked, :crm_deals).where(stage_rank: ..BOARD_PER_STAGE)
                   .where(pipeline_id: pipeline.id).order(:stage_id, :position, id: :desc)
-                  .includes(:contact, :assignee, :conversation)
+                  .includes(:contact, :assignee, :conversation, :stage)
   end
 
   def table(relation, page, sort)

@@ -166,6 +166,34 @@ describe('crm/deals store', () => {
     expect(s.counts[10]).toEqual({ count: 2, total_cents: 500 });
   });
 
+  it('moves the weighted total with each deal at its own probability', () => {
+    const s = JSON.parse(JSON.stringify(baseState));
+    mutations[types.SET_BOARD](s, {
+      deals: [{ ...deal(1, 10, 1), amount_cents: 1000, probability: 60 }],
+      counts: {
+        10: { count: 1, total_cents: 1000, weighted_cents: 600 },
+        20: { count: 0, total_cents: 0, weighted_cents: 0 },
+      },
+    });
+    mutations[types.PLACE](s, { id: 1, stageId: 20, position: 0 });
+    // the server answers with the new stage's probability (the override is dropped on a move)
+    mutations[types.UPSERT](s, {
+      ...deal(1, 20, 1),
+      amount_cents: 1000,
+      probability: 25,
+    });
+    expect(s.counts[10]).toEqual({
+      count: 0,
+      total_cents: 0,
+      weighted_cents: 0,
+    });
+    expect(s.counts[20]).toEqual({
+      count: 1,
+      total_cents: 1000,
+      weighted_cents: 250,
+    });
+  });
+
   it('keeps counts without money (an agent on the team board) without money', () => {
     const s = JSON.parse(JSON.stringify(baseState));
     mutations[types.SET_BOARD](s, {

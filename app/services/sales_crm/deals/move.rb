@@ -9,6 +9,8 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
     ActiveRecord::Base.transaction do
       from_stage_id = deal.stage_id
       deal.lock_version = lock_version.to_i unless lock_version.nil?
+      # A new stage brings its own probability: the deal's override applied to the stage it is leaving
+      deal.probability_override = nil if from_stage_id != stage.id
       place(deal, stage, position)
       apply_status(deal, stage, lost_reason, lost_note)
       deal.save!

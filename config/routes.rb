@@ -544,6 +544,10 @@ Rails.application.routes.draw do
             resources :lost_reasons, only: [:index, :create, :update, :destroy] do
               patch :reorder, on: :collection
             end
+            resources :list_items, only: [:index, :create, :update, :destroy] do
+              patch :reorder, on: :collection
+            end
+            resource :targets, only: [:show, :update]
           end
           resources :portals do
             member do

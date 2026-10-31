@@ -17,7 +17,6 @@ import {
   apiErrorMessage,
   isStale,
 } from 'dashboard/routes/dashboard/crm/shared/dealHelpers';
-import DealForm from 'dashboard/routes/dashboard/crm/deals/DealForm.vue';
 import LostReasonDialog from 'dashboard/routes/dashboard/crm/deals/LostReasonDialog.vue';
 import TaskForm from 'dashboard/routes/dashboard/crm/tasks/TaskForm.vue';
 
@@ -35,7 +34,6 @@ const { money, dateTime } = useCrmFormat();
 
 const enabled = useMapGetter('crm/status/isEnabled');
 const pipelines = useMapGetter('crm/pipelines/all');
-const dealFlags = useMapGetter('crm/deals/getUIFlags');
 const taskFlags = useMapGetter('crm/tasks/getUIFlags');
 
 const deals = ref([]);
@@ -43,7 +41,6 @@ const tasks = ref([]);
 const closedCount = ref(0);
 const failed = ref(false);
 const loaded = ref(false);
-const dealForm = ref(null);
 const taskForm = ref(null);
 const lostDialog = ref(null);
 const taskDeal = ref(null);
@@ -156,18 +153,23 @@ const openTaskFor = async (deal = null) => {
   taskForm.value?.open();
 };
 
-const onDealSubmit = async ({ payload }) => {
-  try {
-    await store.dispatch('crm/deals/create', {
-      ...payload,
-      pipeline_id: payload.pipeline_id || pipelines.value[0]?.id,
-    });
-    dealForm.value?.close();
-    useAlert(t('CRM.DEALS.FORM.SAVED'));
-    load();
-  } catch (error) {
-    handleError(error);
-  }
+// A new deal opens in its own page with this contact and conversation filled in, and comes back here once saved
+const openNewDeal = () => {
+  const { contact_id, contact_name, assignee_id, conversation_id } =
+    basePresets.value;
+  router.push(
+    accountScopedRoute(
+      'crm_deal_new',
+      {},
+      {
+        contact_id,
+        contact_name: contact_name || undefined,
+        assignee_id: assignee_id || undefined,
+        conversation_id: conversation_id || undefined,
+        return_to: router.currentRoute.value.fullPath,
+      }
+    )
+  );
 };
 
 const onTaskSubmit = async ({ payload }) => {
@@ -217,7 +219,7 @@ const TASK_CHECK_CLASS =
         size="xs"
         variant="faded"
         icon="i-lucide-briefcase"
-        @click="dealForm?.open()"
+        @click="openNewDeal"
       />
       <Button
         :label="t('CRM.PANEL.NEW_TASK')"
@@ -364,13 +366,6 @@ const TASK_CHECK_CLASS =
       </button>
     </div>
 
-    <DealForm
-      ref="dealForm"
-      :pipelines="pipelines"
-      :presets="basePresets"
-      :is-saving="dealFlags.isSaving"
-      @submit="onDealSubmit"
-    />
     <TaskForm
       ref="taskForm"
       :presets="taskPresets"

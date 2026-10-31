@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_31_181314) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_31_192749) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1173,15 +1173,42 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_181314) do
     t.datetime "updated_at", null: false
     t.text "lost_note"
     t.integer "priority", default: 1, null: false
+    t.bigint "lead_source_id"
+    t.bigint "product_id"
+    t.bigint "competitor_id"
+    t.bigint "region_id"
+    t.bigint "industry_id"
+    t.integer "forecast_category"
+    t.integer "probability_override"
+    t.datetime "last_activity_at"
     t.index ["account_id", "assignee_id", "status"], name: "index_crm_deals_on_account_id_and_assignee_id_and_status"
     t.index ["account_id", "close_date"], name: "index_crm_deals_on_account_id_and_close_date"
+    t.index ["account_id", "competitor_id"], name: "index_crm_deals_on_account_id_and_competitor_id"
     t.index ["account_id", "contact_id"], name: "index_crm_deals_on_account_id_and_contact_id"
     t.index ["account_id", "discarded_at"], name: "index_crm_deals_on_account_id_and_discarded_at"
+    t.index ["account_id", "industry_id"], name: "index_crm_deals_on_account_id_and_industry_id"
+    t.index ["account_id", "last_activity_at"], name: "index_crm_deals_on_account_id_and_last_activity_at"
+    t.index ["account_id", "lead_source_id"], name: "index_crm_deals_on_account_id_and_lead_source_id"
     t.index ["account_id", "pipeline_id", "stage_id", "position"], name: "idx_on_account_id_pipeline_id_stage_id_position_346854b22d"
+    t.index ["account_id", "product_id"], name: "index_crm_deals_on_account_id_and_product_id"
+    t.index ["account_id", "region_id"], name: "index_crm_deals_on_account_id_and_region_id"
     t.index ["account_id", "status", "lost_at"], name: "index_crm_deals_on_account_id_and_status_and_lost_at"
     t.index ["account_id", "status", "won_at"], name: "index_crm_deals_on_account_id_and_status_and_won_at"
     t.index ["conversation_id"], name: "index_crm_deals_on_conversation_id"
     t.check_constraint "amount_cents >= 0", name: "crm_deals_amount_non_negative"
+    t.check_constraint "probability_override IS NULL OR probability_override >= 0 AND probability_override <= 100", name: "crm_deals_probability_override_range"
+  end
+
+  create_table "crm_list_items", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "list", null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "account_id, list, lower((name)::text)", name: "index_crm_list_items_unique_active_name", unique: true, where: "(archived_at IS NULL)"
+    t.index ["account_id", "list", "position"], name: "index_crm_list_items_on_account_id_and_list_and_position"
   end
 
   create_table "crm_lost_reasons", force: :cascade do |t|
@@ -1231,6 +1258,20 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_181314) do
     t.check_constraint "probability >= 0 AND probability <= 100", name: "crm_stages_probability_range"
   end
 
+  create_table "crm_targets", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.date "period_start", null: false
+    t.date "period_end", null: false
+    t.bigint "amount_cents", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "period_start"], name: "index_crm_targets_on_account_id_and_period_start"
+    t.index ["account_id", "user_id", "period_start"], name: "index_crm_targets_on_account_id_and_user_id_and_period_start", unique: true
+    t.check_constraint "amount_cents >= 0", name: "crm_targets_amount_non_negative"
+    t.check_constraint "period_end >= period_start", name: "crm_targets_period_order"
+  end
+
   create_table "crm_tasks", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "title", null: false
@@ -1246,6 +1287,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_181314) do
     t.datetime "reminded_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "kind", default: 0, null: false
+    t.index ["account_id", "assignee_id", "kind"], name: "index_crm_tasks_on_account_id_and_assignee_id_and_kind"
     t.index ["account_id", "assignee_id", "status", "due_at"], name: "idx_on_account_id_assignee_id_status_due_at_04a4ef7d19"
     t.index ["account_id", "contact_id"], name: "index_crm_tasks_on_account_id_and_contact_id"
     t.index ["account_id", "deal_id"], name: "index_crm_tasks_on_account_id_and_deal_id"

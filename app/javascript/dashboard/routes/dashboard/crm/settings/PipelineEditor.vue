@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): edit one pipeline: name, currency (until it has deals), stages by drag, remove with a
+// Custom (MyDesk): edit one pipeline: name and stages (by drag or the up/down buttons), remove with a
 // target stage when the removed stage still holds deals. Beside each open stage's probability sits its actual
 // win rate from the account's last 12 months, as a suggestion the admin can copy in; it never changes alone.
 import { ref, computed, watch, onMounted } from 'vue';
@@ -14,21 +14,6 @@ import { validateStages } from '../shared/dealHelpers';
 
 const props = defineProps({
   pipeline: { type: Object, required: true },
-  currencies: {
-    type: Array,
-    default: () => [
-      'SAR',
-      'AED',
-      'USD',
-      'EUR',
-      'KWD',
-      'BHD',
-      'QAR',
-      'OMR',
-      'EGP',
-      'JOD',
-    ],
-  },
   stageDealCounts: { type: Object, default: () => ({}) },
   isSaving: { type: Boolean, default: false },
   canDelete: { type: Boolean, default: false },
@@ -37,7 +22,6 @@ const emit = defineEmits(['save', 'delete']);
 const { t } = useI18n();
 
 const name = ref('');
-const currency = ref('SAR');
 const stages = ref([]);
 const removed = ref([]); // { stage, targetId }
 const errors = ref([]);
@@ -47,7 +31,6 @@ const moveTarget = ref('');
 
 const load = () => {
   name.value = props.pipeline.name;
-  currency.value = props.pipeline.currency;
   stages.value = props.pipeline.stages.map(s => ({ ...s, uiKey: s.id }));
   removed.value = [];
   errors.value = [];
@@ -60,13 +43,9 @@ const kindOptions = computed(() =>
     label: t(`CRM.SETTINGS.KINDS.${k}`),
   }))
 );
-const currencyOptions = computed(() =>
-  props.currencies.map(c => ({ value: c, label: c }))
-);
 const dirty = computed(
   () =>
     name.value !== props.pipeline.name ||
-    currency.value !== props.pipeline.currency ||
     removed.value.length > 0 ||
     JSON.stringify(stages.value.map(({ uiKey, ...s }) => s)) !==
       JSON.stringify(props.pipeline.stages)
@@ -157,7 +136,6 @@ const save = () => {
   emit('save', {
     id: props.pipeline.id,
     name: name.value.trim(),
-    currency: currency.value,
     stages: stages.value.map(({ uiKey, ...s }) => ({
       id: s.id,
       name: s.name.trim(),
@@ -189,29 +167,8 @@ const errorText = key =>
     >
       {{ pipeline.name }}
     </h2>
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_10rem]">
-      <Input v-model="name" :label="t('CRM.SETTINGS.PIPELINE_NAME')" />
-      <div class="flex flex-col gap-1">
-        <span
-          :id="`crm-pipeline-${pipeline.id}-currency`"
-          class="text-heading-3 text-n-slate-12"
-        >
-          {{ t('CRM.SETTINGS.CURRENCY') }}
-        </span>
-        <Select
-          v-model="currency"
-          :options="currencyOptions"
-          :disabled="pipeline.currency_locked"
-          :aria-label="t('CRM.SETTINGS.CURRENCY')"
-        />
-        <p
-          v-if="pipeline.currency_locked"
-          class="text-label-small text-n-slate-10"
-        >
-          {{ t('CRM.SETTINGS.CURRENCY_LOCKED') }}
-        </p>
-      </div>
-    </div>
+    <!-- No currency here: the Sales section has one, set in the General tab -->
+    <Input v-model="name" :label="t('CRM.SETTINGS.PIPELINE_NAME')" />
 
     <h3 class="mt-5 text-heading-3 text-n-slate-12">
       {{ t('CRM.SETTINGS.STAGES') }}

@@ -13,7 +13,16 @@ module SalesCrm::Presenter
   end
 
   def deal(deal)
-    deal_core(deal).merge(deal_people(deal)).merge(deal_outcome(deal))
+    deal_core(deal).merge(deal_people(deal)).merge(deal_outcome(deal)).merge(deal_report_fields(deal))
+  end
+
+  # The fields the sales reports read. List values go out as ids; the UI names them from the lists it loads once.
+  def deal_report_fields(deal)
+    SalesCrm::ListItem::DEAL_COLUMNS.values.index_with { |column| deal[column] }.merge(
+      probability: deal.effective_probability, probability_override: deal.probability_override,
+      forecast_category: deal.forecast_category, effective_forecast_category: deal.effective_forecast_category,
+      last_activity_at: deal.last_activity_at
+    )
   end
 
   def deal_core(deal)
@@ -36,12 +45,15 @@ module SalesCrm::Presenter
   def task(task, now: Time.current)
     {
       id: task.id, title: task.title, description: task.description, due_at: task.due_at, status: task.status, done_at: task.done_at,
-      assignee: user(task.assignee), creator_id: task.creator_id, contact: contact(task.contact),
-      deal: task.deal ? { id: task.deal.id, title: task.deal.title, status: task.deal.status } : nil,
-      conversation_id: task.conversation_id, conversation_display_id: task.conversation&.display_id,
-      overdue: task.overdue?(now), reminded_at: task.reminded_at,
+      kind: task.kind, overdue: task.overdue?(now), reminded_at: task.reminded_at,
       created_at: task.created_at, updated_at: task.updated_at
-    }
+    }.merge(task_links(task))
+  end
+
+  def task_links(task)
+    { assignee: user(task.assignee), creator_id: task.creator_id, contact: contact(task.contact),
+      deal: task.deal ? { id: task.deal.id, title: task.deal.title, status: task.deal.status } : nil,
+      conversation_id: task.conversation_id, conversation_display_id: task.conversation&.display_id }
   end
 
   def note(note)

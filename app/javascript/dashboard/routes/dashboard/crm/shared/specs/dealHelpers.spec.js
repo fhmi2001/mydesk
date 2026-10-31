@@ -8,13 +8,17 @@ import {
 
 describe('dealHelpers', () => {
   it('requires a title and a numeric amount', () => {
-    expect(validateDeal({ title: '', amount: '' }).errors).toEqual({
+    const closed = { open: false };
+    expect(validateDeal({ title: '', amount: '' }, closed).errors).toEqual({
       title: 'TITLE_REQUIRED',
     });
-    expect(validateDeal({ title: 'x', amount: 'abc' }).errors).toEqual({
+    expect(validateDeal({ title: 'x', amount: 'abc' }, closed).errors).toEqual({
       amount: 'AMOUNT_INVALID',
     });
-    expect(validateDeal({ title: 'x', amount: '٥٠٠' }).valid).toBe(true);
+    expect(
+      validateDeal({ title: 'x', amount: '٥٠٠', close_date: '2026-12-01' })
+        .valid
+    ).toBe(true);
   });
 
   it('builds the payload with Arabic digits converted to a decimal string', () => {
@@ -67,6 +71,53 @@ describe('dealHelpers', () => {
       contact_name: 'c',
       assignee_id: null,
       lock_version: 3,
+    });
+  });
+
+  it('asks an open deal for an amount above zero and an expected close date, but not a won or lost one', () => {
+    expect(
+      validateDeal({ title: 'x', amount: '', close_date: '' }, { open: true })
+        .errors
+    ).toEqual({ amount: 'AMOUNT_REQUIRED', close_date: 'CLOSE_DATE_REQUIRED' });
+    expect(
+      validateDeal(
+        { title: 'x', amount: '0', close_date: '2026-12-01' },
+        {
+          open: true,
+        }
+      ).errors
+    ).toEqual({ amount: 'AMOUNT_REQUIRED' });
+    expect(
+      validateDeal({ title: 'x', amount: '', close_date: '' }, { open: false })
+        .valid
+    ).toBe(true);
+  });
+
+  it('carries the report fields: lists, forecast category and the probability override', () => {
+    const payload = buildDealPayload({
+      title: 'x',
+      amount: '1',
+      lead_source_id: 4,
+      product_id: '',
+      forecast_category: '',
+      probability_override: '٧٠',
+    });
+    expect(payload).toMatchObject({
+      lead_source_id: 4,
+      product_id: null,
+      forecast_category: null,
+      probability_override: '70',
+    });
+    const form = dealToForm({
+      title: 't',
+      region_id: 2,
+      forecast_category: 'commit',
+      probability_override: null,
+    });
+    expect(form).toMatchObject({
+      region_id: 2,
+      forecast_category: 'commit',
+      probability_override: '',
     });
   });
 

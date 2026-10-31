@@ -173,6 +173,48 @@ class CrmLostReasonsAPI extends ApiClient {
   }
 }
 
+// The managed lists: lead_source, product, competitor, region, industry
+class CrmListItemsAPI extends ApiClient {
+  constructor() {
+    super('crm/list_items', { accountScoped: true });
+  }
+
+  get(list) {
+    return axios.get(this.url, { params: { list } });
+  }
+
+  create(list, name) {
+    return axios.post(this.url, { list, name });
+  }
+
+  update(id, name) {
+    return axios.patch(`${this.url}/${id}`, { name });
+  }
+
+  archive(id) {
+    return axios.delete(`${this.url}/${id}`);
+  }
+
+  reorder(list, ids) {
+    return axios.patch(`${this.url}/reorder`, { list, ids });
+  }
+}
+
+class CrmTargetsAPI extends ApiClient {
+  constructor() {
+    super('crm/targets', { accountScoped: true });
+  }
+
+  get(month) {
+    return axios.get(this.url, { params: { month } });
+  }
+
+  // amounts: { userId: '50000' }; a blank amount clears that employee's month
+  update(month, amounts) {
+    return axios.put(this.url, { month, amounts });
+  }
+}
+
 class CrmSettingsAPI extends ApiClient {
   constructor() {
     super('crm/settings', { accountScoped: true });
@@ -195,3 +237,5 @@ export const crmContactSummaryAPI = new CrmContactSummaryAPI();
 export const crmReportsAPI = new CrmReportsAPI();
 export const crmSettingsAPI = new CrmSettingsAPI();
 export const crmLostReasonsAPI = new CrmLostReasonsAPI();
+export const crmListItemsAPI = new CrmListItemsAPI();
+export const crmTargetsAPI = new CrmTargetsAPI();

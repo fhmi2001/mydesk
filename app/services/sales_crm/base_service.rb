@@ -19,6 +19,52 @@ class SalesCrm::BaseService
     value.to_s
   end
 
+  # The fields a deal takes from the managed lists, e.g. { product_id: 3 }; each id must be an item of that
+  # list in this account (an archived item stays valid on deals that already have it)
+  LIST_PARAMS = SalesCrm::ListItem::DEAL_COLUMNS.values.freeze
+
+  def assign_list_items(deal, params)
+    SalesCrm::ListItem::DEAL_COLUMNS.each do |list, column|
+      next unless params.key?(column)
+
+      id = params[column].presence
+      next deal[column] = nil unless id
+      next if deal[column] == id.to_i
+
+      fail!(:invalid_list_item) unless account.crm_list_items.active.exists?(id: id, list: list)
+      deal[column] = id.to_i
+    end
+  end
+
+  def task_kind_from(value)
+    fail!(:invalid_task_kind) unless SalesCrm::Task.kinds.key?(value.to_s)
+    value.to_s
+  end
+
+  def forecast_category_from(value)
+    return nil if value.blank?
+
+    fail!(:invalid_forecast_category) unless SalesCrm::Deal.forecast_categories.key?(value.to_s)
+    value.to_s
+  end
+
+  def probability_from(value)
+    return nil if value.blank?
+
+    number = Integer(SalesCrm::Normalize.digits(value.to_s), exception: false)
+    fail!(:invalid_probability) unless number&.between?(0, 100)
+    number
+  end
+
+  # An open deal needs an amount, an expected close date and an owner (docs/reports/gap-analysis.md, decisions د and 15)
+  def require_open_essentials!(deal)
+    return unless deal.open?
+
+    fail!(:amount_required) unless deal.amount_cents.to_i.positive?
+    fail!(:close_date_required) if deal.close_date.blank?
+    fail!(:owner_required) if deal.assignee_id.blank?
+  end
+
   def find_stage!(pipeline, stage_id)
     stage = pipeline.stages.find { |s| s.id == stage_id.to_i }
     fail!(:invalid_stage) unless stage

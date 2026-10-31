@@ -10,12 +10,13 @@ const props = defineProps({
   currency: { type: String, default: 'SAR' },
 });
 const { t } = useI18n();
-const { money, dateTime } = useCrmFormat();
+const { money, date, dateTime } = useCrmFormat();
 
 const icons = {
   created: 'i-lucide-plus-circle',
   stage_changed: 'i-lucide-arrow-right-left',
   amount_changed: 'i-lucide-coins',
+  close_date_changed: 'i-lucide-calendar-clock',
   assignee_changed: 'i-lucide-user-round',
   priority_changed: 'i-lucide-flag',
   won: 'i-lucide-trophy',
@@ -37,6 +38,8 @@ const describe = activity => {
       ? `${data.reason || ''} (${data.note})`
       : data.reason || '',
     title: data.title || '',
+    date:
+      activity.kind === 'close_date_changed' && data.to ? date(data.to) : '—',
     ...(activity.kind === 'priority_changed' && {
       from: t(`CRM.DEALS.PRIORITIES.${data.from || 'medium'}`),
       to: t(`CRM.DEALS.PRIORITIES.${data.to || 'medium'}`),

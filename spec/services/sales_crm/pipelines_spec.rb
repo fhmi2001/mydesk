@@ -11,7 +11,8 @@ RSpec.describe SalesCrm::Pipelines do
   end
 
   def deal_in(stage)
-    SalesCrm::Deals::Create.new(account: account, user: user).perform(title: 'd', amount: '10', pipeline_id: pipeline.id, stage_id: stage.id)
+    SalesCrm::Deals::Create.new(account: account, user: user).perform(title: 'd', amount: '10', close_date: Date.current + 30,
+                                                                      pipeline_id: pipeline.id, stage_id: stage.id)
   end
 
   describe SalesCrm::Pipelines::Update do
@@ -45,9 +46,10 @@ RSpec.describe SalesCrm::Pipelines do
       expect(pipeline.stages.map(&:position)).to eq((0..6).to_a)
     end
 
-    it 'refuses a currency change once deals exist' do
+    it 'has no currency of its own: the Sales currency is changed in the general settings, and only without deals' do
       deal_in(pipeline.stages[0])
-      expect { update.perform(pipeline, currency: 'USD') }.to raise_error(SalesCrm::ValidationError)
+      expect { update.perform(pipeline, currency: 'USD') }.to raise_error(ArgumentError)
+      expect { SalesCrm::Currency.change!(account, 'USD') }.to raise_error(SalesCrm::ValidationError)
     end
 
     it 'refuses a second won stage' do

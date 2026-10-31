@@ -24,7 +24,8 @@ class SalesCrm::Reports::Summary < SalesCrm::Reports::Base
     @open_numbers ||= {
       open_count: deals.open.count,
       open_total_cents: deals.open.sum(:amount_cents),
-      expected_cents: deals.open.joins(:stage).sum('crm_deals.amount_cents * crm_stages.probability') / 100
+      expected_cents: deals.open.joins(:stage)
+                           .sum('crm_deals.amount_cents * COALESCE(crm_deals.probability_override, crm_stages.probability)') / 100
     }
   end
 end

@@ -84,7 +84,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   def visible_counts(counts)
     return counts if team_money? || own_deals_only?
 
-    counts.transform_values { |c| c.except(:total_cents) }
+    counts.transform_values { |c| c.except(:total_cents, :weighted_cents) }
   end
 
   def own_deals_only?
@@ -104,6 +104,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
 
   def deal_params
     params.require(:deal).permit(:title, :amount, :pipeline_id, :stage_id, :contact_id, :assignee_id, :close_date, :description,
-                                 :conversation_id, :priority, :lock_version)
+                                 :conversation_id, :priority, :forecast_category, :probability_override, :lock_version,
+                                 *SalesCrm::ListItem::DEAL_COLUMNS.values)
   end
 end

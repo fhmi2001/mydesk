@@ -34,7 +34,8 @@
       "STALE_TITLE": "This deal changed",
       "STALE_BODY": "Someone else updated it. Reload to see the latest version.",
       "RELOAD": "Reload",
-      "DISABLED": "The Sales CRM is not enabled for this account."
+      "DISABLED": "The Sales CRM is not enabled for this account.",
+      "BACK": "Back"
     },
     "CONTACT_PICKER": {
       "TYPE_MORE": "Type at least two characters to search customers.",
@@ -89,8 +90,8 @@
       "SUMMARY_EXPECTED": "Expected",
       "ADD_TO_STAGE": "Add deal",
       "COLUMN_TOTAL": "Total",
-      "COLUMN_WEIGHTED": "Weighted ({probability}%)",
-      "COLUMN_WEIGHTED_HINT": "Weighted amount: the total times the win probability of this stage",
+      "COLUMN_WEIGHTED": "Weighted",
+      "COLUMN_WEIGHTED_HINT": "Weighted amount: each deal times its win probability (its own, else the stage's)",
       "COLUMN_OUTCOME": "Probability",
       "COLUMN_WON": "Won (100%)",
       "COLUMN_LOST": "Lost (0%)",
@@ -142,7 +143,21 @@
         "DESCRIPTION": "Notes",
         "TITLE_REQUIRED": "A title is required",
         "AMOUNT_INVALID": "Enter a valid amount",
-        "SAVED": "Deal saved"
+        "SAVED": "Deal saved",
+        "REPORT_FIELDS": "For reports",
+        "FORECAST_CATEGORY": "Forecast category",
+        "FORECAST_AUTO": "Automatic (from the probability)",
+        "PROBABILITY": "Probability %",
+        "PROBABILITY_FROM_STAGE": "From the stage: {value}",
+        "PROBABILITY_HINT": "Leave empty to follow the stage. Moving the deal resets it to the stage.",
+        "AMOUNT_REQUIRED": "Enter an amount above zero; an open deal needs one.",
+        "CLOSE_DATE_REQUIRED": "Enter the expected close date; an open deal needs one.",
+        "ESSENTIALS": "Essentials",
+        "PEOPLE": "Contact and owner",
+        "FORECAST_HEADING": "Classification and forecast",
+        "REQUIRED_NOTE": "Fields marked * are required for open deals.",
+        "AMOUNT_IN": "Amount ({currency})",
+        "REPORT_FIELDS_HINT": "Optional; used to group deals in reports."
       },
       "LOST_DIALOG": {
         "TITLE": "Why was this deal lost?",
@@ -181,7 +196,11 @@
           "salla": "From Salla"
         },
         "CREATED_BY": "Created by {name}",
-        "LOST_NOTE": "Lost notes"
+        "LOST_NOTE": "Lost notes",
+        "FROM_STAGE": "(from the stage)",
+        "SET_ON_DEAL": "(set on the deal)",
+        "AUTO": "(automatic)",
+        "LAST_ACTIVITY": "Last activity"
       },
       "ACTIVITY": {
         "created": "created the deal",
@@ -197,9 +216,16 @@
         "task_done": "completed the task «{title}»",
         "discarded": "deleted the deal",
         "restored": "restored the deal",
-        "SYSTEM": "System"
+        "SYSTEM": "System",
+        "close_date_changed": "changed the expected close date to {date}"
       },
-      "VIEW_LABEL": "View"
+      "VIEW_LABEL": "View",
+      "FORECAST": {
+        "pipeline": "Pipeline",
+        "best_case": "Best case",
+        "commit": "Commit",
+        "omitted": "Omitted"
+      }
     },
     "TASKS": {
       "TITLE": "Tasks",
@@ -252,7 +278,13 @@
         "DEAL": "Deal",
         "DEAL_NONE": "No deal",
         "TITLE_REQUIRED": "A title is required",
-        "SAVED": "Task saved"
+        "SAVED": "Task saved",
+        "KIND": "Type"
+      },
+      "KINDS": {
+        "task": "Task",
+        "call": "Call",
+        "meeting": "Meeting"
       }
     },
     "REPORTS": {
@@ -334,7 +366,7 @@
       "NEW_PIPELINE": "New pipeline",
       "PIPELINE_NAME": "Pipeline name",
       "CURRENCY": "Currency",
-      "CURRENCY_LOCKED": "The currency cannot change while the pipeline has deals.",
+      "CURRENCY_LOCKED": "The currency cannot change once deals exist, since amounts are not converted.",
       "STAGES": "Stages",
       "STAGE_NAME": "Stage name",
       "PROBABILITY": "Probability %",
@@ -380,8 +412,16 @@
       "TABS": {
         "general": "General",
         "lost_reasons": "Lost reasons",
-        "pipelines": "Pipelines"
-      }
+        "pipelines": "Pipelines",
+        "lists": "Lists",
+        "targets": "Targets"
+      },
+      "CURRENCY_HINT": "The currency of every sales deal. It cannot change once the first deal is added.",
+      "REPORTS_HEADING": "Report thresholds",
+      "STALE_DAYS": "Stale after (days)",
+      "STALE_DAYS_HINT": "An open deal with no activity for this long counts as stale.",
+      "COVERAGE": "Pipeline coverage target (times)",
+      "COVERAGE_HINT": "Open pipeline needed compared with the remaining target."
     },
     "PANEL": {
       "TITLE": "Deals & tasks",
@@ -396,6 +436,36 @@
       "ADD_TASK": "Task",
       "ADD_TASK_FOR": "Add a task to deal “{title}”",
       "STAGE_CHANGED": "Stage updated"
+    },
+    "LISTS": {
+      "lead_source": "Lead source",
+      "product": "Product",
+      "competitor": "Competitor",
+      "region": "Region",
+      "industry": "Industry",
+      "HINTS": {
+        "lead_source": "Where the customer came from. Picked on each deal; drives win rate and new deals by source.",
+        "product": "What you sell. Picked on each deal; drives win rate and revenue by product.",
+        "competitor": "Who you compete with for the deal. Shown in the lost reasons analysis.",
+        "region": "The customer's region, for revenue by region.",
+        "industry": "The customer's industry, for revenue by industry."
+      },
+      "EMPTY": "The list is empty. Add the first item.",
+      "ITEM_NAME": "Item name",
+      "NEW_ITEM": "New item",
+      "ADD": "Add",
+      "EDIT_ITEM": "Edit “{name}”",
+      "ARCHIVE_ITEM": "Remove “{name}” from the list",
+      "ARCHIVE_HINT": "Leaves the list; stays on the deals that have it"
+    },
+    "TARGETS": {
+      "TITLE": "Monthly targets",
+      "HINT": "Each employee's target for the month, in {currency}. The team target is their sum. Leave a field empty to clear that employee's month.",
+      "MONTH": "Month",
+      "EMPLOYEE": "Employee",
+      "AMOUNT": "Target ({currency})",
+      "AMOUNT_FOR": "Target for {name}",
+      "TEAM": "Team target"
     }
   }
 }

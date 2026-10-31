@@ -1,6 +1,6 @@
 # Custom (MyDesk): edits a task; moving the due date later re-arms its reminder
 class SalesCrm::Tasks::Update < SalesCrm::BaseService
-  PERMITTED = %i[title description due_at assignee_id contact_id deal_id].freeze
+  PERMITTED = %i[title description due_at assignee_id contact_id deal_id kind].freeze
 
   def perform(task, params)
     params = params.to_h.symbolize_keys.slice(*PERMITTED)
@@ -19,6 +19,7 @@ class SalesCrm::Tasks::Update < SalesCrm::BaseService
   def assign_text(task, params)
     task.title = params[:title].to_s.strip if params.key?(:title)
     task.description = params[:description] if params.key?(:description)
+    task.kind = task_kind_from(params[:kind]) if params[:kind].present?
   end
 
   def assign_due(task, value)

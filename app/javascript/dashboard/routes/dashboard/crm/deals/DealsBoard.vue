@@ -32,6 +32,7 @@ const columns = computed(() =>
     deals: props.dealsForStage(stage.id),
     count: props.counts[stage.id]?.count || 0,
     total: props.counts[stage.id]?.total_cents || 0,
+    weighted: props.counts[stage.id]?.weighted_cents,
   }))
 );
 
@@ -48,8 +49,9 @@ const onChange = (stage, event) => {
 };
 
 const remaining = column => column.count - column.deals.length;
-// What the column is worth at its stage's win probability, rounded to the minor unit
+// What the column is worth at each deal's own probability (the server's sum); the stage's probability if it sent none
 const weighted = column =>
+  column.weighted ??
   Math.round((column.total * (column.stage.probability || 0)) / 100);
 </script>
 

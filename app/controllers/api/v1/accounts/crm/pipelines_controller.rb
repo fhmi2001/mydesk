@@ -16,7 +16,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
 
   def update
     authorize @pipeline
-    pipeline = service(SalesCrm::Pipelines::Update).perform(@pipeline, name: params[:name], currency: params[:currency],
+    pipeline = service(SalesCrm::Pipelines::Update).perform(@pipeline, name: params[:name],
                                                                        stages: stage_params, stage_moves: params[:stage_moves]&.to_unsafe_h || {})
     render json: SalesCrm::Presenter.pipeline(pipeline, deals_count: Current.account.crm_deals.kept.where(pipeline_id: pipeline.id).count)
   end

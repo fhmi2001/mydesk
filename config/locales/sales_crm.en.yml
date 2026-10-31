@@ -3,7 +3,7 @@ en:
   sales_crm:
     default_pipeline: Sales
     errors:
-      currency_locked: The currency cannot change while the pipeline has deals
+      currency_locked: The currency cannot change once deals exist
       lost_reason_required: A reason is required to mark a deal as lost
       stage_has_deals: This stage still has deals; choose a stage to move them to
       last_pipeline: The last pipeline cannot be deleted
@@ -11,6 +11,17 @@ en:
       stage_required: A stage is required
       invalid_stage: The stage does not belong to this pipeline
       invalid_priority: The priority must be low, medium or high
+      amount_required: Enter the deal amount; an open deal needs one
+      close_date_required: Enter the expected close date; an open deal needs one
+      owner_required: An open deal needs an owner
+      invalid_list_item: The chosen value is not on its list
+      invalid_forecast_category: The forecast category must be pipeline, best case, commit or omitted
+      invalid_probability: The probability is a number from 0 to 100
+      invalid_task_kind: The task kind must be task, call or meeting
+      invalid_month: The month is not valid
+      invalid_list: Unknown list
+      invalid_stale_days: The stale threshold is a number of days from 1 to 365
+      invalid_coverage: The coverage target is a number from 0.5 to 20
       not_closed: The deal is already open
       invalid_amount: The amount is not a valid number
       invalid_currency: Unsupported currency
@@ -19,6 +30,7 @@ en:
       created: Deal created
       stage_changed: Stage changed
       amount_changed: Amount changed
+      close_date_changed: Expected close date changed
       assignee_changed: Assignee changed
       priority_changed: Priority changed
       won: Deal won

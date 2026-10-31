@@ -13,7 +13,8 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
 
   def deal_for(user, attrs = {})
     SalesCrm::Deals::Create.new(account: account, user: user)
-                           .perform({ title: 'باقة', amount: '50000', pipeline_id: pipeline.id, assignee_id: user.id }.merge(attrs))
+                           .perform({ title: 'باقة', amount: '50000', close_date: Date.current + 30, pipeline_id: pipeline.id,
+                                      assignee_id: user.id }.merge(attrs))
   end
 
   context 'when the feature is off' do
@@ -42,7 +43,7 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
       body = response.parsed_body
       expect(body['deals'].size).to eq(1)
       expect(body['deals'].first).to include('title' => 'باقة', 'amount' => '50000.00', 'currency' => 'SAR')
-      expect(body['counts'][pipeline.first_open_stage.id.to_s]).to eq('count' => 1, 'total_cents' => 5_000_000)
+      expect(body['counts'][pipeline.first_open_stage.id.to_s]).to eq('count' => 1, 'total_cents' => 5_000_000, 'weighted_cents' => 500_000)
       get "#{base}/deals/forecast", params: { pipeline_id: pipeline.id }, headers: admin.create_new_auth_token, as: :json
       expect(response.parsed_body).to include('open_count' => 1, 'expected_cents' => 500_000)
     end
@@ -62,7 +63,8 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
       deal_for(agent)
       deal_for(admin)
       get "#{base}/deals", params: { pipeline_id: pipeline.id }, headers: agent.create_new_auth_token, as: :json
-      expect(response.parsed_body['counts'][pipeline.first_open_stage.id.to_s]).to eq('count' => 1, 'total_cents' => 5_000_000)
+      expect(response.parsed_body['counts'][pipeline.first_open_stage.id.to_s])
+        .to eq('count' => 1, 'total_cents' => 5_000_000, 'weighted_cents' => 500_000)
     end
 
     it 'cannot read another account deal: 404 from scoping, and outsiders get 401' do
@@ -123,8 +125,9 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
     it 'creates a deal from a conversation, lists notes and activities' do
       contact = create(:contact, account: account)
       conversation = create(:conversation, account: account, contact: contact)
-      post "#{base}/deals", params: { deal: { title: 'من المحادثة', amount: '١٢٣٤', pipeline_id: pipeline.id, contact_id: contact.id,
-                                              conversation_id: conversation.display_id } }, headers: agent.create_new_auth_token, as: :json
+      post "#{base}/deals", params: { deal: { title: 'من المحادثة', amount: '١٢٣٤', close_date: Date.current + 7, pipeline_id: pipeline.id,
+                                              contact_id: contact.id, conversation_id: conversation.display_id } },
+                            headers: agent.create_new_auth_token, as: :json
       expect(response).to have_http_status(:success)
       id = response.parsed_body['id']
       expect(response.parsed_body).to include('amount' => '1234.00', 'source' => 'conversation_source', 'conversation_id' => conversation.id)

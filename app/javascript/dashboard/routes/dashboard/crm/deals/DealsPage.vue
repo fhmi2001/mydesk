@@ -24,7 +24,6 @@ import {
 } from '../shared/dealHelpers';
 import DealsBoard from './DealsBoard.vue';
 import DealsTable from './DealsTable.vue';
-import DealForm from './DealForm.vue';
 import LostReasonDialog from './LostReasonDialog.vue';
 
 const { t } = useI18n();
@@ -50,9 +49,7 @@ const showMoney = computed(
 
 const view = ref('board'); // board | table | discarded
 const search = ref('');
-const dealForm = ref(null);
 const lostDialog = ref(null);
-const presets = ref({});
 const pendingLost = ref(null);
 const isMoving = ref(false);
 const discardedDeals = ref([]);
@@ -163,23 +160,18 @@ const setPriority = priority =>
 const openDeal = deal =>
   router.push(accountScopedRoute('crm_deal', { dealId: deal.id }));
 
-const openNew = (stage = null) => {
-  presets.value = { pipeline_id: pipeline.value?.id, stage_id: stage?.id };
-  dealForm.value?.open();
-};
-
-const onSubmit = async ({ payload }) => {
-  try {
-    const deal = await store.dispatch('crm/deals/create', payload);
-    dealForm.value?.close();
-    useAlert(t('CRM.DEALS.FORM.SAVED'));
-    if (view.value !== 'board') loadTable();
-    return deal;
-  } catch (error) {
-    useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));
-    return null;
-  }
-};
+// A new deal opens in its own page, already in this pipeline (and in the column it was started from)
+const openNew = (stage = null) =>
+  router.push(
+    accountScopedRoute(
+      'crm_deal_new',
+      {},
+      {
+        pipeline_id: pipeline.value?.id,
+        stage_id: stage?.id,
+      }
+    )
+  );
 
 const performMove = async ({
   dealId,
@@ -460,13 +452,6 @@ const goToSettings = () =>
       />
     </template>
 
-    <DealForm
-      ref="dealForm"
-      :pipelines="pipelines"
-      :presets="presets"
-      :is-saving="flags.isSaving"
-      @submit="onSubmit"
-    />
     <LostReasonDialog
       ref="lostDialog"
       :is-loading="isMoving"

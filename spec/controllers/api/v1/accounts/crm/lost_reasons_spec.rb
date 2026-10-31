@@ -49,7 +49,8 @@ RSpec.describe 'Sales CRM lost reasons', type: :request do # -- request spec
   end
 
   it 'keeps the note with a lost deal, shows it, and clears both on reopen' do
-    deal = SalesCrm::Deals::Create.new(account: account, user: agent).perform(title: 'd', amount: '10', pipeline_id: pipeline.id)
+    deal = SalesCrm::Deals::Create.new(account: account, user: agent).perform(title: 'd', amount: '10', close_date: Date.current + 30,
+                                                                              pipeline_id: pipeline.id)
     patch "#{base}/deals/#{deal.id}/move",
           params: { stage_id: pipeline.lost_stage.id, lost_reason: 'السعر مرتفع', lost_note: '  طلب خصم 30%  ' },
           headers: agent.create_new_auth_token, as: :json

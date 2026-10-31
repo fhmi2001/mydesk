@@ -56,6 +56,16 @@ const shiftCounts = (_state, from, to) => {
         0,
         current.total_cents + sign * (deal.amount_cents || 0)
       );
+    // Weighted by the deal's own probability; a move is corrected when the server's answer replaces the card
+    if ('weighted_cents' in current)
+      next.weighted_cents = Math.max(
+        0,
+        current.weighted_cents +
+          sign *
+            Math.round(
+              ((deal.amount_cents || 0) * (deal.probability || 0)) / 100
+            )
+      );
     counts[deal.stage_id] = next;
   };
   add(from, -1);
@@ -289,7 +299,8 @@ export const mutations = {
     if (
       !previous ||
       previous.stage_id !== deal.stage_id ||
-      previous.amount_cents !== deal.amount_cents
+      previous.amount_cents !== deal.amount_cents ||
+      previous.probability !== deal.probability
     )
       shiftCounts(_state, previous, deal);
     mutations[types.UPSERT_LOADED](_state, deal);

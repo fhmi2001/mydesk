@@ -91,6 +91,18 @@ const contactRoute = computed(() =>
       <div
         class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-label-small"
       >
+        <!-- Calls and meetings say so; a plain task needs no label -->
+        <span
+          v-if="task.kind && task.kind !== 'task'"
+          class="inline-flex items-center gap-1 text-n-slate-11"
+        >
+          <span
+            :class="task.kind === 'call' ? 'i-lucide-phone' : 'i-lucide-users'"
+            class="size-3"
+            aria-hidden="true"
+          />
+          {{ t(`CRM.TASKS.KINDS.${task.kind}`) }}
+        </span>
         <span
           class="inline-flex items-center gap-1"
           :class="

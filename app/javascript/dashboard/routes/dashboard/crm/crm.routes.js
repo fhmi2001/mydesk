@@ -5,6 +5,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import CrmRouteView from './CrmRouteView.vue';
 import DealsPage from './deals/DealsPage.vue';
 import DealDetailPage from './deals/DealDetailPage.vue';
+import DealEditorPage from './deals/DealEditorPage.vue';
 import TasksPage from './tasks/TasksPage.vue';
 import ReportsPage from './reports/ReportsPage.vue';
 import SalesSettingsPage from './settings/SalesSettingsPage.vue';
@@ -30,6 +31,19 @@ export const routes = [
         name: 'crm_deals',
         meta: everyone,
         component: DealsPage,
+      },
+      {
+        // A deal's full-page editor; `new` is matched before the deal page's :dealId
+        path: 'deals/new',
+        name: 'crm_deal_new',
+        meta: everyone,
+        component: DealEditorPage,
+      },
+      {
+        path: 'deals/:dealId/edit',
+        name: 'crm_deal_edit',
+        meta: everyone,
+        component: DealEditorPage,
       },
       {
         path: 'deals/:dealId',

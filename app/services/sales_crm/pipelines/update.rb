@@ -4,10 +4,10 @@
 class SalesCrm::Pipelines::Update < SalesCrm::BaseService
   STATUS_BY_KIND = { 'open' => 0, 'won' => 1, 'lost' => 2 }.freeze
 
-  def perform(pipeline, name: nil, currency: nil, stages: nil, stage_moves: {})
+  def perform(pipeline, name: nil, stages: nil, stage_moves: {})
     ActiveRecord::Base.transaction do
       pipeline.name = name.to_s.strip if name.present?
-      pipeline.currency = currency.to_s.upcase if currency.present?
+      # No currency here: the Sales section has one, changed in its general settings (SalesCrm::Currency)
       pipeline.save!
       rewrite_stages(pipeline, stages, stage_moves.to_h) unless stages.nil?
       pipeline.stages.reload

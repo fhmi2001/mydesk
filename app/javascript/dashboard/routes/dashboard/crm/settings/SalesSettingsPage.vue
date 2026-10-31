@@ -1,6 +1,7 @@
 <script setup>
-// Custom (MyDesk): Sales > Settings (administrators), one tab each: General (visibility, default currency),
-// Lost reasons, Pipelines. The tab is kept in ?tab= so links (e.g. "Edit pipeline") can open the right one.
+// Custom (MyDesk): Sales > Settings (administrators), one tab each: General (visibility, the Sales currency, the
+// report thresholds), Lost reasons, Lists (lead source, product, competitor, region, industry), Targets, Pipelines.
+// The tab is kept in ?tab= so links (e.g. "Edit pipeline") can open the right one.
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
@@ -10,20 +11,23 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import { crmSettingsAPI, crmDealsAPI } from 'dashboard/api/crm';
 import CrmPageHeader from '../shared/CrmPageHeader.vue';
-import { apiErrorMessage } from '../shared/dealHelpers';
+import { apiErrorMessage, DEAL_LISTS } from '../shared/dealHelpers';
 import PipelineEditor from './PipelineEditor.vue';
 import LostReasonsEditor from './LostReasonsEditor.vue';
+import ListItemsEditor from './ListItemsEditor.vue';
+import TargetsEditor from './TargetsEditor.vue';
 
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const TABS = ['general', 'lost_reasons', 'pipelines'];
+const TABS = ['general', 'lost_reasons', 'lists', 'targets', 'pipelines'];
 const activeTab = computed(() =>
   TABS.includes(route.query.tab) ? route.query.tab : 'general'
 );
@@ -42,7 +46,13 @@ const settings = ref({
   agents_see_own_deals_only: false,
   default_currency: 'SAR',
   currencies: [],
+  currency_locked: false,
+  stale_days: 14,
+  coverage_multiple: 3,
 });
+// The thresholds are typed, then saved when the field is left
+const staleDays = ref('');
+const coverageMultiple = ref('');
 const stageDealCounts = ref({});
 const isLoading = ref(true);
 const deleteTarget = ref(null);
@@ -75,6 +85,8 @@ onMounted(async () => {
       store.dispatch('crm/pipelines/fetch'),
     ]);
     settings.value = data;
+    staleDays.value = String(data.stale_days);
+    coverageMultiple.value = String(data.coverage_multiple);
     await loadCounts();
   } catch (error) {
     useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));
@@ -88,10 +100,19 @@ const saveSetting = async patch => {
     const { data } = await crmSettingsAPI.update(patch);
     settings.value = { ...settings.value, ...data };
     store.dispatch('crm/status/fetch');
+    store.dispatch('crm/pipelines/fetch');
     useAlert(t('CRM.COMMON.SAVED'));
   } catch (error) {
     useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));
+  } finally {
+    staleDays.value = String(settings.value.stale_days);
+    coverageMultiple.value = String(settings.value.coverage_multiple);
   }
+};
+
+const saveThreshold = (key, value) => {
+  if (String(value).trim() === String(settings.value[key])) return;
+  saveSetting({ [key]: value });
 };
 
 const onSave = async payload => {
@@ -198,28 +219,68 @@ const confirmDelete = async () => {
             "
           />
         </div>
-        <div class="flex items-center justify-between gap-4 mt-4">
-          <p class="text-body-main text-n-slate-12" aria-hidden="true">
-            {{ t('CRM.SETTINGS.DEFAULT_CURRENCY') }}
-          </p>
+        <!-- One currency for the whole Sales section; amounts are never converted, so it locks once deals exist -->
+        <div class="flex items-start justify-between gap-4 mt-4">
+          <div>
+            <p class="text-body-main text-n-slate-12" aria-hidden="true">
+              {{ t('CRM.SETTINGS.CURRENCY') }}
+            </p>
+            <p
+              id="crm-settings-currency-hint"
+              class="text-label-small text-n-slate-11"
+            >
+              {{
+                settings.currency_locked
+                  ? t('CRM.SETTINGS.CURRENCY_LOCKED')
+                  : t('CRM.SETTINGS.CURRENCY_HINT')
+              }}
+            </p>
+          </div>
           <Select
             :model-value="settings.default_currency"
             :options="currencyOptions"
-            :aria-label="t('CRM.SETTINGS.DEFAULT_CURRENCY')"
-            class="w-32"
+            :disabled="settings.currency_locked"
+            :aria-label="t('CRM.SETTINGS.CURRENCY')"
+            aria-describedby="crm-settings-currency-hint"
+            class="w-32 shrink-0"
             @update:model-value="v => saveSetting({ default_currency: v })"
+          />
+        </div>
+
+        <h3 class="mt-6 mb-1 text-heading-3 text-n-slate-12">
+          {{ t('CRM.SETTINGS.REPORTS_HEADING') }}
+        </h3>
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Input
+            v-model="staleDays"
+            inputmode="numeric"
+            :label="t('CRM.SETTINGS.STALE_DAYS')"
+            :message="t('CRM.SETTINGS.STALE_DAYS_HINT')"
+            @blur="saveThreshold('stale_days', staleDays)"
+          />
+          <Input
+            v-model="coverageMultiple"
+            inputmode="decimal"
+            :label="t('CRM.SETTINGS.COVERAGE')"
+            :message="t('CRM.SETTINGS.COVERAGE_HINT')"
+            @blur="saveThreshold('coverage_multiple', coverageMultiple)"
           />
         </div>
       </section>
 
       <LostReasonsEditor v-if="activeTab === 'lost_reasons'" />
 
+      <template v-if="activeTab === 'lists'">
+        <ListItemsEditor v-for="list in DEAL_LISTS" :key="list" :list="list" />
+      </template>
+
+      <TargetsEditor v-if="activeTab === 'targets'" />
+
       <template v-if="activeTab === 'pipelines'">
         <PipelineEditor
           v-for="pipeline in pipelines"
           :key="pipeline.id"
           :pipeline="pipeline"
-          :currencies="settings.currencies"
           :stage-deal-counts="stageDealCounts"
           :is-saving="pipelineFlags.isSaving"
           :can-delete="pipelines.length > 1 && !pipeline.deals_count"

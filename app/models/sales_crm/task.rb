@@ -10,6 +10,8 @@ class SalesCrm::Task < ApplicationRecord
   belongs_to :conversation, optional: true
 
   enum status: { open: 0, done: 1 }
+  # What kind of follow-up it is, for the activity reports
+  enum kind: { task: 0, call: 1, meeting: 2 }
 
   validates :title, presence: true, length: { maximum: TITLE_MAX }
   validates :description, length: { maximum: 5000 }

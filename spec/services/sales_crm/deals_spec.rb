@@ -11,7 +11,8 @@ RSpec.describe SalesCrm::Deals do
 
   def create_deal(attrs = {})
     SalesCrm::Deals::Create.new(account: account, user: user)
-                           .perform({ title: 'باقة 50 الف', amount: '50000', pipeline_id: pipeline.id, stage_id: qualified.id }.merge(attrs))
+                           .perform({ title: 'باقة 50 الف', amount: '50000', close_date: Date.current + 30, pipeline_id: pipeline.id,
+                                      stage_id: qualified.id }.merge(attrs))
   end
 
   describe SalesCrm::Deals::Create do
@@ -158,7 +159,7 @@ RSpec.describe SalesCrm::Deals do
       expect(result[:deals].map(&:title)).to eq(['باقة ذهبية'])
 
       all = described_class.new(account: account, user: user).perform(account.crm_deals.kept, pipeline: pipeline)
-      expect(all[:counts][qualified.id]).to eq(count: 2, total_cents: 10_000_000)
+      expect(all[:counts][qualified.id]).to eq(count: 2, total_cents: 10_000_000, weighted_cents: 2_500_000)
       expect(all[:counts][won.id][:count]).to eq(1)
       expect(all[:total]).to eq(3)
     end

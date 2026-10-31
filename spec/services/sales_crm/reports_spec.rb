@@ -12,7 +12,8 @@ RSpec.describe SalesCrm::Reports do
   def make(title, amount, assignee, created_at: Time.utc(2026, 10, 5))
     travel_to(created_at) do
       SalesCrm::Deals::Create.new(account: account, user: admin)
-                             .perform(title: title, amount: amount, pipeline_id: pipeline.id, assignee_id: assignee.id)
+                             .perform(title: title, amount: amount, close_date: Date.new(2026, 10, 30), pipeline_id: pipeline.id,
+                                      assignee_id: assignee.id)
     end
   end
 

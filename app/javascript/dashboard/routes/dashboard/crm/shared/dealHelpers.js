@@ -1,5 +1,26 @@
 // Custom (MyDesk): pure helpers for the deal form, the pipeline editor and error handling
-import { parseAmount } from 'dashboard/helper/crmFormat';
+import { parseAmount, toWesternDigits } from 'dashboard/helper/crmFormat';
+
+// The managed lists a deal takes a value from, and the deal field each fills
+export const DEAL_LISTS = [
+  'lead_source',
+  'product',
+  'competitor',
+  'region',
+  'industry',
+];
+export const listField = list => `${list}_id`;
+
+// Set by the employee, or empty for the one derived from the probability
+export const FORECAST_CATEGORIES = [
+  'pipeline',
+  'best_case',
+  'commit',
+  'omitted',
+];
+
+const emptyLists = () =>
+  Object.fromEntries(DEAL_LISTS.map(list => [listField(list), '']));
 
 export const emptyDealForm = (overrides = {}) => ({
   title: '',
@@ -12,6 +33,9 @@ export const emptyDealForm = (overrides = {}) => ({
   close_date: '',
   description: '',
   priority: 'medium',
+  forecast_category: '',
+  probability_override: '',
+  ...emptyLists(),
   conversation_id: null,
   lock_version: undefined,
   ...overrides,
@@ -32,19 +56,25 @@ export const dealToForm = deal =>
     close_date: deal.close_date || '',
     description: deal.description || '',
     priority: deal.priority || 'medium',
+    forecast_category: deal.forecast_category || '',
+    probability_override: deal.probability_override ?? '',
+    ...Object.fromEntries(
+      DEAL_LISTS.map(list => [listField(list), deal[listField(list)] ?? ''])
+    ),
     conversation_id: deal.conversation_id,
     lock_version: deal.lock_version,
   });
 
-// { errors: { title, amount }, valid }
-export const validateDeal = form => {
+// { errors: { title, amount, close_date }, valid }. An open deal needs an amount above zero and an expected close
+// date (the server holds the same rule); a deal created straight into won or lost does not.
+export const validateDeal = (form, { open = true } = {}) => {
   const errors = {};
   if (!String(form.title || '').trim()) errors.title = 'TITLE_REQUIRED';
-  if (
-    String(form.amount ?? '').trim() !== '' &&
-    parseAmount(form.amount) === null
-  )
-    errors.amount = 'AMOUNT_INVALID';
+  const amountText = String(form.amount ?? '').trim();
+  const cents = parseAmount(form.amount);
+  if (amountText !== '' && cents === null) errors.amount = 'AMOUNT_INVALID';
+  else if (open && !(cents > 0)) errors.amount = 'AMOUNT_REQUIRED';
+  if (open && !form.close_date) errors.close_date = 'CLOSE_DATE_REQUIRED';
   return { errors, valid: Object.keys(errors).length === 0 };
 };
 
@@ -68,6 +98,18 @@ export const buildDealPayload = form => {
     close_date: form.close_date || null,
     description: form.description || '',
     priority: form.priority || 'medium',
+    // Empty puts the deal back on the category derived from the probability, and on the stage's probability
+    forecast_category: form.forecast_category || null,
+    probability_override:
+      String(form.probability_override ?? '').trim() === ''
+        ? null
+        : toWesternDigits(String(form.probability_override).trim()),
+    ...Object.fromEntries(
+      DEAL_LISTS.map(list => [
+        listField(list),
+        form[listField(list)] ? Number(form[listField(list)]) : null,
+      ])
+    ),
     conversation_id: form.conversation_id || undefined,
     lock_version: form.lock_version,
   };

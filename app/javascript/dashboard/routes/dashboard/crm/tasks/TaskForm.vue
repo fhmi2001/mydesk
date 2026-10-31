@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import Select from 'dashboard/components-next/select/Select.vue';
 import AgentPicker from '../shared/AgentPicker.vue';
 import ContactPicker from '../shared/ContactPicker.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
@@ -27,12 +28,18 @@ const form = ref({});
 const titleError = ref('');
 const isEdit = computed(() => Boolean(props.task));
 
+const TASK_KINDS = ['task', 'call', 'meeting'];
+const kindOptions = computed(() =>
+  TASK_KINDS.map(kind => ({ value: kind, label: t(`CRM.TASKS.KINDS.${kind}`) }))
+);
+
 const reset = () => {
   titleError.value = '';
   const tz = timezone.value;
   if (props.task) {
     form.value = {
       title: props.task.title,
+      kind: props.task.kind || 'task',
       description: props.task.description || '',
       due_local: toLocalInputValue(props.task.due_at, tz),
       assignee_id: props.task.assignee?.id ?? null,
@@ -45,6 +52,7 @@ const reset = () => {
   }
   form.value = {
     title: '',
+    kind: props.presets.kind || 'task',
     description: '',
     due_local: '',
     assignee_id: props.presets.assignee_id ?? null,
@@ -72,6 +80,7 @@ const submit = () => {
     isEdit: isEdit.value,
     payload: {
       title: form.value.title.trim(),
+      kind: form.value.kind || 'task',
       description: form.value.description,
       due_at: fromLocalInputValue(form.value.due_local, timezone.value),
       assignee_id: form.value.assignee_id || null,
@@ -106,11 +115,23 @@ defineExpose({ open, close });
         :message-type="titleError ? 'error' : 'info'"
         autofocus
       />
-      <Input
-        v-model="form.due_local"
-        type="datetime-local"
-        :label="t('CRM.TASKS.FORM.DUE_AT')"
-      />
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-[10rem_minmax(0,1fr)]">
+        <div class="flex flex-col gap-1">
+          <span class="text-heading-3 text-n-slate-12" aria-hidden="true">
+            {{ t('CRM.TASKS.FORM.KIND') }}
+          </span>
+          <Select
+            v-model="form.kind"
+            :options="kindOptions"
+            :aria-label="t('CRM.TASKS.FORM.KIND')"
+          />
+        </div>
+        <Input
+          v-model="form.due_local"
+          type="datetime-local"
+          :label="t('CRM.TASKS.FORM.DUE_AT')"
+        />
+      </div>
       <!-- The pickers render buttons, not inputs, so each field is a labelled group -->
       <div
         class="flex flex-col gap-1"

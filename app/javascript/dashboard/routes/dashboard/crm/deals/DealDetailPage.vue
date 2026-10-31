@@ -15,8 +15,14 @@ import CrmUnavailable from '../shared/CrmUnavailable.vue';
 import StatusBadge from '../shared/StatusBadge.vue';
 import PriorityBadge from '../shared/PriorityBadge.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
-import { apiErrorMessage, isStale, isUnavailable } from '../shared/dealHelpers';
-import DealForm from './DealForm.vue';
+import {
+  apiErrorMessage,
+  isStale,
+  isUnavailable,
+  DEAL_LISTS,
+  listField,
+} from '../shared/dealHelpers';
+import { useCrmLists } from '../shared/useCrmLists';
 import LostReasonDialog from './LostReasonDialog.vue';
 import DealActivityList from './DealActivityList.vue';
 import DealNotes from './DealNotes.vue';
@@ -33,7 +39,6 @@ const { money, date, dateTime } = useCrmFormat();
 const pipelines = useMapGetter('crm/pipelines/all');
 const isAdmin = useMapGetter('crm/status/isAdmin');
 const currentUser = useMapGetter('getCurrentUser');
-const flags = useMapGetter('crm/deals/getUIFlags');
 
 const deal = ref(null);
 const notes = ref([]);
@@ -43,7 +48,6 @@ const isLoading = ref(true);
 const isUnavailableState = ref(false);
 const isStaleState = ref(false);
 const isSavingNote = ref(false);
-const dealForm = ref(null);
 const lostDialog = ref(null);
 const taskForm = ref(null);
 const deleteDialog = ref(null);
@@ -85,7 +89,11 @@ const load = async () => {
   }
 };
 
-onMounted(load);
+const lists = useCrmLists();
+onMounted(() => {
+  load();
+  lists.load();
+});
 watch(() => route.params.dealId, load);
 
 const handleError = error => {
@@ -96,16 +104,8 @@ const handleError = error => {
   useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));
 };
 
-const onEdit = async ({ payload, id }) => {
-  try {
-    deal.value = await store.dispatch('crm/deals/update', { id, ...payload });
-    dealForm.value?.close();
-    useAlert(t('CRM.DEALS.FORM.SAVED'));
-    load();
-  } catch (error) {
-    handleError(error);
-  }
-};
+const openEdit = () =>
+  router.push(accountScopedRoute('crm_deal_edit', { dealId: deal.value.id }));
 
 const moveTo = async (stageId, lostReason, lostNote) => {
   try {
@@ -366,7 +366,7 @@ const contactRoute = computed(() =>
             size="sm"
             variant="faded"
             icon="i-lucide-pencil"
-            @click="dealForm?.open()"
+            @click="openEdit"
           />
           <Button
             v-if="canDelete"
@@ -470,6 +470,59 @@ const contactRoute = computed(() =>
               </div>
               <div>
                 <dt class="text-n-slate-11">
+                  {{ t('CRM.DEALS.FORM.PROBABILITY') }}
+                </dt>
+                <dd class="text-n-slate-12 tabular-nums">
+                  {{ deal.probability }}%
+                  <span class="text-label-small text-n-slate-11">
+                    {{
+                      deal.probability_override === null
+                        ? t('CRM.DEALS.DETAIL.FROM_STAGE')
+                        : t('CRM.DEALS.DETAIL.SET_ON_DEAL')
+                    }}
+                  </span>
+                </dd>
+              </div>
+              <div v-if="deal.status === 'open'">
+                <dt class="text-n-slate-11">
+                  {{ t('CRM.DEALS.FORM.FORECAST_CATEGORY') }}
+                </dt>
+                <dd class="text-n-slate-12">
+                  {{
+                    t(`CRM.DEALS.FORECAST.${deal.effective_forecast_category}`)
+                  }}
+                  <span
+                    v-if="!deal.forecast_category"
+                    class="text-label-small text-n-slate-11"
+                  >
+                    {{ t('CRM.DEALS.DETAIL.AUTO') }}
+                  </span>
+                </dd>
+              </div>
+              <template v-for="list in DEAL_LISTS" :key="list">
+                <div v-if="deal[listField(list)]">
+                  <dt class="text-n-slate-11">
+                    {{ t(`CRM.LISTS.${list}`) }}
+                  </dt>
+                  <dd class="text-n-slate-12">
+                    {{ lists.nameOf(list, deal[listField(list)]) || '—' }}
+                  </dd>
+                </div>
+              </template>
+              <div>
+                <dt class="text-n-slate-11">
+                  {{ t('CRM.DEALS.DETAIL.LAST_ACTIVITY') }}
+                </dt>
+                <dd class="text-n-slate-12">
+                  {{
+                    deal.last_activity_at
+                      ? dateTime(deal.last_activity_at)
+                      : '—'
+                  }}
+                </dd>
+              </div>
+              <div>
+                <dt class="text-n-slate-11">
                   {{ t('CRM.DEALS.DETAIL.SOURCE') }}
                 </dt>
                 <dd class="text-n-slate-12">
@@ -515,13 +568,6 @@ const contactRoute = computed(() =>
         </div>
       </div>
 
-      <DealForm
-        ref="dealForm"
-        :pipelines="pipelines"
-        :deal="deal"
-        :is-saving="flags.isSaving"
-        @submit="onEdit"
-      />
       <LostReasonDialog ref="lostDialog" @confirm="onLostConfirm" />
       <TaskForm ref="taskForm" :presets="taskPresets" @submit="onTaskSubmit" />
       <Dialog

@@ -12,8 +12,9 @@ class SalesCrm::Pipelines::Create < SalesCrm::BaseService
 
   private
 
-  def currency_for(currency)
-    (currency.presence || SalesCrm::Pipelines::EnsureDefault.default_currency(account)).upcase
+  # The Sales section has one currency (its general settings); a pipeline never picks its own
+  def currency_for(_currency)
+    SalesCrm::Pipelines::EnsureDefault.default_currency(account)
   end
 
   def stage_rows(stages)

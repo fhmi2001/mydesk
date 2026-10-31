@@ -3,7 +3,7 @@ ar:
   sales_crm:
     default_pipeline: المبيعات
     errors:
-      currency_locked: لا يمكن تغيير العملة ما دام في المسار صفقات
+      currency_locked: لا يمكن تغيير العملة بعد إضافة صفقات
       lost_reason_required: يجب ذكر سبب الخسارة
       stage_has_deals: في هذه المرحلة صفقات؛ اختر مرحلة لنقلها إليها
       last_pipeline: لا يمكن حذف المسار الوحيد
@@ -11,6 +11,17 @@ ar:
       stage_required: المرحلة مطلوبة
       invalid_stage: المرحلة لا تنتمي لهذا المسار
       invalid_priority: الأولوية يجب أن تكون منخفض أو متوسط أو مهم
+      amount_required: أدخل قيمة الصفقة، فهي مطلوبة للصفقة المفتوحة
+      close_date_required: أدخل تاريخ الإغلاق المتوقع، فهو مطلوب للصفقة المفتوحة
+      owner_required: الصفقة المفتوحة يجب أن يكون لها مسؤول
+      invalid_list_item: القيمة المختارة ليست من قائمتها
+      invalid_forecast_category: فئة التوقع يجب أن تكون خط أنابيب أو محتمل أو مؤكد أو مستبعد
+      invalid_probability: الاحتمالية رقم من 0 إلى 100
+      invalid_task_kind: نوع المهمة يجب أن يكون مهمة أو مكالمة أو اجتماع
+      invalid_month: الشهر غير صحيح
+      invalid_list: القائمة غير معروفة
+      invalid_stale_days: حد الركود عدد أيام من 1 إلى 365
+      invalid_coverage: معيار التغطية رقم من 0.5 إلى 20
       not_closed: الصفقة مفتوحة أصلاً
       invalid_amount: القيمة ليست رقماً صحيحاً
       invalid_currency: العملة غير مدعومة
@@ -19,6 +30,7 @@ ar:
       created: أُنشئت الصفقة
       stage_changed: تغيّرت المرحلة
       amount_changed: تغيّرت القيمة
+      close_date_changed: تغيّر تاريخ الإغلاق المتوقع
       assignee_changed: تغيّر المسؤول
       priority_changed: تغيّرت الأولوية
       won: كُسبت الصفقة
