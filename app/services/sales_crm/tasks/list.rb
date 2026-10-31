@@ -35,7 +35,7 @@ class SalesCrm::Tasks::List < SalesCrm::BaseService
   end
 
   def admin?
-    account.account_users.find_by(user_id: user.id)&.administrator?
+    SalesCrm::Visibility.admin?(account, user)
   end
 
   def apply_kind(relation, kind, now)

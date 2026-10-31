@@ -40,12 +40,6 @@ const filters = useMapGetter('crm/deals/filters');
 const flags = useMapGetter('crm/deals/getUIFlags');
 const allLoaded = useMapGetter('crm/deals/allLoaded');
 const isAdmin = useMapGetter('crm/status/isAdmin');
-const crmSettings = useMapGetter('crm/status/settings');
-// Team money is for administrators: an agent who sees the whole team's board gets the cards but no sums
-// (the server leaves them out too). With "own deals only" on, the sums are the agent's own and stay.
-const showMoney = computed(
-  () => isAdmin.value || crmSettings.value?.agents_see_own_deals_only === true
-);
 
 const view = ref('board'); // board | table | discarded
 const search = ref('');
@@ -301,7 +295,9 @@ const goToSettings = () =>
           class="max-sm:!px-2 max-sm:[&>span.truncate]:sr-only"
           @click="goToSettings"
         />
+        <!-- Exporting is for the manager; the server refuses anyone else -->
         <Button
+          v-if="isAdmin"
           :label="t('CRM.DEALS.EXPORT')"
           :title="t('CRM.DEALS.EXPORT')"
           variant="faded"
@@ -386,7 +382,7 @@ const goToSettings = () =>
     </div>
 
     <p
-      v-if="showMoney && summary && view === 'board'"
+      v-if="summary && view === 'board'"
       class="px-6 pb-3 text-body-main text-n-slate-11 tabular-nums"
       dir="auto"
     >
@@ -434,7 +430,6 @@ const goToSettings = () =>
         :pipeline="pipeline"
         :deals-for-stage="dealsForStage"
         :counts="counts"
-        :show-money="showMoney"
         :loading-stage-id="loadingStageId"
         @move="onMove"
         @open="openDeal"

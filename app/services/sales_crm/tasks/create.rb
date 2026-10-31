@@ -5,10 +5,10 @@ class SalesCrm::Tasks::Create < SalesCrm::BaseService
   def perform(params)
     params = params.to_h.symbolize_keys.slice(*PERMITTED)
     ActiveRecord::Base.transaction do
-      deal = params[:deal_id].present? ? account.crm_deals.find(params[:deal_id]) : nil
+      deal = params[:deal_id].present? ? SalesCrm::Visibility.deals(account, user).find(params[:deal_id]) : nil
       task = account.crm_tasks.create!(attributes(params, deal))
       log(deal, 'task_added', task_id: task.id, title: task.title) if deal
-      broadcast('crm.task_created', id: task.id, assignee_id: task.assignee_id, deal_id: task.deal_id)
+      broadcast('crm.task_created', { id: task.id, assignee_id: task.assignee_id, deal_id: task.deal_id }, to: task_audience(task))
       task
     end
   end

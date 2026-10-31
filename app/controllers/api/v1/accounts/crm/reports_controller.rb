@@ -1,4 +1,4 @@
-# Custom (MyDesk): sales reports; agents only ever get their own numbers (see Reports::Base)
+# Custom (MyDesk): sales reports; employees only ever get their own numbers (Reports::Base), and only administrators export
 class Api::V1::Accounts::Crm::ReportsController < Api::V1::Accounts::Crm::BaseController
   def summary = render(json: report(SalesCrm::Reports::Summary).perform)
   def funnel = render(json: report(SalesCrm::Reports::Funnel).perform)
@@ -12,6 +12,7 @@ class Api::V1::Accounts::Crm::ReportsController < Api::V1::Accounts::Crm::BaseCo
   end
 
   def export
+    authorize SalesCrm::Deal, :export?, policy_class: SalesCrm::ReportPolicy
     csv = report(SalesCrm::Reports::Export).perform
     send_data "﻿#{csv}", type: 'text/csv; charset=utf-8', filename: "deals-#{params[:from]}-#{params[:to]}.csv"
   end

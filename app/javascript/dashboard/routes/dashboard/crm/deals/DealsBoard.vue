@@ -13,7 +13,6 @@ const props = defineProps({
   dealsForStage: { type: Function, required: true },
   counts: { type: Object, default: () => ({}) },
   // false for an agent on the team board: the column footers (team sums) are not shown
-  showMoney: { type: Boolean, default: true },
   loadingStageId: { type: [Number, String], default: null },
 });
 const emit = defineEmits(['move', 'open', 'add', 'loadMore']);
@@ -127,7 +126,6 @@ const weighted = column =>
         <!-- The column's numbers stay pinned under its cards: the total, then what it is worth at the
              stage's win probability (won counts in full, lost counts for nothing) -->
         <footer
-          v-if="showMoney"
           class="px-4 py-2.5 border-t border-n-weak text-label-small text-n-slate-11 tabular-nums"
         >
           <dl class="flex flex-col gap-1">

@@ -1,6 +1,6 @@
-# Custom (MyDesk): shared filters for sales reports. Dates are days in the account's time zone. Team numbers are
-# for administrators only: anyone else always gets their own deals, whatever assignee they ask for and whatever
-# the "agents see own deals only" setting says (that setting is about the deals board, not the reports).
+# Custom (MyDesk): shared filters for sales reports. Dates are days in the account's time zone. Every report reads its
+# deals through SalesCrm::Visibility: team numbers are for administrators, and an employee always gets their own
+# deals, whatever assignee they ask for.
 class SalesCrm::Reports::Base < SalesCrm::BaseService
   SECONDS_PER_DAY = 86_400
 
@@ -26,11 +26,11 @@ class SalesCrm::Reports::Base < SalesCrm::BaseService
   private
 
   def admin?
-    account.account_users.find_by(user_id: user.id)&.administrator?
+    SalesCrm::Visibility.admin?(account, user)
   end
 
   def deals
-    relation = account.crm_deals.kept
+    relation = SalesCrm::Visibility.deals(account, user)
     relation = relation.where(pipeline_id: pipeline.id) if pipeline
     relation = relation.where(assignee_id: assignee_id) if assignee_id
     relation

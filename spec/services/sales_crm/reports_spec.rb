@@ -57,8 +57,7 @@ RSpec.describe SalesCrm::Reports do
     expect(cur[:lost_count]).to eq(1)
   end
 
-  it 'never gives an agent team numbers: not by asking for another assignee, not with the own-deals setting off' do
-    account.update!(crm_agents_see_own_deals_only: false)
+  it 'never gives an agent team numbers, not even by asking for another assignee' do
     cur = SalesCrm::Reports::Summary.new(account: account, user: agent, from: from, to: to, assignee_id: admin.id).perform[:current]
     expect(cur).to include(won_count: 1, lost_count: 1)
     rows = SalesCrm::Reports::Agents.new(account: account, user: agent, from: from, to: to).perform

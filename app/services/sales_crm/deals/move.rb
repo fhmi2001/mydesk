@@ -15,8 +15,8 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
       apply_status(deal, stage, lost_reason, lost_note)
       deal.save!
       log_move(deal, stage, from_stage_id)
-      broadcast('crm.deal_moved', id: deal.id, stage_id: stage.id, position: deal.position, pipeline_id: deal.pipeline_id,
-                                  from_stage_id: from_stage_id)
+      broadcast('crm.deal_moved', { id: deal.id, stage_id: stage.id, position: deal.position, pipeline_id: deal.pipeline_id,
+                                    from_stage_id: from_stage_id }, to: deal.assignee_id)
       deal
     end
   end

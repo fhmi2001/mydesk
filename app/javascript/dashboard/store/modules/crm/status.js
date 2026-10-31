@@ -13,7 +13,6 @@ const initialState = () => ({
   isAdmin: false,
   overdueCount: 0,
   settings: {
-    agents_see_own_deals_only: false,
     default_currency: 'SAR',
     timezone: 'Asia/Riyadh',
   },

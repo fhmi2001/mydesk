@@ -5,7 +5,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
 
   def index
     result = service(SalesCrm::Deals::Search).perform(deals_scope, pipeline: @pipeline, **search_filters)
-    render json: { deals: present_deals(result[:deals]), counts: visible_counts(result[:counts]), total: result[:total],
+    render json: { deals: present_deals(result[:deals]), counts: result[:counts], total: result[:total],
                    page: result[:page], per_stage_limit: SalesCrm::Deals::Search::BOARD_PER_STAGE }
   end
 
@@ -27,12 +27,14 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
 
   def create
     authorize SalesCrm::Deal
+    check_reassign
     deal = service(SalesCrm::Deals::Create).perform(deal_params)
     render json: SalesCrm::Presenter.deal(deal)
   end
 
   def update
     authorize @deal
+    check_reassign(@deal)
     render json: SalesCrm::Presenter.deal(service(SalesCrm::Deals::Update).perform(@deal, deal_params))
   end
 
@@ -75,26 +77,21 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
     @deal = deals_scope.find(params[:id])
   end
 
-  # Team money is for administrators. An agent may see the whole team's deals (when "own deals only" is off), but
-  # not their sums: the board's column totals are dropped, and the forecast only ever covers the agent's own deals.
-  def team_money?
-    Current.account_user&.administrator?
+  # Handing a deal to someone else is for administrators (decision ج). An employee creates deals for themselves and
+  # keeps them; leaving the owner out on create means "me".
+  def check_reassign(deal = nil)
+    return unless deal_params.key?(:assignee_id)
+
+    requested = deal_params[:assignee_id].presence&.to_i
+    keeps = deal ? requested == deal.assignee_id : [nil, Current.user.id].include?(requested)
+    authorize(deal || SalesCrm::Deal, :reassign?) unless keeps
   end
 
-  def visible_counts(counts)
-    return counts if team_money? || own_deals_only?
-
-    counts.transform_values { |c| c.except(:total_cents, :weighted_cents) }
-  end
-
-  def own_deals_only?
-    ActiveModel::Type::Boolean.new.cast(Current.account.crm_agents_see_own_deals_only) == true
-  end
-
+  # deals_scope is already the employee's own deals; an administrator may narrow the forecast to one employee
   def forecast_scope
-    return deals_scope.where(assignee_id: Current.user.id) unless team_money?
+    return deals_scope unless Current.account_user&.administrator? && params[:assignee_id].present?
 
-    params[:assignee_id].present? ? deals_scope.where(assignee_id: params[:assignee_id]) : deals_scope
+    deals_scope.where(assignee_id: params[:assignee_id])
   end
 
   def search_filters

@@ -15,13 +15,17 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
       assign_list_items(deal, params)
       require_open_essentials!(deal)
       deal.save!
-      log(deal, 'created', stage_id: stage.id)
-      broadcast('crm.deal_created', id: deal.id, stage_id: stage.id, pipeline_id: pipeline.id)
+      announce(deal)
       deal
     end
   end
 
   private
+
+  def announce(deal)
+    log(deal, 'created', stage_id: deal.stage_id)
+    broadcast('crm.deal_created', { id: deal.id, stage_id: deal.stage_id, pipeline_id: deal.pipeline_id }, to: deal.assignee_id)
+  end
 
   def stage_for(pipeline, stage_id)
     stage = stage_id.present? ? find_stage!(pipeline, stage_id) : pipeline.first_open_stage

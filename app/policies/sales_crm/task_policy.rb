@@ -1,4 +1,4 @@
-# Custom (MyDesk): tasks are visible to everyone in the account; only the creator or an administrator deletes one
+# Custom (MyDesk): which tasks someone sees comes from SalesCrm::Visibility; only the creator or an administrator deletes one
 class SalesCrm::TaskPolicy < ApplicationPolicy
   def index? = true
   def show? = true
@@ -10,7 +10,7 @@ class SalesCrm::TaskPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      account.crm_tasks
+      SalesCrm::Visibility.tasks(account, user)
     end
   end
 end

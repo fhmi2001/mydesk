@@ -18,7 +18,7 @@ module SalesCrmAccount
     has_many :crm_list_items, class_name: 'SalesCrm::ListItem', dependent: :delete_all
     has_many :crm_targets, class_name: 'SalesCrm::Target', dependent: :delete_all
 
-    store_accessor :settings, :crm_agents_see_own_deals_only, :crm_default_currency, :crm_stale_days, :crm_coverage_multiple
+    store_accessor :settings, :crm_default_currency, :crm_stale_days, :crm_coverage_multiple
   end
 
   # The one currency of the account's Sales section

@@ -48,23 +48,15 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
       expect(response.parsed_body).to include('open_count' => 1, 'expected_cents' => 500_000)
     end
 
-    it 'an agent who sees the team board gets no team money: no column totals, a forecast of their own deals' do
+    it 'an employee board and forecast hold only their own deals, with their own totals' do
       deal_for(agent)
       deal_for(admin, amount: '30000')
       get "#{base}/deals", params: { pipeline_id: pipeline.id }, headers: agent.create_new_auth_token, as: :json
-      expect(response.parsed_body['deals'].size).to eq(2)
-      expect(response.parsed_body['counts'][pipeline.first_open_stage.id.to_s]).to eq('count' => 2)
-      get "#{base}/deals/forecast", params: { pipeline_id: pipeline.id, assignee_id: admin.id }, headers: agent.create_new_auth_token, as: :json
-      expect(response.parsed_body).to include('open_count' => 1, 'open_total_cents' => 5_000_000)
-    end
-
-    it 'an agent limited to their own deals still gets their own column totals' do
-      account.update!(crm_agents_see_own_deals_only: true)
-      deal_for(agent)
-      deal_for(admin)
-      get "#{base}/deals", params: { pipeline_id: pipeline.id }, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body['deals'].size).to eq(1)
       expect(response.parsed_body['counts'][pipeline.first_open_stage.id.to_s])
         .to eq('count' => 1, 'total_cents' => 5_000_000, 'weighted_cents' => 500_000)
+      get "#{base}/deals/forecast", params: { pipeline_id: pipeline.id, assignee_id: admin.id }, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body).to include('open_count' => 1, 'open_total_cents' => 5_000_000)
     end
 
     it 'cannot read another account deal: 404 from scoping, and outsiders get 401' do
@@ -76,8 +68,7 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
       expect(response).to have_http_status(:not_found)
     end
 
-    it 'agent with own-deals-only cannot see or move others deals' do
-      account.update!(crm_agents_see_own_deals_only: true)
+    it 'an employee cannot see or move a colleague deal' do
       theirs = deal_for(admin)
       get "#{base}/deals/#{theirs.id}", headers: agent.create_new_auth_token, as: :json
       expect(response).to have_http_status(:not_found)
@@ -90,7 +81,7 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
     it 'agent cannot write pipelines or settings' do
       patch "#{base}/pipelines/#{pipeline.id}", params: { name: 'x' }, headers: agent.create_new_auth_token, as: :json
       expect(response).to have_http_status(:unauthorized)
-      patch "#{base}/settings", params: { settings: { agents_see_own_deals_only: true } }, headers: agent.create_new_auth_token, as: :json
+      patch "#{base}/settings", params: { settings: { stale_days: 10 } }, headers: agent.create_new_auth_token, as: :json
       expect(response).to have_http_status(:unauthorized)
     end
 
@@ -193,9 +184,9 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
     end
 
     it 'settings update by admin' do
-      patch "#{base}/settings", params: { settings: { agents_see_own_deals_only: true, default_currency: 'aed' } },
-                                headers: admin.create_new_auth_token, as: :json
-      expect(response.parsed_body).to include('agents_see_own_deals_only' => true, 'default_currency' => 'AED')
+      patch "#{base}/settings", params: { settings: { default_currency: 'aed' } }, headers: admin.create_new_auth_token, as: :json
+      expect(response.parsed_body).to include('default_currency' => 'AED')
+      expect(response.parsed_body).not_to have_key('agents_see_own_deals_only')
       patch "#{base}/settings", params: { settings: { default_currency: 'XXX' } }, headers: admin.create_new_auth_token, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
     end

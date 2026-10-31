@@ -212,7 +212,9 @@ const exportCsv = async () => {
       :subtitle="t('CRM.REPORTS.SUBTITLE')"
     >
       <template #actions>
+        <!-- Exporting is for the manager (gap-analysis.md, question 5); the server refuses anyone else -->
         <Button
+          v-if="isAdmin"
           :label="t('CRM.REPORTS.EXPORT')"
           variant="faded"
           size="sm"

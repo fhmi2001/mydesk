@@ -157,7 +157,8 @@
         "FORECAST_HEADING": "Classification and forecast",
         "REQUIRED_NOTE": "Fields marked * are required for open deals.",
         "AMOUNT_IN": "Amount ({currency})",
-        "REPORT_FIELDS_HINT": "Optional; used to group deals in reports."
+        "REPORT_FIELDS_HINT": "Optional; used to group deals in reports.",
+        "ASSIGNEE_ADMIN_ONLY": "Only the manager can hand a deal to someone else."
       },
       "LOST_DIALOG": {
         "TITLE": "Why was this deal lost?",
@@ -401,8 +402,6 @@
       "DELETE_PIPELINE_CONFIRM": "Delete this pipeline? Only empty pipelines can be deleted.",
       "SAVED": "Pipeline saved",
       "DELETED": "Pipeline deleted",
-      "OWN_DEALS_ONLY": "Agents see only their own deals",
-      "OWN_DEALS_ONLY_HINT": "Administrators always see every deal.",
       "DEFAULT_CURRENCY": "Default currency for new pipelines",
       "ADMIN_ONLY": "Only administrators can change sales settings.",
       "LOST_REASONS": "Lost reasons",

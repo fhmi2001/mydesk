@@ -14,7 +14,8 @@ class SalesCrm::Deals::Update < SalesCrm::BaseService
       require_open_essentials!(deal)
       deal.save!
       log_changes(deal, before)
-      broadcast('crm.deal_updated', id: deal.id, stage_id: deal.stage_id, pipeline_id: deal.pipeline_id)
+      broadcast('crm.deal_updated', { id: deal.id, stage_id: deal.stage_id, pipeline_id: deal.pipeline_id },
+                to: [deal.assignee_id, before[:assignee_id]])
       deal
     end
   end

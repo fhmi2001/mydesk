@@ -19,26 +19,21 @@ RSpec.describe SalesCrm::DealPolicy do
     described_class::Scope.new(context_for(user), SalesCrm::Deal).resolve
   end
 
-  it 'agents see every deal by default' do
-    expect(scope_for(agent)).to contain_exactly(mine, theirs, unassigned_by_me)
-    expect(described_class.new(context_for(agent), theirs).update?).to be(true)
+  it 'an employee sees only the deals they own, never a colleague or an unowned one' do
+    expect(scope_for(agent)).to contain_exactly(mine)
+    policy = described_class.new(context_for(agent), theirs)
+    expect([policy.show?, policy.update?, policy.move?, policy.reopen?]).to all(be(false))
+    expect(described_class.new(context_for(agent), unassigned_by_me).show?).to be(false)
   end
 
-  context 'when the account limits agents to their own deals' do
-    before { account.update!(crm_agents_see_own_deals_only: true) }
+  it 'administrators see and change everything' do
+    expect(scope_for(admin)).to contain_exactly(mine, theirs, unassigned_by_me)
+    expect(described_class.new(context_for(admin), theirs).update?).to be(true)
+  end
 
-    it 'hides other agents deals from the scope and from show/update/move' do
-      expect(scope_for(agent)).to contain_exactly(mine, unassigned_by_me)
-      policy = described_class.new(context_for(agent), theirs)
-      expect(policy.show?).to be(false)
-      expect(policy.update?).to be(false)
-      expect(policy.move?).to be(false)
-    end
-
-    it 'still shows everything to administrators' do
-      expect(scope_for(admin)).to contain_exactly(mine, theirs, unassigned_by_me)
-      expect(described_class.new(context_for(admin), theirs).update?).to be(true)
-    end
+  it 'only administrators hand a deal to someone else' do
+    expect(described_class.new(context_for(agent), mine).reassign?).to be(false)
+    expect(described_class.new(context_for(admin), mine).reassign?).to be(true)
   end
 
   it 'destroy is for administrators or the assignee' do

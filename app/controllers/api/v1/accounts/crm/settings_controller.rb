@@ -1,4 +1,4 @@
-# Custom (MyDesk): account-level CRM settings (administrators): who sees which deals, the Sales section's one currency
+# Custom (MyDesk): account-level CRM settings (administrators): the Sales section's one currency
 # (changeable only while there are no deals), and the report thresholds (stale days, pipeline coverage multiple)
 class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseController
   before_action :check_admin
@@ -8,10 +8,7 @@ class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseC
   end
 
   def update
-    attrs = params.require(:settings).permit(:agents_see_own_deals_only, :default_currency, :stale_days, :coverage_multiple)
-    if attrs.key?(:agents_see_own_deals_only)
-      Current.account.crm_agents_see_own_deals_only = ActiveModel::Type::Boolean.new.cast(attrs[:agents_see_own_deals_only]) == true
-    end
+    attrs = params.require(:settings).permit(:default_currency, :stale_days, :coverage_multiple)
     assign_thresholds(attrs)
     Current.account.save!
     SalesCrm::Currency.change!(Current.account, attrs[:default_currency]) if attrs.key?(:default_currency)
@@ -45,8 +42,7 @@ class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseC
 
   def settings_json
     account = Current.account
-    { agents_see_own_deals_only: ActiveModel::Type::Boolean.new.cast(account.crm_agents_see_own_deals_only) == true,
-      default_currency: account.crm_currency, currencies: SalesCrm::Pipeline::CURRENCIES,
+    { default_currency: account.crm_currency, currencies: SalesCrm::Pipeline::CURRENCIES,
       currency_locked: SalesCrm::Currency.locked?(account),
       stale_days: account.crm_stale_days_value, coverage_multiple: account.crm_coverage_multiple_value }
   end

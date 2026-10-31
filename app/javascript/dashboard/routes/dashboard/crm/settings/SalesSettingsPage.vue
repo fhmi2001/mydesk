@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): Sales > Settings (administrators), one tab each: General (visibility, the Sales currency, the
+// Custom (MyDesk): Sales > Settings (administrators), one tab each: General (the Sales currency, the
 // report thresholds), Lost reasons, Lists (lead source, product, competitor, region, industry), Targets, Pipelines.
 // The tab is kept in ?tab= so links (e.g. "Edit pipeline") can open the right one.
 import { ref, computed, onMounted } from 'vue';
@@ -9,7 +9,6 @@ import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -43,7 +42,6 @@ const pipelineFlags = useMapGetter('crm/pipelines/getUIFlags');
 const isAdmin = useMapGetter('crm/status/isAdmin');
 
 const settings = ref({
-  agents_see_own_deals_only: false,
   default_currency: 'SAR',
   currencies: [],
   currency_locked: false,
@@ -193,34 +191,8 @@ const confirmDelete = async () => {
         <h2 id="crm-settings-general" class="sr-only">
           {{ t('CRM.SETTINGS.TABS.general') }}
         </h2>
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <p
-              id="crm-settings-own-deals"
-              class="text-body-main text-n-slate-12"
-            >
-              {{ t('CRM.SETTINGS.OWN_DEALS_ONLY') }}
-            </p>
-            <p
-              id="crm-settings-own-deals-hint"
-              class="text-label-small text-n-slate-11"
-            >
-              {{ t('CRM.SETTINGS.OWN_DEALS_ONLY_HINT') }}
-            </p>
-          </div>
-          <Switch
-            :model-value="settings.agents_see_own_deals_only"
-            aria-labelledby="crm-settings-own-deals"
-            aria-describedby="crm-settings-own-deals-hint"
-            @change="
-              saveSetting({
-                agents_see_own_deals_only: !settings.agents_see_own_deals_only,
-              })
-            "
-          />
-        </div>
         <!-- One currency for the whole Sales section; amounts are never converted, so it locks once deals exist -->
-        <div class="flex items-start justify-between gap-4 mt-4">
+        <div class="flex items-start justify-between gap-4">
           <div>
             <p class="text-body-main text-n-slate-12" aria-hidden="true">
               {{ t('CRM.SETTINGS.CURRENCY') }}

@@ -43,6 +43,8 @@ const lists = useCrmLists();
 const pipelines = useMapGetter('crm/pipelines/all');
 const flags = useMapGetter('crm/deals/getUIFlags');
 const crmSettings = useMapGetter('crm/status/settings');
+const isAdmin = useMapGetter('crm/status/isAdmin');
+const currentUser = useMapGetter('getCurrentUser');
 
 const dealId = computed(() => route.params.dealId);
 const isEdit = computed(() => Boolean(dealId.value));
@@ -124,7 +126,10 @@ const presetForm = () => {
       null,
     contact_id: queryNumber('contact_id'),
     contact_name: route.query.contact_name || '',
-    assignee_id: queryNumber('assignee_id'),
+    // Only the manager hands a deal to someone else; an employee's new deal is theirs
+    assignee_id: isAdmin.value
+      ? queryNumber('assignee_id')
+      : currentUser.value?.id || null,
     conversation_id: queryNumber('conversation_id'),
   });
 };
@@ -363,8 +368,12 @@ const save = async () => {
               <AgentPicker
                 v-model="form.assignee_id"
                 class="w-full [&_select]:w-full"
+                :disabled="!isAdmin"
                 :aria-label="t('CRM.DEALS.FORM.ASSIGNEE')"
               />
+              <p v-if="!isAdmin" class="text-label-small text-n-slate-11">
+                {{ t('CRM.DEALS.FORM.ASSIGNEE_ADMIN_ONLY') }}
+              </p>
             </div>
           </div>
           <TextArea

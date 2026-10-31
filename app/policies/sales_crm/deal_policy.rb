@@ -1,5 +1,5 @@
-# Custom (MyDesk): who may see and change deals. Administrators see everything; agents see every deal unless
-# the account turns on "agents see only their own deals", and may delete only deals assigned to them.
+# Custom (MyDesk): who may see and change deals (SalesCrm::Visibility): administrators see and change everything;
+# an employee sees, edits and deletes only the deals they own, and only an administrator hands a deal to someone else.
 class SalesCrm::DealPolicy < ApplicationPolicy
   def index? = true
   def show? = visible?
@@ -10,6 +10,7 @@ class SalesCrm::DealPolicy < ApplicationPolicy
   def restore? = administrator?
   def destroy? = administrator? || record.assignee_id == user.id
   def forecast? = true
+  def reassign? = administrator?
 
   private
 
@@ -17,22 +18,13 @@ class SalesCrm::DealPolicy < ApplicationPolicy
     account_user&.administrator?
   end
 
-  def own_only?
-    !administrator? && ActiveModel::Type::Boolean.new.cast(account.crm_agents_see_own_deals_only) == true
-  end
-
   def visible?
-    return true unless own_only?
-
-    record.assignee_id == user.id || (record.assignee_id.nil? && record.creator_id == user.id)
+    administrator? || record.assignee_id == user.id
   end
 
   class Scope < Scope
     def resolve
-      base = account.crm_deals.kept
-      return base if account_user&.administrator? || ActiveModel::Type::Boolean.new.cast(account.crm_agents_see_own_deals_only) != true
-
-      base.where(assignee_id: user.id).or(base.where(assignee_id: nil, creator_id: user.id))
+      SalesCrm::Visibility.deals(account, user)
     end
   end
 end

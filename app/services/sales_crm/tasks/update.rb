@@ -9,7 +9,7 @@ class SalesCrm::Tasks::Update < SalesCrm::BaseService
       assign_due(task, params[:due_at]) if params.key?(:due_at)
       assign_links(task, params)
       task.save!
-      broadcast('crm.task_updated', id: task.id, assignee_id: task.assignee_id, deal_id: task.deal_id)
+      broadcast('crm.task_updated', { id: task.id, assignee_id: task.assignee_id, deal_id: task.deal_id }, to: task_audience(task))
       task
     end
   end
@@ -31,6 +31,6 @@ class SalesCrm::Tasks::Update < SalesCrm::BaseService
   def assign_links(task, params)
     task.assignee = params[:assignee_id].present? ? account.users.find(params[:assignee_id]) : nil if params.key?(:assignee_id)
     task.contact = params[:contact_id].present? ? account.contacts.find(params[:contact_id]) : nil if params.key?(:contact_id)
-    task.deal = params[:deal_id].present? ? account.crm_deals.find(params[:deal_id]) : nil if params.key?(:deal_id)
+    task.deal = params[:deal_id].present? ? SalesCrm::Visibility.deals(account, user).find(params[:deal_id]) : nil if params.key?(:deal_id)
   end
 end

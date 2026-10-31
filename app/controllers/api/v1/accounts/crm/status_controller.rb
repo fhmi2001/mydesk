@@ -14,8 +14,7 @@ class Api::V1::Accounts::Crm::StatusController < Api::V1::Accounts::Crm::BaseCon
       is_admin: Current.account_user&.administrator? || false,
       overdue_count: service(SalesCrm::Tasks::List).overdue_count(tasks_scope),
       settings: {
-        agents_see_own_deals_only: ActiveModel::Type::Boolean.new.cast(Current.account.crm_agents_see_own_deals_only) == true,
-        default_currency: Current.account.crm_default_currency.presence || 'SAR',
+        default_currency: Current.account.crm_currency,
         timezone: SalesCrm::TimeZone.for(Current.account).tzinfo.name
       }
     }

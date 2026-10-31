@@ -47,7 +47,7 @@ RSpec.describe SalesCrm::Tasks do
   describe SalesCrm::Tasks::Create do
     it 'defaults the assignee to the actor, inherits the deal contact and logs task_added' do
       contact = create(:contact, account: account)
-      deal = create(:crm_deal, account: account, contact: contact)
+      deal = create(:crm_deal, account: account, contact: contact, assignee: agent)
       task = described_class.new(account: account, user: agent).perform(title: 'اتصل', deal_id: deal.id, due_at: 1.day.from_now)
       expect(task.assignee).to eq(agent)
       expect(task.creator).to eq(agent)

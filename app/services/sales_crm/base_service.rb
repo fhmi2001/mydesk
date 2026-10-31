@@ -75,8 +75,12 @@ class SalesCrm::BaseService
     SalesCrm::ActivityLog.record(deal: deal, kind: kind, user: user, data: data)
   end
 
-  def broadcast(event, payload)
-    SalesCrm::Broadcast.call(account, event, payload)
+  def broadcast(event, payload, to: [])
+    SalesCrm::Broadcast.call(account, event, payload, to: to)
+  end
+
+  def task_audience(task)
+    [task.assignee_id, task.creator_id, task.deal&.assignee_id]
   end
 
   # Decimal (or Arabic-digit) amount string to cents; nil stays nil
