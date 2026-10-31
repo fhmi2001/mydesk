@@ -1,5 +1,6 @@
-# Custom (MyDesk): shared filters for sales reports. Dates are days in the account's time zone; agents who are
-# not administrators only ever see their own deals.
+# Custom (MyDesk): shared filters for sales reports. Dates are days in the account's time zone. Team numbers are
+# for administrators only: anyone else always gets their own deals, whatever assignee they ask for and whatever
+# the "agents see own deals only" setting says (that setting is about the deals board, not the reports).
 class SalesCrm::Reports::Base < SalesCrm::BaseService
   SECONDS_PER_DAY = 86_400
 

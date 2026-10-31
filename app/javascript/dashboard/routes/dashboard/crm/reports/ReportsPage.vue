@@ -222,6 +222,16 @@ const exportCsv = async () => {
       </template>
     </CrmPageHeader>
 
+    <!-- Employees only ever get their own numbers (the server scopes them, see Reports::Base); say so, so a
+         single row is not read as the whole company's -->
+    <p
+      v-if="!isAdmin"
+      class="flex items-center gap-2 px-6 pb-4 text-body-main text-n-slate-11"
+    >
+      <span class="i-lucide-user-round size-4 shrink-0" aria-hidden="true" />
+      {{ t('CRM.REPORTS.OWN_ONLY') }}
+    </p>
+
     <!-- Each select carries its caption as aria-label: the captions are not <label for> targets -->
     <div class="flex flex-wrap items-end gap-3 px-6 pb-4">
       <div class="flex flex-col gap-1">
@@ -445,7 +455,11 @@ const exportCsv = async () => {
         class="p-5 overflow-x-auto rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
       >
         <h2 class="mb-4 text-heading-3 text-n-slate-12">
-          {{ t('CRM.REPORTS.AGENTS.TITLE') }}
+          {{
+            isAdmin
+              ? t('CRM.REPORTS.AGENTS.TITLE')
+              : t('CRM.REPORTS.AGENTS.MINE')
+          }}
         </h2>
         <table v-if="agents.length" class="w-full text-body-main">
           <thead>

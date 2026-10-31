@@ -5,8 +5,8 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
 
   def index
     result = service(SalesCrm::Deals::Search).perform(deals_scope, pipeline: @pipeline, **search_filters)
-    render json: { deals: present_deals(result[:deals]), counts: result[:counts], total: result[:total], page: result[:page],
-                   per_stage_limit: SalesCrm::Deals::Search::BOARD_PER_STAGE }
+    render json: { deals: present_deals(result[:deals]), counts: visible_counts(result[:counts]), total: result[:total],
+                   page: result[:page], per_stage_limit: SalesCrm::Deals::Search::BOARD_PER_STAGE }
   end
 
   def discarded
@@ -75,7 +75,25 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
     @deal = deals_scope.find(params[:id])
   end
 
+  # Team money is for administrators. An agent may see the whole team's deals (when "own deals only" is off), but
+  # not their sums: the board's column totals are dropped, and the forecast only ever covers the agent's own deals.
+  def team_money?
+    Current.account_user&.administrator?
+  end
+
+  def visible_counts(counts)
+    return counts if team_money? || own_deals_only?
+
+    counts.transform_values { |c| c.except(:total_cents) }
+  end
+
+  def own_deals_only?
+    ActiveModel::Type::Boolean.new.cast(Current.account.crm_agents_see_own_deals_only) == true
+  end
+
   def forecast_scope
+    return deals_scope.where(assignee_id: Current.user.id) unless team_money?
+
     params[:assignee_id].present? ? deals_scope.where(assignee_id: params[:assignee_id]) : deals_scope
   end
 

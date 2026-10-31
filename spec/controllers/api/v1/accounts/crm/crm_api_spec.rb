@@ -38,13 +38,31 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
 
     it 'board index returns deals, per-stage counts and the forecast' do
       deal_for(agent)
-      get "#{base}/deals", params: { pipeline_id: pipeline.id }, headers: agent.create_new_auth_token, as: :json
+      get "#{base}/deals", params: { pipeline_id: pipeline.id }, headers: admin.create_new_auth_token, as: :json
       body = response.parsed_body
       expect(body['deals'].size).to eq(1)
       expect(body['deals'].first).to include('title' => 'باقة', 'amount' => '50000.00', 'currency' => 'SAR')
       expect(body['counts'][pipeline.first_open_stage.id.to_s]).to eq('count' => 1, 'total_cents' => 5_000_000)
-      get "#{base}/deals/forecast", params: { pipeline_id: pipeline.id }, headers: agent.create_new_auth_token, as: :json
+      get "#{base}/deals/forecast", params: { pipeline_id: pipeline.id }, headers: admin.create_new_auth_token, as: :json
       expect(response.parsed_body).to include('open_count' => 1, 'expected_cents' => 500_000)
+    end
+
+    it 'an agent who sees the team board gets no team money: no column totals, a forecast of their own deals' do
+      deal_for(agent)
+      deal_for(admin, amount: '30000')
+      get "#{base}/deals", params: { pipeline_id: pipeline.id }, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body['deals'].size).to eq(2)
+      expect(response.parsed_body['counts'][pipeline.first_open_stage.id.to_s]).to eq('count' => 2)
+      get "#{base}/deals/forecast", params: { pipeline_id: pipeline.id, assignee_id: admin.id }, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body).to include('open_count' => 1, 'open_total_cents' => 5_000_000)
+    end
+
+    it 'an agent limited to their own deals still gets their own column totals' do
+      account.update!(crm_agents_see_own_deals_only: true)
+      deal_for(agent)
+      deal_for(admin)
+      get "#{base}/deals", params: { pipeline_id: pipeline.id }, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body['counts'][pipeline.first_open_stage.id.to_s]).to eq('count' => 1, 'total_cents' => 5_000_000)
     end
 
     it 'cannot read another account deal: 404 from scoping, and outsiders get 401' do

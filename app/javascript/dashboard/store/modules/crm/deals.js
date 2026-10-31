@@ -49,13 +49,14 @@ const shiftCounts = (_state, from, to) => {
   const add = (deal, sign) => {
     if (!deal) return;
     const current = counts[deal.stage_id] || { count: 0, total_cents: 0 };
-    counts[deal.stage_id] = {
-      count: Math.max(0, current.count + sign),
-      total_cents: Math.max(
+    const next = { ...current, count: Math.max(0, current.count + sign) };
+    // An agent on the team board gets counts without money; keep it that way
+    if ('total_cents' in current)
+      next.total_cents = Math.max(
         0,
         current.total_cents + sign * (deal.amount_cents || 0)
-      ),
-    };
+      );
+    counts[deal.stage_id] = next;
   };
   add(from, -1);
   add(to, 1);

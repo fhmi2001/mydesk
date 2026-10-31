@@ -275,6 +275,7 @@
         "month": "Monthly"
       },
       "VS_PREVIOUS": "vs previous period",
+      "OWN_ONLY": "These reports show your own deals only. Team numbers are for administrators.",
       "DELTA_NOTE": "▲▼ change vs the previous period of the same length.",
       "UPDATING": "Updating…",
       "SUMMARY": {
@@ -300,6 +301,7 @@
       },
       "AGENTS": {
         "TITLE": "Agent performance",
+        "MINE": "My performance",
         "AGENT": "Agent",
         "OPEN": "Open",
         "WON": "Won",

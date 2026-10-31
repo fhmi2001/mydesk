@@ -165,4 +165,15 @@ describe('crm/deals store', () => {
     mutations[types.UPSERT_LOADED](s, d(8, 10, 300));
     expect(s.counts[10]).toEqual({ count: 2, total_cents: 500 });
   });
+
+  it('keeps counts without money (an agent on the team board) without money', () => {
+    const s = JSON.parse(JSON.stringify(baseState));
+    mutations[types.SET_BOARD](s, {
+      deals: [{ ...deal(1, 10, 1), amount_cents: 1000 }],
+      counts: { 10: { count: 1 }, 20: { count: 0 } },
+    });
+    mutations[types.PLACE](s, { id: 1, stageId: 20, position: 0 });
+    expect(s.counts[10]).toEqual({ count: 0 });
+    expect(s.counts[20]).toEqual({ count: 1 });
+  });
 });
