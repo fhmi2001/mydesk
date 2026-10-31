@@ -1,0 +1,88 @@
+# Custom (MyDesk): نصوص المبيعات (CRM) من جهة الخادم
+ar:
+  sales_crm:
+    default_pipeline: المبيعات
+    errors:
+      currency_locked: لا يمكن تغيير العملة ما دام في المسار صفقات
+      lost_reason_required: يجب ذكر سبب الخسارة
+      stage_has_deals: في هذه المرحلة صفقات؛ اختر مرحلة لنقلها إليها
+      last_pipeline: لا يمكن حذف المسار الوحيد
+      pipeline_has_deals: انقل صفقات المسار أو احذفها أولاً
+      stage_required: المرحلة مطلوبة
+      invalid_stage: المرحلة لا تنتمي لهذا المسار
+      not_closed: الصفقة مفتوحة أصلاً
+      invalid_amount: القيمة ليست رقماً صحيحاً
+      invalid_currency: العملة غير مدعومة
+      not_found: غير موجود
+    activities:
+      created: أُنشئت الصفقة
+      stage_changed: تغيّرت المرحلة
+      amount_changed: تغيّرت القيمة
+      assignee_changed: تغيّر المسؤول
+      won: كُسبت الصفقة
+      lost: خُسرت الصفقة
+      reopened: أُعيد فتح الصفقة
+      note_added: أُضيفت ملاحظة
+      task_added: أُضيفت مهمة
+      task_done: أُنجزت مهمة
+      discarded: حُذفت الصفقة
+      restored: استُعيدت الصفقة
+    export:
+      title: العنوان
+      amount: القيمة
+      currency: العملة
+      pipeline: المسار
+      stage: المرحلة
+      status: الحالة
+      contact: العميل
+      assignee: المسؤول
+      close_date: الإغلاق المتوقع
+      won_at: تاريخ الفوز
+      lost_at: تاريخ الخسارة
+      lost_reason: سبب الخسارة
+      created_at: تاريخ الإنشاء
+  super_admin:
+    navigation:
+      crm: CRM
+    crm:
+      description: الحسابات المفعّل عندها CRM المبيعات، وعرض للقراءة فقط لصفقاتها. يُفعَّل لكل حساب من صفحة الحساب.
+      enabled_count: 'مفعّل لـ %{count} حساب'
+      all_deals: صفقات كل التجار
+      all_deals_description: كل صفقات التجار في مكان واحد. كل فتح لهذه الصفحة يُسجَّل في سجل المراجعة.
+      accounts: الحسابات
+      deals: الصفقات
+      deal: الصفقة
+      notes: الملاحظات
+      activity: سجل النشاط
+      totals: الإجماليات لكل تاجر
+      enabled: مفعّل
+      disabled: متوقف
+      toggle_hint: المميزات
+      view_deals: الصفقات
+      empty: لا توجد صفقات تطابق هذه الفلاتر.
+      columns:
+        account: التاجر
+        status: الحالة
+        deals: الصفقات
+        open_tasks: المهام المفتوحة
+        title: العنوان
+        amount: القيمة
+        stage: المرحلة
+        assignee: المسؤول
+        updated: آخر تحديث
+        won_value: القيمة المكسوبة
+        contact: العميل
+        close_date: الإغلاق المتوقع
+        lost_reason: سبب الخسارة
+        source: المصدر
+        created: تاريخ الإنشاء
+      statuses:
+        open: مفتوحة
+        won: مكسوبة
+        lost: خاسرة
+      filters:
+        all_accounts: كل التجار
+        all_statuses: كل الحالات
+        from: من
+        to: إلى
+        apply: تطبيق

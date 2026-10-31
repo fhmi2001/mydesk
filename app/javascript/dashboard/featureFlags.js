@@ -7,6 +7,7 @@ export const FEATURE_FLAGS = {
   AUTO_TRANSLATE: 'auto_translate',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
+  SALES_CRM: 'sales_crm', // Custom (MyDesk)
   CAMPAIGN_ANALYTICS: 'campaign_analytics',
   WHATSAPP_EMBEDDED_SIGNUP_FLOW: 'whatsapp_embedded_signup_inbox_creation',
   WHATSAPP_MANUAL_TRANSFER: 'whatsapp_manual_transfer',

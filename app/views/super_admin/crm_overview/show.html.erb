@@ -1,0 +1,43 @@
+<%# Custom (MyDesk): Super Admin > Monitor > CRM: accounts and whether the Sales CRM is on for them %>
+<% scope = "super_admin.crm" %>
+<% content_for(:title) { t("super_admin.navigation.crm") } %>
+
+<%= render "section", title: t("super_admin.navigation.crm"), description: t("#{scope}.description"), icon: "i-lucide-briefcase" do %>
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <p class="text-body-main text-n-slate-11"><%= t("#{scope}.enabled_count", count: @enabled_count) %></p>
+    <%= link_to t("#{scope}.all_deals"), super_admin_crm_overview_deals_path,
+                class: "inline-flex items-center gap-2 rounded-lg bg-n-brand px-3 py-2 text-sm font-medium text-white hover:bg-n-brand/90" %>
+  </div>
+
+  <%= render "card", title: t("#{scope}.accounts"), count: @accounts.total_count do %>
+    <table class="w-full text-start text-body-main">
+      <thead class="text-label-small uppercase text-n-slate-10">
+        <tr>
+          <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.account") %></th>
+          <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.status") %></th>
+          <th class="px-5 py-2 text-end"><%= t("#{scope}.columns.deals") %></th>
+          <th class="px-5 py-2 text-end"><%= t("#{scope}.columns.open_tasks") %></th>
+          <th class="px-5 py-2"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-n-weak">
+        <% @rows.each do |row| %>
+          <tr>
+            <td class="px-5 py-3"><%= link_to row[:account].name, super_admin_account_path(row[:account]), class: "text-n-blue-11 hover:underline" %>
+              <span class="text-n-slate-10">#<%= row[:account].id %></span></td>
+            <td class="px-5 py-3"><%= render "badge", label: t("#{scope}.#{row[:enabled] ? 'enabled' : 'disabled'}"), tone: row[:enabled] ? :success : :neutral %></td>
+            <td class="px-5 py-3 text-end tabular-nums"><%= number_with_delimiter(row[:deals]) %></td>
+            <td class="px-5 py-3 text-end tabular-nums"><%= number_with_delimiter(row[:open_tasks]) %></td>
+            <td class="px-5 py-3 text-end">
+              <%= link_to t("#{scope}.toggle_hint"), edit_super_admin_account_path(row[:account]), class: "text-label-small text-n-slate-11 hover:underline" %>
+              <% if row[:deals].positive? %>
+                · <%= link_to t("#{scope}.view_deals"), super_admin_crm_overview_deals_path(account_id: row[:account].id), class: "text-label-small text-n-blue-11 hover:underline" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="px-5 py-3"><%= paginate @accounts %></div>
+  <% end %>
+<% end %>

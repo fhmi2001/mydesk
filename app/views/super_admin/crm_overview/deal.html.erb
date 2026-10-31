@@ -1,0 +1,45 @@
+<%# Custom (MyDesk): Super Admin > Monitor > CRM > one deal (read-only, audited) %>
+<% scope = "super_admin.crm" %>
+<% content_for(:title) { @deal.title } %>
+
+<%= render "section", title: @deal.title, description: "#{@deal.account.name} · #{@deal.pipeline.name} · #{@deal.stage.name}", icon: "i-lucide-briefcase" do %>
+  <%= link_to t("#{scope}.all_deals"), super_admin_crm_overview_deals_path(account_id: @deal.account_id), class: "mb-3 inline-flex items-center gap-1.5 text-body-main text-n-slate-11 hover:text-n-slate-12" %>
+  <%= render "card", title: t("#{scope}.deal") do %>
+    <dl class="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+      <% [[t("#{scope}.columns.amount"), "#{number_with_precision(@deal.amount, precision: 2, delimiter: ',')} #{@deal.currency}"],
+          [t("#{scope}.columns.status"), t("#{scope}.statuses.#{@deal.status}")],
+          [t("#{scope}.columns.contact"), @deal.display_contact_name.presence || "—"],
+          [t("#{scope}.columns.assignee"), @deal.assignee&.name || "—"],
+          [t("#{scope}.columns.close_date"), @deal.close_date || "—"],
+          [t("#{scope}.columns.lost_reason"), @deal.lost_reason.presence || "—"],
+          [t("#{scope}.columns.source"), @deal.source],
+          [t("#{scope}.columns.created"), l(@deal.created_at, format: :long)]].each do |label, value| %>
+        <div class="flex items-baseline justify-between gap-4 border-b border-n-weak px-5 py-3">
+          <dt class="text-body-main text-n-slate-11"><%= label %></dt>
+          <dd class="text-body-main text-n-slate-12"><%= value %></dd>
+        </div>
+      <% end %>
+    </dl>
+    <% if @deal.description.present? %><p class="px-5 py-3 whitespace-pre-wrap text-body-main"><%= @deal.description %></p><% end %>
+  <% end %>
+
+  <%= render "card", title: t("#{scope}.notes"), count: @deal.notes.size do %>
+    <ul class="divide-y divide-n-weak">
+      <% @deal.notes.each do |note| %>
+        <li class="px-5 py-3"><p class="whitespace-pre-wrap text-body-main"><%= note.content %></p>
+          <p class="mt-1 text-label-small text-n-slate-11"><%= note.user&.name || "—" %> · <%= time_ago_in_words(note.created_at) %></p></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= render "card", title: t("#{scope}.activity"), count: @deal.activities.size do %>
+    <ul class="divide-y divide-n-weak">
+      <% @deal.activities.each do |activity| %>
+        <li class="flex items-baseline justify-between gap-4 px-5 py-2 text-body-main">
+          <span><%= t("sales_crm.activities.#{activity.kind}") %> <span class="text-n-slate-11"><%= activity.user&.name %></span></span>
+          <span class="text-label-small text-n-slate-11"><%= l(activity.created_at, format: :short) %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

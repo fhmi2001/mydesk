@@ -44,7 +44,9 @@ class Notification < ApplicationRecord
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
     sla_missed_resolution: 8,
-    voice_call_missed: 9
+    voice_call_missed: 9,
+    # Custom (MyDesk): Sales CRM task reminder (bit 20, well clear of upstream additions)
+    crm_task_due: 20
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -100,6 +102,9 @@ class Notification < ApplicationRecord
       'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
     }
 
+    # Custom (MyDesk): the task is the secondary actor; the conversation it points at is the primary one
+    return I18n.t('notifications.notification_title.crm_task_due', title: secondary_actor&.title) if notification_type == 'crm_task_due'
+
     i18n_key = notification_title_map[notification_type]
     return '' unless i18n_key
 
@@ -122,6 +127,8 @@ class Notification < ApplicationRecord
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body((conversation.messages.incoming.last || conversation.messages.outgoing.last))
+    when 'crm_task_due' # Custom (MyDesk): the task is the secondary actor
+      secondary_actor.try(:title).to_s
     else
       ''
     end

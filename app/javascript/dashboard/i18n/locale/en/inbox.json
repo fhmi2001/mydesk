@@ -38,6 +38,7 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message",
       "VOICE_CALL_MISSED": "Missed call",
+      "CRM_TASK_DUE": "Task due",
       "SNOOZED_UNTIL": "Snoozed for {time}",
       "SNOOZED_ENDS": "Snooze ended"
     },
