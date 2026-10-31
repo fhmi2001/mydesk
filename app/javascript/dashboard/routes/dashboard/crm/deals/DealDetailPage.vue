@@ -105,12 +105,13 @@ const onEdit = async ({ payload, id }) => {
   }
 };
 
-const moveTo = async (stageId, lostReason) => {
+const moveTo = async (stageId, lostReason, lostNote) => {
   try {
     deal.value = await store.dispatch('crm/deals/move', {
       id: deal.value.id,
       stageId,
       lostReason,
+      lostNote,
       lockVersion: deal.value.lock_version,
     });
     load();
@@ -122,9 +123,9 @@ const moveTo = async (stageId, lostReason) => {
 const markWon = () =>
   moveTo(pipeline.value?.stages.find(s => s.kind === 'won')?.id);
 const markLost = () => lostDialog.value?.open();
-const onLostConfirm = reason => {
+const onLostConfirm = ({ reason, note }) => {
   lostDialog.value?.close();
-  moveTo(pipeline.value?.stages.find(s => s.kind === 'lost')?.id, reason);
+  moveTo(pipeline.value?.stages.find(s => s.kind === 'lost')?.id, reason, note);
 };
 const reopen = async () => {
   try {
@@ -299,6 +300,12 @@ const contactRoute = computed(() =>
                 reason: deal.lost_reason,
               })
             }}
+          </p>
+          <p
+            v-if="deal.status === 'lost' && deal.lost_note"
+            class="mt-1 text-sm whitespace-pre-wrap text-n-slate-11"
+          >
+            {{ deal.lost_note }}
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2">

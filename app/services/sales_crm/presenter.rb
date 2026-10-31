@@ -29,7 +29,8 @@ module SalesCrm::Presenter
   end
 
   def deal_outcome(deal)
-    { close_date: deal.close_date, lost_reason: deal.lost_reason, won_at: deal.won_at, lost_at: deal.lost_at, discarded_at: deal.discarded_at }
+    { close_date: deal.close_date, lost_reason: deal.lost_reason, lost_note: deal.lost_note, won_at: deal.won_at, lost_at: deal.lost_at,
+      discarded_at: deal.discarded_at }
   end
 
   def task(task, now: Time.current)

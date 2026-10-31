@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_31_130000) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_31_150000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1171,6 +1171,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_130000) do
     t.datetime "discarded_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "lost_note"
     t.index ["account_id", "assignee_id", "status"], name: "index_crm_deals_on_account_id_and_assignee_id_and_status"
     t.index ["account_id", "close_date"], name: "index_crm_deals_on_account_id_and_close_date"
     t.index ["account_id", "contact_id"], name: "index_crm_deals_on_account_id_and_contact_id"
@@ -1180,6 +1181,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_130000) do
     t.index ["account_id", "status", "won_at"], name: "index_crm_deals_on_account_id_and_status_and_won_at"
     t.index ["conversation_id"], name: "index_crm_deals_on_conversation_id"
     t.check_constraint "amount_cents >= 0", name: "crm_deals_amount_non_negative"
+  end
+
+  create_table "crm_lost_reasons", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_crm_lost_reasons_on_account_id_and_name", unique: true
+    t.index ["account_id", "position"], name: "index_crm_lost_reasons_on_account_id_and_position"
   end
 
   create_table "crm_notes", force: :cascade do |t|
@@ -2023,6 +2034,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_130000) do
   add_foreign_key "crm_deals", "crm_stages", column: "stage_id"
   add_foreign_key "crm_deals", "users", column: "assignee_id", on_delete: :nullify
   add_foreign_key "crm_deals", "users", column: "creator_id", on_delete: :nullify
+  add_foreign_key "crm_lost_reasons", "accounts", on_delete: :cascade
   add_foreign_key "crm_notes", "crm_deals", column: "deal_id", on_delete: :cascade
   add_foreign_key "crm_notes", "users", on_delete: :nullify
   add_foreign_key "crm_pipelines", "accounts", on_delete: :cascade

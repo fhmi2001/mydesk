@@ -32,7 +32,9 @@ const describe = activity => {
   return t(`CRM.DEALS.ACTIVITY.${activity.kind}`, {
     stage: props.stagesById[data.to_stage_id]?.name || '—',
     amount: money(data.to, props.currency),
-    reason: data.reason || '',
+    reason: data.note
+      ? `${data.reason || ''} (${data.note})`
+      : data.reason || '',
     title: data.title || '',
   });
 };

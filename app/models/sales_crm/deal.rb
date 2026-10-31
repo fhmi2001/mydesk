@@ -22,6 +22,7 @@ class SalesCrm::Deal < ApplicationRecord
   validates :title, presence: true, length: { maximum: TITLE_MAX }
   validates :amount_cents, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_AMOUNT_CENTS }
   validates :lost_reason, length: { maximum: 200 }
+  validates :lost_note, length: { maximum: 2000 }
   validates :currency, inclusion: { in: SalesCrm::Pipeline::CURRENCIES }
 
   scope :kept, -> { where(discarded_at: nil) }

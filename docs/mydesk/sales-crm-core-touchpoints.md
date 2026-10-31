@@ -36,4 +36,4 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 1. Turn `sales_crm` off for every account (Super Admin > account > Features).
 2. Delete the folders listed at the top, `app/models/concerns/sales_crm_account.rb`, `config/initializers/sales_crm.rb` and `docs/mydesk/sales-crm-core-touchpoints.md`.
 3. Revert the marked lines in the table above.
-4. Add a migration that drops `crm_activities, crm_notes, crm_tasks, crm_deals, crm_stages, crm_pipelines` (in that order).
+4. Delete notifications of type 20 (`crm_task_due`), then add a migration that drops `crm_lost_reasons, crm_activities, crm_notes, crm_tasks, crm_deals, crm_stages, crm_pipelines` (in that order).

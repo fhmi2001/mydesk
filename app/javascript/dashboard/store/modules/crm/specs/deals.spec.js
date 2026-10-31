@@ -55,6 +55,7 @@ describe('crm/deals store', () => {
       stage_id: 20,
       position: 1,
       lost_reason: undefined,
+      lost_note: undefined,
       lock_version: 0,
     });
   });
@@ -109,6 +110,7 @@ describe('crm/deals store', () => {
     expect(crmDealsAPI.move).toHaveBeenCalledWith(42, {
       stage_id: 20,
       lost_reason: 'x',
+      lost_note: undefined,
       lock_version: 2,
     });
     expect(result.lock_version).toBe(3);

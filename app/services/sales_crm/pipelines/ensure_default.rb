@@ -10,6 +10,7 @@ class SalesCrm::Pipelines::EnsureDefault
   ].freeze
 
   def self.call(account)
+    SalesCrm::LostReason.ensure_defaults!(account)
     existing = account.crm_pipelines.first
     return existing if existing
 

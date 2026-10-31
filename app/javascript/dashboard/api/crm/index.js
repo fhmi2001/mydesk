@@ -143,6 +143,28 @@ class CrmReportsAPI extends ApiClient {
   }
 }
 
+class CrmLostReasonsAPI extends ApiClient {
+  constructor() {
+    super('crm/lost_reasons', { accountScoped: true });
+  }
+
+  get() {
+    return axios.get(this.url);
+  }
+
+  create(name) {
+    return axios.post(this.url, { name });
+  }
+
+  update(id, name) {
+    return axios.patch(`${this.url}/${id}`, { name });
+  }
+
+  reorder(ids) {
+    return axios.patch(`${this.url}/reorder`, { ids });
+  }
+}
+
 class CrmSettingsAPI extends ApiClient {
   constructor() {
     super('crm/settings', { accountScoped: true });
@@ -164,3 +186,4 @@ export const crmTasksAPI = new CrmTasksAPI();
 export const crmContactSummaryAPI = new CrmContactSummaryAPI();
 export const crmReportsAPI = new CrmReportsAPI();
 export const crmSettingsAPI = new CrmSettingsAPI();
+export const crmLostReasonsAPI = new CrmLostReasonsAPI();

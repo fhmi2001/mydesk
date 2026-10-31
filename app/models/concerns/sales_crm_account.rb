@@ -10,6 +10,7 @@ module SalesCrmAccount
     has_many :crm_deals, class_name: 'SalesCrm::Deal', dependent: :delete_all
     has_many :crm_stages, class_name: 'SalesCrm::Stage', dependent: :delete_all
     has_many :crm_pipelines, class_name: 'SalesCrm::Pipeline', dependent: :delete_all
+    has_many :crm_lost_reasons, class_name: 'SalesCrm::LostReason', dependent: :delete_all
 
     store_accessor :settings, :crm_agents_see_own_deals_only, :crm_default_currency
   end

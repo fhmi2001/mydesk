@@ -39,6 +39,7 @@ en:
       close_date: Expected close
       won_at: Won at
       lost_at: Lost at
+      lost_note: Lost notes
       lost_reason: Lost reason
       created_at: Created at
   super_admin:

@@ -39,6 +39,7 @@ ar:
       close_date: الإغلاق المتوقع
       won_at: تاريخ الفوز
       lost_at: تاريخ الخسارة
+      lost_note: ملاحظات الخسارة
       lost_reason: سبب الخسارة
       created_at: تاريخ الإنشاء
   super_admin:

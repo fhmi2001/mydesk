@@ -1,7 +1,10 @@
 <script setup>
-// Custom (MyDesk): Sales > Settings (administrators): pipelines and stages, team visibility, default currency
+// Custom (MyDesk): Sales > Settings (administrators), one tab each: General (visibility, default currency),
+// Lost reasons, Pipelines. The tab is kept in ?tab= so links (e.g. "Edit pipeline") can open the right one.
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -13,9 +16,23 @@ import { crmSettingsAPI, crmDealsAPI } from 'dashboard/api/crm';
 import CrmPageHeader from '../shared/CrmPageHeader.vue';
 import { apiErrorMessage } from '../shared/dealHelpers';
 import PipelineEditor from './PipelineEditor.vue';
+import LostReasonsEditor from './LostReasonsEditor.vue';
 
 const { t } = useI18n();
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+const TABS = ['general', 'lost_reasons', 'pipelines'];
+const activeTab = computed(() =>
+  TABS.includes(route.query.tab) ? route.query.tab : 'general'
+);
+const tabs = computed(() =>
+  TABS.map(key => ({ key, label: t(`CRM.SETTINGS.TABS.${key}`) }))
+);
+const activeTabIndex = computed(() => TABS.indexOf(activeTab.value));
+const onTab = tab =>
+  router.replace({ query: { ...route.query, tab: tab.key } });
 
 const pipelines = useMapGetter('crm/pipelines/all');
 const pipelineFlags = useMapGetter('crm/pipelines/getUIFlags');
@@ -120,7 +137,7 @@ const confirmDelete = async () => {
     >
       <template #actions>
         <Button
-          v-if="isAdmin"
+          v-if="isAdmin && activeTab === 'pipelines'"
           :label="t('CRM.SETTINGS.NEW_PIPELINE')"
           size="sm"
           variant="faded"
@@ -138,9 +155,20 @@ const confirmDelete = async () => {
     </div>
 
     <div v-else class="flex flex-col gap-6 px-6 pb-8">
-      <section class="p-5 rounded-2xl border border-n-weak bg-n-solid-1">
+      <TabBar
+        :key="activeTab"
+        :tabs="tabs"
+        :initial-active-tab="activeTabIndex"
+        class="self-start"
+        @tab-changed="onTab"
+      />
+
+      <section
+        v-if="activeTab === 'general'"
+        class="p-5 rounded-2xl border border-n-weak bg-n-solid-1"
+      >
         <h2 class="mb-4 text-heading-3 text-n-slate-12">
-          {{ t('CRM.SETTINGS.TEAM') }}
+          {{ t('CRM.SETTINGS.TABS.general') }}
         </h2>
         <div class="flex items-start justify-between gap-4">
           <div>
@@ -173,20 +201,21 @@ const confirmDelete = async () => {
         </div>
       </section>
 
-      <h2 class="text-heading-3 text-n-slate-12">
-        {{ t('CRM.SETTINGS.PIPELINES') }}
-      </h2>
-      <PipelineEditor
-        v-for="pipeline in pipelines"
-        :key="pipeline.id"
-        :pipeline="pipeline"
-        :currencies="settings.currencies"
-        :stage-deal-counts="stageDealCounts"
-        :is-saving="pipelineFlags.isSaving"
-        :can-delete="pipelines.length > 1 && !pipeline.deals_count"
-        @save="onSave"
-        @delete="askDelete"
-      />
+      <LostReasonsEditor v-if="activeTab === 'lost_reasons'" />
+
+      <template v-if="activeTab === 'pipelines'">
+        <PipelineEditor
+          v-for="pipeline in pipelines"
+          :key="pipeline.id"
+          :pipeline="pipeline"
+          :currencies="settings.currencies"
+          :stage-deal-counts="stageDealCounts"
+          :is-saving="pipelineFlags.isSaving"
+          :can-delete="pipelines.length > 1 && !pipeline.deals_count"
+          @save="onSave"
+          @delete="askDelete"
+        />
+      </template>
     </div>
 
     <Dialog

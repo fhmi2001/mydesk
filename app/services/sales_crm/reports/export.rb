@@ -3,7 +3,7 @@
 require 'csv'
 
 class SalesCrm::Reports::Export < SalesCrm::Reports::Base
-  COLUMNS = %w[title amount currency pipeline stage status contact assignee close_date won_at lost_at lost_reason created_at].freeze
+  COLUMNS = %w[title amount currency pipeline stage status contact assignee close_date won_at lost_at lost_reason lost_note created_at].freeze
   FORMULA_START = /\A[=+\-@\t\r]/
 
   def perform
@@ -24,7 +24,7 @@ class SalesCrm::Reports::Export < SalesCrm::Reports::Base
   def row_for(deal)
     [deal.title, format('%.2f', deal.amount), deal.currency, deal.pipeline.name, deal.stage.name, deal.status,
      deal.display_contact_name, deal.assignee&.name, deal.close_date, stamp(deal.won_at), stamp(deal.lost_at),
-     deal.lost_reason, stamp(deal.created_at)].map { |cell| self.class.safe_cell(cell) }
+     deal.lost_reason, deal.lost_note, stamp(deal.created_at)].map { |cell| self.class.safe_cell(cell) }
   end
 
   def stamp(time)

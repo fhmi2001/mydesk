@@ -42,7 +42,8 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   def move
     authorize @deal
     deal = service(SalesCrm::Deals::Move).perform(@deal, stage_id: params.require(:stage_id), position: params[:position],
-                                                         lost_reason: params[:lost_reason], lock_version: params[:lock_version])
+                                                         lost_reason: params[:lost_reason], lost_note: params[:lost_note],
+                                                         lock_version: params[:lock_version])
     render json: SalesCrm::Presenter.deal(deal)
   end
 

@@ -160,7 +160,13 @@ const onSubmit = async ({ payload }) => {
   }
 };
 
-const performMove = async ({ dealId, stageId, position, lostReason }) => {
+const performMove = async ({
+  dealId,
+  stageId,
+  position,
+  lostReason,
+  lostNote,
+}) => {
   isMoving.value = true;
   try {
     await store.dispatch('crm/deals/move', {
@@ -168,6 +174,7 @@ const performMove = async ({ dealId, stageId, position, lostReason }) => {
       stageId,
       position,
       lostReason,
+      lostNote,
     });
   } catch (error) {
     if (isStale(error)) {
@@ -193,11 +200,11 @@ const onMove = move => {
   performMove(move);
 };
 
-const onLostConfirm = async reason => {
+const onLostConfirm = async ({ reason, note }) => {
   const move = pendingLost.value;
   pendingLost.value = null;
   lostDialog.value?.close();
-  if (move) await performMove({ ...move, lostReason: reason });
+  if (move) await performMove({ ...move, lostReason: reason, lostNote: note });
 };
 
 const onLostCancel = () => {
@@ -231,7 +238,8 @@ const exportCsv = async () => {
   }
 };
 
-const goToSettings = () => router.push(accountScopedRoute('crm_settings'));
+const goToSettings = () =>
+  router.push(accountScopedRoute('crm_settings', {}, { tab: 'pipelines' }));
 </script>
 
 <template>

@@ -7,7 +7,7 @@ class SalesCrm::Deals::Reopen < SalesCrm::BaseService
 
     ActiveRecord::Base.transaction do
       from_stage_id = deal.stage_id
-      deal.update!(stage: stage, status: :open, won_at: nil, lost_at: nil, lost_reason: nil,
+      deal.update!(stage: stage, status: :open, won_at: nil, lost_at: nil, lost_reason: nil, lost_note: nil,
                    position: (account.crm_deals.kept.where(stage_id: stage.id).maximum(:position) || 0) + 1)
       log(deal, 'reopened', from_stage_id: from_stage_id, to_stage_id: stage.id)
       broadcast('crm.deal_moved', id: deal.id, stage_id: stage.id, position: deal.position, pipeline_id: deal.pipeline_id,

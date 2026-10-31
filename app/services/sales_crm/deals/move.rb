@@ -2,7 +2,7 @@
 # won/lost sets the status and timestamps. `position` is 1-based among the stage's live deals; the whole
 # stage is renumbered densely so positions always match what the board shows.
 class SalesCrm::Deals::Move < SalesCrm::BaseService
-  def perform(deal, stage_id:, position: nil, lost_reason: nil, lock_version: nil)
+  def perform(deal, stage_id:, position: nil, lost_reason: nil, lost_note: nil, lock_version: nil) # rubocop:disable Metrics/ParameterLists
     stage = find_stage!(deal.pipeline, stage_id)
     fail!(:lost_reason_required) if stage.lost? && lost_reason.to_s.strip.blank?
 
@@ -10,7 +10,7 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
       from_stage_id = deal.stage_id
       deal.lock_version = lock_version.to_i unless lock_version.nil?
       place(deal, stage, position)
-      apply_status(deal, stage, lost_reason)
+      apply_status(deal, stage, lost_reason, lost_note)
       deal.save!
       log_move(deal, stage, from_stage_id)
       broadcast('crm.deal_moved', id: deal.id, stage_id: stage.id, position: deal.position, pipeline_id: deal.pipeline_id,
@@ -39,14 +39,15 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
     SalesCrm::Deal.where(id: others.map(&:first)).update_all(Arel.sql("position = CASE id #{cases} END")) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def apply_status(deal, stage, lost_reason)
+  def apply_status(deal, stage, lost_reason, lost_note)
     case stage.kind
     when 'won'
-      deal.assign_attributes(status: :won, won_at: deal.won_at || Time.current, lost_at: nil, lost_reason: nil)
+      deal.assign_attributes(status: :won, won_at: deal.won_at || Time.current, lost_at: nil, lost_reason: nil, lost_note: nil)
     when 'lost'
-      deal.assign_attributes(status: :lost, lost_at: deal.lost_at || Time.current, won_at: nil, lost_reason: lost_reason.to_s.strip)
+      deal.assign_attributes(status: :lost, lost_at: deal.lost_at || Time.current, won_at: nil, lost_reason: lost_reason.to_s.strip,
+                             lost_note: lost_note.to_s.strip.presence)
     else
-      deal.assign_attributes(status: :open, won_at: nil, lost_at: nil, lost_reason: nil)
+      deal.assign_attributes(status: :open, won_at: nil, lost_at: nil, lost_reason: nil, lost_note: nil)
     end
   end
 
@@ -55,6 +56,6 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
 
     log(deal, 'stage_changed', from_stage_id: from_stage_id, to_stage_id: stage.id)
     log(deal, 'won') if stage.won?
-    log(deal, 'lost', reason: deal.lost_reason) if stage.lost?
+    log(deal, 'lost', reason: deal.lost_reason, note: deal.lost_note) if stage.lost?
   end
 end

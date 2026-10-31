@@ -119,7 +119,7 @@ export const actions = {
   // Optimistic: place the card, call the server, snap back on failure
   async move(
     { commit, state: _state, dispatch },
-    { id, stageId, position, lostReason, lockVersion }
+    { id, stageId, position, lostReason, lostNote, lockVersion }
   ) {
     const before = _state.records[id];
     // Not on the board (detail page opened by deep link): go straight to the server
@@ -127,6 +127,7 @@ export const actions = {
       const { data } = await crmDealsAPI.move(id, {
         stage_id: stageId,
         lost_reason: lostReason,
+        lost_note: lostNote,
         lock_version: lockVersion,
       });
       commit(types.UPSERT, data);
@@ -148,6 +149,7 @@ export const actions = {
             ? undefined
             : position + 1,
         lost_reason: lostReason,
+        lost_note: lostNote,
         lock_version: before.lock_version,
       });
       commit(types.UPSERT, data);

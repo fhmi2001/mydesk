@@ -37,10 +37,38 @@
       "DISABLED": "The Sales CRM is not enabled for this account."
     },
     "PLURALS": {
-      "DEALS": { "zero": "No deals", "one": "1 deal", "two": "2 deals", "few": "{count} deals", "many": "{count} deals", "other": "{count} deals" },
-      "TASKS": { "zero": "No tasks", "one": "1 task", "two": "2 tasks", "few": "{count} tasks", "many": "{count} tasks", "other": "{count} tasks" },
-      "OPEN_DEALS": { "zero": "0 open", "one": "1 open", "two": "2 open", "few": "{count} open", "many": "{count} open", "other": "{count} open" },
-      "DAYS": { "zero": "0 days", "one": "1 day", "two": "2 days", "few": "{count} days", "many": "{count} days", "other": "{count} days" }
+      "DEALS": {
+        "zero": "No deals",
+        "one": "1 deal",
+        "two": "2 deals",
+        "few": "{count} deals",
+        "many": "{count} deals",
+        "other": "{count} deals"
+      },
+      "TASKS": {
+        "zero": "No tasks",
+        "one": "1 task",
+        "two": "2 tasks",
+        "few": "{count} tasks",
+        "many": "{count} tasks",
+        "other": "{count} tasks"
+      },
+      "OPEN_DEALS": {
+        "zero": "0 open",
+        "one": "1 open",
+        "two": "2 open",
+        "few": "{count} open",
+        "many": "{count} open",
+        "other": "{count} open"
+      },
+      "DAYS": {
+        "zero": "0 days",
+        "one": "1 day",
+        "two": "2 days",
+        "few": "{count} days",
+        "many": "{count} days",
+        "other": "{count} days"
+      }
     },
     "DEALS": {
       "TITLE": "Deals",
@@ -102,9 +130,11 @@
         "TITLE": "Why was this deal lost?",
         "BODY": "The reason appears in the lost reasons report.",
         "REASON": "Reason",
-        "PLACEHOLDER": "e.g. Price too high",
+        "PLACEHOLDER": "Choose a reason",
         "CONFIRM": "Mark as lost",
-        "REQUIRED": "A reason is required"
+        "REQUIRED": "A reason is required",
+        "NOTE": "Additional notes (optional)",
+        "NOTE_PLACEHOLDER": "e.g. asked for a 30% discount"
       },
       "DETAIL": {
         "BACK": "Back to deals",
@@ -125,8 +155,13 @@
         "CONVERSATIONS": "Customer conversations",
         "OPEN_CONVERSATION": "Open conversation",
         "SOURCE": "Source",
-        "SOURCES": { "manual": "Added manually", "conversation_source": "From a conversation", "salla": "From Salla" },
-        "CREATED_BY": "Created by {name}"
+        "SOURCES": {
+          "manual": "Added manually",
+          "conversation_source": "From a conversation",
+          "salla": "From Salla"
+        },
+        "CREATED_BY": "Created by {name}",
+        "LOST_NOTE": "Lost notes"
       },
       "ACTIVITY": {
         "created": "created the deal",
@@ -148,8 +183,22 @@
       "TITLE": "Tasks",
       "SUBTITLE": "Follow-ups and reminders for you and your team.",
       "NEW": "New task",
-      "TABS": { "mine": "Mine", "today": "Today", "overdue": "Overdue", "upcoming": "Upcoming", "done": "Done", "all": "All" },
-      "EMPTY": { "mine": "You have no open tasks.", "today": "Nothing due today.", "overdue": "No overdue tasks. Well done!", "upcoming": "Nothing scheduled.", "done": "No completed tasks yet.", "all": "No open tasks." },
+      "TABS": {
+        "mine": "Mine",
+        "today": "Today",
+        "overdue": "Overdue",
+        "upcoming": "Upcoming",
+        "done": "Done",
+        "all": "All"
+      },
+      "EMPTY": {
+        "mine": "You have no open tasks.",
+        "today": "Nothing due today.",
+        "overdue": "No overdue tasks. Well done!",
+        "upcoming": "Nothing scheduled.",
+        "done": "No completed tasks yet.",
+        "all": "No open tasks."
+      },
       "DUE": "Due {date}",
       "NO_DUE": "No due date",
       "OVERDUE": "Overdue",
@@ -179,11 +228,21 @@
       "TITLE": "Sales reports",
       "SUBTITLE": "How your pipeline converts, who closes, and why deals are lost.",
       "PERIOD": "Period",
-      "PERIODS": { "today": "Today", "week": "This week", "month": "This month", "quarter": "This quarter", "custom": "Custom" },
+      "PERIODS": {
+        "today": "Today",
+        "week": "This week",
+        "month": "This month",
+        "quarter": "This quarter",
+        "custom": "Custom"
+      },
       "FROM": "From",
       "TO": "To",
       "INTERVAL": "Interval",
-      "INTERVALS": { "day": "Daily", "week": "Weekly", "month": "Monthly" },
+      "INTERVALS": {
+        "day": "Daily",
+        "week": "Weekly",
+        "month": "Monthly"
+      },
       "VS_PREVIOUS": "vs previous period",
       "SUMMARY": {
         "TITLE": "Summary",
@@ -198,7 +257,12 @@
         "AVG_DAYS": "Average days to close",
         "CREATED": "New deals"
       },
-      "FUNNEL": { "TITLE": "Conversion funnel", "REACHED": "Deals reached", "CONVERSION": "from previous stage", "EMPTY": "No deals in this period." },
+      "FUNNEL": {
+        "TITLE": "Conversion funnel",
+        "REACHED": "Deals reached",
+        "CONVERSION": "from previous stage",
+        "EMPTY": "No deals in this period."
+      },
       "AGENTS": {
         "TITLE": "Agent performance",
         "AGENT": "Agent",
@@ -210,8 +274,19 @@
         "AVG_DAYS": "Avg. days",
         "OVERDUE_TASKS": "Overdue tasks"
       },
-      "LOST_REASONS": { "TITLE": "Lost reasons", "REASON": "Reason", "COUNT": "Deals", "TOTAL": "Lost value", "EMPTY": "No lost deals in this period." },
-      "TIMELINE": { "TITLE": "Sales over time", "CREATED": "New", "WON": "Won", "LOST": "Lost" },
+      "LOST_REASONS": {
+        "TITLE": "Lost reasons",
+        "REASON": "Reason",
+        "COUNT": "Deals",
+        "TOTAL": "Lost value",
+        "EMPTY": "No lost deals in this period."
+      },
+      "TIMELINE": {
+        "TITLE": "Sales over time",
+        "CREATED": "New",
+        "WON": "Won",
+        "LOST": "Lost"
+      },
       "EXPORT": "Export CSV"
     },
     "SETTINGS": {
@@ -226,7 +301,11 @@
       "STAGE_NAME": "Stage name",
       "PROBABILITY": "Probability %",
       "KIND": "Type",
-      "KINDS": { "open": "Open", "won": "Won", "lost": "Lost" },
+      "KINDS": {
+        "open": "Open",
+        "won": "Won",
+        "lost": "Lost"
+      },
       "COLOR": "Color",
       "ADD_STAGE": "Add stage",
       "REMOVE_STAGE": "Remove stage",
@@ -239,11 +318,19 @@
       "DELETE_PIPELINE_CONFIRM": "Delete this pipeline? Only empty pipelines can be deleted.",
       "SAVED": "Pipeline saved",
       "DELETED": "Pipeline deleted",
-      "TEAM": "Team",
       "OWN_DEALS_ONLY": "Agents see only their own deals",
       "OWN_DEALS_ONLY_HINT": "Administrators always see every deal.",
       "DEFAULT_CURRENCY": "Default currency for new pipelines",
-      "ADMIN_ONLY": "Only administrators can change sales settings."
+      "ADMIN_ONLY": "Only administrators can change sales settings.",
+      "LOST_REASONS": "Lost reasons",
+      "LOST_REASONS_HINT": "The list agents pick from when a deal is lost. Deals already lost keep their reason.",
+      "NEW_LOST_REASON": "New reason",
+      "ADD_LOST_REASON": "Add reason",
+      "TABS": {
+        "general": "General",
+        "lost_reasons": "Lost reasons",
+        "pipelines": "Pipelines"
+      }
     },
     "PANEL": {
       "TITLE": "Deals & tasks",
@@ -253,7 +340,10 @@
       "NEW_TASK": "New task",
       "NONE": "No open deals or tasks for this customer.",
       "CLOSED_COUNT": "{count} closed deal(s)",
-      "VIEW_ALL": "View all"
+      "VIEW_ALL": "View all",
+      "CHANGE_STAGE": "Change stage",
+      "ADD_TASK": "Task",
+      "STAGE_CHANGED": "Stage updated"
     }
   }
 }

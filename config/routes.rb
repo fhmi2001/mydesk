@@ -540,6 +540,9 @@ Rails.application.routes.draw do
               get :export
             end
             resource :settings, only: [:show, :update], controller: 'settings'
+            resources :lost_reasons, only: [:index, :create, :update, :destroy] do
+              patch :reorder, on: :collection
+            end
           end
           resources :portals do
             member do
