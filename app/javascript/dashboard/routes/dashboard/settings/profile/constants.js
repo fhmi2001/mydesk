@@ -38,6 +38,11 @@ export const NOTIFICATION_TYPES = [
     label: 'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.VOICE_CALL_MISSED',
     value: 'voice_call_missed',
   },
+  // Custom (MyDesk): Sales CRM task reminder
+  {
+    label: 'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CRM_TASK_DUE',
+    value: 'crm_task_due',
+  },
 ];
 
 export const EVENT_TYPES = {

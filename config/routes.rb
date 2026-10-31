@@ -507,6 +507,48 @@ Rails.application.routes.draw do
               end
             end
           end
+          # Custom (MyDesk): Sales CRM (المبيعات): pipelines, deals, tasks, reports, settings
+          namespace :crm do
+            resource :status, only: [:show], controller: 'status'
+            resources :pipelines, only: [:index, :create, :update, :destroy]
+            resources :deals, only: [:index, :show, :create, :update, :destroy] do
+              collection do
+                get :forecast
+                get :discarded
+              end
+              member do
+                patch :move
+                post :reopen
+                post :restore
+              end
+              resources :notes, controller: 'deal_notes', only: [:index, :create, :destroy]
+              get :activities, to: 'deal_notes#activities'
+            end
+            resources :tasks, only: [:index, :show, :create, :update, :destroy] do
+              member do
+                post :complete
+                post :reopen
+              end
+            end
+            get 'contacts/:contact_id/summary', to: 'contact_summaries#show'
+            scope :reports, controller: 'reports' do
+              get :summary
+              get :funnel
+              get :agents
+              get :lost_reasons
+              get :timeline
+              get :export
+              get :stage_win_rates
+            end
+            resource :settings, only: [:show, :update], controller: 'settings'
+            resources :lost_reasons, only: [:index, :create, :update, :destroy] do
+              patch :reorder, on: :collection
+            end
+            resources :list_items, only: [:index, :create, :update, :destroy] do
+              patch :reorder, on: :collection
+            end
+            resource :targets, only: [:show, :update]
+          end
           resources :portals do
             member do
               patch :archive
@@ -851,6 +893,10 @@ Rails.application.routes.draw do
         post :refresh
         delete :remove_number
       end
+      # Custom (MyDesk): the Sales CRM across accounts (read-only)
+      get 'crm_overview', to: 'crm_overview#show', as: :crm_overview_index
+      get 'crm_overview/deals', to: 'crm_overview#deals', as: :crm_overview_deals
+      get 'crm_overview/deals/:id', to: 'crm_overview#deal', as: :crm_overview_deal
 
       resources :search, only: [] do
         collection do

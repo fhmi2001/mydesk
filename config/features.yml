@@ -319,3 +319,7 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: sales_crm
+  display_name: Sales CRM
+  enabled: false
+  column: feature_flags_ext_1 # Custom (MyDesk): deals, tasks and sales reports (المبيعات)

@@ -68,6 +68,16 @@ class ActionCableConnector extends BaseActionCableConnector {
       'copilot.message.created': this.onCopilotMessageCreated,
       // The store upserts by ID, so an updated approval card replaces the old one.
       'copilot.message.updated': this.onCopilotMessageCreated,
+      // Custom (MyDesk): Sales CRM changes made by other agents
+      'crm.deal_created': this.onCrmDealChanged,
+      'crm.deal_updated': this.onCrmDealChanged,
+      'crm.deal_moved': this.onCrmDealChanged,
+      'crm.deal_discarded': this.onCrmDealChanged,
+      'crm.deal_restored': this.onCrmDealChanged,
+      'crm.task_created': this.onCrmTaskChanged,
+      'crm.task_updated': this.onCrmTaskChanged,
+      'crm.task_completed': this.onCrmTaskChanged,
+      'crm.task_destroyed': this.onCrmTaskChanged,
       'captain.playground.response': this.onCaptainPlaygroundResponse,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
@@ -387,6 +397,15 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onContactUpdate = data => {
     this.app.$store.dispatch('contacts/updateContact', data);
+  };
+
+  // Custom (MyDesk): a colleague changed a deal or task; the pages refetch what they show
+  onCrmDealChanged = data => {
+    this.app.$store.dispatch('crm/deals/onRemoteChange', data);
+  };
+
+  onCrmTaskChanged = data => {
+    this.app.$store.dispatch('crm/tasks/onRemoteChange', data);
   };
 
   onNotificationCreated = data => {

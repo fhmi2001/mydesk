@@ -91,6 +91,7 @@ class Account < ApplicationRecord
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   # Custom (MyDesk): webhooks received from the account's connected Salla store
   has_many :salla_events, dependent: :delete_all
+  include SalesCrmAccount # Custom (MyDesk): Sales CRM records and settings
   has_many :inboxes, dependent: :destroy_async
   has_many :labels, dependent: :destroy_async
   has_many :line_channels, dependent: :destroy_async, class_name: '::Channel::Line'

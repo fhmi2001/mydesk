@@ -10,6 +10,8 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
+// Custom (MyDesk): Sales CRM deals & tasks of the contact
+import ContactCrmSection from './crm/ContactCrmSection.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
@@ -97,6 +99,8 @@ const channelType = computed(() => currentChat.value.meta?.channel);
 
 const contactGetter = useMapGetter('contacts/getContact');
 const contactId = computed(() => currentChat.value.meta?.sender?.id);
+// Custom (MyDesk)
+const isCrmEnabled = useMapGetter('crm/status/isEnabled');
 const contact = computed(() => contactGetter.value(contactId.value));
 const contactAdditionalAttributes = computed(
   () => contact.value.additional_attributes || {}
@@ -332,6 +336,22 @@ onMounted(() => {
               "
             >
               <ContactNotes :contact-id="contactId" />
+            </AccordionItem>
+          </div>
+          <div v-else-if="element.name === 'crm' && isCrmEnabled">
+            <!-- Custom (MyDesk): Sales CRM deals & tasks -->
+            <AccordionItem
+              :title="$t('CRM.PANEL.TITLE')"
+              :is-open="isContactSidebarItemOpen('is_crm_open')"
+              compact
+              @toggle="value => toggleSidebarUIState('is_crm_open', value)"
+            >
+              <ContactCrmSection
+                :contact-id="contactId"
+                :contact-name="contact.name"
+                :conversation-id="currentChat.id"
+                :assignee-id="currentChat.meta?.assignee?.id"
+              />
             </AccordionItem>
           </div>
           <div v-else-if="element.name === 'shared_files'">

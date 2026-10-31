@@ -1,0 +1,108 @@
+# Custom (MyDesk): Sales CRM server-side strings
+en:
+  sales_crm:
+    default_pipeline: Sales
+    errors:
+      currency_locked: The currency cannot change once deals exist
+      lost_reason_required: A reason is required to mark a deal as lost
+      stage_has_deals: This stage still has deals; choose a stage to move them to
+      last_pipeline: The last pipeline cannot be deleted
+      pipeline_has_deals: Move or delete the pipeline's deals first
+      stage_required: A stage is required
+      invalid_stage: The stage does not belong to this pipeline
+      invalid_priority: The priority must be low, medium or high
+      amount_required: Enter the deal amount; an open deal needs one
+      close_date_required: Enter the expected close date; an open deal needs one
+      owner_required: An open deal needs an owner
+      invalid_list_item: The chosen value is not on its list
+      invalid_forecast_category: The forecast category must be pipeline, best case, commit or omitted
+      invalid_probability: The probability is a number from 0 to 100
+      invalid_task_kind: The task kind must be task, call or meeting
+      invalid_month: The month is not valid
+      invalid_list: Unknown list
+      invalid_stale_days: The stale threshold is a number of days from 1 to 365
+      invalid_coverage: The coverage target is a number from 0.5 to 20
+      not_closed: The deal is already open
+      invalid_amount: The amount is not a valid number
+      invalid_currency: Unsupported currency
+      not_found: Not found
+    activities:
+      created: Deal created
+      stage_changed: Stage changed
+      amount_changed: Amount changed
+      close_date_changed: Expected close date changed
+      assignee_changed: Assignee changed
+      priority_changed: Priority changed
+      won: Deal won
+      lost: Deal lost
+      reopened: Deal reopened
+      note_added: Note added
+      task_added: Task added
+      task_done: Task completed
+      discarded: Deal deleted
+      restored: Deal restored
+    priorities:
+      low: Low
+      medium: Medium
+      high: High
+    export:
+      title: Title
+      amount: Amount
+      currency: Currency
+      pipeline: Pipeline
+      stage: Stage
+      status: Status
+      priority: Priority
+      contact: Customer
+      assignee: Assignee
+      close_date: Expected close
+      won_at: Won at
+      lost_at: Lost at
+      lost_note: Lost notes
+      lost_reason: Lost reason
+      created_at: Created at
+  super_admin:
+    navigation:
+      crm: CRM
+    crm:
+      description: Which accounts have the Sales CRM switched on, and a read-only view of their deals. Turn the feature on per account from the account page.
+      enabled_count: 'Enabled for %{count} account(s)'
+      all_deals: All accounts' deals
+      all_deals_description: Every account's deals in one place. Each view of this page is written to the audit log.
+      accounts: Accounts
+      deals: Deals
+      deal: Deal
+      notes: Notes
+      activity: Activity
+      totals: Totals per account
+      enabled: Enabled
+      disabled: Off
+      toggle_hint: Features
+      view_deals: Deals
+      empty: No deals match these filters.
+      columns:
+        account: Account
+        status: Status
+        deals: Deals
+        open_tasks: Open tasks
+        title: Title
+        amount: Amount
+        stage: Stage
+        assignee: Assignee
+        updated: Updated
+        won_value: Won value
+        contact: Customer
+        close_date: Expected close
+        lost_reason: Lost reason
+        source: Source
+        created: Created
+      statuses:
+        open: Open
+        won: Won
+        lost: Lost
+      filters:
+        all_accounts: All accounts
+        all_statuses: All statuses
+        from: From
+        to: To
+        apply: Apply

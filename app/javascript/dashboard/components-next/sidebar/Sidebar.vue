@@ -66,6 +66,10 @@ const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
 const isRTL = useMapGetter('accounts/isRTL');
+// Custom (MyDesk): the Sales CRM group shows only when the account has it switched on
+const crmEnabled = useMapGetter('crm/status/isEnabled');
+const crmIsAdmin = useMapGetter('crm/status/isAdmin');
+const crmOverdueCount = useMapGetter('crm/status/overdueCount');
 
 const { width: windowWidth } = useWindowSize();
 const isMobile = computed(() => windowWidth.value < 768);
@@ -268,6 +272,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+  store.dispatch('crm/status/fetch'); // Custom (MyDesk)
 });
 
 watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
@@ -706,6 +711,47 @@ const menuItems = computed(() => {
         },
       ],
     },
+    // Custom (MyDesk): Sales CRM (المبيعات): deals, tasks, reports, settings
+    ...(crmEnabled.value
+      ? [
+          {
+            name: 'Sales',
+            label: t('CRM.SIDEBAR.GROUP'),
+            icon: 'i-lucide-briefcase',
+            children: [
+              {
+                name: 'CRM Deals',
+                label: t('CRM.SIDEBAR.DEALS'),
+                to: accountScopedRoute('crm_deals'),
+                activeOn: ['crm_deals', 'crm_deal'],
+              },
+              {
+                name: 'CRM Tasks',
+                label: t('CRM.SIDEBAR.TASKS'),
+                to: accountScopedRoute('crm_tasks'),
+                activeOn: ['crm_tasks', 'crm_task'],
+                badgeCount: crmOverdueCount.value,
+              },
+              {
+                name: 'CRM Reports',
+                label: t('CRM.SIDEBAR.REPORTS'),
+                to: accountScopedRoute('crm_reports'),
+                activeOn: ['crm_reports'],
+              },
+              ...(crmIsAdmin.value
+                ? [
+                    {
+                      name: 'CRM Settings',
+                      label: t('CRM.SIDEBAR.SETTINGS'),
+                      to: accountScopedRoute('crm_settings'),
+                      activeOn: ['crm_settings'],
+                    },
+                  ]
+                : []),
+            ],
+          },
+        ]
+      : []),
     {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
