@@ -16,7 +16,12 @@ import CrmPageHeader from '../shared/CrmPageHeader.vue';
 import CrmUnavailable from '../shared/CrmUnavailable.vue';
 import AgentPicker from '../shared/AgentPicker.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
-import { apiErrorMessage, isStale, isUnavailable } from '../shared/dealHelpers';
+import {
+  apiErrorMessage,
+  isStale,
+  isUnavailable,
+  DEAL_PRIORITIES,
+} from '../shared/dealHelpers';
 import DealsBoard from './DealsBoard.vue';
 import DealsTable from './DealsTable.vue';
 import DealForm from './DealForm.vue';
@@ -64,6 +69,13 @@ const statusOptions = computed(() => [
   { value: 'open', label: t('CRM.COMMON.OPEN') },
   { value: 'won', label: t('CRM.COMMON.WON') },
   { value: 'lost', label: t('CRM.COMMON.LOST') },
+]);
+const priorityOptions = computed(() => [
+  { value: '', label: t('CRM.DEALS.ANY_PRIORITY') },
+  ...DEAL_PRIORITIES.map(p => ({
+    value: p,
+    label: t(`CRM.DEALS.PRIORITIES.${p}`),
+  })),
 ]);
 
 const summary = computed(() => {
@@ -118,6 +130,7 @@ watch(
     filters.value.pipelineId,
     filters.value.assigneeId,
     filters.value.status,
+    filters.value.priority,
     filters.value.q,
   ],
   refresh
@@ -138,6 +151,8 @@ const setPipeline = id =>
 const setAssignee = id =>
   store.dispatch('crm/deals/setFilters', { assigneeId: id ?? '' });
 const setStatus = status => store.dispatch('crm/deals/setFilters', { status });
+const setPriority = priority =>
+  store.dispatch('crm/deals/setFilters', { priority });
 
 const openDeal = deal =>
   router.push(accountScopedRoute('crm_deal', { dealId: deal.id }));
@@ -329,6 +344,13 @@ const goToSettings = () =>
         :aria-label="t('CRM.DEALS.STATUS')"
         class="w-36"
         @update:model-value="setStatus"
+      />
+      <Select
+        :model-value="filters.priority || ''"
+        :options="priorityOptions"
+        :aria-label="t('CRM.DEALS.PRIORITY')"
+        class="w-36"
+        @update:model-value="setPriority"
       />
       <Input
         v-model="search"

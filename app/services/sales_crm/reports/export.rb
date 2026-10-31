@@ -3,7 +3,8 @@
 require 'csv'
 
 class SalesCrm::Reports::Export < SalesCrm::Reports::Base
-  COLUMNS = %w[title amount currency pipeline stage status contact assignee close_date won_at lost_at lost_reason lost_note created_at].freeze
+  COLUMNS = %w[title amount currency pipeline stage status priority contact assignee close_date won_at lost_at lost_reason lost_note
+               created_at].freeze
   FORMULA_START = /\A[=+\-@\t\r]/
 
   def perform
@@ -22,9 +23,16 @@ class SalesCrm::Reports::Export < SalesCrm::Reports::Base
   private
 
   def row_for(deal)
+    (deal_cells(deal) + outcome_cells(deal)).map { |cell| self.class.safe_cell(cell) }
+  end
+
+  def deal_cells(deal)
     [deal.title, format('%.2f', deal.amount), deal.currency, deal.pipeline.name, deal.stage.name, deal.status,
-     deal.display_contact_name, deal.assignee&.name, deal.close_date, stamp(deal.won_at), stamp(deal.lost_at),
-     deal.lost_reason, deal.lost_note, stamp(deal.created_at)].map { |cell| self.class.safe_cell(cell) }
+     I18n.t("sales_crm.priorities.#{deal.priority}"), deal.display_contact_name, deal.assignee&.name, deal.close_date]
+  end
+
+  def outcome_cells(deal)
+    [stamp(deal.won_at), stamp(deal.lost_at), deal.lost_reason, deal.lost_note, stamp(deal.created_at)]
   end
 
   def stamp(time)

@@ -4,10 +4,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   before_action :set_deal, only: [:show, :update, :move, :reopen, :destroy]
 
   def index
-    result = service(SalesCrm::Deals::Search).perform(
-      deals_scope, pipeline: @pipeline, stage_id: params[:stage_id], assignee_id: params[:assignee_id], status: params[:status],
-                   q: params[:q], view: params[:view].presence || :board, page: params[:page].presence || 1, sort: params[:sort]
-    )
+    result = service(SalesCrm::Deals::Search).perform(deals_scope, pipeline: @pipeline, **search_filters)
     render json: { deals: present_deals(result[:deals]), counts: result[:counts], total: result[:total], page: result[:page],
                    per_stage_limit: SalesCrm::Deals::Search::BOARD_PER_STAGE }
   end
@@ -82,8 +79,13 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
     params[:assignee_id].present? ? deals_scope.where(assignee_id: params[:assignee_id]) : deals_scope
   end
 
+  def search_filters
+    { stage_id: params[:stage_id], assignee_id: params[:assignee_id], status: params[:status], priority: params[:priority],
+      q: params[:q], view: params[:view].presence || :board, page: params[:page].presence || 1, sort: params[:sort] }
+  end
+
   def deal_params
     params.require(:deal).permit(:title, :amount, :pipeline_id, :stage_id, :contact_id, :assignee_id, :close_date, :description,
-                                 :conversation_id, :lock_version)
+                                 :conversation_id, :priority, :lock_version)
   end
 end

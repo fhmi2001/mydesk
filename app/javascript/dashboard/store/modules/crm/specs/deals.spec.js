@@ -135,4 +135,34 @@ describe('crm/deals store', () => {
     expect(count).toBe(1);
     expect(s.order[10]).toEqual([1, 2, 9]);
   });
+
+  it('keeps the column counts and totals in step with moves, edits, new and removed deals', () => {
+    const s = JSON.parse(JSON.stringify(baseState));
+    const d = (id, stageId, cents) => ({
+      ...deal(id, stageId, 1),
+      amount_cents: cents,
+    });
+    mutations[types.SET_BOARD](s, {
+      deals: [d(1, 10, 1000), d(2, 10, 500)],
+      counts: {
+        10: { count: 3, total_cents: 1800 },
+        20: { count: 0, total_cents: 0 },
+      },
+    });
+    // dragged to stage 20
+    mutations[types.PLACE](s, { id: 1, stageId: 20, position: 0 });
+    expect(s.counts[10]).toEqual({ count: 2, total_cents: 800 });
+    expect(s.counts[20]).toEqual({ count: 1, total_cents: 1000 });
+    // the server confirms with a new amount
+    mutations[types.UPSERT](s, d(1, 20, 1500));
+    expect(s.counts[20]).toEqual({ count: 1, total_cents: 1500 });
+    // a new deal, then a deleted one
+    mutations[types.UPSERT](s, d(7, 10, 200));
+    expect(s.counts[10]).toEqual({ count: 3, total_cents: 1000 });
+    mutations[types.REMOVE](s, 2);
+    expect(s.counts[10]).toEqual({ count: 2, total_cents: 500 });
+    // "show more" brings deals that the counts already include
+    mutations[types.UPSERT_LOADED](s, d(8, 10, 300));
+    expect(s.counts[10]).toEqual({ count: 2, total_cents: 500 });
+  });
 });

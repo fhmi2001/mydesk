@@ -6,6 +6,7 @@ export const types = {
   SET_BOARD: 'crm/deals/SET_BOARD',
   SET_FORECAST: 'crm/deals/SET_FORECAST',
   UPSERT: 'crm/deals/UPSERT',
+  UPSERT_LOADED: 'crm/deals/UPSERT_LOADED',
   REMOVE: 'crm/deals/REMOVE',
   PLACE: 'crm/deals/PLACE',
   SET_FILTERS: 'crm/deals/SET_FILTERS',
@@ -21,7 +22,13 @@ export const state = {
   counts: {}, // stageId -> { count, total_cents }
   forecast: null,
   perStageLimit: 100,
-  filters: { pipelineId: null, assigneeId: '', status: '', q: '' },
+  filters: {
+    pipelineId: null,
+    assigneeId: '',
+    status: '',
+    priority: '',
+    q: '',
+  },
   uiFlags: {
     isFetching: false,
     hasFetched: false,
@@ -34,6 +41,26 @@ const sortIds = (records, ids) =>
   [...ids].sort(
     (a, b) => (records[a]?.position ?? 0) - (records[b]?.position ?? 0) || b - a
   );
+
+// The per-column count and total come from the server with the board; between reloads they follow the
+// cards: take a deal out of the column it was in (`from`) and add it to the one it is in now (`to`)
+const shiftCounts = (_state, from, to) => {
+  const counts = { ..._state.counts };
+  const add = (deal, sign) => {
+    if (!deal) return;
+    const current = counts[deal.stage_id] || { count: 0, total_cents: 0 };
+    counts[deal.stage_id] = {
+      count: Math.max(0, current.count + sign),
+      total_cents: Math.max(
+        0,
+        current.total_cents + sign * (deal.amount_cents || 0)
+      ),
+    };
+  };
+  add(from, -1);
+  add(to, 1);
+  _state.counts = counts;
+};
 
 export const getters = {
   byId: _state => id => _state.records[id],
@@ -62,6 +89,7 @@ export const actions = {
         pipeline_id: _state.filters.pipelineId,
         assignee_id: _state.filters.assigneeId || undefined,
         status: _state.filters.status || undefined,
+        priority: _state.filters.priority || undefined,
         q: _state.filters.q || undefined,
         view: 'board',
       };
@@ -97,12 +125,13 @@ export const actions = {
       stage_id: stageId,
       assignee_id: _state.filters.assigneeId || undefined,
       status: _state.filters.status || undefined,
+      priority: _state.filters.priority || undefined,
       q: _state.filters.q || undefined,
       view: 'table',
       sort: 'position:asc',
       page: Math.floor(loaded / TABLE_PAGE_SIZE) + 1,
     });
-    data.deals.forEach(deal => commit(types.UPSERT, deal));
+    data.deals.forEach(deal => commit(types.UPSERT_LOADED, deal));
     return data.deals.length;
   },
 
@@ -251,12 +280,23 @@ export const mutations = {
     _state.forecast = forecast;
   },
   [types.UPSERT](_state, deal) {
-    const previous = _state.records[deal.id];
-    _state.records = { ..._state.records, [deal.id]: deal };
     if (deal.discarded_at) {
       mutations[types.REMOVE](_state, deal.id);
       return;
     }
+    const previous = _state.records[deal.id];
+    if (
+      !previous ||
+      previous.stage_id !== deal.stage_id ||
+      previous.amount_cents !== deal.amount_cents
+    )
+      shiftCounts(_state, previous, deal);
+    mutations[types.UPSERT_LOADED](_state, deal);
+  },
+  // A deal the column counts already include (the next page of a stage): store and place it only
+  [types.UPSERT_LOADED](_state, deal) {
+    const previous = _state.records[deal.id];
+    _state.records = { ..._state.records, [deal.id]: deal };
     const order = { ..._state.order };
     if (previous && previous.stage_id !== deal.stage_id) {
       order[previous.stage_id] = (order[previous.stage_id] || []).filter(
@@ -275,6 +315,7 @@ export const mutations = {
     delete records[id];
     _state.records = records;
     if (deal) {
+      shiftCounts(_state, deal, null);
       _state.order = {
         ..._state.order,
         [deal.stage_id]: (_state.order[deal.stage_id] || []).filter(
@@ -287,6 +328,8 @@ export const mutations = {
   [types.PLACE](_state, { id, stageId, position, order: savedOrder }) {
     const deal = _state.records[id];
     if (!deal) return;
+    if (deal.stage_id !== stageId)
+      shiftCounts(_state, deal, { ...deal, stage_id: stageId });
     if (savedOrder) {
       _state.order = savedOrder;
       _state.records = {

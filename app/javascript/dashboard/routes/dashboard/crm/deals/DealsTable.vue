@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import StatusBadge from '../shared/StatusBadge.vue';
+import PriorityBadge from '../shared/PriorityBadge.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
 
 const props = defineProps({
@@ -30,6 +31,7 @@ const columns = computed(() => [
   { key: 'assignee', label: t('CRM.DEALS.COLUMNS.ASSIGNEE') },
   { key: 'close_date', label: t('CRM.DEALS.COLUMNS.CLOSE_DATE') },
   { key: 'status', label: t('CRM.DEALS.COLUMNS.STATUS') },
+  { key: 'priority', label: t('CRM.DEALS.PRIORITY') },
   {
     key: props.discarded ? 'discarded_at' : 'updated_at',
     label: props.discarded
@@ -38,8 +40,12 @@ const columns = computed(() => [
   },
 ]);
 
+// Priority sorts by importance, not alphabetically
+const PRIORITY_RANK = { low: 0, medium: 1, high: 2 };
+
 const sortValue = (deal, key) => {
   if (key === 'assignee') return deal.assignee?.name || '';
+  if (key === 'priority') return PRIORITY_RANK[deal.priority] ?? 1;
   if (key === 'stage_id') return props.stagesById[deal.stage_id]?.position ?? 0;
   return deal[key] ?? '';
 };
@@ -76,7 +82,7 @@ const dealRoute = deal => accountScopedRoute('crm_deal', { dealId: deal.id });
 <template>
   <div class="flex-1 min-h-0 px-6 pb-6 overflow-auto">
     <table
-      class="w-full border-separate border-spacing-0 text-body-main min-w-[56rem]"
+      class="w-full border-separate border-spacing-0 text-body-main min-w-[62rem]"
     >
       <thead class="sticky top-0 z-10 bg-n-surface-1">
         <tr>
@@ -160,6 +166,9 @@ const dealRoute = deal => accountScopedRoute('crm_deal', { dealId: deal.id });
           </td>
           <td class="px-3 py-2.5 border-b border-n-weak">
             <StatusBadge :status="deal.status" />
+          </td>
+          <td class="px-3 py-2.5 border-b border-n-weak">
+            <PriorityBadge :priority="deal.priority || 'medium'" />
           </td>
           <td
             class="px-3 py-2.5 border-b border-n-weak text-n-slate-11 whitespace-nowrap tabular-nums"

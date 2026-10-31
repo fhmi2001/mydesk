@@ -16,10 +16,13 @@ const props = defineProps({
 });
 const emit = defineEmits(['move', 'open', 'add', 'loadMore']);
 const { t } = useI18n();
-const { compactMoney, number } = useCrmFormat();
+const { money, number } = useCrmFormat();
 
-// Touch: hold this long before a card lifts; mouse drags start at once
-const TOUCH_DRAG_DELAY_MS = 180;
+// Touch: hold 180ms before a card lifts; mouse drags start at once. The options go in as an object because
+// `delayOnTouchOnly` needs a real `true`: a bare `delay-on-touch-only` attribute (what the lint rule asks
+// for) reaches Sortable as "" (false), which gave the mouse the delay too. With native drag Sortable fixes the
+// move tolerance during the hold at 1px, so a finger that moves scrolls the board instead.
+const DRAG_OPTIONS = { delay: 180, delayOnTouchOnly: true };
 
 const columns = computed(() =>
   props.pipeline.stages.map(stage => ({
@@ -43,8 +46,9 @@ const onChange = (stage, event) => {
 };
 
 const remaining = column => column.count - column.deals.length;
-const stageTotal = column =>
-  column.total ? compactMoney(column.total, props.pipeline.currency) : '—';
+// What the column is worth at its stage's win probability, rounded to the minor unit
+const weighted = column =>
+  Math.round((column.total * (column.stage.probability || 0)) / 100);
 </script>
 
 <template>
@@ -79,11 +83,6 @@ const stageTotal = column =>
               {{ number(column.count) }}
             </span>
           </div>
-          <p class="mt-1 text-label-small text-n-slate-11 tabular-nums">
-            <span>{{ column.stage.probability }}%</span>
-            <span class="mx-1" aria-hidden="true">·</span>
-            <span dir="auto">{{ stageTotal(column) }}</span>
-          </p>
         </header>
 
         <Draggable
@@ -93,9 +92,7 @@ const stageTotal = column =>
           class="flex flex-col flex-1 gap-2 p-3 overflow-y-auto min-h-16"
           ghost-class="opacity-40"
           :animation="150"
-          :delay="TOUCH_DRAG_DELAY_MS"
-          delay-on-touch-only
-          :touch-start-threshold="4"
+          v-bind="DRAG_OPTIONS"
           @change="onChange(column.stage, $event)"
         >
           <template #item="{ element }">
@@ -122,6 +119,54 @@ const stageTotal = column =>
             </button>
           </template>
         </Draggable>
+
+        <!-- The column's numbers stay pinned under its cards: the total, then what it is worth at the
+             stage's win probability (won counts in full, lost counts for nothing) -->
+        <footer
+          class="px-4 py-2.5 border-t border-n-weak text-label-small text-n-slate-11 tabular-nums"
+        >
+          <dl class="flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-2">
+              <dt>{{ t('CRM.DEALS.COLUMN_TOTAL') }}</dt>
+              <dd class="font-medium text-n-slate-12" dir="auto">
+                {{ money(column.total, pipeline.currency) }}
+              </dd>
+            </div>
+            <div
+              v-if="column.stage.kind === 'open'"
+              class="flex items-center justify-between gap-2"
+            >
+              <dt class="inline-flex items-center gap-1">
+                {{
+                  t('CRM.DEALS.COLUMN_WEIGHTED', {
+                    probability: column.stage.probability,
+                  })
+                }}
+                <span
+                  class="i-lucide-info size-3 text-n-slate-10"
+                  :title="t('CRM.DEALS.COLUMN_WEIGHTED_HINT')"
+                  aria-hidden="true"
+                />
+                <span class="sr-only">
+                  {{ t('CRM.DEALS.COLUMN_WEIGHTED_HINT') }}
+                </span>
+              </dt>
+              <dd class="font-medium text-n-slate-12" dir="auto">
+                {{ money(weighted(column), pipeline.currency) }}
+              </dd>
+            </div>
+            <div v-else class="flex items-center justify-between gap-2">
+              <dt>{{ t('CRM.DEALS.COLUMN_OUTCOME') }}</dt>
+              <dd>
+                {{
+                  column.stage.kind === 'won'
+                    ? t('CRM.DEALS.COLUMN_WON')
+                    : t('CRM.DEALS.COLUMN_LOST')
+                }}
+              </dd>
+            </div>
+          </dl>
+        </footer>
       </section>
     </div>
   </div>

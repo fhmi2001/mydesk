@@ -10,6 +10,7 @@ en:
       pipeline_has_deals: Move or delete the pipeline's deals first
       stage_required: A stage is required
       invalid_stage: The stage does not belong to this pipeline
+      invalid_priority: The priority must be low, medium or high
       not_closed: The deal is already open
       invalid_amount: The amount is not a valid number
       invalid_currency: Unsupported currency
@@ -19,6 +20,7 @@ en:
       stage_changed: Stage changed
       amount_changed: Amount changed
       assignee_changed: Assignee changed
+      priority_changed: Priority changed
       won: Deal won
       lost: Deal lost
       reopened: Deal reopened
@@ -27,6 +29,10 @@ en:
       task_done: Task completed
       discarded: Deal deleted
       restored: Deal restored
+    priorities:
+      low: Low
+      medium: Medium
+      high: High
     export:
       title: Title
       amount: Amount
@@ -34,6 +40,7 @@ en:
       pipeline: Pipeline
       stage: Stage
       status: Status
+      priority: Priority
       contact: Customer
       assignee: Assignee
       close_date: Expected close

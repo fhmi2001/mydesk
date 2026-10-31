@@ -18,6 +18,8 @@ class SalesCrm::Deal < ApplicationRecord
 
   enum status: { open: 0, won: 1, lost: 2 }
   enum source: { manual: 0, conversation_source: 1, salla: 2 }, _prefix: :from
+  # Ordered by importance, so sorting on the column sorts by priority
+  enum priority: { low: 0, medium: 1, high: 2 }, _prefix: :priority
 
   validates :title, presence: true, length: { maximum: TITLE_MAX }
   validates :amount_cents, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_AMOUNT_CENTS }

@@ -1,6 +1,6 @@
 # Custom (MyDesk): creates a deal at the end of its stage, snapshots the contact, logs and broadcasts
 class SalesCrm::Deals::Create < SalesCrm::BaseService
-  PERMITTED = %i[title amount pipeline_id stage_id contact_id assignee_id close_date description conversation_id source].freeze
+  PERMITTED = %i[title amount pipeline_id stage_id contact_id assignee_id close_date description conversation_id source priority].freeze
 
   def perform(params)
     params = params.to_h.symbolize_keys.slice(*PERMITTED)
@@ -32,7 +32,7 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
       contact: contact_for(params[:contact_id]), assignee: assignee_for(params[:assignee_id]),
       close_date: params[:close_date].presence, description: params[:description],
       conversation: conversation, source: source_for(params[:source], conversation),
-      position: next_position(stage)
+      priority: params[:priority].present? ? priority_from(params[:priority]) : :medium, position: next_position(stage)
     }.merge(status_attributes(stage))
   end
 

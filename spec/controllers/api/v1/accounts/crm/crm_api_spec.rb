@@ -163,6 +163,14 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
       expect(response.body).to include('باقة')
     end
 
+    it 'reports: stage win rates over the last year by default, one row per open stage' do
+      deal_for(agent)
+      get "#{base}/reports/stage_win_rates", params: { pipeline_id: pipeline.id }, headers: admin.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.map { |r| r['stage_id'] }).to eq(pipeline.stages.select(&:open?).map(&:id))
+      expect(response.parsed_body.first).to include('closed_count' => 0, 'win_rate' => nil, 'min_closed' => 20)
+    end
+
     it 'settings update by admin' do
       patch "#{base}/settings", params: { settings: { agents_see_own_deals_only: true, default_currency: 'aed' } },
                                 headers: admin.create_new_auth_token, as: :json

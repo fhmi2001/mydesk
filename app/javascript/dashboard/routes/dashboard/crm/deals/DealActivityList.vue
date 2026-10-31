@@ -17,6 +17,7 @@ const icons = {
   stage_changed: 'i-lucide-arrow-right-left',
   amount_changed: 'i-lucide-coins',
   assignee_changed: 'i-lucide-user-round',
+  priority_changed: 'i-lucide-flag',
   won: 'i-lucide-trophy',
   lost: 'i-lucide-x-circle',
   reopened: 'i-lucide-rotate-ccw',
@@ -36,6 +37,10 @@ const describe = activity => {
       ? `${data.reason || ''} (${data.note})`
       : data.reason || '',
     title: data.title || '',
+    ...(activity.kind === 'priority_changed' && {
+      from: t(`CRM.DEALS.PRIORITIES.${data.from || 'medium'}`),
+      to: t(`CRM.DEALS.PRIORITIES.${data.to || 'medium'}`),
+    }),
   });
 };
 

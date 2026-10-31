@@ -142,6 +142,10 @@ class CrmReportsAPI extends ApiClient {
     return axios.get(`${this.url}/timeline`, { params });
   }
 
+  stageWinRates(params) {
+    return axios.get(`${this.url}/stage_win_rates`, { params });
+  }
+
   export(params) {
     return axios.get(`${this.url}/export`, { params, responseType: 'blob' });
   }

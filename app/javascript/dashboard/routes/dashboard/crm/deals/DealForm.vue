@@ -15,6 +15,7 @@ import {
   validateDeal,
   buildDealPayload,
   isPastDate,
+  DEAL_PRIORITIES,
 } from '../shared/dealHelpers';
 
 const props = defineProps({
@@ -40,6 +41,12 @@ const stageOptions = computed(() =>
 );
 const pipelineOptions = computed(() =>
   props.pipelines.map(p => ({ value: p.id, label: p.name }))
+);
+const priorityOptions = computed(() =>
+  DEAL_PRIORITIES.map(p => ({
+    value: p,
+    label: t(`CRM.DEALS.PRIORITIES.${p}`),
+  }))
 );
 const closeDateInPast = computed(() => isPastDate(form.value.close_date));
 const isEdit = computed(() => Boolean(props.deal));
@@ -170,6 +177,17 @@ defineExpose({ open, close });
           :label="t('CRM.DEALS.FORM.CLOSE_DATE')"
           :message="closeDateInPast ? t('CRM.DEALS.FORM.CLOSE_DATE_PAST') : ''"
           message-type="info"
+        />
+      </div>
+      <div class="flex flex-col gap-1">
+        <span class="text-heading-3 text-n-slate-12" aria-hidden="true">
+          {{ t('CRM.DEALS.PRIORITY') }}
+        </span>
+        <Select
+          v-model="form.priority"
+          :options="priorityOptions"
+          :aria-label="t('CRM.DEALS.PRIORITY')"
+          class="sm:w-48"
         />
       </div>
       <TextArea

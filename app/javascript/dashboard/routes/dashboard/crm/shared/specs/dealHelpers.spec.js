@@ -69,4 +69,14 @@ describe('dealHelpers', () => {
       lock_version: 3,
     });
   });
+
+  it('carries the priority: medium for a new deal, the deal own one when editing', () => {
+    expect(buildDealPayload({ title: 'x', amount: '1' }).priority).toBe(
+      'medium'
+    );
+    expect(dealToForm({ title: 't', priority: 'high' }).priority).toBe('high');
+    expect(
+      buildDealPayload({ title: 'x', amount: '1', priority: 'low' }).priority
+    ).toBe('low');
+  });
 });

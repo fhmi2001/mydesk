@@ -10,6 +10,7 @@ ar:
       pipeline_has_deals: انقل صفقات المسار أو احذفها أولاً
       stage_required: المرحلة مطلوبة
       invalid_stage: المرحلة لا تنتمي لهذا المسار
+      invalid_priority: الأولوية يجب أن تكون منخفض أو متوسط أو مهم
       not_closed: الصفقة مفتوحة أصلاً
       invalid_amount: القيمة ليست رقماً صحيحاً
       invalid_currency: العملة غير مدعومة
@@ -19,6 +20,7 @@ ar:
       stage_changed: تغيّرت المرحلة
       amount_changed: تغيّرت القيمة
       assignee_changed: تغيّر المسؤول
+      priority_changed: تغيّرت الأولوية
       won: كُسبت الصفقة
       lost: خُسرت الصفقة
       reopened: أُعيد فتح الصفقة
@@ -27,6 +29,10 @@ ar:
       task_done: أُنجزت مهمة
       discarded: حُذفت الصفقة
       restored: استُعيدت الصفقة
+    priorities:
+      low: منخفض
+      medium: متوسط
+      high: مهم
     export:
       title: العنوان
       amount: القيمة
@@ -34,6 +40,7 @@ ar:
       pipeline: المسار
       stage: المرحلة
       status: الحالة
+      priority: الأولوية
       contact: العميل
       assignee: المسؤول
       close_date: الإغلاق المتوقع

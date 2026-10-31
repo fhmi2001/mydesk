@@ -4,10 +4,10 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
   BOARD_PER_STAGE = 100
   TABLE_PER_PAGE = 50
   STATUSES = %w[open won lost].freeze
-  SORTABLE = %w[title amount_cents close_date updated_at created_at status position].freeze
-  FILTERS = %i[stage_id assignee_id status q view page sort].freeze
+  SORTABLE = %w[title amount_cents close_date updated_at created_at status position priority].freeze
+  FILTERS = %i[stage_id assignee_id status priority q view page sort].freeze
 
-  # filters: stage_id, assignee_id ('none' for unassigned), status, q (search text), view (:board | :table),
+  # filters: stage_id, assignee_id ('none' for unassigned), status, priority, q (search text), view (:board | :table),
   # page, sort ('column:asc|desc'). Returns { deals:, counts: { stage_id => { count:, total_cents: } }, total:, page: }
   def perform(scope, pipeline:, **filters)
     filters = filters.slice(*FILTERS)
@@ -23,6 +23,7 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
     relation = relation.where(stage_id: filters[:stage_id]) if filters[:stage_id].present?
     relation = relation.where(assignee_id: filters[:assignee_id] == 'none' ? nil : filters[:assignee_id]) if filters[:assignee_id].present?
     relation = relation.where(status: filters[:status]) if STATUSES.include?(filters[:status].to_s)
+    relation = relation.where(priority: filters[:priority]) if SalesCrm::Deal.priorities.key?(filters[:priority].to_s)
     search(relation, filters[:q])
   end
 

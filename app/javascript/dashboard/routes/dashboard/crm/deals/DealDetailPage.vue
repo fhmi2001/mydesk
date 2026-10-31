@@ -13,6 +13,7 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import { crmDealsAPI, crmTasksAPI } from 'dashboard/api/crm';
 import CrmUnavailable from '../shared/CrmUnavailable.vue';
 import StatusBadge from '../shared/StatusBadge.vue';
+import PriorityBadge from '../shared/PriorityBadge.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
 import { apiErrorMessage, isStale, isUnavailable } from '../shared/dealHelpers';
 import DealForm from './DealForm.vue';
@@ -284,6 +285,7 @@ const contactRoute = computed(() =>
               {{ deal.title }}
             </h1>
             <StatusBadge :status="deal.status" />
+            <PriorityBadge :priority="deal.priority || 'medium'" />
           </div>
           <p
             class="mt-1 text-2xl font-semibold text-n-brand tabular-nums"

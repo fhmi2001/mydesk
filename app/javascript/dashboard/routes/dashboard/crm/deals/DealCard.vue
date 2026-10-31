@@ -3,6 +3,7 @@
 // focus ring are the only emphasis.
 import { computed } from 'vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import PriorityBadge from '../shared/PriorityBadge.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
 
 const props = defineProps({ deal: { type: Object, required: true } });
@@ -24,9 +25,17 @@ const closeDate = computed(() =>
     :data-deal-id="deal.id"
     @click="emit('open', deal)"
   >
-    <p class="text-heading-3 text-n-slate-12 line-clamp-2">
-      {{ deal.title }}
-    </p>
+    <!-- Only high priority is flagged on the board; medium and low would be noise on every card -->
+    <div class="flex items-start justify-between gap-2">
+      <p class="text-heading-3 text-n-slate-12 line-clamp-2">
+        {{ deal.title }}
+      </p>
+      <PriorityBadge
+        v-if="deal.priority === 'high'"
+        :priority="deal.priority"
+        class="shrink-0"
+      />
+    </div>
     <p class="mt-1 text-heading-3 text-n-blue-11 tabular-nums" dir="auto">
       {{ amount }}
     </p>

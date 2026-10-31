@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_31_150247) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_31_181314) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1172,6 +1172,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_150247) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "lost_note"
+    t.integer "priority", default: 1, null: false
     t.index ["account_id", "assignee_id", "status"], name: "index_crm_deals_on_account_id_and_assignee_id_and_status"
     t.index ["account_id", "close_date"], name: "index_crm_deals_on_account_id_and_close_date"
     t.index ["account_id", "contact_id"], name: "index_crm_deals_on_account_id_and_contact_id"

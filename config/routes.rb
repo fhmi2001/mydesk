@@ -538,6 +538,7 @@ Rails.application.routes.draw do
               get :lost_reasons
               get :timeline
               get :export
+              get :stage_win_rates
             end
             resource :settings, only: [:show, :update], controller: 'settings'
             resources :lost_reasons, only: [:index, :create, :update, :destroy] do

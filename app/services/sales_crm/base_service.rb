@@ -14,6 +14,11 @@ class SalesCrm::BaseService
     raise SalesCrm::ValidationError, I18n.t("sales_crm.errors.#{key}", **args)
   end
 
+  def priority_from(value)
+    fail!(:invalid_priority) unless SalesCrm::Deal.priorities.key?(value.to_s)
+    value.to_s
+  end
+
   def find_stage!(pipeline, stage_id)
     stage = pipeline.stages.find { |s| s.id == stage_id.to_i }
     fail!(:invalid_stage) unless stage

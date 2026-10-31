@@ -11,10 +11,14 @@ export const emptyDealForm = (overrides = {}) => ({
   assignee_id: null,
   close_date: '',
   description: '',
+  priority: 'medium',
   conversation_id: null,
   lock_version: undefined,
   ...overrides,
 });
+
+// Most important first, as the filter and the form list them
+export const DEAL_PRIORITIES = ['high', 'medium', 'low'];
 
 export const dealToForm = deal =>
   emptyDealForm({
@@ -27,6 +31,7 @@ export const dealToForm = deal =>
     assignee_id: deal.assignee?.id ?? null,
     close_date: deal.close_date || '',
     description: deal.description || '',
+    priority: deal.priority || 'medium',
     conversation_id: deal.conversation_id,
     lock_version: deal.lock_version,
   });
@@ -62,6 +67,7 @@ export const buildDealPayload = form => {
     assignee_id: form.assignee_id || null,
     close_date: form.close_date || null,
     description: form.description || '',
+    priority: form.priority || 'medium',
     conversation_id: form.conversation_id || undefined,
     lock_version: form.lock_version,
   };

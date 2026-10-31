@@ -29,6 +29,11 @@ RSpec.describe SalesCrm::Deals do
       expect(first.activities.map(&:kind)).to eq(['created'])
     end
 
+    it 'defaults the priority to medium and takes one when given' do
+      expect(create_deal.priority).to eq('medium')
+      expect(create_deal(priority: 'low').priority).to eq('low')
+    end
+
     it 'accepts Arabic-Indic digits and grouped amounts' do
       expect(create_deal(amount: '٥٠٬٠٠٠').amount_cents).to eq(5_000_000)
       expect(create_deal(amount: '1,250.50').amount_cents).to eq(125_050)
@@ -102,6 +107,14 @@ RSpec.describe SalesCrm::Deals do
       expect(deal.assignee).to eq(agent)
       expect(deal.activities.map(&:kind).sort).to eq(%w[amount_changed assignee_changed created])
     end
+
+    it 'changes the priority and logs it, and rejects an unknown one' do
+      deal = create_deal
+      described_class.new(account: account, user: user).perform(deal, priority: 'high')
+      expect(deal.reload.priority).to eq('high')
+      expect(deal.activities.find_by(kind: 'priority_changed').data).to include('from' => 'medium', 'to' => 'high')
+      expect { described_class.new(account: account, user: user).perform(deal, priority: 'urgent') }.to raise_error(SalesCrm::ValidationError)
+    end
   end
 
   describe SalesCrm::Deals::Reopen do
@@ -148,6 +161,18 @@ RSpec.describe SalesCrm::Deals do
       expect(all[:counts][qualified.id]).to eq(count: 2, total_cents: 10_000_000)
       expect(all[:counts][won.id][:count]).to eq(1)
       expect(all[:total]).to eq(3)
+    end
+
+    it 'filters by priority and sorts by importance, not by name' do
+      low = create_deal(title: 'low', priority: 'low')
+      high = create_deal(title: 'high', priority: 'high')
+      medium = create_deal(title: 'medium')
+      search = described_class.new(account: account, user: user)
+
+      only_high = search.perform(account.crm_deals.kept, pipeline: pipeline, priority: 'high')
+      expect(only_high[:deals].map(&:id)).to eq([high.id])
+      sorted = search.perform(account.crm_deals.kept, pipeline: pipeline, view: 'table', sort: 'priority:desc')
+      expect(sorted[:deals].map(&:id)).to eq([high.id, medium.id, low.id])
     end
 
     it 'board view caps each stage at 100 deals' do

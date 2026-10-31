@@ -1,13 +1,15 @@
 <script setup>
 // Custom (MyDesk): edit one pipeline: name, currency (until it has deals), stages by drag, remove with a
-// target stage when the removed stage still holds deals
-import { ref, computed, watch } from 'vue';
+// target stage when the removed stage still holds deals. Beside each open stage's probability sits its actual
+// win rate from the account's last 12 months, as a suggestion the admin can copy in; it never changes alone.
+import { ref, computed, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Draggable from 'vuedraggable';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import { crmReportsAPI } from 'dashboard/api/crm';
 import { validateStages } from '../shared/dealHelpers';
 
 const props = defineProps({
@@ -90,6 +92,28 @@ const moveStage = (index, delta) => {
   [next[index], next[target]] = [next[target], next[index]];
   stages.value = next;
 };
+// stage_id -> { closed_count, won_count, win_rate (null below min_closed), min_closed }
+const winRates = ref({});
+onMounted(async () => {
+  try {
+    const { data } = await crmReportsAPI.stageWinRates({
+      pipeline_id: props.pipeline.id,
+    });
+    winRates.value = Object.fromEntries(data.map(r => [r.stage_id, r]));
+  } catch (e) {
+    // the editor works without the suggestion
+  }
+});
+// The server's threshold (SalesCrm::Reports::StageWinRates::MIN_CLOSED)
+const minClosed = computed(
+  () => Object.values(winRates.value)[0]?.min_closed ?? 20
+);
+const actualFor = stage =>
+  stage.id && stage.kind === 'open' ? winRates.value[stage.id] : null;
+const useActual = (stage, rate) => {
+  stage.probability = Math.round(rate);
+};
+
 const stageLabel = (stage, index) =>
   stage.name?.trim() || t('CRM.SETTINGS.STAGE_N', { n: index + 1 });
 
@@ -189,9 +213,12 @@ const errorText = key =>
       </div>
     </div>
 
-    <h3 class="mt-5 mb-2 text-heading-3 text-n-slate-12">
+    <h3 class="mt-5 text-heading-3 text-n-slate-12">
       {{ t('CRM.SETTINGS.STAGES') }}
     </h3>
+    <p class="mt-1 mb-3 text-label-small text-n-slate-11">
+      {{ t('CRM.SETTINGS.ACTUAL_HINT', { min: minClosed }) }}
+    </p>
     <!-- Column captions for wide screens; every field also carries its own aria-label, and on phones a
          row wraps onto two lines so the stage name keeps a usable width -->
     <div
@@ -201,6 +228,7 @@ const errorText = key =>
       <span class="w-4 shrink-0" />
       <span class="flex-1">{{ t('CRM.SETTINGS.STAGE_NAME') }}</span>
       <span class="w-20 shrink-0">{{ t('CRM.SETTINGS.PROBABILITY') }}</span>
+      <span class="w-20 shrink-0">{{ t('CRM.SETTINGS.ACTUAL') }}</span>
       <span class="w-28 shrink-0">{{ t('CRM.SETTINGS.KIND') }}</span>
       <span class="w-8 shrink-0">{{ t('CRM.SETTINGS.COLOR') }}</span>
       <span class="w-[5.5rem] shrink-0" />
@@ -239,6 +267,53 @@ const errorText = key =>
               size="sm"
               :aria-label="t('CRM.SETTINGS.PROBABILITY')"
             />
+          </div>
+          <!-- The actual rate: a button that copies it into the probability once there is enough history,
+               otherwise how many closed deals it has so far -->
+          <div
+            class="flex items-center w-20 shrink-0 text-label-small tabular-nums"
+          >
+            <template v-if="actualFor(element)">
+              <button
+                v-if="actualFor(element).win_rate !== null"
+                type="button"
+                class="px-1.5 py-1 rounded-md text-n-slate-12 hover:bg-n-alpha-2 focus-visible:outline-2 focus-visible:outline-n-brand"
+                :title="
+                  t('CRM.SETTINGS.ACTUAL_FROM', {
+                    count: actualFor(element).closed_count,
+                  })
+                "
+                :aria-label="
+                  t('CRM.SETTINGS.USE_ACTUAL', {
+                    rate: Math.round(actualFor(element).win_rate),
+                    name: stageLabel(element, index),
+                  })
+                "
+                @click="useActual(element, actualFor(element).win_rate)"
+              >
+                {{ Math.round(actualFor(element).win_rate) }}%
+              </button>
+              <span
+                v-else
+                class="text-n-slate-10"
+                :title="
+                  t('CRM.SETTINGS.ACTUAL_NOT_ENOUGH', {
+                    count: actualFor(element).closed_count,
+                    min: actualFor(element).min_closed,
+                  })
+                "
+              >
+                —
+                <span class="sr-only">
+                  {{
+                    t('CRM.SETTINGS.ACTUAL_NOT_ENOUGH', {
+                      count: actualFor(element).closed_count,
+                      min: actualFor(element).min_closed,
+                    })
+                  }}
+                </span>
+              </span>
+            </template>
           </div>
           <div class="w-28 shrink-0">
             <Select

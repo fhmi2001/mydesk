@@ -56,14 +56,41 @@ RSpec.describe SalesCrm::Reports do
     expect(cur[:lost_count]).to eq(1)
   end
 
-  it 'funnel counts deals that reached each stage' do
+  it 'funnel counts deals that reached each stage, skipped open stages included' do
     rows = SalesCrm::Reports::Funnel.new(account: account, user: admin, from: from, to: to).perform
     by_name = rows.to_h { |r| [r[:name], r[:reached_count]] }
-    expect(by_name['عميل محتمل']).to eq(5)
-    expect(by_name['مؤهل']).to eq(1)
-    expect(by_name['مكسوبة']).to eq(2)
-    expect(by_name['خاسرة']).to eq(2)
-    expect(rows[1][:conversion_from_previous]).to eq(20.0)
+    # a: lead > qualified > won; b: lead > won (skips every open stage); c, d: lead > lost; e: lead
+    expect(by_name).to eq('عميل محتمل' => 5, 'مؤهل' => 2, 'تم إرسال العرض' => 2, 'تفاوض' => 2, 'مكسوبة' => 2, 'خاسرة' => 2)
+    expect(rows.map { |r| r[:conversion_from_previous] }.first(3)).to eq([nil, 40.0, 100.0])
+  end
+
+  it 'funnel counts a deal once per stage when it jumps ahead and comes back, and never rises stage to stage' do
+    f = make('f', '100', admin)
+    move(f, pipeline.stages[3], at: Time.utc(2026, 10, 7))
+    move(f, pipeline.stages[0], at: Time.utc(2026, 10, 8))
+    rows = SalesCrm::Reports::Funnel.new(account: account, user: admin, from: from, to: to).perform
+    by_name = rows.to_h { |r| [r[:name], r[:reached_count]] }
+    expect(by_name['عميل محتمل']).to eq(6)
+    expect(by_name['مؤهل']).to eq(3)
+    expect(by_name['تفاوض']).to eq(3)
+    open_counts = rows.select { |r| r[:kind] == 'open' }.map { |r| r[:reached_count] }
+    expect(open_counts).to eq(open_counts.sort.reverse)
+    expect(rows.filter_map { |r| r[:conversion_from_previous] }).to all(be <= 100)
+  end
+
+  it 'stage win rates: share of closed deals that reached each open stage and were won' do
+    stub_const('SalesCrm::Reports::StageWinRates::MIN_CLOSED', 2)
+    rows = SalesCrm::Reports::StageWinRates.new(account: account, user: admin, from: from, to: to, pipeline_id: pipeline.id).perform
+    by_name = rows.to_h { |r| [pipeline.stages.find { |s| s.id == r[:stage_id] }.name, r.slice(:closed_count, :won_count, :win_rate)] }
+    # closed in the period: a (lead > qualified > won), b (lead > won), c and d (lead > lost); e is still open
+    expect(by_name['عميل محتمل']).to eq(closed_count: 4, won_count: 2, win_rate: 50.0)
+    expect(by_name['مؤهل']).to eq(closed_count: 2, won_count: 2, win_rate: 100.0)
+    expect(by_name.keys).not_to include('مكسوبة', 'خاسرة')
+  end
+
+  it 'stage win rates stay empty until enough deals have closed' do
+    rows = SalesCrm::Reports::StageWinRates.new(account: account, user: admin, from: from, to: to, pipeline_id: pipeline.id).perform
+    expect(rows.first).to include(closed_count: 4, win_rate: nil, min_closed: 20)
   end
 
   it 'agents report has a row per user' do
