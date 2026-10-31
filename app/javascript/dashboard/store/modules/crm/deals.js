@@ -12,6 +12,9 @@ export const types = {
   SET_FLAGS: 'crm/deals/SET_FLAGS',
 };
 
+// Must match SalesCrm::Deals::Search::TABLE_PER_PAGE; BOARD_PER_STAGE (100) is a multiple of it
+const TABLE_PAGE_SIZE = 50;
+
 export const state = {
   records: {}, // id -> deal
   order: {}, // stageId -> [dealId] in position order
@@ -84,6 +87,23 @@ export const actions = {
       });
       throw error;
     }
+  },
+
+  // The board shows the first deals of each stage; this appends the next page of one stage, in board order
+  async loadMoreForStage({ commit, state: _state }, stageId) {
+    const loaded = (_state.order[stageId] || []).length;
+    const { data } = await crmDealsAPI.get({
+      pipeline_id: _state.filters.pipelineId,
+      stage_id: stageId,
+      assignee_id: _state.filters.assigneeId || undefined,
+      status: _state.filters.status || undefined,
+      q: _state.filters.q || undefined,
+      view: 'table',
+      sort: 'position:asc',
+      page: Math.floor(loaded / TABLE_PAGE_SIZE) + 1,
+    });
+    data.deals.forEach(deal => commit(types.UPSERT, deal));
+    return data.deals.length;
   },
 
   async fetchOne({ commit }, id) {

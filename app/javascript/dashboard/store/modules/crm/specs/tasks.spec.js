@@ -42,4 +42,42 @@ describe('crm/tasks store', () => {
     });
     expect(s.uiFlags.hasFetched).toBe(true);
   });
+
+  it('loadMore asks for the next page of the current tab and appends it without duplicates', async () => {
+    const s = JSON.parse(JSON.stringify(baseState));
+    s.scope = 'all';
+    s.total = 52;
+    s.records = Array.from({ length: 50 }, (_, i) => ({
+      id: i + 1,
+      status: 'open',
+    }));
+    crmTasksAPI.get.mockResolvedValue({
+      data: {
+        tasks: [
+          { id: 50, status: 'open' },
+          { id: 51, status: 'open' },
+          { id: 52, status: 'open' },
+        ],
+        total: 52,
+      },
+    });
+    const commit = (type, payload) => mutations[type](s, payload);
+    await actions.loadMore({ commit, state: s });
+    expect(crmTasksAPI.get).toHaveBeenLastCalledWith({ scope: 'all', page: 2 });
+    expect(s.records).toHaveLength(52);
+    expect(s.uiFlags.isLoadingMore).toBe(false);
+  });
+
+  it('keeps the total in step when a task leaves or joins the tab', () => {
+    const s = JSON.parse(JSON.stringify(baseState));
+    s.scope = 'mine';
+    s.total = 60;
+    s.records = [{ id: 1, status: 'open' }];
+    mutations['crm/tasks/UPSERT'](s, { id: 1, status: 'done' });
+    expect(s.total).toBe(59);
+    mutations['crm/tasks/UPSERT'](s, { id: 2, status: 'open' });
+    expect(s.total).toBe(60);
+    mutations['crm/tasks/REMOVE'](s, 2);
+    expect(s.total).toBe(59);
+  });
 });

@@ -18,6 +18,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const tasks = useMapGetter('crm/tasks/all');
+const total = useMapGetter('crm/tasks/total');
 const scope = useMapGetter('crm/tasks/scope');
 const flags = useMapGetter('crm/tasks/getUIFlags');
 const isAdmin = useMapGetter('crm/status/isAdmin');
@@ -54,6 +55,14 @@ const load = (kind = scope.value) =>
 onMounted(() => load('mine'));
 
 const onTab = tab => load(tab.key);
+
+const remaining = computed(() =>
+  Math.max(0, (total.value || 0) - tasks.value.length)
+);
+const loadMore = () =>
+  store
+    .dispatch('crm/tasks/loadMore')
+    .catch(error => useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR'))));
 
 const openNew = () => {
   editing.value = null;
@@ -122,7 +131,8 @@ const canDelete = task =>
       </template>
     </CrmPageHeader>
 
-    <div class="px-6 pb-3">
+    <!-- Six tabs are wider than a phone: the strip scrolls sideways instead of clipping the last ones -->
+    <div class="px-6 pb-3 overflow-x-auto">
       <TabBar
         :tabs="tabs"
         :initial-active-tab="activeTabIndex"
@@ -144,7 +154,7 @@ const canDelete = task =>
     <div v-else class="flex-1 min-h-0 px-6 pb-6 overflow-y-auto">
       <ul
         v-if="tasks.length"
-        class="flex flex-col divide-y divide-n-weak rounded-2xl border border-n-weak bg-n-solid-1 px-4"
+        class="flex flex-col px-4 divide-y divide-n-weak rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
       >
         <TaskRow
           v-for="task in tasks"
@@ -156,11 +166,24 @@ const canDelete = task =>
           @delete="askDelete"
         />
       </ul>
+      <Button
+        v-if="tasks.length && remaining > 0"
+        :label="t('CRM.TASKS.LOAD_MORE', { count: remaining })"
+        size="sm"
+        variant="faded"
+        color="slate"
+        class="w-full mt-3"
+        :is-loading="flags.isLoadingMore"
+        @click="loadMore"
+      />
       <div
-        v-else
+        v-if="!tasks.length"
         class="flex flex-col items-center justify-center gap-2 py-16 text-center"
       >
-        <span class="i-lucide-check-circle-2 size-8 text-n-slate-9" />
+        <span
+          class="i-lucide-check-circle-2 size-8 text-n-slate-9"
+          aria-hidden="true"
+        />
         <p class="text-body-main text-n-slate-11">
           {{ t(`CRM.TASKS.EMPTY.${scope}`) }}
         </p>

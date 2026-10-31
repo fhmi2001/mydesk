@@ -177,7 +177,8 @@
         "discarded": "deleted the deal",
         "restored": "restored the deal",
         "SYSTEM": "System"
-      }
+      },
+      "VIEW_LABEL": "View"
     },
     "TASKS": {
       "TITLE": "Tasks",
@@ -204,6 +205,11 @@
       "OVERDUE": "Overdue",
       "COMPLETE": "Mark as done",
       "REOPEN": "Reopen",
+      "COMPLETE_ARIA": "Mark “{title}” as done",
+      "REOPEN_ARIA": "Reopen “{title}”",
+      "EDIT_ARIA": "Edit task “{title}”",
+      "DELETE_ARIA": "Delete task “{title}”",
+      "LOAD_MORE": "Show more ({count})",
       "COMPLETED": "Task completed",
       "DELETED": "Task deleted",
       "DELETE_CONFIRM": "Delete this task?",

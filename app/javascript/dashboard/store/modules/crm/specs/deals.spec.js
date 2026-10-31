@@ -3,6 +3,7 @@ import { actions, mutations, state as baseState, types } from '../deals';
 
 vi.mock('dashboard/api/crm', () => ({
   crmDealsAPI: {
+    get: vi.fn(),
     move: vi.fn(),
     forecast: vi.fn().mockResolvedValue({ data: {} }),
   },
@@ -115,5 +116,23 @@ describe('crm/deals store', () => {
     });
     expect(result.lock_version).toBe(3);
     expect(s.records[42]).toBeTruthy();
+  });
+
+  it('loadMoreForStage asks for the next page of that stage in board order and appends it', async () => {
+    const s = freshState();
+    crmDealsAPI.get.mockResolvedValue({ data: { deals: [deal(9, 10, 3)] } });
+    const commit = (type, payload) => mutations[type](s, payload);
+    const count = await actions.loadMoreForStage({ commit, state: s }, 10);
+    expect(crmDealsAPI.get).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pipeline_id: 5,
+        stage_id: 10,
+        view: 'table',
+        sort: 'position:asc',
+        page: 1,
+      })
+    );
+    expect(count).toBe(1);
+    expect(s.order[10]).toEqual([1, 2, 9]);
   });
 });

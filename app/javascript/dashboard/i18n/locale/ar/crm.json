@@ -177,7 +177,8 @@
         "discarded": "حذف الصفقة",
         "restored": "استعاد الصفقة",
         "SYSTEM": "النظام"
-      }
+      },
+      "VIEW_LABEL": "طريقة العرض"
     },
     "TASKS": {
       "TITLE": "المهام",
@@ -204,6 +205,11 @@
       "OVERDUE": "متأخرة",
       "COMPLETE": "تأشير كمنجزة",
       "REOPEN": "إعادة فتح",
+      "COMPLETE_ARIA": "تأشير المهمة «{title}» كمنجزة",
+      "REOPEN_ARIA": "إعادة فتح المهمة «{title}»",
+      "EDIT_ARIA": "تعديل المهمة «{title}»",
+      "DELETE_ARIA": "حذف المهمة «{title}»",
+      "LOAD_MORE": "عرض المزيد ({count})",
       "COMPLETED": "أُنجزت المهمة",
       "DELETED": "حُذفت المهمة",
       "DELETE_CONFIRM": "حذف هذه المهمة؟",

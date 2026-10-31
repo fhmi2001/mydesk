@@ -238,6 +238,33 @@ const exportCsv = async () => {
   }
 };
 
+const viewOptions = computed(() => [
+  { key: 'board', label: t('CRM.DEALS.VIEW_BOARD'), icon: 'i-lucide-kanban' },
+  { key: 'table', label: t('CRM.DEALS.VIEW_TABLE'), icon: 'i-lucide-table' },
+  ...(isAdmin.value
+    ? [
+        {
+          key: 'discarded',
+          label: t('CRM.DEALS.DISCARDED_TAB'),
+          icon: 'i-lucide-trash-2',
+        },
+      ]
+    : []),
+]);
+
+// "Show more" fills the same column with the stage's next deals
+const loadingStageId = ref(null);
+const onLoadMore = async stage => {
+  loadingStageId.value = stage.id;
+  try {
+    await store.dispatch('crm/deals/loadMoreForStage', stage.id);
+  } catch (error) {
+    useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));
+  } finally {
+    loadingStageId.value = null;
+  }
+};
+
 const goToSettings = () =>
   router.push(accountScopedRoute('crm_settings', {}, { tab: 'pipelines' }));
 </script>
@@ -278,6 +305,7 @@ const goToSettings = () =>
         v-if="pipelineOptions.length > 1"
         :model-value="pipeline?.id || ''"
         :options="pipelineOptions"
+        :aria-label="t('CRM.DEALS.PIPELINE')"
         class="w-48"
         @update:model-value="setPipeline"
       />
@@ -285,54 +313,54 @@ const goToSettings = () =>
         <AgentPicker
           :model-value="filters.assigneeId || ''"
           :none-label="t('CRM.COMMON.ANY_ASSIGNEE')"
+          :aria-label="t('CRM.DEALS.ASSIGNEE')"
           @update:model-value="setAssignee"
         />
       </div>
       <Select
         :model-value="filters.status"
         :options="statusOptions"
+        :aria-label="t('CRM.DEALS.STATUS')"
         class="w-36"
         @update:model-value="setStatus"
       />
       <Input
         v-model="search"
+        type="search"
         :placeholder="t('CRM.DEALS.SEARCH_PLACEHOLDER')"
+        :aria-label="t('CRM.COMMON.SEARCH')"
         class="w-56"
         size="sm"
       >
         <template #prefix>
-          <span class="i-lucide-search size-4 text-n-slate-10" />
+          <span
+            class="i-lucide-search size-4 text-n-slate-10"
+            aria-hidden="true"
+          />
         </template>
       </Input>
-      <div class="flex items-center gap-1 ms-auto">
+      <div
+        class="flex items-center gap-1 p-0.5 ms-auto rounded-lg bg-n-alpha-black2"
+        role="group"
+        :aria-label="t('CRM.DEALS.VIEW_LABEL')"
+      >
         <Button
-          :label="t('CRM.DEALS.VIEW_BOARD')"
+          v-for="option in viewOptions"
+          :key="option.key"
+          :label="option.label"
+          :icon="option.icon"
           size="sm"
-          :variant="view === 'board' ? 'solid' : 'faded'"
-          icon="i-lucide-kanban"
-          @click="view = 'board'"
-        />
-        <Button
-          :label="t('CRM.DEALS.VIEW_TABLE')"
-          size="sm"
-          :variant="view === 'table' ? 'solid' : 'faded'"
-          icon="i-lucide-table"
-          @click="view = 'table'"
-        />
-        <Button
-          v-if="isAdmin"
-          :label="t('CRM.DEALS.DISCARDED_TAB')"
-          size="sm"
-          :variant="view === 'discarded' ? 'solid' : 'faded'"
-          icon="i-lucide-trash-2"
-          @click="view = 'discarded'"
+          :variant="view === option.key ? 'faded' : 'ghost'"
+          :color="view === option.key ? 'blue' : 'slate'"
+          :aria-pressed="view === option.key"
+          @click="view = option.key"
         />
       </div>
     </div>
 
     <p
       v-if="summary && view === 'board'"
-      class="px-6 pb-3 text-sm text-n-slate-11 tabular-nums"
+      class="px-6 pb-3 text-body-main text-n-slate-11 tabular-nums"
       dir="auto"
     >
       {{ summary }}
@@ -379,10 +407,11 @@ const goToSettings = () =>
         :pipeline="pipeline"
         :deals-for-stage="dealsForStage"
         :counts="counts"
+        :loading-stage-id="loadingStageId"
         @move="onMove"
         @open="openDeal"
         @add="openNew"
-        @show-more="view = 'table'"
+        @load-more="onLoadMore"
       />
       <DealsTable
         v-else

@@ -8,6 +8,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Select from 'dashboard/components-next/select/Select.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import { crmDealsAPI, crmTasksAPI } from 'dashboard/api/crm';
 import CrmUnavailable from '../shared/CrmUnavailable.vue';
@@ -118,6 +119,16 @@ const moveTo = async (stageId, lostReason, lostNote) => {
   } catch (error) {
     handleError(error);
   }
+};
+
+const openStageOptions = computed(() =>
+  (pipeline.value?.stages || [])
+    .filter(s => s.kind === 'open')
+    .map(s => ({ value: s.id, label: s.name }))
+);
+const onStagePick = value => {
+  const id = Number(value);
+  if (id && id !== deal.value.stage_id) moveTo(id);
 };
 
 const markWon = () =>
@@ -309,6 +320,13 @@ const contactRoute = computed(() =>
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
+          <Select
+            v-if="deal.status === 'open'"
+            :model-value="deal.stage_id"
+            :options="openStageOptions"
+            :aria-label="t('CRM.PANEL.CHANGE_STAGE')"
+            @update:model-value="onStagePick"
+          />
           <Button
             v-if="deal.status === 'open'"
             :label="t('CRM.DEALS.DETAIL.MARK_WON')"
@@ -347,6 +365,7 @@ const contactRoute = computed(() =>
             size="sm"
             variant="ghost"
             color="slate"
+            :aria-label="t('CRM.COMMON.DELETE')"
             @click="deleteDialog?.open()"
           />
         </div>

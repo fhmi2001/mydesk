@@ -4,7 +4,7 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
   BOARD_PER_STAGE = 100
   TABLE_PER_PAGE = 50
   STATUSES = %w[open won lost].freeze
-  SORTABLE = %w[title amount_cents close_date updated_at created_at status].freeze
+  SORTABLE = %w[title amount_cents close_date updated_at created_at status position].freeze
   FILTERS = %i[stage_id assignee_id status q view page sort].freeze
 
   # filters: stage_id, assignee_id ('none' for unassigned), status, q (search text), view (:board | :table),

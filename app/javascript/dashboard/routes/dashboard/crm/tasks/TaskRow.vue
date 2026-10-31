@@ -38,31 +38,42 @@ const contactRoute = computed(() =>
 
 <template>
   <li class="flex items-start gap-3 py-3" :class="{ 'opacity-60': isDone }">
+    <!-- The base button CSS drops the border style and adds side padding, hence border-solid and p-0;
+         the ::before widens the tap area to 44px without growing the circle -->
     <button
       type="button"
-      class="flex items-center justify-center mt-0.5 border-2 rounded-full size-5 shrink-0 transition"
+      class="relative flex items-center justify-center p-0 mt-0.5 border-2 border-solid rounded-full size-5 shrink-0 transition-colors before:absolute before:-inset-3 before:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand"
       :class="
         isDone
-          ? 'bg-n-teal-9 border-n-teal-9 text-white'
-          : 'border-n-slate-8 hover:border-n-teal-9'
+          ? 'bg-n-teal-3 border-n-teal-11 text-n-teal-11'
+          : 'border-n-slate-8 hover:border-n-teal-11'
       "
-      :aria-label="isDone ? t('CRM.TASKS.REOPEN') : t('CRM.TASKS.COMPLETE')"
+      :aria-label="
+        isDone
+          ? t('CRM.TASKS.REOPEN_ARIA', { title: task.title })
+          : t('CRM.TASKS.COMPLETE_ARIA', { title: task.title })
+      "
       :aria-pressed="isDone"
       @click="emit('toggle', task)"
     >
-      <span v-if="isDone" class="i-lucide-check size-3" />
+      <span v-if="isDone" class="i-lucide-check size-3" aria-hidden="true" />
     </button>
     <div class="flex-1 min-w-0">
-      <p class="text-sm text-n-slate-12" :class="{ 'line-through': isDone }">
+      <p
+        class="text-body-main text-n-slate-12"
+        :class="{ 'line-through': isDone }"
+      >
         {{ task.title }}
       </p>
       <p
         v-if="task.description && !compact"
-        class="mt-0.5 text-xs text-n-slate-11 line-clamp-2"
+        class="mt-0.5 text-label-small text-n-slate-11 line-clamp-2"
       >
         {{ task.description }}
       </p>
-      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs">
+      <div
+        class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-label-small"
+      >
         <span
           class="inline-flex items-center gap-1"
           :class="
@@ -71,7 +82,7 @@ const contactRoute = computed(() =>
               : 'text-n-slate-11'
           "
         >
-          <span class="i-lucide-clock size-3" />
+          <span class="i-lucide-clock size-3" aria-hidden="true" />
           {{ dueLabel }}{{ overdueSuffix }}
         </span>
         <router-link
@@ -79,7 +90,7 @@ const contactRoute = computed(() =>
           :to="dealRoute"
           class="inline-flex items-center gap-1 text-n-blue-11 hover:underline"
         >
-          <span class="i-lucide-briefcase size-3" />
+          <span class="i-lucide-briefcase size-3" aria-hidden="true" />
           {{ task.deal.title }}
         </router-link>
         <router-link
@@ -87,7 +98,7 @@ const contactRoute = computed(() =>
           :to="contactRoute"
           class="inline-flex items-center gap-1 text-n-blue-11 hover:underline"
         >
-          <span class="i-lucide-user size-3" />
+          <span class="i-lucide-user size-3" aria-hidden="true" />
           {{ task.contact.name }}
         </router-link>
       </div>
@@ -106,6 +117,7 @@ const contactRoute = computed(() =>
         size="xs"
         variant="ghost"
         color="slate"
+        :aria-label="t('CRM.TASKS.EDIT_ARIA', { title: task.title })"
         @click="emit('edit', task)"
       />
       <Button
@@ -114,6 +126,7 @@ const contactRoute = computed(() =>
         size="xs"
         variant="ghost"
         color="slate"
+        :aria-label="t('CRM.TASKS.DELETE_ARIA', { title: task.title })"
         @click="emit('delete', task)"
       />
     </div>

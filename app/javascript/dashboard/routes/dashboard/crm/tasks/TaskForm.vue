@@ -111,28 +111,45 @@ defineExpose({ open, close });
         type="datetime-local"
         :label="t('CRM.TASKS.FORM.DUE_AT')"
       />
-      <div class="flex flex-col gap-1">
-        <label class="text-heading-3 text-n-slate-12">{{
-          t('CRM.TASKS.FORM.ASSIGNEE')
-        }}</label>
-        <AgentPicker v-model="form.assignee_id" />
+      <!-- The pickers render buttons, not inputs, so each field is a labelled group -->
+      <div
+        class="flex flex-col gap-1"
+        role="group"
+        aria-labelledby="crm-task-assignee"
+      >
+        <span id="crm-task-assignee" class="text-heading-3 text-n-slate-12">
+          {{ t('CRM.TASKS.FORM.ASSIGNEE') }}
+        </span>
+        <AgentPicker
+          v-model="form.assignee_id"
+          :aria-label="t('CRM.TASKS.FORM.ASSIGNEE')"
+        />
       </div>
-      <div class="flex flex-col gap-1">
-        <label class="text-heading-3 text-n-slate-12">{{
-          t('CRM.TASKS.FORM.CONTACT')
-        }}</label>
+      <div
+        class="flex flex-col gap-1"
+        role="group"
+        aria-labelledby="crm-task-contact"
+      >
+        <span id="crm-task-contact" class="text-heading-3 text-n-slate-12">
+          {{ t('CRM.TASKS.FORM.CONTACT') }}
+        </span>
         <ContactPicker
           v-model="form.contact_id"
           :contact-name="form.contact_name"
           @select="c => (form.contact_name = c?.name || '')"
         />
       </div>
-      <div v-if="form.deal_title" class="flex flex-col gap-1">
-        <label class="text-heading-3 text-n-slate-12">{{
-          t('CRM.TASKS.FORM.DEAL')
-        }}</label>
+      <div
+        v-if="form.deal_title"
+        class="flex flex-col gap-1"
+        role="group"
+        aria-labelledby="crm-task-deal"
+      >
+        <span id="crm-task-deal" class="text-heading-3 text-n-slate-12">
+          {{ t('CRM.TASKS.FORM.DEAL') }}
+        </span>
         <div
-          class="flex items-center h-10 px-3 text-sm rounded-lg border border-n-weak bg-n-alpha-black2 text-n-slate-11"
+          class="flex items-center h-10 px-3 rounded-lg text-body-main bg-n-alpha-black2 text-n-slate-11 outline outline-1 -outline-offset-1 outline-n-weak"
         >
           {{ form.deal_title }}
         </div>

@@ -3,6 +3,7 @@ import { crmTasksAPI } from 'dashboard/api/crm';
 
 export const types = {
   SET: 'crm/tasks/SET',
+  APPEND: 'crm/tasks/APPEND',
   UPSERT: 'crm/tasks/UPSERT',
   REMOVE: 'crm/tasks/REMOVE',
   SET_SCOPE: 'crm/tasks/SET_SCOPE',
@@ -17,9 +18,13 @@ export const state = {
     isFetching: false,
     hasFetched: false,
     isSaving: false,
+    isLoadingMore: false,
     isUnavailable: false,
   },
 };
+
+// The server's page size (SalesCrm::Tasks::List::PER_PAGE)
+const PAGE_SIZE = 50;
 
 export const getters = {
   all: _state => _state.records,
@@ -60,6 +65,20 @@ export const actions = {
         isUnavailable: error?.response?.status >= 500 || !error?.response,
       });
       throw error;
+    }
+  },
+
+  // Next page of the current tab, appended under the loaded rows
+  async loadMore({ commit, state: _state }) {
+    commit(types.SET_FLAGS, { isLoadingMore: true });
+    try {
+      const { data } = await crmTasksAPI.get({
+        scope: _state.scope,
+        page: Math.floor(_state.records.length / PAGE_SIZE) + 1,
+      });
+      commit(types.APPEND, data);
+    } finally {
+      commit(types.SET_FLAGS, { isLoadingMore: false });
     }
   },
 
@@ -119,17 +138,30 @@ export const mutations = {
     _state.records = tasks;
     _state.total = total;
   },
+  [types.APPEND](_state, { tasks, total }) {
+    const loaded = new Set(_state.records.map(t => t.id));
+    _state.records.push(...tasks.filter(t => !loaded.has(t.id)));
+    _state.total = total;
+  },
   [types.UPSERT](_state, task) {
     const index = _state.records.findIndex(t => t.id === task.id);
     if (!belongsToScope(task, _state.scope)) {
-      if (index !== -1) _state.records.splice(index, 1);
+      if (index !== -1) {
+        _state.records.splice(index, 1);
+        _state.total = Math.max(0, _state.total - 1);
+      }
       return;
     }
-    if (index === -1) _state.records.unshift(task);
-    else _state.records.splice(index, 1, task);
+    if (index === -1) {
+      _state.records.unshift(task);
+      _state.total += 1;
+    } else _state.records.splice(index, 1, task);
   },
   [types.REMOVE](_state, id) {
+    const before = _state.records.length;
     _state.records = _state.records.filter(t => t.id !== id);
+    if (_state.records.length < before)
+      _state.total = Math.max(0, _state.total - 1);
   },
   [types.SET_SCOPE](_state, scope) {
     _state.scope = scope;

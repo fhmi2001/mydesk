@@ -7,6 +7,7 @@ import Select from 'dashboard/components-next/select/Select.vue';
 
 const props = defineProps({
   noneLabel: { type: String, default: '' },
+  ariaLabel: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
 });
 
@@ -37,5 +38,10 @@ const value = computed({
 </script>
 
 <template>
-  <Select v-model="value" :options="options" :disabled="disabled" />
+  <Select
+    v-model="value"
+    :options="options"
+    :disabled="disabled"
+    :aria-label="ariaLabel"
+  />
 </template>
