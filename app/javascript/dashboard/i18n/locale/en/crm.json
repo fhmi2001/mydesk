@@ -36,6 +36,11 @@
       "RELOAD": "Reload",
       "DISABLED": "The Sales CRM is not enabled for this account."
     },
+    "CONTACT_PICKER": {
+      "TYPE_MORE": "Type at least two characters to search customers.",
+      "NO_MATCH": "No customer with that name or number.",
+      "NO_CONTACTS": "No customers yet."
+    },
     "PLURALS": {
       "DEALS": {
         "zero": "No deals",
@@ -149,6 +154,8 @@
         "NOTES": "Notes",
         "ADD_NOTE": "Add note",
         "NOTE_PLACEHOLDER": "Write a note…",
+        "NEW_NOTE": "New note",
+        "DELETE_NOTE": "Delete note",
         "NO_NOTES": "No notes yet.",
         "ACTIVITY": "Activity",
         "NO_ACTIVITY": "No activity yet.",
@@ -210,6 +217,10 @@
       "EDIT_ARIA": "Edit task “{title}”",
       "DELETE_ARIA": "Delete task “{title}”",
       "LOAD_MORE": "Show more ({count})",
+      "COPY_LINK": "Copy link",
+      "COPY_LINK_ARIA": "Copy link to task “{title}”",
+      "LINK_COPIED": "Task link copied",
+      "NOT_FOUND": "This task doesn't exist or was deleted.",
       "COMPLETED": "Task completed",
       "DELETED": "Task deleted",
       "DELETE_CONFIRM": "Delete this task?",
@@ -250,6 +261,8 @@
         "month": "Monthly"
       },
       "VS_PREVIOUS": "vs previous period",
+      "DELTA_NOTE": "▲▼ change vs the previous period of the same length.",
+      "UPDATING": "Updating…",
       "SUMMARY": {
         "TITLE": "Summary",
         "OPEN": "Open deals",
@@ -261,7 +274,9 @@
         "WIN_RATE": "Win rate",
         "AVG_DEAL": "Average won deal",
         "AVG_DAYS": "Average days to close",
-        "CREATED": "New deals"
+        "CREATED": "New deals",
+        "NO_CLOSED": "No closed deals in this period",
+        "NO_WON": "No won deals in this period"
       },
       "FUNNEL": {
         "TITLE": "Conversion funnel",
@@ -289,6 +304,7 @@
       },
       "TIMELINE": {
         "TITLE": "Sales over time",
+        "LEGEND": "Legend",
         "CREATED": "New",
         "WON": "Won",
         "LOST": "Lost"
@@ -315,6 +331,14 @@
       "COLOR": "Color",
       "ADD_STAGE": "Add stage",
       "REMOVE_STAGE": "Remove stage",
+      "REMOVE_STAGE_NAMED": "Remove stage “{name}”",
+      "STAGE_N": "Stage {n}",
+      "MOVE_UP": "Move “{name}” up",
+      "MOVE_DOWN": "Move “{name}” down",
+      "EDIT_REASON": "Edit reason “{name}”",
+      "DELETE_REASON": "Delete reason “{name}”",
+      "REASON_NAME": "Reason name",
+      "SEE_OWN_LABEL": "Agents see only their own deals",
       "MOVE_DEALS_TITLE": "This stage has deals",
       "MOVE_DEALS_BODY": "Choose the stage to move its {count} deal(s) to before removing it.",
       "MOVE_DEALS_TARGET": "Move deals to",
@@ -349,6 +373,7 @@
       "VIEW_ALL": "View all",
       "CHANGE_STAGE": "Change stage",
       "ADD_TASK": "Task",
+      "ADD_TASK_FOR": "Add a task to deal “{title}”",
       "STAGE_CHANGED": "Stage updated"
     }
   }

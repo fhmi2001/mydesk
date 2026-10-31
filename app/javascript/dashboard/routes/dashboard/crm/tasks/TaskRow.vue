@@ -2,7 +2,10 @@
 // Custom (MyDesk): one task in a list: done checkbox, title, due, links, assignee
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
@@ -29,6 +32,19 @@ const dealRoute = computed(() =>
     ? accountScopedRoute('crm_deal', { dealId: props.task.deal.id })
     : null
 );
+const router = useRouter();
+const taskRoute = computed(() =>
+  accountScopedRoute('crm_task', { taskId: props.task.id })
+);
+const copyLink = async () => {
+  try {
+    const { href } = router.resolve(taskRoute.value);
+    await copyTextToClipboard(new URL(href, window.location.origin).href);
+    useAlert(t('CRM.TASKS.LINK_COPIED'));
+  } catch (e) {
+    useAlert(t('CRM.COMMON.ERROR'));
+  }
+};
 const contactRoute = computed(() =>
   props.task.contact
     ? accountScopedRoute('contacts_edit', { contactId: props.task.contact.id })
@@ -59,12 +75,13 @@ const contactRoute = computed(() =>
       <span v-if="isDone" class="i-lucide-check size-3" aria-hidden="true" />
     </button>
     <div class="flex-1 min-w-0">
-      <p
-        class="text-body-main text-n-slate-12"
+      <router-link
+        :to="taskRoute"
+        class="block w-fit max-w-full rounded text-body-main text-n-slate-12 hover:underline focus-visible:outline-2 focus-visible:outline-n-brand"
         :class="{ 'line-through': isDone }"
       >
         {{ task.title }}
-      </p>
+      </router-link>
       <p
         v-if="task.description && !compact"
         class="mt-0.5 text-label-small text-n-slate-11 line-clamp-2"
@@ -110,6 +127,16 @@ const contactRoute = computed(() =>
         :src="task.assignee.avatar_url"
         :size="22"
         rounded-full
+      />
+      <Button
+        v-if="!compact"
+        icon="i-lucide-link"
+        size="xs"
+        variant="ghost"
+        color="slate"
+        :aria-label="t('CRM.TASKS.COPY_LINK_ARIA', { title: task.title })"
+        :title="t('CRM.TASKS.COPY_LINK')"
+        @click="copyLink"
       />
       <Button
         v-if="!compact"

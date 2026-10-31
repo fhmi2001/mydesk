@@ -1,7 +1,11 @@
 <script setup>
-// Custom (MyDesk): Sales > Tasks: mine / today / overdue / upcoming / done / all
-import { ref, computed, onMounted } from 'vue';
+// Custom (MyDesk): Sales > Tasks: mine / today / overdue / upcoming / done / all. A task's direct link
+// (crm_task, /crm/tasks/:taskId) is this page with that task open; closing it returns to the list URL.
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { crmTasksAPI } from 'dashboard/api/crm';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -50,11 +54,53 @@ const editing = ref(null);
 const deleting = ref(null);
 const deleteDialog = ref(null);
 
+const route = useRoute();
+const router = useRouter();
+const { accountScopedRoute } = useAccount();
+
 const load = (kind = scope.value) =>
   store.dispatch('crm/tasks/fetch', { scope: kind }).catch(() => {});
-onMounted(() => load('mine'));
+// Keeps the last tab when coming back from a task's link
+onMounted(() => load(scope.value));
 
 const onTab = tab => load(tab.key);
+
+const showTask = async task => {
+  editing.value = task;
+  await nextTick();
+  taskForm.value?.open();
+};
+
+// Open the task named in the URL: from the loaded list when it is there, otherwise from the server
+watch(
+  () => route.params.taskId,
+  async taskId => {
+    if (!taskId) return;
+    const id = Number(taskId);
+    const loaded = tasks.value.find(task => task.id === id);
+    if (loaded) {
+      showTask(loaded);
+      return;
+    }
+    try {
+      const { data } = await crmTasksAPI.show(id);
+      showTask(data);
+    } catch (error) {
+      useAlert(
+        error?.response?.status === 404
+          ? t('CRM.TASKS.NOT_FOUND')
+          : apiErrorMessage(error, t('CRM.COMMON.ERROR'))
+      );
+      router.replace(accountScopedRoute('crm_tasks'));
+    }
+  },
+  { immediate: true }
+);
+
+const onFormClose = () => {
+  if (route.name === 'crm_task')
+    router.replace(accountScopedRoute('crm_tasks'));
+};
 
 const remaining = computed(() =>
   Math.max(0, (total.value || 0) - tasks.value.length)
@@ -68,10 +114,9 @@ const openNew = () => {
   editing.value = null;
   taskForm.value?.open();
 };
-const openEdit = task => {
-  editing.value = task;
-  taskForm.value?.open();
-};
+// Editing goes through the task's URL, so the address bar always holds a shareable link
+const openEdit = task =>
+  router.push(accountScopedRoute('crm_task', { taskId: task.id }));
 
 const onSubmit = async ({ payload, isEdit, id }) => {
   try {
@@ -195,6 +240,7 @@ const canDelete = task =>
       :task="editing"
       :is-saving="flags.isSaving"
       @submit="onSubmit"
+      @close="onFormClose"
     />
     <Dialog
       ref="deleteDialog"

@@ -524,7 +524,7 @@ Rails.application.routes.draw do
               resources :notes, controller: 'deal_notes', only: [:index, :create, :destroy]
               get :activities, to: 'deal_notes#activities'
             end
-            resources :tasks, only: [:index, :create, :update, :destroy] do
+            resources :tasks, only: [:index, :show, :create, :update, :destroy] do
               member do
                 post :complete
                 post :reopen

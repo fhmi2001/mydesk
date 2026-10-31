@@ -1,12 +1,17 @@
-# Custom (MyDesk): tasks: the tabs, create, edit, complete, reopen, delete
+# Custom (MyDesk): tasks: the tabs, one task (its direct link), create, edit, complete, reopen, delete
 class Api::V1::Accounts::Crm::TasksController < Api::V1::Accounts::Crm::BaseController
-  before_action :set_task, only: [:update, :complete, :reopen, :destroy]
+  before_action :set_task, only: [:show, :update, :complete, :reopen, :destroy]
 
   def index
     tasks = service(SalesCrm::Tasks::List).perform(tasks_scope, kind: params[:scope].presence || 'mine', contact_id: params[:contact_id],
                                                                 deal_id: params[:deal_id], page: params[:page].presence || 1)
     render json: { tasks: tasks.map { |t| SalesCrm::Presenter.task(t) }, total: tasks.total_count, page: tasks.current_page,
                    overdue_count: service(SalesCrm::Tasks::List).overdue_count(tasks_scope) }
+  end
+
+  def show
+    authorize @task
+    render json: SalesCrm::Presenter.task(@task)
   end
 
   def create

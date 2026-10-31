@@ -18,9 +18,9 @@ import { useCrmFormat } from '../shared/useCrmFormat';
 import SummaryCards from './SummaryCards.vue';
 import { periodRange } from './periods';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const store = useStore();
-const { money, number, date } = useCrmFormat();
+const { money, number } = useCrmFormat();
 
 const pipelines = useMapGetter('crm/pipelines/all');
 const isAdmin = useMapGetter('crm/status/isAdmin');
@@ -115,21 +115,44 @@ watch(period, () => {
 });
 watch([pipelineId, assigneeId, interval], load);
 
+// Lost is where deals leave the pipeline, not a step forward, so the funnel stops at won
+const funnelRows = computed(() =>
+  funnel.value.filter(row => row.kind !== 'lost')
+);
+
 const funnelChart = computed(() => ({
-  categories: funnel.value.map(row => row.name),
+  categories: funnelRows.value.map(row => row.name),
   series: [
     {
       id: 'reached',
       label: t('CRM.REPORTS.FUNNEL.REACHED'),
       color: 'rgb(var(--iris-9))',
       valueColor: 'rgb(var(--iris-11))',
-      data: funnel.value.map(row => ({ value: row.reached_count })),
+      data: funnelRows.value.map(row => ({ value: row.reached_count })),
     },
   ],
 }));
 
+// Deal counts are whole numbers: about four steps, never a fraction
+const countStep = values => Math.max(1, Math.ceil(Math.max(0, ...values) / 4));
+const funnelStep = computed(() =>
+  countStep(funnelRows.value.map(row => row.reached_count))
+);
+const timelineStep = computed(() =>
+  countStep(timeline.value.flatMap(b => [b.created, b.won, b.lost]))
+);
+
+// Short axis labels ("1 نوفمبر", or "نوفمبر 2026" per month); buckets are plain dates, read as UTC
+const shortDate = value =>
+  new Intl.DateTimeFormat(locale.value, {
+    timeZone: 'UTC',
+    ...(interval.value === 'month'
+      ? { month: 'short', year: 'numeric' }
+      : { day: 'numeric', month: 'short' }),
+  }).format(new Date(value));
+
 const timelineChart = computed(() => ({
-  categories: timeline.value.map(b => date(b.bucket)),
+  categories: timeline.value.map(b => shortDate(b.bucket)),
   series: [
     {
       id: 'created',
@@ -158,7 +181,12 @@ const timelineChart = computed(() => ({
 const lostMax = computed(() =>
   Math.max(1, ...lostReasons.value.map(r => r.count))
 );
-const hasFunnel = computed(() => funnel.value.some(r => r.reached_count > 0));
+const hasFunnel = computed(() =>
+  funnelRows.value.some(r => r.reached_count > 0)
+);
+const timelineLegend = computed(() => timelineChart.value.series);
+// A rate or an average of no closed deals is not zero
+const closedCount = row => (row.won_count || 0) + (row.lost_count || 0);
 const hasTimeline = computed(() =>
   timeline.value.some(b => b.created || b.won || b.lost)
 );
@@ -194,12 +222,18 @@ const exportCsv = async () => {
       </template>
     </CrmPageHeader>
 
+    <!-- Each select carries its caption as aria-label: the captions are not <label for> targets -->
     <div class="flex flex-wrap items-end gap-3 px-6 pb-4">
       <div class="flex flex-col gap-1">
-        <label class="text-xs text-n-slate-11">{{
-          t('CRM.REPORTS.PERIOD')
-        }}</label>
-        <Select v-model="period" :options="periodOptions" class="w-40" />
+        <span class="text-label-small text-n-slate-11" aria-hidden="true">
+          {{ t('CRM.REPORTS.PERIOD') }}
+        </span>
+        <Select
+          v-model="period"
+          :options="periodOptions"
+          :aria-label="t('CRM.REPORTS.PERIOD')"
+          class="w-40"
+        />
       </div>
       <template v-if="period === 'custom'">
         <Input
@@ -218,26 +252,45 @@ const exportCsv = async () => {
         />
       </template>
       <div v-if="pipelineOptions.length > 2" class="flex flex-col gap-1">
-        <label class="text-xs text-n-slate-11">{{
-          t('CRM.DEALS.PIPELINE')
-        }}</label>
-        <Select v-model="pipelineId" :options="pipelineOptions" class="w-44" />
+        <span class="text-label-small text-n-slate-11" aria-hidden="true">
+          {{ t('CRM.DEALS.PIPELINE') }}
+        </span>
+        <Select
+          v-model="pipelineId"
+          :options="pipelineOptions"
+          :aria-label="t('CRM.DEALS.PIPELINE')"
+          class="w-44"
+        />
       </div>
       <div v-if="isAdmin" class="flex flex-col gap-1 w-44">
-        <label class="text-xs text-n-slate-11">{{
-          t('CRM.DEALS.ASSIGNEE')
-        }}</label>
+        <span class="text-label-small text-n-slate-11" aria-hidden="true">
+          {{ t('CRM.DEALS.ASSIGNEE') }}
+        </span>
         <AgentPicker
           v-model="assigneeId"
           :none-label="t('CRM.COMMON.ANY_ASSIGNEE')"
+          :aria-label="t('CRM.DEALS.ASSIGNEE')"
         />
       </div>
       <div class="flex flex-col gap-1">
-        <label class="text-xs text-n-slate-11">{{
-          t('CRM.REPORTS.INTERVAL')
-        }}</label>
-        <Select v-model="interval" :options="intervalOptions" class="w-32" />
+        <span class="text-label-small text-n-slate-11" aria-hidden="true">
+          {{ t('CRM.REPORTS.INTERVAL') }}
+        </span>
+        <Select
+          v-model="interval"
+          :options="intervalOptions"
+          :aria-label="t('CRM.REPORTS.INTERVAL')"
+          class="w-32"
+        />
       </div>
+      <span
+        v-if="isLoading && summary"
+        class="flex items-center gap-2 pb-2 text-label-small text-n-slate-11"
+        role="status"
+      >
+        <Spinner class="!size-4" />
+        {{ t('CRM.REPORTS.UPDATING') }}
+      </span>
     </div>
 
     <CrmUnavailable
@@ -252,11 +305,18 @@ const exportCsv = async () => {
       <Spinner />
     </div>
 
-    <div v-else class="flex flex-col gap-6 px-6 pb-8">
+    <div
+      v-else
+      class="flex flex-col gap-6 px-6 pb-8 transition-opacity"
+      :class="{ 'opacity-60': isLoading }"
+      :aria-busy="isLoading"
+    >
       <SummaryCards v-if="summary" :summary="summary" :currency="currency" />
 
       <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <section class="p-5 rounded-2xl border border-n-weak bg-n-solid-1">
+        <section
+          class="p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
+        >
           <h2 class="mb-4 text-heading-3 text-n-slate-12">
             {{ t('CRM.REPORTS.FUNNEL.TITLE') }}
           </h2>
@@ -267,22 +327,24 @@ const exportCsv = async () => {
             :height="240"
             :bar-radius="4"
             :max-bar-width="40"
+            :y-step-size="funnelStep"
           />
-          <p v-else class="text-sm text-n-slate-11">
+          <p v-else class="text-body-main text-n-slate-11">
             {{ t('CRM.REPORTS.FUNNEL.EMPTY') }}
           </p>
           <ol
             v-if="hasFunnel"
-            class="grid grid-cols-2 gap-2 mt-4 text-xs sm:grid-cols-3"
+            class="grid grid-cols-2 gap-2 mt-4 text-label-small sm:grid-cols-3"
           >
             <li
-              v-for="row in funnel"
+              v-for="row in funnelRows"
               :key="row.stage_id"
               class="flex items-center gap-2 text-n-slate-11"
             >
               <span
-                class="size-2 rounded-full shrink-0"
+                class="rounded-full size-2 shrink-0"
                 :style="{ backgroundColor: row.color }"
+                aria-hidden="true"
               />
               <span class="truncate">{{ row.name }}</span>
               <span class="ms-auto tabular-nums text-n-slate-12">{{
@@ -291,26 +353,39 @@ const exportCsv = async () => {
               <span
                 v-if="row.conversion_from_previous !== null"
                 class="tabular-nums"
+                :title="t('CRM.REPORTS.FUNNEL.CONVERSION')"
               >
                 {{ conversionLabel(row) }}
+                <span class="sr-only">{{
+                  t('CRM.REPORTS.FUNNEL.CONVERSION')
+                }}</span>
               </span>
             </li>
           </ol>
         </section>
 
-        <section class="p-5 rounded-2xl border border-n-weak bg-n-solid-1">
+        <section
+          class="p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
+        >
           <h2 class="mb-4 text-heading-3 text-n-slate-12">
             {{ t('CRM.REPORTS.LOST_REASONS.TITLE') }}
           </h2>
           <ul v-if="lostReasons.length" class="flex flex-col gap-3">
-            <li v-for="row in lostReasons" :key="row.reason" class="text-sm">
+            <li
+              v-for="row in lostReasons"
+              :key="row.reason"
+              class="text-body-main"
+            >
               <div class="flex items-center justify-between gap-3">
                 <span class="truncate text-n-slate-12">{{ row.reason }}</span>
                 <span class="tabular-nums text-n-slate-11 shrink-0">
                   {{ lostLabel(row) }}
                 </span>
               </div>
-              <div class="h-1.5 mt-1 rounded-full bg-n-slate-3">
+              <div
+                class="h-1.5 mt-1 rounded-full bg-n-slate-3"
+                aria-hidden="true"
+              >
                 <div
                   class="h-full rounded-full bg-n-ruby-9"
                   :style="{ width: `${(row.count / lostMax) * 100}%` }"
@@ -318,16 +393,38 @@ const exportCsv = async () => {
               </div>
             </li>
           </ul>
-          <p v-else class="text-sm text-n-slate-11">
+          <p v-else class="text-body-main text-n-slate-11">
             {{ t('CRM.REPORTS.LOST_REASONS.EMPTY') }}
           </p>
         </section>
       </div>
 
-      <section class="p-5 rounded-2xl border border-n-weak bg-n-solid-1">
-        <h2 class="mb-4 text-heading-3 text-n-slate-12">
-          {{ t('CRM.REPORTS.TIMELINE.TITLE') }}
-        </h2>
+      <section
+        class="p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-heading-3 text-n-slate-12">
+            {{ t('CRM.REPORTS.TIMELINE.TITLE') }}
+          </h2>
+          <ul
+            v-if="hasTimeline"
+            class="flex flex-wrap items-center gap-x-4 gap-y-1 text-label-small text-n-slate-11"
+            :aria-label="t('CRM.REPORTS.TIMELINE.LEGEND')"
+          >
+            <li
+              v-for="series in timelineLegend"
+              :key="series.id"
+              class="inline-flex items-center gap-1.5"
+            >
+              <span
+                class="size-2.5 rounded-sm shrink-0"
+                :style="{ backgroundColor: series.color }"
+                aria-hidden="true"
+              />
+              {{ series.label }}
+            </li>
+          </ul>
+        </div>
         <BarChart
           v-if="hasTimeline"
           :data="timelineChart"
@@ -336,65 +433,80 @@ const exportCsv = async () => {
           :bar-radius="3"
           :bar-gap="2"
           :max-bar-width="24"
+          :y-step-size="timelineStep"
+          timeseries
         />
-        <p v-else class="text-sm text-n-slate-11">
+        <p v-else class="text-body-main text-n-slate-11">
           {{ t('CRM.REPORTS.FUNNEL.EMPTY') }}
         </p>
       </section>
 
       <section
-        class="p-5 overflow-x-auto rounded-2xl border border-n-weak bg-n-solid-1"
+        class="p-5 overflow-x-auto rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
       >
         <h2 class="mb-4 text-heading-3 text-n-slate-12">
           {{ t('CRM.REPORTS.AGENTS.TITLE') }}
         </h2>
-        <table class="w-full text-sm">
+        <table v-if="agents.length" class="w-full text-body-main">
           <thead>
-            <tr class="text-xs text-n-slate-11">
-              <th class="py-2 font-medium text-start">
+            <tr class="text-label-small text-n-slate-11">
+              <th scope="col" class="py-2 font-medium text-start">
                 {{ t('CRM.REPORTS.AGENTS.AGENT') }}
               </th>
-              <th class="py-2 font-medium text-end">
+              <th scope="col" class="py-2 font-medium text-end">
                 {{ t('CRM.REPORTS.AGENTS.OPEN') }}
               </th>
-              <th class="py-2 font-medium text-end">
+              <th scope="col" class="py-2 font-medium text-end">
                 {{ t('CRM.REPORTS.AGENTS.WON') }}
               </th>
-              <th class="py-2 font-medium text-end">
+              <th scope="col" class="py-2 font-medium text-end">
                 {{ t('CRM.REPORTS.AGENTS.LOST') }}
               </th>
-              <th class="py-2 font-medium text-end">
+              <th scope="col" class="py-2 font-medium text-end">
                 {{ t('CRM.REPORTS.AGENTS.WIN_RATE') }}
               </th>
-              <th class="py-2 font-medium text-end">
+              <th scope="col" class="py-2 font-medium text-end">
                 {{ t('CRM.REPORTS.AGENTS.WON_TOTAL') }}
               </th>
-              <th class="py-2 font-medium text-end">
+              <th scope="col" class="py-2 font-medium text-end">
                 {{ t('CRM.REPORTS.AGENTS.AVG_DAYS') }}
               </th>
-              <th class="py-2 font-medium text-end">
+              <th scope="col" class="py-2 font-medium text-end">
                 {{ t('CRM.REPORTS.AGENTS.OVERDUE_TASKS') }}
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-n-weak">
             <tr v-for="row in agents" :key="row.user_id">
-              <td class="py-2.5 text-n-slate-12">{{ row.name }}</td>
+              <th
+                scope="row"
+                class="py-2.5 font-normal text-start text-n-slate-12"
+              >
+                {{ row.name }}
+              </th>
               <td class="py-2.5 text-end tabular-nums">
                 {{ number(row.open_count) }}
               </td>
-              <td class="py-2.5 text-end tabular-nums text-n-teal-11">
+              <td
+                class="py-2.5 text-end tabular-nums"
+                :class="{ 'text-n-teal-11': row.won_count }"
+              >
                 {{ number(row.won_count) }}
               </td>
-              <td class="py-2.5 text-end tabular-nums text-n-ruby-11">
+              <td
+                class="py-2.5 text-end tabular-nums"
+                :class="{ 'text-n-ruby-11': row.lost_count }"
+              >
                 {{ number(row.lost_count) }}
               </td>
-              <td class="py-2.5 text-end tabular-nums">{{ row.win_rate }}%</td>
+              <td class="py-2.5 text-end tabular-nums">
+                {{ closedCount(row) ? `${row.win_rate}%` : '—' }}
+              </td>
               <td class="py-2.5 text-end tabular-nums" dir="auto">
                 {{ money(row.won_total_cents, currency) }}
               </td>
               <td class="py-2.5 text-end tabular-nums">
-                {{ row.avg_days_to_close }}
+                {{ closedCount(row) ? number(row.avg_days_to_close) : '—' }}
               </td>
               <td
                 class="py-2.5 text-end tabular-nums"
@@ -405,6 +517,9 @@ const exportCsv = async () => {
             </tr>
           </tbody>
         </table>
+        <p v-else class="text-body-main text-n-slate-11">
+          {{ t('CRM.REPORTS.FUNNEL.EMPTY') }}
+        </p>
       </section>
     </div>
   </div>

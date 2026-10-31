@@ -129,7 +129,7 @@ defineExpose({ open, close });
             t('CRM.DEALS.FORM.CURRENCY')
           }}</label>
           <div
-            class="flex items-center h-10 px-3 rounded-lg border border-n-weak bg-n-alpha-black2 text-sm text-n-slate-11"
+            class="flex items-center h-10 px-3 rounded-lg outline outline-1 -outline-offset-1 outline-n-weak bg-n-alpha-black2 text-body-main text-n-slate-11"
           >
             {{ pipeline?.currency || 'SAR' }}
           </div>

@@ -44,6 +44,13 @@ export const routes = [
         component: TasksPage,
       },
       {
+        // A task's direct link: the tasks page with that task open
+        path: 'tasks/:taskId',
+        name: 'crm_task',
+        meta: everyone,
+        component: TasksPage,
+      },
+      {
         path: 'reports',
         name: 'crm_reports',
         meta: everyone,

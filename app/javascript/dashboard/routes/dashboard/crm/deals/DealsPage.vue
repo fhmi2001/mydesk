@@ -275,20 +275,26 @@ const goToSettings = () =>
       :title="t('CRM.DEALS.TITLE')"
       :subtitle="t('CRM.DEALS.SUBTITLE')"
     >
+      <!-- On phones the two secondary actions show their icon only (label kept for screen readers),
+           so the header holds one row -->
       <template #actions>
         <Button
           v-if="isAdmin"
           :label="t('CRM.DEALS.EDIT_PIPELINE')"
+          :title="t('CRM.DEALS.EDIT_PIPELINE')"
           variant="faded"
           size="sm"
           icon="i-lucide-settings-2"
+          class="max-sm:!px-2 max-sm:[&>span.truncate]:sr-only"
           @click="goToSettings"
         />
         <Button
           :label="t('CRM.DEALS.EXPORT')"
+          :title="t('CRM.DEALS.EXPORT')"
           variant="faded"
           size="sm"
           icon="i-lucide-download"
+          class="max-sm:!px-2 max-sm:[&>span.truncate]:sr-only"
           @click="exportCsv"
         />
         <Button
@@ -329,12 +335,13 @@ const goToSettings = () =>
         type="search"
         :placeholder="t('CRM.DEALS.SEARCH_PLACEHOLDER')"
         :aria-label="t('CRM.COMMON.SEARCH')"
-        class="w-56"
+        class="group w-full sm:w-56 [&>input]:!ps-8"
         size="sm"
       >
+        <!-- The Input prefix slot is not positioned for us: sit the icon inside the field's start edge -->
         <template #prefix>
           <span
-            class="i-lucide-search size-4 text-n-slate-10"
+            class="absolute top-1/2 -translate-y-1/2 start-2.5 i-lucide-search size-3.5 text-n-slate-10 group-focus-within:text-n-brand pointer-events-none"
             aria-hidden="true"
           />
         </template>

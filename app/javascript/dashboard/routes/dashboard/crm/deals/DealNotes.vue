@@ -27,7 +27,11 @@ const submit = () => {
 <template>
   <div class="flex flex-col gap-4">
     <form class="flex flex-col gap-2" @submit.prevent="submit">
+      <label for="crm-deal-note-draft" class="sr-only">
+        {{ t('CRM.DEALS.DETAIL.NEW_NOTE') }}
+      </label>
       <TextArea
+        id="crm-deal-note-draft"
         v-model="draft"
         :placeholder="t('CRM.DEALS.DETAIL.NOTE_PLACEHOLDER')"
         :max-length="10000"
@@ -56,10 +60,10 @@ const submit = () => {
           rounded-full
         />
         <div class="flex-1 min-w-0">
-          <p class="text-sm whitespace-pre-wrap text-n-slate-12">
+          <p class="text-body-main whitespace-pre-wrap text-n-slate-12">
             {{ note.content }}
           </p>
-          <p class="mt-1 text-xs text-n-slate-10">
+          <p class="mt-1 text-label-small text-n-slate-10">
             {{ note.user?.name }} · {{ dateTime(note.created_at) }}
           </p>
         </div>
@@ -69,11 +73,12 @@ const submit = () => {
           variant="ghost"
           size="xs"
           color="slate"
+          :aria-label="t('CRM.DEALS.DETAIL.DELETE_NOTE')"
           @click="emit('delete', note)"
         />
       </li>
     </ul>
-    <p v-else class="text-sm text-n-slate-11">
+    <p v-else class="text-body-main text-n-slate-11">
       {{ t('CRM.DEALS.DETAIL.NO_NOTES') }}
     </p>
   </div>

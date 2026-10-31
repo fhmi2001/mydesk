@@ -163,24 +163,34 @@ const confirmDelete = async () => {
         @tab-changed="onTab"
       />
 
+      <!-- The tab already names this panel, so its heading is for screen readers only -->
       <section
         v-if="activeTab === 'general'"
-        class="p-5 rounded-2xl border border-n-weak bg-n-solid-1"
+        class="p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
+        aria-labelledby="crm-settings-general"
       >
-        <h2 class="mb-4 text-heading-3 text-n-slate-12">
+        <h2 id="crm-settings-general" class="sr-only">
           {{ t('CRM.SETTINGS.TABS.general') }}
         </h2>
         <div class="flex items-start justify-between gap-4">
           <div>
-            <p class="text-sm text-n-slate-12">
+            <p
+              id="crm-settings-own-deals"
+              class="text-body-main text-n-slate-12"
+            >
               {{ t('CRM.SETTINGS.OWN_DEALS_ONLY') }}
             </p>
-            <p class="text-xs text-n-slate-11">
+            <p
+              id="crm-settings-own-deals-hint"
+              class="text-label-small text-n-slate-11"
+            >
               {{ t('CRM.SETTINGS.OWN_DEALS_ONLY_HINT') }}
             </p>
           </div>
           <Switch
             :model-value="settings.agents_see_own_deals_only"
+            aria-labelledby="crm-settings-own-deals"
+            aria-describedby="crm-settings-own-deals-hint"
             @change="
               saveSetting({
                 agents_see_own_deals_only: !settings.agents_see_own_deals_only,
@@ -189,12 +199,13 @@ const confirmDelete = async () => {
           />
         </div>
         <div class="flex items-center justify-between gap-4 mt-4">
-          <p class="text-sm text-n-slate-12">
+          <p class="text-body-main text-n-slate-12" aria-hidden="true">
             {{ t('CRM.SETTINGS.DEFAULT_CURRENCY') }}
           </p>
           <Select
             :model-value="settings.default_currency"
             :options="currencyOptions"
+            :aria-label="t('CRM.SETTINGS.DEFAULT_CURRENCY')"
             class="w-32"
             @update:model-value="v => saveSetting({ default_currency: v })"
           />

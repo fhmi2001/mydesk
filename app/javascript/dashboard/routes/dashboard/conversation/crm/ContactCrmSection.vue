@@ -197,6 +197,12 @@ const dealAmount = deal => money(deal.amount_cents, deal.currency);
 const openDeal = deal =>
   router.push(accountScopedRoute('crm_deal', { dealId: deal.id }));
 const openTasks = () => router.push(accountScopedRoute('crm_tasks'));
+const taskRoute = task => accountScopedRoute('crm_task', { taskId: task.id });
+
+// The base button CSS drops the border style and pads buttons, hence border-solid and p-0; the ::before
+// widens the tap area to 40px without growing the 20px circle
+const TASK_CHECK_CLASS =
+  "relative flex items-center justify-center p-0 mt-0.5 border-2 border-solid rounded-full size-5 shrink-0 border-n-slate-8 transition-colors hover:border-n-teal-11 before:absolute before:-inset-2.5 before:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand";
 </script>
 
 <template>
@@ -222,31 +228,34 @@ const openTasks = () => router.push(accountScopedRoute('crm_tasks'));
       />
     </div>
 
-    <p v-if="!deals.length && !tasks.length" class="text-xs text-n-slate-11">
+    <p
+      v-if="!deals.length && !tasks.length"
+      class="text-label-small text-n-slate-11"
+    >
       {{ t('CRM.PANEL.NONE') }}
     </p>
 
     <template v-if="deals.length">
-      <p class="text-xs font-medium text-n-slate-11">
+      <h3 class="text-label-small font-medium text-n-slate-11">
         {{ t('CRM.PANEL.OPEN_DEALS') }}
-      </p>
+      </h3>
       <ul class="flex flex-col gap-2">
         <li
           v-for="deal in deals"
           :key="deal.id"
-          class="p-2 rounded-lg border border-n-weak bg-n-solid-1"
+          class="p-2 rounded-lg bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
           :data-deal-id="deal.id"
         >
           <button
             type="button"
-            class="w-full text-start hover:underline"
+            class="w-full p-0 text-start hover:underline focus-visible:outline-2 focus-visible:outline-n-brand rounded"
             @click="openDeal(deal)"
           >
-            <span class="block text-sm truncate text-n-slate-12">
+            <span class="block truncate text-body-main text-n-slate-12">
               {{ deal.title }}
             </span>
             <span
-              class="block mt-0.5 text-xs text-n-slate-11 tabular-nums"
+              class="block mt-0.5 text-label-small text-n-slate-11 tabular-nums"
               dir="auto"
             >
               {{ dealAmount(deal) }}
@@ -264,6 +273,7 @@ const openTasks = () => router.push(accountScopedRoute('crm_tasks'));
             />
             <Button
               :label="t('CRM.PANEL.ADD_TASK')"
+              :aria-label="t('CRM.PANEL.ADD_TASK_FOR', { title: deal.title })"
               size="xs"
               variant="faded"
               icon="i-lucide-plus"
@@ -271,7 +281,7 @@ const openTasks = () => router.push(accountScopedRoute('crm_tasks'));
             />
           </div>
 
-          <ul v-if="tasksOf(deal).length" class="flex flex-col gap-1 mt-2">
+          <ul v-if="tasksOf(deal).length" class="flex flex-col gap-2 mt-2">
             <li
               v-for="task in tasksOf(deal)"
               :key="task.id"
@@ -279,14 +289,21 @@ const openTasks = () => router.push(accountScopedRoute('crm_tasks'));
             >
               <button
                 type="button"
-                class="flex items-center justify-center mt-0.5 border-2 rounded-full size-4 shrink-0 border-n-slate-8 hover:border-n-teal-9"
-                :aria-label="t('CRM.TASKS.COMPLETE')"
+                :class="TASK_CHECK_CLASS"
+                :aria-label="
+                  t('CRM.TASKS.COMPLETE_ARIA', { title: task.title })
+                "
                 @click="completeTask(task)"
               />
               <div class="min-w-0">
-                <p class="text-xs truncate text-n-slate-12">{{ task.title }}</p>
+                <router-link
+                  :to="taskRoute(task)"
+                  class="block truncate text-label-small text-n-slate-12 hover:underline"
+                >
+                  {{ task.title }}
+                </router-link>
                 <p
-                  class="text-xs"
+                  class="text-label-small"
                   :class="task.overdue ? 'text-n-ruby-11' : 'text-n-slate-10'"
                 >
                   {{ dueText(task) }}
@@ -299,25 +316,30 @@ const openTasks = () => router.push(accountScopedRoute('crm_tasks'));
     </template>
 
     <template v-if="looseTasks.length">
-      <p class="text-xs font-medium text-n-slate-11">
+      <h3 class="text-label-small font-medium text-n-slate-11">
         {{ t('CRM.PANEL.UPCOMING_TASKS') }}
-      </p>
+      </h3>
       <ul class="flex flex-col gap-1.5">
         <li
           v-for="task in looseTasks"
           :key="task.id"
-          class="flex items-start gap-2 p-2 rounded-lg border border-n-weak bg-n-solid-1"
+          class="flex items-start gap-2 p-2 rounded-lg bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
         >
           <button
             type="button"
-            class="flex items-center justify-center mt-0.5 border-2 rounded-full size-4 shrink-0 border-n-slate-8 hover:border-n-teal-9"
-            :aria-label="t('CRM.TASKS.COMPLETE')"
+            :class="TASK_CHECK_CLASS"
+            :aria-label="t('CRM.TASKS.COMPLETE_ARIA', { title: task.title })"
             @click="completeTask(task)"
           />
           <div class="min-w-0">
-            <p class="text-sm truncate text-n-slate-12">{{ task.title }}</p>
+            <router-link
+              :to="taskRoute(task)"
+              class="block truncate text-body-main text-n-slate-12 hover:underline"
+            >
+              {{ task.title }}
+            </router-link>
             <p
-              class="text-xs"
+              class="text-label-small"
               :class="task.overdue ? 'text-n-ruby-11' : 'text-n-slate-11'"
             >
               {{ dueText(task) }}
@@ -327,13 +349,15 @@ const openTasks = () => router.push(accountScopedRoute('crm_tasks'));
       </ul>
     </template>
 
-    <div class="flex items-center justify-between text-xs text-n-slate-11">
+    <div
+      class="flex items-center justify-between text-label-small text-n-slate-11"
+    >
       <span v-if="closedCount">
         {{ t('CRM.PANEL.CLOSED_COUNT', { count: closedCount }) }}
       </span>
       <button
         type="button"
-        class="ms-auto text-n-blue-11 hover:underline"
+        class="p-0 ms-auto text-n-blue-11 hover:underline"
         @click="openTasks"
       >
         {{ t('CRM.PANEL.VIEW_ALL') }}

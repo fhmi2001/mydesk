@@ -729,7 +729,7 @@ const menuItems = computed(() => {
                 name: 'CRM Tasks',
                 label: t('CRM.SIDEBAR.TASKS'),
                 to: accountScopedRoute('crm_tasks'),
-                activeOn: ['crm_tasks'],
+                activeOn: ['crm_tasks', 'crm_task'],
                 badgeCount: crmOverdueCount.value,
               },
               {

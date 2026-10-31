@@ -129,6 +129,17 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
       expect(response.parsed_body['tasks'].size).to eq(1)
     end
 
+    it 'tasks: one task by id for its direct link, never another account\'s' do
+      post "#{base}/tasks", params: { task: { title: 'تابع العرض' } }, headers: agent.create_new_auth_token, as: :json
+      id = response.parsed_body['id']
+      get "#{base}/tasks/#{id}", headers: admin.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include('id' => id, 'title' => 'تابع العرض')
+      other_account.enable_features!('sales_crm')
+      get "/api/v1/accounts/#{other_account.id}/crm/tasks/#{id}", headers: outsider.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:not_found)
+    end
+
     it 'discard, discarded list and restore (admin)' do
       deal = deal_for(agent)
       delete "#{base}/deals/#{deal.id}", headers: agent.create_new_auth_token, as: :json

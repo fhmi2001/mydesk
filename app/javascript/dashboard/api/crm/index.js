@@ -86,6 +86,10 @@ class CrmTasksAPI extends ApiClient {
     return axios.get(this.url, { params });
   }
 
+  show(id) {
+    return axios.get(`${this.url}/${id}`);
+  }
+
   create(task) {
     return axios.post(this.url, { task });
   }

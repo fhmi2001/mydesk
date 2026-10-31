@@ -58,15 +58,15 @@ const rows = computed(() =>
       >
         <span :class="row.icon" class="size-4" />
       </span>
-      <div class="min-w-0 text-sm">
+      <div class="min-w-0 text-body-main">
         <p class="text-n-slate-12">
           <span class="font-medium">{{ row.who }}</span> {{ row.text }}
         </p>
-        <p class="text-xs text-n-slate-10">{{ row.when }}</p>
+        <p class="text-label-small text-n-slate-10">{{ row.when }}</p>
       </div>
     </li>
   </ol>
-  <p v-else class="text-sm text-n-slate-11">
+  <p v-else class="text-body-main text-n-slate-11">
     {{ t('CRM.DEALS.DETAIL.NO_ACTIVITY') }}
   </p>
 </template>

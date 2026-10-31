@@ -244,23 +244,26 @@ const contactRoute = computed(() =>
       <div class="px-6 pt-5">
         <router-link
           :to="accountScopedRoute('crm_deals')"
-          class="inline-flex items-center gap-1 text-sm text-n-slate-11 hover:text-n-slate-12"
+          class="inline-flex items-center gap-1 text-body-main text-n-slate-11 hover:text-n-slate-12"
         >
-          <span class="i-lucide-arrow-left size-4 rtl:rotate-180" />
+          <span
+            class="i-lucide-arrow-left size-4 rtl:rotate-180"
+            aria-hidden="true"
+          />
           {{ t('CRM.DEALS.DETAIL.BACK') }}
         </router-link>
       </div>
 
       <div
         v-if="isStaleState"
-        class="flex flex-wrap items-center justify-between gap-3 px-4 py-3 mx-6 mt-4 rounded-xl bg-n-amber-2 border border-n-amber-6"
+        class="flex flex-wrap items-center justify-between gap-3 px-4 py-3 mx-6 mt-4 rounded-xl bg-n-amber-2 outline outline-1 -outline-offset-1 outline-n-amber-6"
         role="alert"
       >
         <div>
-          <p class="text-sm font-medium text-n-amber-12">
+          <p class="text-body-main font-medium text-n-amber-12">
             {{ t('CRM.COMMON.STALE_TITLE') }}
           </p>
-          <p class="text-sm text-n-amber-11">
+          <p class="text-body-main text-n-amber-11">
             {{ t('CRM.COMMON.STALE_BODY') }}
           </p>
         </div>
@@ -288,22 +291,26 @@ const contactRoute = computed(() =>
           >
             {{ money(deal.amount_cents, deal.currency) }}
           </p>
-          <p class="mt-1 text-sm text-n-slate-11">
+          <p class="mt-1 text-body-main text-n-slate-11">
             <span class="inline-flex items-center gap-1.5">
               <span
                 class="size-2 rounded-full"
                 :style="{ backgroundColor: stage?.color }"
+                aria-hidden="true"
               />
               {{ pipeline?.name }} · {{ stage?.name }} ·
               {{ stage?.probability }}%
             </span>
           </p>
-          <p v-if="deal.status === 'won'" class="mt-1 text-sm text-n-teal-11">
+          <p
+            v-if="deal.status === 'won'"
+            class="mt-1 text-body-main text-n-teal-11"
+          >
             {{ t('CRM.DEALS.DETAIL.WON_AT', { date: date(deal.won_at) }) }}
           </p>
           <p
             v-else-if="deal.status === 'lost'"
-            class="mt-1 text-sm text-n-ruby-11"
+            class="mt-1 text-body-main text-n-ruby-11"
           >
             {{
               t('CRM.DEALS.DETAIL.LOST_AT', {
@@ -314,7 +321,7 @@ const contactRoute = computed(() =>
           </p>
           <p
             v-if="deal.status === 'lost' && deal.lost_note"
-            class="mt-1 text-sm whitespace-pre-wrap text-n-slate-11"
+            class="mt-1 text-body-main whitespace-pre-wrap text-n-slate-11"
           >
             {{ deal.lost_note }}
           </p>
@@ -375,7 +382,9 @@ const contactRoute = computed(() =>
         class="grid grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]"
       >
         <div class="flex flex-col gap-6">
-          <section class="p-4 rounded-2xl border border-n-weak bg-n-solid-1">
+          <section
+            class="p-4 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak bg-n-solid-1"
+          >
             <div class="flex items-center justify-between mb-3">
               <h2 class="text-heading-3 text-n-slate-12">
                 {{ t('CRM.DEALS.DETAIL.TASKS') }}
@@ -400,12 +409,14 @@ const contactRoute = computed(() =>
                 @toggle="onTaskToggle"
               />
             </ul>
-            <p v-else class="text-sm text-n-slate-11">
+            <p v-else class="text-body-main text-n-slate-11">
               {{ t('CRM.DEALS.DETAIL.NO_TASKS') }}
             </p>
           </section>
 
-          <section class="p-4 rounded-2xl border border-n-weak bg-n-solid-1">
+          <section
+            class="p-4 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak bg-n-solid-1"
+          >
             <h2 class="mb-3 text-heading-3 text-n-slate-12">
               {{ t('CRM.DEALS.DETAIL.NOTES') }}
             </h2>
@@ -420,8 +431,10 @@ const contactRoute = computed(() =>
         </div>
 
         <div class="flex flex-col gap-6">
-          <section class="p-4 rounded-2xl border border-n-weak bg-n-solid-1">
-            <dl class="flex flex-col gap-3 text-sm">
+          <section
+            class="p-4 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak bg-n-solid-1"
+          >
+            <dl class="flex flex-col gap-3 text-body-main">
               <div>
                 <dt class="text-n-slate-11">
                   {{ t('CRM.DEALS.FORM.CONTACT') }}
@@ -485,7 +498,9 @@ const contactRoute = computed(() =>
             </dl>
           </section>
 
-          <section class="p-4 rounded-2xl border border-n-weak bg-n-solid-1">
+          <section
+            class="p-4 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak bg-n-solid-1"
+          >
             <h2 class="mb-3 text-heading-3 text-n-slate-12">
               {{ t('CRM.DEALS.DETAIL.ACTIVITY') }}
             </h2>

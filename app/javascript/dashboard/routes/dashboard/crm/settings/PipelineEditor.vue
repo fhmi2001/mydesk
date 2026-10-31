@@ -78,9 +78,20 @@ const addStage = () => {
     name: '',
     probability: 50,
     kind: 'open',
-    color: '#94a3b8',
+    color: '#8B8D98', // DESIGN.md ink-faint: a neutral until the admin picks one
   });
 };
+
+// Keyboard alternative to dragging: move a stage one place up or down
+const moveStage = (index, delta) => {
+  const target = index + delta;
+  if (target < 0 || target >= stages.value.length) return;
+  const next = [...stages.value];
+  [next[index], next[target]] = [next[target], next[index]];
+  stages.value = next;
+};
+const stageLabel = (stage, index) =>
+  stage.name?.trim() || t('CRM.SETTINGS.STAGE_N', { n: index + 1 });
 
 const removeStage = stage => {
   const count = stage.id ? props.stageDealCounts[stage.id] || 0 : 0;
@@ -144,19 +155,35 @@ const errorText = key =>
 </script>
 
 <template>
-  <section class="p-5 rounded-2xl border border-n-weak bg-n-solid-1">
+  <section
+    class="p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
+    :aria-labelledby="`crm-pipeline-${pipeline.id}`"
+  >
+    <h2
+      :id="`crm-pipeline-${pipeline.id}`"
+      class="mb-4 text-heading-2 text-n-slate-12"
+    >
+      {{ pipeline.name }}
+    </h2>
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_10rem]">
       <Input v-model="name" :label="t('CRM.SETTINGS.PIPELINE_NAME')" />
       <div class="flex flex-col gap-1">
-        <label class="text-heading-3 text-n-slate-12">{{
-          t('CRM.SETTINGS.CURRENCY')
-        }}</label>
+        <span
+          :id="`crm-pipeline-${pipeline.id}-currency`"
+          class="text-heading-3 text-n-slate-12"
+        >
+          {{ t('CRM.SETTINGS.CURRENCY') }}
+        </span>
         <Select
           v-model="currency"
           :options="currencyOptions"
           :disabled="pipeline.currency_locked"
+          :aria-label="t('CRM.SETTINGS.CURRENCY')"
         />
-        <p v-if="pipeline.currency_locked" class="text-xs text-n-slate-10">
+        <p
+          v-if="pipeline.currency_locked"
+          class="text-label-small text-n-slate-10"
+        >
           {{ t('CRM.SETTINGS.CURRENCY_LOCKED') }}
         </p>
       </div>
@@ -165,49 +192,108 @@ const errorText = key =>
     <h3 class="mt-5 mb-2 text-heading-3 text-n-slate-12">
       {{ t('CRM.SETTINGS.STAGES') }}
     </h3>
+    <!-- Column captions for wide screens; every field also carries its own aria-label, and on phones a
+         row wraps onto two lines so the stage name keeps a usable width -->
+    <div
+      class="hidden gap-2 px-2 mb-1 sm:flex text-label-small text-n-slate-11"
+      aria-hidden="true"
+    >
+      <span class="w-4 shrink-0" />
+      <span class="flex-1">{{ t('CRM.SETTINGS.STAGE_NAME') }}</span>
+      <span class="w-20 shrink-0">{{ t('CRM.SETTINGS.PROBABILITY') }}</span>
+      <span class="w-28 shrink-0">{{ t('CRM.SETTINGS.KIND') }}</span>
+      <span class="w-8 shrink-0">{{ t('CRM.SETTINGS.COLOR') }}</span>
+      <span class="w-[5.5rem] shrink-0" />
+    </div>
     <Draggable
       v-model="stages"
       item-key="uiKey"
       handle=".drag-handle"
       :animation="150"
+      tag="ol"
       class="flex flex-col gap-2"
     >
-      <template #item="{ element }">
-        <div
-          class="grid items-center gap-2 p-2 rounded-xl bg-n-slate-2 grid-cols-[auto_minmax(0,1fr)_5.5rem_7rem_2.5rem_auto]"
+      <template #item="{ element, index }">
+        <li
+          class="flex flex-wrap items-center gap-2 p-2 rounded-xl bg-n-slate-2 sm:flex-nowrap"
         >
           <span
-            class="drag-handle i-lucide-grip-vertical size-4 text-n-slate-10 cursor-grab"
+            class="drag-handle i-lucide-grip-vertical size-4 shrink-0 text-n-slate-10 cursor-grab"
+            aria-hidden="true"
           />
-          <Input
-            v-model="element.name"
-            :placeholder="t('CRM.SETTINGS.STAGE_NAME')"
-            size="sm"
-          />
-          <Input
-            v-model="element.probability"
-            type="number"
-            min="0"
-            max="100"
-            size="sm"
-            :placeholder="t('CRM.SETTINGS.PROBABILITY')"
-          />
-          <Select v-model="element.kind" :options="kindOptions" />
+          <!-- Input puts its class on the <input> itself, so each field sits in its own flex item -->
+          <div class="flex-1 min-w-0 basis-40">
+            <Input
+              v-model="element.name"
+              :placeholder="t('CRM.SETTINGS.STAGE_NAME')"
+              :aria-label="t('CRM.SETTINGS.STAGE_NAME')"
+              size="sm"
+            />
+          </div>
+          <div class="w-20 shrink-0">
+            <Input
+              v-model="element.probability"
+              type="number"
+              min="0"
+              max="100"
+              size="sm"
+              :aria-label="t('CRM.SETTINGS.PROBABILITY')"
+            />
+          </div>
+          <div class="w-28 shrink-0">
+            <Select
+              v-model="element.kind"
+              :options="kindOptions"
+              :aria-label="t('CRM.SETTINGS.KIND')"
+            />
+          </div>
           <input
             v-model="element.color"
             type="color"
-            class="w-8 h-8 p-0 bg-transparent border-0 rounded cursor-pointer"
+            class="w-8 h-8 p-0 bg-transparent border-0 rounded cursor-pointer shrink-0"
             :aria-label="t('CRM.SETTINGS.COLOR')"
           />
-          <Button
-            icon="i-lucide-x"
-            size="xs"
-            variant="ghost"
-            color="slate"
-            :aria-label="t('CRM.SETTINGS.REMOVE_STAGE')"
-            @click="removeStage(element)"
-          />
-        </div>
+          <div class="flex items-center gap-0.5 shrink-0 ms-auto sm:ms-0">
+            <Button
+              icon="i-lucide-arrow-up"
+              size="xs"
+              variant="ghost"
+              color="slate"
+              :disabled="index === 0"
+              :aria-label="
+                t('CRM.SETTINGS.MOVE_UP', {
+                  name: stageLabel(element, index),
+                })
+              "
+              @click="moveStage(index, -1)"
+            />
+            <Button
+              icon="i-lucide-arrow-down"
+              size="xs"
+              variant="ghost"
+              color="slate"
+              :disabled="index === stages.length - 1"
+              :aria-label="
+                t('CRM.SETTINGS.MOVE_DOWN', {
+                  name: stageLabel(element, index),
+                })
+              "
+              @click="moveStage(index, 1)"
+            />
+            <Button
+              icon="i-lucide-x"
+              size="xs"
+              variant="ghost"
+              color="slate"
+              :aria-label="
+                t('CRM.SETTINGS.REMOVE_STAGE_NAMED', {
+                  name: stageLabel(element, index),
+                })
+              "
+              @click="removeStage(element)"
+            />
+          </div>
+        </li>
       </template>
     </Draggable>
     <Button
@@ -219,7 +305,11 @@ const errorText = key =>
       @click="addStage"
     />
 
-    <ul v-if="errors.length" class="mt-3 text-sm text-n-ruby-11">
+    <ul
+      v-if="errors.length"
+      class="mt-3 text-body-main text-n-ruby-11"
+      role="alert"
+    >
       <li v-for="error in errors" :key="error">{{ errorText(error) }}</li>
     </ul>
 
@@ -234,9 +324,11 @@ const errorText = key =>
         @click="emit('delete', pipeline)"
       />
       <span v-else />
+      <!-- Solid only while there is something to save, so several pipelines never show several solid buttons -->
       <Button
         :label="t('CRM.COMMON.SAVE')"
         size="sm"
+        :variant="dirty ? 'solid' : 'faded'"
         :disabled="!dirty"
         :is-loading="isSaving"
         @click="save"
@@ -259,10 +351,15 @@ const errorText = key =>
       @close="pendingRemoval = null"
     >
       <div class="flex flex-col gap-1">
-        <label class="text-heading-3 text-n-slate-12">{{
-          t('CRM.SETTINGS.MOVE_DEALS_TARGET')
-        }}</label>
-        <Select v-model="moveTarget" :options="targetOptions" placeholder="—" />
+        <span class="text-heading-3 text-n-slate-12" aria-hidden="true">
+          {{ t('CRM.SETTINGS.MOVE_DEALS_TARGET') }}
+        </span>
+        <Select
+          v-model="moveTarget"
+          :options="targetOptions"
+          :aria-label="t('CRM.SETTINGS.MOVE_DEALS_TARGET')"
+          placeholder="—"
+        />
       </div>
     </Dialog>
   </section>

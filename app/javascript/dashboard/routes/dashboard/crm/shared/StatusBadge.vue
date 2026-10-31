@@ -19,7 +19,7 @@ const label = computed(() => t(`CRM.COMMON.${props.status.toUpperCase()}`));
 
 <template>
   <span
-    class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium"
+    class="inline-flex items-center px-2 py-0.5 rounded-md text-label-small font-medium"
     :class="tone"
   >
     {{ label }}
