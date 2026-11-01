@@ -92,7 +92,7 @@ const assigneeColumns = computed(() => [
       {{ t('CRM.REPORTS.DELTA_NOTE') }}
     </p>
 
-    <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+    <div class="grid grid-cols-1 gap-6 2xl:grid-cols-2">
       <ReportSection :title="L('BY_SOURCE')">
         <RankedBars
           :rows="data.sources"

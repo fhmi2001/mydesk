@@ -95,7 +95,12 @@ const times = value =>
 const currency = computed(
   () => Object.values(reports.value)[0]?.currency || 'SAR'
 );
-const toReport = key => ({ name: 'crm_report', params: { reportKey: key } });
+// A card opens its report; `query` sets the report's filters (reportQuery.js) when the card read other ones
+const toReport = (key, query) => ({
+  name: 'crm_report',
+  params: { reportKey: key },
+  query,
+});
 
 // One drill panel for every card: it lists the deals of whichever report the number came from
 const drillPanel = ref(null);
@@ -130,6 +135,7 @@ const alerts = computed(() => {
   if (leak)
     list.push({
       key: 'conversion',
+      query: { period: 'custom', ...lastMonth },
       tone: 'warn',
       text: D('ALERT_LEAK', { stage: leak.name, rate: percent(leak.rate) }),
     });
@@ -242,12 +248,18 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
           />
         </div>
 
-        <router-link
-          :to="toReport('quota')"
-          class="block p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1"
+        <section
+          class="relative p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1"
         >
           <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
-            <h2 class="text-heading-3 text-n-slate-12">{{ D('MY_TARGET') }}</h2>
+            <h2 class="text-heading-3 text-n-slate-12">
+              <router-link
+                :to="toReport('quota')"
+                class="after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-n-brand"
+              >
+                {{ D('MY_TARGET') }}
+              </router-link>
+            </h2>
             <span class="text-lg font-semibold tabular-nums text-n-slate-12">
               {{ percent(r('quota')?.totals.attainment) }}
             </span>
@@ -272,7 +284,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
               })
             }}
           </p>
-        </router-link>
+        </section>
 
         <section>
           <h2 class="mb-3 text-heading-3 text-n-slate-12">{{ D('TODAY') }}</h2>
@@ -402,7 +414,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
           <router-link
             v-for="alert in alerts"
             :key="alert.key"
-            :to="toReport(alert.key)"
+            :to="toReport(alert.key, alert.query)"
             class="flex items-center gap-2 px-4 py-3 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1 text-body-main"
           >
             <span
@@ -419,12 +431,16 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
         </section>
 
         <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
-          <router-link
-            :to="toReport('quota')"
-            class="block p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1"
+          <section
+            class="relative p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1"
           >
             <h2 class="mb-4 text-heading-3 text-n-slate-12">
-              {{ D('RANKING') }}
+              <router-link
+                :to="toReport('quota')"
+                class="after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-n-brand"
+              >
+                {{ D('RANKING') }}
+              </router-link>
             </h2>
             <ol
               v-if="r('quota')?.assignees?.length"
@@ -460,13 +476,19 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
             <p v-else class="text-body-main text-n-slate-11">
               {{ D('NO_TARGETS') }}
             </p>
-          </router-link>
+          </section>
 
-          <router-link
-            :to="toReport('changes')"
-            class="block p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1"
+          <section
+            class="relative p-5 rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1"
           >
-            <h2 class="mb-4 text-heading-3 text-n-slate-12">{{ D('WEEK') }}</h2>
+            <h2 class="mb-4 text-heading-3 text-n-slate-12">
+              <router-link
+                :to="toReport('changes')"
+                class="after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-n-brand"
+              >
+                {{ D('WEEK') }}
+              </router-link>
+            </h2>
             <dl class="grid grid-cols-3 gap-3 mb-4">
               <div
                 v-for="move in [
@@ -495,7 +517,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
                 })
               }}
             </p>
-          </router-link>
+          </section>
         </div>
       </div>
 

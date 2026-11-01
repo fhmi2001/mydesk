@@ -3,7 +3,7 @@
 // reports of wave أ: its title is the question it answers, the filters are the ones it takes (reportCatalog.js), every
 // number opens the deals behind it (DrillPanel), and an employee sees only their own (the server scopes it).
 import { ref, computed, watch, onMounted, nextTick } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Select from 'dashboard/components-next/select/Select.vue';
@@ -27,6 +27,7 @@ import {
 import DrillPanel from './DrillPanel.vue';
 import ReportNav from './ReportNav.vue';
 import { saveFile } from './saveFile';
+import { toQuery, fromQuery } from './reportQuery';
 import { printReport, escapeHtml } from './printReport';
 import PipelineByStageReport from './PipelineByStageReport.vue';
 import ClosingReport from './ClosingReport.vue';
@@ -71,6 +72,7 @@ const BODIES = {
 };
 
 const route = useRoute();
+const router = useRouter();
 const { t, locale } = useI18n();
 const store = useStore();
 const lists = useCrmLists();
@@ -167,24 +169,27 @@ const applyPeriod = () => {
   to.value = range.to;
 };
 
+// Only the latest request is shown: an answer to filters already changed again is dropped, even when it arrives last
+let lastRequest = 0;
 const load = async () => {
   if (report.value.period && (!from.value || !to.value)) return;
+  lastRequest += 1;
+  const request = lastRequest;
   isLoading.value = true;
   isUnavailable.value = false;
   try {
-    const key = report.value.key;
-    const response = await crmReportsAPI.report(key, params.value);
-    if (key === report.value.key) {
-      data.value = response.data;
-      updatedAt.value = new Intl.DateTimeFormat(locale.value, {
-        hour: 'numeric',
-        minute: '2-digit',
-      }).format(new Date());
-    }
+    const response = await crmReportsAPI.report(report.value.key, params.value);
+    if (request !== lastRequest) return;
+    data.value = response.data;
+    updatedAt.value = new Intl.DateTimeFormat(locale.value, {
+      hour: 'numeric',
+      minute: '2-digit',
+    }).format(new Date());
   } catch (error) {
+    if (request !== lastRequest) return;
     isUnavailable.value = !error?.response || error.response.status >= 500;
   } finally {
-    isLoading.value = false;
+    if (request === lastRequest) isLoading.value = false;
   }
 };
 
@@ -195,12 +200,61 @@ const pickPeriod = () => {
     period.value = 'month';
 };
 
+// The filters as the address carries them (reportQuery.js)
+const filterState = computed(() => ({
+  period: report.value.period ? period.value : '',
+  from: from.value,
+  to: to.value,
+  pipeline_id: pipelineId.value,
+  assignee_id: assigneeId.value,
+  stage_id: stageId.value,
+  product_id: productId.value,
+  lead_source_id: leadSourceId.value,
+  days: days.value,
+  group_by: groupBy.value,
+}));
+
+// The address's filters, when it has them, then the report's own period for what it leaves out
+let restoring = false;
+const restoreFilters = () => {
+  const saved = fromQuery(route.query);
+  const known = periodOptions.value.some(o => o.value === saved.period);
+  if (known) period.value = saved.period;
+  else pickPeriod();
+  if (saved.period === 'custom') {
+    from.value = saved.from || '';
+    to.value = saved.to || '';
+  }
+  // An id no longer offered (a removed pipeline, employee or list item) falls back to «all»
+  const offered = (options, id) =>
+    options.some(o => o.value === id) ? id : '';
+  pipelineId.value = offered(pipelineOptions.value, saved.pipeline_id);
+  assigneeId.value = offered(
+    (agents.value || []).map(a => ({ value: a.id })),
+    saved.assignee_id
+  );
+  stageId.value = offered(stageOptions.value, saved.stage_id);
+  productId.value = offered(productOptions.value, saved.product_id);
+  leadSourceId.value = offered(sourceOptions.value, saved.lead_source_id);
+  days.value = saved.days ?? '';
+  groupBy.value = saved.group_by ?? '';
+};
+
 onMounted(async () => {
-  if (!pipelines.value.length)
-    await store.dispatch('crm/pipelines/fetch').catch(() => {});
-  lists.load();
-  pickPeriod();
+  // The address's filters are checked against what is offered, so the lists come first
+  await Promise.all([
+    pipelines.value.length
+      ? null
+      : store.dispatch('crm/pipelines/fetch').catch(() => {}),
+    agents.value?.length ? null : store.dispatch('agents/get').catch(() => {}),
+    lists.load(),
+  ]);
+  // The watchers below would each load on the restored values: one load follows instead
+  restoring = true;
+  restoreFilters();
   applyPeriod();
+  await nextTick();
+  restoring = false;
   load();
 });
 
@@ -217,11 +271,21 @@ watch(
 );
 watch(period, () => {
   applyPeriod();
-  if (period.value !== 'custom') load();
+  if (period.value !== 'custom' && !restoring) load();
 });
 watch(
   [pipelineId, assigneeId, productId, leadSourceId, stageId, groupBy],
-  load
+  () => {
+    if (!restoring) load();
+  }
+);
+// A reload or a shared link opens the same view (replace: changing a filter adds no history step)
+watch(
+  () => [toQuery(filterState.value), report.value.key],
+  ([query]) => {
+    if (JSON.stringify(query) === JSON.stringify(route.query)) return;
+    router.replace({ params: route.params, query });
+  }
 );
 
 const periodNote = computed(() =>
