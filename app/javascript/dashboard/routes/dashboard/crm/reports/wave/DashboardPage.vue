@@ -179,7 +179,8 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
 <template>
   <div class="flex flex-col h-full min-w-0 lg:flex-row">
     <ReportNav current="dashboard" />
-    <div class="flex flex-col flex-1 min-w-0 overflow-y-auto">
+    <!-- below md the menu button floats over the bottom: the page scrolls clear of it -->
+    <div class="flex flex-col flex-1 min-w-0 pb-20 overflow-y-auto md:pb-0">
       <CrmPageHeader
         :title="isAdmin ? D('TEAM') : D('MINE')"
         :subtitle="isAdmin ? D('TEAM_HINT') : D('MINE_HINT')"

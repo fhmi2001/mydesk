@@ -20,11 +20,11 @@ const printCss = footer => `
   @page {
     size: A4;
     margin: 14mm 12mm 16mm;
-    @bottom-center { content: counter(page) " / " counter(pages); font-size: 8pt; color: #6b7280; }
-    @bottom-right { content: ${cssString(footer)}; font-size: 8pt; color: #6b7280; }
+    @bottom-center { content: counter(page) " / " counter(pages); font-size: 8pt; color: #60646C; }
+    @bottom-right { content: ${cssString(footer)}; font-size: 8pt; color: #60646C; }
   }
   html, body { background: #fff !important; height: auto !important; overflow: visible !important; }
-  body { margin: 0; color: #111827; font-size: 10pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; color: #1C2024; font-size: 10pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .overflow-x-auto, .overflow-y-auto, .overflow-hidden { overflow: visible !important; }
   section, tr, li, .rp-avoid { break-inside: avoid; }
   thead { display: table-header-group; }
@@ -34,18 +34,18 @@ const printCss = footer => `
   svg:not([class*="size-"]) { max-width: 100%; }
   [data-print-hide] { display: none !important; }
   .grid:has(table) { grid-template-columns: minmax(0, 1fr) !important; }
-  .rp-head { border-top: 6px solid #5b5bd6; padding: 14px 0 12px; margin-bottom: 16px; border-bottom: 1px solid #e5e7eb; }
-  .rp-brand { display: flex; justify-content: space-between; align-items: center; font-size: 9pt; color: #6b7280; }
-  .rp-logo { font-weight: 700; letter-spacing: .02em; color: #5b5bd6; font-size: 11pt; }
-  .rp-number { display: inline-block; background: #eef0ff; color: #3e3ea8; border-radius: 999px; padding: 1px 9px; font-size: 8.5pt; }
-  .rp-title { margin: 10px 0 2px; font-size: 18pt; font-weight: 700; color: #111827; }
-  .rp-question { margin: 0 0 12px; font-size: 11pt; color: #374151; }
+  .rp-head { border-top: 6px solid #7C3AED; padding: 14px 0 12px; margin-bottom: 16px; border-bottom: 1px solid #E2E3E7; }
+  .rp-brand { display: flex; justify-content: space-between; align-items: center; font-size: 9pt; color: #60646C; }
+  .rp-logo { font-weight: 700; letter-spacing: .02em; color: #7C3AED; font-size: 11pt; }
+  .rp-number { display: inline-block; background: #EDE9FE; color: #5B21B6; border-radius: 999px; padding: 1px 9px; font-size: 8.5pt; }
+  .rp-title { margin: 10px 0 2px; font-size: 18pt; font-weight: 500; color: #1C2024; }
+  .rp-question { margin: 0 0 12px; font-size: 11pt; color: #60646C; }
   .rp-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 18px; margin: 0;
-    padding: 10px 12px; background: #f8f9fb; border: 1px solid #eceef2; border-radius: 8px; }
+    padding: 10px 12px; background: #F7F7F7; border: 1px solid #EAEAEA; border-radius: 8px; }
   .rp-meta div { min-width: 0; }
-  .rp-meta dt { font-size: 7.5pt; color: #6b7280; margin: 0; }
-  .rp-meta dd { font-size: 9.5pt; color: #111827; margin: 1px 0 0; font-weight: 600; }
-  .rp-note { margin: 10px 0 0; font-size: 8.5pt; color: #6b7280; }
+  .rp-meta dt { font-size: 7.5pt; color: #60646C; margin: 0; }
+  .rp-meta dd { font-size: 9.5pt; color: #1C2024; margin: 1px 0 0; font-weight: 500; }
+  .rp-note { margin: 10px 0 0; font-size: 8.5pt; color: #60646C; }
 `;
 
 const waitForStyles = doc =>

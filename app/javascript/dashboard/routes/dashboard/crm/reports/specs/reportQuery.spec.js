@@ -1,5 +1,5 @@
 import { toQuery, fromQuery } from '../wave/reportQuery';
-import { periodRange } from '../periods';
+import { periodRange, riyadhToday } from '../periods';
 import { PAST_PERIODS } from '../wave/reportCatalog';
 
 describe('toQuery', () => {
@@ -64,6 +64,20 @@ describe('last month', () => {
     expect(periodRange('last_month', new Date(2026, 0, 15))).toEqual({
       from: '2025-12-01',
       to: '2025-12-31',
+    });
+  });
+});
+
+describe('riyadhToday', () => {
+  it('reads the calendar day in Riyadh, not on the device', () => {
+    // 23:30 UTC on 31 October is already 1 November in Riyadh (UTC+3)
+    const day = riyadhToday(new Date(Date.UTC(2026, 9, 31, 23, 30)));
+    expect([day.getFullYear(), day.getMonth(), day.getDate()]).toEqual([
+      2026, 10, 1,
+    ]);
+    expect(periodRange('month', day)).toEqual({
+      from: '2026-11-01',
+      to: '2026-11-01',
     });
   });
 });

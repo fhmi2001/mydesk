@@ -176,8 +176,17 @@ A quiet neutral room with one confident violet and four signal colors that only 
 ### Chat
 - **Employee Bubble** (`bubble-employee`): the background of messages sent by employees in a conversation (`n-solid-blue`). It is a light blue inherited from upstream and does not follow the brand violet yet; decide this explicitly before changing it.
 
+### Data (Sales reports)
+Charts, bars and figures in the Sales reports give each kind of deal one colour on every report (`reportColors.js`): the 9-step fills bars and chart marks, the 11-step colours text and numbers.
+- **Won** (`teal-9` / `teal-11`) and **Lost** (`ruby-9` / `ruby-11`): outcomes, as the signal colours.
+- **Open** (`iris-9` / `iris-11`): deals still in play and progress toward a target. Iris is a blue-violet kept apart from the brand violet, so a bar never reads as a button or a selection.
+- **Warning** (`amber-9` / `amber-11`): a number that needs attention (low coverage, a leak).
+- **Total or other** (`slate-8` fill, `slate-11` text): sums, "other" and anything without an outcome.
+
+Printed reports (Print / PDF) are paper, not themed: they take the light-theme values of these tokens as literal hex (brand violet for the header rule and mark, violet mist and ink for the report number, ink and muted ink for text).
+
 ### Named Rules
-**The One Violet Rule.** The brand violet family (`n-brand`, `n-blue-*`) is the only violet. The Radix `n-violet-*` scale is not part of the MyDesk system; MyDesk screens never use it.
+**The One Violet Rule.** The brand violet family (`n-brand`, `n-blue-*`) is the only violet. The Radix `n-violet-*` scale is not part of the MyDesk system; MyDesk screens never use it. The `n-iris-*` scale appears only as the "open" data colour of the Sales reports, never on a control.
 
 **The Signals Report Outcomes Rule.** Teal, ruby and amber appear only to report a result or state (sent, failed, pending). They never decorate, never color an icon for flavor, and never stand in for the brand.
 

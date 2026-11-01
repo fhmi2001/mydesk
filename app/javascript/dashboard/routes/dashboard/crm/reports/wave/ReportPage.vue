@@ -445,7 +445,8 @@ const print = async () => {
 <template>
   <div class="flex flex-col h-full min-w-0 lg:flex-row">
     <ReportNav :current="report.key" />
-    <div class="flex flex-col flex-1 min-w-0 overflow-y-auto">
+    <!-- below md the menu button floats over the bottom: the page scrolls clear of it -->
+    <div class="flex flex-col flex-1 min-w-0 pb-20 overflow-y-auto md:pb-0">
       <CrmPageHeader :title="R('QUESTION')" :subtitle="R('DESCRIPTION')">
         <template #actions>
           <Button

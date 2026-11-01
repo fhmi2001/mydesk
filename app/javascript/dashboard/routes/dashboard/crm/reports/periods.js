@@ -1,10 +1,27 @@
-// Custom (MyDesk): the report period shortcuts, as YYYY-MM-DD in the browser's local calendar
+// Custom (MyDesk): the report period shortcuts, as YYYY-MM-DD. "Today" is the day in Riyadh, as the server counts
+// it (SalesCrm::Period), whatever the time zone of the device.
+export const RIYADH = 'Asia/Riyadh';
+
+// The Riyadh calendar day of an instant, as a local Date at midnight (so getDate() and friends read Riyadh's day)
+export const riyadhToday = (instant = new Date()) => {
+  const [year, month, day] = new Intl.DateTimeFormat('en-CA', {
+    timeZone: RIYADH,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+    .format(instant)
+    .split('-')
+    .map(Number);
+  return new Date(year, month - 1, day);
+};
+
 const iso = d => {
   const pad = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 
-export const periodRange = (period, now = new Date()) => {
+export const periodRange = (period, now = riyadhToday()) => {
   const to = iso(now);
   const start = new Date(now);
   switch (period) {

@@ -1,6 +1,8 @@
 // Custom (MyDesk): the reports of phase 4 (docs/reports/CRM_REPORTS_PLAN.md), in the order of the reports matrix, with
 // the filters each one takes. period: 'past' (so far: today … quarter), 'forward' (what is still to close: the whole
 // month or quarter), or null for a picture of now. The server applies the same filters (SalesCrm::Reports::Report).
+import { riyadhToday } from '../periods';
+
 export const REPORTS = [
   {
     key: 'pipeline_by_stage',
@@ -213,7 +215,7 @@ const iso = d => {
 };
 
 // The whole month, quarter or year, for reports about what is still to close; next_month for planning ahead
-export const forwardRange = (period, now = new Date()) => {
+export const forwardRange = (period, now = riyadhToday()) => {
   const year = now.getFullYear();
   const month = now.getMonth();
   switch (period) {
