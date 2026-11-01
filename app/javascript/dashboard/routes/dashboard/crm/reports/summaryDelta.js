@@ -1,5 +1,7 @@
 // Custom (MyDesk): the "▲ 12%" next to a summary number. `lowerIsBetter` flips the colour (lost deals, days)
+// A previous value of null (a rate or an average with nothing to divide) has nothing to compare against.
 export const deltaFor = (current, previous, lowerIsBetter = false) => {
+  if (previous === null || current === null) return { label: '', tone: 'flat' };
   const cur = Number(current) || 0;
   const prev = Number(previous) || 0;
   if (!prev && !cur) return { label: '', tone: 'flat' };

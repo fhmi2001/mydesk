@@ -186,7 +186,6 @@ const hasFunnel = computed(() =>
 );
 const timelineLegend = computed(() => timelineChart.value.series);
 // A rate or an average of no closed deals is not zero
-const closedCount = row => (row.won_count || 0) + (row.lost_count || 0);
 const hasTimeline = computed(() =>
   timeline.value.some(b => b.created || b.won || b.lost)
 );
@@ -516,13 +515,17 @@ const exportCsv = async () => {
                 {{ number(row.lost_count) }}
               </td>
               <td class="py-2.5 text-end tabular-nums">
-                {{ closedCount(row) ? `${row.win_rate}%` : '—' }}
+                {{ row.win_rate === null ? '—' : `${row.win_rate}%` }}
               </td>
               <td class="py-2.5 text-end tabular-nums" dir="auto">
                 {{ money(row.won_total_cents, currency) }}
               </td>
               <td class="py-2.5 text-end tabular-nums">
-                {{ closedCount(row) ? number(row.avg_days_to_close) : '—' }}
+                {{
+                  row.avg_days_to_close === null
+                    ? '—'
+                    : number(row.avg_days_to_close)
+                }}
               </td>
               <td
                 class="py-2.5 text-end tabular-nums"

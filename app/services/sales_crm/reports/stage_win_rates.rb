@@ -20,6 +20,6 @@ class SalesCrm::Reports::StageWinRates < SalesCrm::Reports::Funnel
     closed = deal_ids.count { |id| status_by_deal.key?(id) }
     won = deal_ids.count { |id| status_by_deal[id] == 'won' }
     { stage_id: stage.id, closed_count: closed, won_count: won, min_closed: MIN_CLOSED,
-      win_rate: closed >= MIN_CLOSED ? (won * 100.0 / closed).round(1) : nil }
+      win_rate: closed >= MIN_CLOSED ? SalesCrm::Metrics::Ratio.percent(won, closed) : nil }
   end
 end

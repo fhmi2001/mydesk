@@ -9,6 +9,8 @@ describe('summaryDelta', () => {
     expect(deltaFor(100, 100)).toEqual({ label: '0%', tone: 'flat' });
     expect(deltaFor(0, 0)).toEqual({ label: '', tone: 'flat' });
     expect(deltaFor(5, 0)).toEqual({ label: '▲ —', tone: 'up' });
+    // a rate with nothing to divide (null) has no change to show
+    expect(deltaFor(60, null)).toEqual({ label: '', tone: 'flat' });
   });
 
   it('flips the colour when lower is better', () => {

@@ -27,11 +27,11 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
     search(relation, filters[:q])
   end
 
-  # Per stage: how many deals, their total, and the total weighted by each deal's probability (its own, else the stage's)
+  # Per stage: how many deals, their total, and their weighted value (SalesCrm::Metrics::WeightedPipeline)
   def counts_for(relation)
     relation.joins(:stage).group(:stage_id)
             .pluck(:stage_id, Arel.sql('COUNT(*)'), Arel.sql('COALESCE(SUM(crm_deals.amount_cents), 0)'),
-                   Arel.sql('COALESCE(SUM(crm_deals.amount_cents * COALESCE(crm_deals.probability_override, crm_stages.probability)), 0) / 100'))
+                   Arel.sql(SalesCrm::Metrics::WeightedPipeline::SUM_SQL))
             .to_h { |id, count, total, weighted| [id, { count: count, total_cents: total.to_i, weighted_cents: weighted.to_i }] }
   end
 

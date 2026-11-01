@@ -1,6 +1,5 @@
 # Custom (MyDesk): the numbers above the board, in one query:
-# open deals, their total, the expected value (amount × the deal's probability: its own, else its stage's), and what was
-# won / lost.
+# open deals, their total, the expected value (SalesCrm::Metrics::WeightedPipeline), and what was won / lost.
 class SalesCrm::Forecast
   Result = Struct.new(:open_count, :open_total_cents, :expected_cents, :won_count, :won_total_cents, :lost_count, :lost_total_cents,
                       :currency, keyword_init: true)
@@ -10,7 +9,7 @@ class SalesCrm::Forecast
     row = scope.where(pipeline_id: pipeline.id).joins(:stage).pick(Arel.sql(<<~SQL.squish))
       COUNT(*) FILTER (WHERE crm_deals.status = 0),
       COALESCE(SUM(amount_cents) FILTER (WHERE crm_deals.status = 0), 0),
-      COALESCE(SUM(amount_cents * COALESCE(crm_deals.probability_override, crm_stages.probability)) FILTER (WHERE crm_deals.status = 0), 0) / 100,
+      COALESCE(SUM(#{SalesCrm::Metrics::WeightedPipeline::EXPRESSION}) FILTER (WHERE crm_deals.status = 0), 0) / 100,
       COUNT(*) FILTER (WHERE crm_deals.status = 1),
       COALESCE(SUM(amount_cents) FILTER (WHERE crm_deals.status = 1), 0),
       COUNT(*) FILTER (WHERE crm_deals.status = 2),

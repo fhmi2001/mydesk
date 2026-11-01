@@ -46,6 +46,14 @@ FactoryBot.define do
     status { :open }
   end
 
+  factory :crm_target, class: 'SalesCrm::Target' do
+    account
+    user
+    period_start { Date.current.beginning_of_month }
+    period_end { period_start.end_of_month }
+    amount_cents { 1_000_000 }
+  end
+
   factory :crm_note, class: 'SalesCrm::Note' do
     account
     deal { association :crm_deal, account: account }

@@ -16,9 +16,8 @@ const cards = computed(() => {
   const cur = props.summary.current;
   const prev = props.summary.previous || {};
   const m = cents => money(cents, props.currency);
-  // A rate or an average of nothing is not zero: show a dash and say why
-  const hasWon = Number(cur.won_count) > 0;
-  const hasClosed = hasWon || Number(cur.lost_count) > 0;
+  // A rate or an average of nothing is not zero: the server sends null (SalesCrm::Metrics::Ratio), shown as a dash
+  const known = value => value !== null && value !== undefined;
   const noData = (key, reason) => ({
     key,
     value: '—',
@@ -51,27 +50,27 @@ const cards = computed(() => {
       value: number(cur.lost_count),
       ...deltaFor(cur.lost_count, prev.lost_count, true),
     },
-    hasClosed
+    known(cur.win_rate)
       ? {
           key: 'WIN_RATE',
           value: `${cur.win_rate}%`,
           ...deltaFor(cur.win_rate, prev.win_rate),
         }
       : noData('WIN_RATE', 'NO_CLOSED'),
-    hasWon
+    known(cur.avg_deal_cents)
       ? {
           key: 'AVG_DEAL',
           value: m(cur.avg_deal_cents),
           ...deltaFor(cur.avg_deal_cents, prev.avg_deal_cents),
         }
       : noData('AVG_DEAL', 'NO_WON'),
-    hasClosed
+    known(cur.avg_days_to_close)
       ? {
           key: 'AVG_DAYS',
           value: number(cur.avg_days_to_close),
           ...deltaFor(cur.avg_days_to_close, prev.avg_days_to_close, true),
         }
-      : noData('AVG_DAYS', 'NO_CLOSED'),
+      : noData('AVG_DAYS', 'NO_WON'),
   ];
 });
 </script>

@@ -1,31 +1,26 @@
-# Custom (MyDesk): the headline numbers for a period, and the same for the period before it
+# Custom (MyDesk): the headline numbers for a period, and the same for the period before it. Rates and averages with
+# nothing to divide by are nil (shown as «—»).
 class SalesCrm::Reports::Summary < SalesCrm::Reports::Base
   def perform
-    { current: window(range), previous: window(previous_range), currency: currency }
+    { current: window(period), previous: window(period.previous), currency: currency }
   end
 
   private
 
-  def window(period)
-    won = deals.won.where(won_at: period)
-    lost = deals.lost.where(lost_at: period)
-    won_count = won.count
-    lost_count = lost.count
-    won_total = won.sum(:amount_cents)
+  def window(window_period)
+    closed = SalesCrm::Metrics::WinRate.call(deals, window_period)
     open_numbers.merge(
-      created_count: deals.where(created_at: period).count,
-      won_count: won_count, won_total_cents: won_total, lost_count: lost_count, lost_total_cents: lost.sum(:amount_cents),
-      win_rate: win_rate(won_count, lost_count), avg_deal_cents: won_count.zero? ? 0 : won_total / won_count,
-      avg_days_to_close: average_days_to_close(won)
+      created_count: deals.where(created_at: window_period.range).count,
+      won_count: closed[:won_count], won_total_cents: closed[:won_cents],
+      lost_count: closed[:lost_count], lost_total_cents: closed[:lost_cents],
+      win_rate: closed[:by_count],
+      avg_deal_cents: SalesCrm::Metrics::AverageDealSize.call(deals, window_period),
+      avg_days_to_close: SalesCrm::Metrics::SalesCycle.call(deals, window_period)
     )
   end
 
   def open_numbers
-    @open_numbers ||= {
-      open_count: deals.open.count,
-      open_total_cents: deals.open.sum(:amount_cents),
-      expected_cents: deals.open.joins(:stage)
-                           .sum('crm_deals.amount_cents * COALESCE(crm_deals.probability_override, crm_stages.probability)') / 100
-    }
+    @open_numbers ||= { open_count: deals.open.count, open_total_cents: deals.open.sum(:amount_cents),
+                        expected_cents: SalesCrm::Metrics::WeightedPipeline.call(deals) }
   end
 end
