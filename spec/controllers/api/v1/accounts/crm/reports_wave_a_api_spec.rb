@@ -43,9 +43,11 @@ RSpec.describe 'Sales CRM reports, wave أ', type: :request do # -- request spec
     expect(response.parsed_body['items'].pluck('amount_cents')).to eq([100_000])
   end
 
-  it 'keeps the team activity report for the manager' do
-    get "#{base}/activity", headers: agent.create_new_auth_token, as: :json
-    expect(response).to have_http_status(:unauthorized)
+  it 'keeps the team reports for the manager' do
+    %w[activity cycle changes revenue deal_size].each do |key|
+      get "#{base}/#{key}", headers: agent.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:unauthorized), key
+    end
     get "#{base}/activity/deals", params: { cell: { kind: 'call' } }, headers: agent.create_new_auth_token
     expect(response).to have_http_status(:unauthorized)
   end

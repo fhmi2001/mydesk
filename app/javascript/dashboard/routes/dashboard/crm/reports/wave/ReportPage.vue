@@ -41,6 +41,11 @@ import ActivityReport from './ActivityReport.vue';
 import NewDealsReport from './NewDealsReport.vue';
 import DataQualityReport from './DataQualityReport.vue';
 import ScorecardReport from './ScorecardReport.vue';
+import ConversionReport from './ConversionReport.vue';
+import CycleReport from './CycleReport.vue';
+import ChangesReport from './ChangesReport.vue';
+import RevenueReport from './RevenueReport.vue';
+import DealSizeReport from './DealSizeReport.vue';
 
 const BODIES = {
   pipeline_by_stage: PipelineByStageReport,
@@ -57,6 +62,11 @@ const BODIES = {
   new_deals: NewDealsReport,
   data_quality: DataQualityReport,
   scorecard: ScorecardReport,
+  conversion: ConversionReport,
+  cycle: CycleReport,
+  changes: ChangesReport,
+  revenue: RevenueReport,
+  deal_size: DealSizeReport,
 };
 
 const route = useRoute();
@@ -96,9 +106,10 @@ const isUnavailable = ref(false);
 const drillPanel = ref(null);
 
 const periodOptions = computed(() =>
-  (report.value.period === 'forward' ? FORWARD_PERIODS : PAST_PERIODS).map(
-    p => ({ value: p, label: t(`CRM.REPORTS.WAVE.PERIODS.${p}`) })
-  )
+  (
+    report.value.periods ||
+    (report.value.period === 'forward' ? FORWARD_PERIODS : PAST_PERIODS)
+  ).map(p => ({ value: p, label: t(`CRM.REPORTS.WAVE.PERIODS.${p}`) }))
 );
 const pipelineOptions = computed(() => [
   { value: '', label: t('CRM.COMMON.ALL') },
@@ -167,10 +178,18 @@ const load = async () => {
   }
 };
 
+// A report may start on its own period (the last 7 days, this year); otherwise the one chosen stays when it fits
+const pickPeriod = () => {
+  if (report.value.defaultPeriod) period.value = report.value.defaultPeriod;
+  else if (!periodOptions.value.some(o => o.value === period.value))
+    period.value = 'month';
+};
+
 onMounted(async () => {
   if (!pipelines.value.length)
     await store.dispatch('crm/pipelines/fetch').catch(() => {});
   lists.load();
+  pickPeriod();
   applyPeriod();
   load();
 });
@@ -181,8 +200,7 @@ watch(
   () => {
     data.value = null;
     groupBy.value = '';
-    if (!periodOptions.value.some(o => o.value === period.value))
-      period.value = 'month';
+    pickPeriod();
     applyPeriod();
     load();
   }

@@ -8,6 +8,7 @@ import { deltaFor } from '../summaryDelta';
 import NumberTile from './NumberTile.vue';
 import ReportSection from './ReportSection.vue';
 import RankedBars from './RankedBars.vue';
+import GroupSwitch from './GroupSwitch.vue';
 
 const props = defineProps({
   data: { type: Object, required: true },
@@ -75,28 +76,13 @@ const rowLabel = row =>
     </div>
 
     <ReportSection :title="L(`BY.${data.group_by}`)" :note="L('HINT')">
-      <div
-        class="inline-flex gap-1 p-1 mb-4 rounded-lg bg-n-alpha-1"
-        role="group"
-        :aria-label="L('GROUP_BY')"
-        data-print-hide
-      >
-        <button
-          v-for="group in groups"
-          :key="group"
-          type="button"
-          class="px-3 py-1 rounded-md text-label-small"
-          :class="
-            group === data.group_by
-              ? 'bg-n-solid-1 text-n-slate-12 shadow-sm font-medium'
-              : 'text-n-slate-11 hover:text-n-slate-12'
-          "
-          :aria-pressed="group === data.group_by"
-          @click="emit('group', group)"
-        >
-          {{ L(`GROUPS.${group}`) }}
-        </button>
-      </div>
+      <GroupSwitch
+        :groups="groups"
+        :active="data.group_by"
+        :label="L('GROUP_BY')"
+        :label-for="group => L(`GROUPS.${group}`)"
+        @select="group => emit('group', group)"
+      />
       <RankedBars
         :rows="rows"
         :no-name="L(`NONE.${data.group_by}`)"

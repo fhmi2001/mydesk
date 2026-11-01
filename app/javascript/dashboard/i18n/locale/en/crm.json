@@ -372,6 +372,7 @@
         "STALE_DAYS": "Quiet for (days)",
         "PERIOD_NOTE": "{from} – {to}",
         "PERIODS": {
+          "last_7": "Last 7 days",
           "today": "Today",
           "week": "This week",
           "month": "This month",
@@ -499,6 +500,41 @@
             "DESCRIPTION": "Attainment, win rate, coverage, sales cycle and activity, beside the team average.",
             "EMPTY": "Nothing to score in this period",
             "EMPTY_HINT": "Set targets, or pick a period with deals."
+          },
+          "conversion": {
+            "NAME": "Stage conversion",
+            "QUESTION": "At which stage do deals leak?",
+            "DESCRIPTION": "Of the deals created in the period, how many reached each stage and how many went on to the next.",
+            "EMPTY": "No deals created in this period",
+            "EMPTY_HINT": "Pick a longer period, or another pipeline."
+          },
+          "cycle": {
+            "NAME": "Sales cycle and time in stage",
+            "QUESTION": "How long does a deal take to close, and where does it wait?",
+            "DESCRIPTION": "Average days from creation to win, and average days spent in each stage.",
+            "EMPTY": "No deals moved or won in this period",
+            "EMPTY_HINT": "Pick a longer period."
+          },
+          "changes": {
+            "NAME": "Pipeline changes",
+            "QUESTION": "What moved forward, back or out?",
+            "DESCRIPTION": "Deals compared as they stood at the start and at the end of the period.",
+            "EMPTY": "Nothing changed in this period",
+            "EMPTY_HINT": "Pick a longer period."
+          },
+          "revenue": {
+            "NAME": "Revenue by product, industry and region",
+            "QUESTION": "Where does revenue come from?",
+            "DESCRIPTION": "Value won in the period by product, industry or region, its share and its growth.",
+            "EMPTY": "Nothing won in this period",
+            "EMPTY_HINT": "Pick a longer period."
+          },
+          "deal_size": {
+            "NAME": "Average deal size trend",
+            "QUESTION": "Are our deals getting bigger or smaller?",
+            "DESCRIPTION": "Average won deal month by month, for the team and each employee.",
+            "EMPTY": "Nothing won in this period",
+            "EMPTY_HINT": "Pick a longer period: a trend needs months."
           }
         },
         "PIPELINE": {
@@ -703,6 +739,83 @@
             "new_deal_count": "New deals",
             "completeness": "Complete data"
           }
+        },
+        "CONVERSION": {
+          "SCOPE": "{count} deals created in “{pipeline}”.",
+          "LEAK": "Biggest leak: {stage}, only {rate} get there.",
+          "FUNNEL": "Funnel",
+          "SKIPPED": "A skipped stage counts as reached",
+          "RATE": "{rate} went on",
+          "BY_ASSIGNEE": "By owner",
+          "VS_TEAM": "Each rate beside the team’s",
+          "CREATED": "Created",
+          "TEAM": "Team {rate}"
+        },
+        "CYCLE": {
+          "DAYS": "{days} days",
+          "CYCLE": "Sales cycle",
+          "WON": "Deals won",
+          "SLOWEST": "Slowest stage",
+          "APPROXIMATE": "{count} deals were created before stage history was kept: their early stages are approximate.",
+          "BY_STAGE": "Days in each stage",
+          "WHAT_COUNTS": "Stays that ended in the period",
+          "STAYS": "{count} stays",
+          "HEAT": "Days in stage by owner"
+        },
+        "CHANGES": {
+          "MOVES": {
+            "new": "New",
+            "advanced": "Moved forward",
+            "moved_back": "Moved back",
+            "slipped": "Close date pushed",
+            "won": "Won",
+            "lost": "Lost",
+            "increased": "Value up",
+            "decreased": "Value down"
+          },
+          "WATERFALL": "Open value, start to end",
+          "WATERFALL_HINT": "Click an amount to see its deals",
+          "STEPS": {
+            "start": "At the start",
+            "new": "New deals",
+            "increased": "Value raised",
+            "decreased": "Value lowered",
+            "won": "Won",
+            "lost": "Lost",
+            "end": "At the end"
+          },
+          "BY_ASSIGNEE": "By owner"
+        },
+        "REVENUE": {
+          "REVENUE": "Revenue",
+          "DEALS": "Deals won",
+          "GROUP_BY": "Group by",
+          "BY": {
+            "product": "By product",
+            "industry": "By industry",
+            "region": "By region"
+          },
+          "GROUPS": {
+            "product": "Product",
+            "industry": "Industry",
+            "region": "Region"
+          },
+          "HINT": "Share of revenue, and growth against the period before",
+          "NOT_SET": "Not set",
+          "NONE": "Nothing won.",
+          "ROW": "{share} of revenue · {growth}",
+          "ROW_NEW": "{share} of revenue · new"
+        },
+        "DEAL_SIZE": {
+          "AVERAGE": "Average won deal",
+          "DEALS": "Deals won",
+          "NO_AMOUNT_LEFT_OUT": "Deals without an amount are left out",
+          "TREND": {
+            "month": "Month by month",
+            "quarter": "Quarter by quarter"
+          },
+          "WON_FROM": "Won from",
+          "BY_ASSIGNEE": "By owner"
         }
       }
     },

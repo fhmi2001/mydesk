@@ -541,7 +541,7 @@ Rails.application.routes.draw do
               get :stage_win_rates
               # Custom (MyDesk): the reports of SalesCrm::Reports::Catalog
               crm_report_keys = /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast|coverage|win_rate|losses|
-                                  activity|new_deals|data_quality|scorecard/x
+                                  activity|new_deals|data_quality|scorecard|conversion|cycle|changes|revenue|deal_size/x
               get ':key', action: :show, constraints: { key: crm_report_keys }
               get ':key/deals', action: :drill, constraints: { key: crm_report_keys }
             end

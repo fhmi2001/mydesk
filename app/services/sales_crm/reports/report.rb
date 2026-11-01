@@ -178,8 +178,8 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
 
   def riyadh_date(time) = time.in_time_zone(SalesCrm::Period.zone).to_date
 
-  # A cell's managed-list values (product_id, lead_source_id, competitor_id): 'none' for deals without one
-  LIST_COLUMNS = %i[product_id lead_source_id competitor_id].freeze
+  # A cell's managed-list values (product, lead source, competitor, industry, region): 'none' for deals without one
+  LIST_COLUMNS = %i[product_id lead_source_id competitor_id industry_id region_id].freeze
 
   def by_lists(relation, cell)
     LIST_COLUMNS.reduce(relation) do |rel, column|
