@@ -76,6 +76,14 @@ class SalesCrm::DemoSeed
     EMPLOYEES.each_with_index.map { |person, i| @people[:emails] ? person.merge(email: @people[:emails][i]) : person }
   end
 
+  # An agent is offered to take a conversation only in the inboxes they belong to (Inbox#assignable_agents), so the
+  # sales team joins every inbox of the account; administrators are offered everywhere already
+  def self.give_inbox_access(account, users)
+    account.inboxes.find_each do |inbox|
+      users.each { |user| InboxMember.find_or_create_by!(inbox: inbox, user: user) }
+    end
+  end
+
   private
 
   def zone = SalesCrm::Period.zone
@@ -107,6 +115,7 @@ class SalesCrm::DemoSeed
       AccountUser.find_or_create_by!(account: account, user: user) { |au| au.role = person[:role] }.update!(role: person[:role])
       @users[person[:email]] = user
     end
+    self.class.give_inbox_access(account, @users.values)
   end
 
   def lists
