@@ -32,7 +32,7 @@ const name = row => row.name || props.noName;
       class="text-body-main"
     >
       <div class="flex items-center justify-between gap-3">
-        <span class="truncate text-n-slate-12">{{ name(row) }}</span>
+        <span class="min-w-0 break-words text-n-slate-12">{{ name(row) }}</span>
         <span class="text-n-slate-11 shrink-0">
           <template v-if="label">
             <bdi class="tabular-nums">{{ label(row) }}</bdi>

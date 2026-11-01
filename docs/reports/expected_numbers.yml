@@ -1,0 +1,256 @@
+# Custom (MyDesk): the Sales reports' reference numbers for the demo data up to 2026-10-31, worked out by
+# lib/sales_crm/expected_numbers.rb apart from the app. Regenerate: rails sales_crm:expected_numbers
+anchor: '2026-10-31'
+checks:
+- report: pipeline_by_stage
+  as: manager
+  params: {}
+  expect:
+    totals.count: 85
+    totals.total_cents: 671100000
+    totals.weighted_cents: 259315000
+- report: pipeline_by_stage
+  as: employee
+  params: {}
+  expect:
+    totals.count: 27
+    totals.total_cents: 234400000
+    totals.weighted_cents: 86530000
+- report: closing
+  as: manager
+  params:
+    from: '2026-11-01'
+    to: '2026-11-30'
+  expect:
+    totals.count: 19
+    totals.total_cents: 177800000
+    totals.weighted_cents: 69970000
+- report: closing
+  as: employee
+  params:
+    from: '2026-11-01'
+    to: '2026-11-30'
+  expect:
+    totals.count: 7
+    totals.total_cents: 65500000
+    totals.weighted_cents: 22065000
+- report: stale
+  as: manager
+  params: {}
+  expect:
+    totals.stale.count: 60
+    totals.overdue.count: 47
+    totals.at_risk.count: 60
+    totals.at_risk.total_cents: 436100000
+- report: my_tasks
+  as: employee
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    totals.overdue_count: 9
+    totals.today_count: 0
+    totals.done_count: 14
+- report: won_lost
+  as: manager
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    totals.won_count: 10
+    totals.lost_count: 8
+    totals.won_cents: 63700000
+    totals.lost_cents: 85800000
+    totals.by_count: 55.6
+    totals.by_value: 42.6
+- report: won_lost
+  as: employee
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    totals.won_count: 2
+    totals.lost_count: 2
+    totals.won_cents: 15900000
+    totals.lost_cents: 21600000
+    totals.by_count: 50.0
+    totals.by_value: 42.4
+- report: won_lost
+  as: manager
+  params:
+    from: '2026-07-01'
+    to: '2026-09-30'
+  expect:
+    totals.won_count: 46
+    totals.lost_count: 33
+    totals.won_cents: 354600000
+    totals.lost_cents: 253700000
+    totals.by_count: 58.2
+    totals.by_value: 58.3
+- report: quota
+  as: manager
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    totals.won_cents: 63700000
+    totals.target_cents: 75000000
+    totals.attainment: 84.9
+- report: quota
+  as: employee
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    totals.won_cents: 15900000
+    totals.target_cents: 25000000
+    totals.attainment: 63.6
+- report: forecast
+  as: manager
+  params:
+    from: '2026-11-01'
+    to: '2026-11-30'
+  expect:
+    totals.categories.commit.total_cents: 0
+    totals.categories.best_case.total_cents: 91600000
+    totals.categories.pipeline.total_cents: 86200000
+    totals.won_cents: 0
+    totals.target_cents: 75000000
+- report: coverage
+  as: manager
+  params:
+    from: '2026-11-01'
+    to: '2026-11-30'
+  expect:
+    totals.open_cents: 177800000
+    totals.target_cents: 75000000
+    totals.coverage: 2.4
+- report: win_rate
+  as: manager
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+    group_by: product
+  expect:
+    rows[name=باقة الرسائل].by_count: 25.0
+    rows[name=باقة الواتساب].by_count: 50.0
+    rows[name=نظام المتجر].by_count: 75.0
+    rows[name=الاستشارات].by_count: 60.0
+- report: losses
+  as: manager
+  params:
+    from: '2026-07-01'
+    to: '2026-09-30'
+  expect:
+    totals.count: 33
+    totals.total_cents: 253700000
+    competitors[name=منافس أ].count: 5
+    competitors[name=منافس ب].count: 9
+    competitors[name=منافس ج].count: 8
+- report: activity
+  as: manager
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    assignees[name=سارة العتيبي].activity_count: 21
+    assignees[name=خالد الشهري].activity_count: 15
+    assignees[name=نورة القحطاني].activity_count: 14
+    assignees[name=فهد الدوسري].activity_count: 8
+    totals.activity_count: 58
+- report: new_deals
+  as: manager
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    totals.count: 31
+    totals.total_cents: 291500000
+    sources[name=إنستغرام].count: 8
+    sources[name=معرض].count: 4
+    sources[name=واتساب].count: 4
+    sources[name=الموقع].count: 6
+    sources[name=إحالة].count: 3
+    sources[name=حملة].count: 2
+- report: data_quality
+  as: manager
+  params: {}
+  expect:
+    totals.open_count: 85
+    totals.complete_count: 81
+    totals.rate: 95.3
+    totals.to_fix: 60
+- report: scorecard
+  as: manager
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    cards[name=سارة العتيبي].attainment: 63.6
+    cards[name=سارة العتيبي].new_deal_count: 9
+    cards[name=خالد الشهري].attainment: 61.0
+    cards[name=خالد الشهري].new_deal_count: 8
+    cards[name=نورة القحطاني].attainment: 96.1
+    cards[name=نورة القحطاني].new_deal_count: 8
+    cards[name=فهد الدوسري].attainment: 152.5
+    cards[name=فهد الدوسري].new_deal_count: 6
+    team_average.attainment: 93.3
+- report: conversion
+  as: manager
+  params:
+    from: '2026-07-01'
+    to: '2026-09-30'
+  expect:
+    created_count: 109
+    rows[name=عميل محتمل].count: 109
+    rows[name=مؤهل].count: 95
+    rows[name=تم إرسال العرض].count: 74
+    rows[name=تفاوض].count: 55
+    rows[name=مكسوبة].count: 41
+- report: cycle
+  as: manager
+  params:
+    from: '2026-07-01'
+    to: '2026-09-30'
+  expect:
+    cycle_days: 26.9
+    stages[name=عميل محتمل].average_days: 7.0
+    stages[name=مؤهل].average_days: 7.1
+    stages[name=تم إرسال العرض].average_days: 7.5
+    stages[name=تفاوض].average_days: 5.5
+- report: changes
+  as: manager
+  params:
+    from: '2026-10-25'
+    to: '2026-10-31'
+  expect:
+    totals.waterfall.start: 621100000
+    totals.waterfall.end: 671100000
+    totals.counts.new: 7
+    totals.counts.won: 1
+    totals.counts.lost: 1
+- report: revenue
+  as: manager
+  params:
+    from: '2026-07-01'
+    to: '2026-09-30'
+    group_by: product
+  expect:
+    totals.won_cents: 354600000
+    rows[name=الاستشارات].total_cents: 81900000
+    rows[name=نظام المتجر].total_cents: 93700000
+    rows[name=باقة الواتساب].total_cents: 88600000
+    rows[name=باقة الرسائل].total_cents: 56200000
+- report: deal_size
+  as: manager
+  params:
+    from: '2026-05-01'
+    to: '2026-10-31'
+  expect:
+    totals.average_cents: 7736363
+    buckets[bucket=2026-07-01].average_cents: 9300000
+    buckets[bucket=2026-09-01].average_cents: 8731250
+    buckets[bucket=2026-08-01].average_cents: 5529411
+    buckets[bucket=2026-10-01].average_cents: 6370000
+    buckets[bucket=2026-06-01].average_cents: 8666666
+    buckets[bucket=2026-05-01].average_cents: 14300000
