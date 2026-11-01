@@ -392,7 +392,8 @@
           "closed_at": "Closed on",
           "lost_reason": "Lost reason",
           "days_since_activity": "Days quiet",
-          "status": "Result"
+          "status": "Result",
+          "issues": "Missing"
         },
         "CATEGORIES": {
           "commit": "Commit",
@@ -449,6 +450,55 @@
             "DESCRIPTION": "Won so far, plus the open deals expected in the period by forecast category, against the target.",
             "EMPTY": "Nothing won or expected in this period",
             "EMPTY_HINT": "Set expected close dates on open deals to build a forecast."
+          },
+          "coverage": {
+            "NAME": "Pipeline coverage",
+            "QUESTION": "Are the open deals enough to reach the rest of the target?",
+            "DESCRIPTION": "Open value expected to close in the period, divided by what is left of the target.",
+            "EMPTY": "No target and no open deals in this period",
+            "EMPTY_HINT": "Set monthly targets in Sales settings, and expected close dates on open deals."
+          },
+          "win_rate": {
+            "NAME": "Win rate",
+            "QUESTION": "From which employee, product or source do we win most?",
+            "DESCRIPTION": "Won ÷ (won + lost) in the period, by count and by value, against the period before.",
+            "EMPTY": "No deals closed in this period",
+            "EMPTY_HINT": "Pick a longer period to compare win rates."
+          },
+          "losses": {
+            "NAME": "Lost reasons and competitors",
+            "QUESTION": "Why do we lose, and to whom?",
+            "DESCRIPTION": "Deals lost in the period by reason, competitor and the stage they were lost in.",
+            "EMPTY": "No deals lost in this period",
+            "EMPTY_HINT": "Nothing to analyse yet."
+          },
+          "activity": {
+            "NAME": "Team activity",
+            "QUESTION": "Does each employee’s activity match their results?",
+            "DESCRIPTION": "Calls, meetings and tasks completed and notes written by each employee, beside what they won.",
+            "EMPTY": "No activity in this period",
+            "EMPTY_HINT": "Completed tasks and deal notes show here."
+          },
+          "new_deals": {
+            "NAME": "New deals by source",
+            "QUESTION": "How many new deals were created, and where did they come from?",
+            "DESCRIPTION": "Deals created in the period by lead source, over time, against the period before.",
+            "EMPTY": "No new deals in this period",
+            "EMPTY_HINT": "Pick a longer period, or add deals."
+          },
+          "data_quality": {
+            "NAME": "Data quality",
+            "QUESTION": "Which deals are incomplete or out of date and spoil the reports?",
+            "DESCRIPTION": "Open deals missing a value, a close date or an owner, past their close date, or with no recent activity.",
+            "EMPTY": "No open deals",
+            "EMPTY_HINT": "Open deals are checked here as soon as they are added."
+          },
+          "scorecard": {
+            "NAME": "Employee scorecard",
+            "QUESTION": "How does each employee do against the team, and where do they need support?",
+            "DESCRIPTION": "Attainment, win rate, coverage, sales cycle and activity, beside the team average.",
+            "EMPTY": "Nothing to score in this period",
+            "EMPTY_HINT": "Set targets, or pick a period with deals."
           }
         },
         "PIPELINE": {
@@ -536,6 +586,123 @@
           "REPORT_NUMBER": "Report {n}",
           "OWN_DEALS": "Shows the deals of the employee who printed it only.",
           "OWN_TASKS": "Shows the tasks of the employee who printed it."
+        },
+        "COVERAGE": {
+          "COVERAGE": "Coverage",
+          "OPEN": "Open, closing this period",
+          "OPEN_COUNT": "{count} deals",
+          "REMAINING": "Left to win",
+          "TARGET_NOTE": "of a target of {target}",
+          "TARGET": "Target",
+          "WON": "Won",
+          "RATING": {
+            "good": "Enough: {multiple}× or more",
+            "warn": "Below {multiple}×: add deals",
+            "bad": "Less than what is left"
+          },
+          "NOTHING_LEFT": "Nothing left to cover",
+          "HOW": "Coverage = open value closing in the period ÷ (target − won). Aim for {multiple}× (Sales settings).",
+          "BY_ASSIGNEE": "By owner",
+          "LOWEST_FIRST": "Lowest coverage first"
+        },
+        "WIN_RATE": {
+          "BY_COUNT": "Win rate",
+          "BY_VALUE": "Win rate by value",
+          "WON": "Won",
+          "LOST": "Lost",
+          "BY": {
+            "assignee": "By owner",
+            "product": "By product",
+            "lead_source": "By lead source"
+          },
+          "GROUPS": {
+            "assignee": "Owner",
+            "product": "Product",
+            "lead_source": "Lead source"
+          },
+          "NONE": {
+            "assignee": "Unassigned",
+            "product": "No product",
+            "lead_source": "No source"
+          },
+          "GROUP_BY": "Compare by",
+          "HINT": "Highest win rate first; the count is the closed deals, click it to see them",
+          "EMPTY_GROUP": "Nothing closed to compare.",
+          "ROW": "{rate} (by value {value})"
+        },
+        "LOSSES": {
+          "COUNT": "Deals lost",
+          "VALUE": "Value lost",
+          "REASONS": "Reasons",
+          "COMPETITORS": "Lost to",
+          "STAGES": "Lost at stage",
+          "STAGES_HINT": "The stage before it was lost",
+          "NONE": "Nothing lost.",
+          "NO_COMPETITOR": "No competitor recorded",
+          "UNKNOWN_STAGE": "Unknown",
+          "BY_ASSIGNEE": "By owner",
+          "TOP_REASON": "Main reason"
+        },
+        "ACTIVITY": {
+          "NOTES": "Notes",
+          "TOTAL": "All activity",
+          "WON": "Won",
+          "WON_VALUE": "Won value",
+          "WIN_RATE": "Win rate",
+          "BY_ASSIGNEE": "By owner",
+          "WHAT_COUNTS": "Completed tasks by kind, and notes on deals; chats do not count"
+        },
+        "NEW_DEALS": {
+          "COUNT": "New deals",
+          "VALUE": "Their value",
+          "BY_SOURCE": "By source",
+          "OVER_TIME": "Over time",
+          "CREATED_FROM": "Created from",
+          "NO_SOURCE": "No source",
+          "NONE": "No new deals.",
+          "SOURCES": "By source",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "DATA_QUALITY": {
+          "RATE": "Complete deals",
+          "RATE_NOTE": "{complete} of {open} open deals",
+          "TO_FIX": "Deals to fix",
+          "OPEN": "Open deals",
+          "COMPLETE_MEANS": "Complete = a value, an expected close date and an owner.",
+          "BY_ASSIGNEE": "By owner",
+          "DEALS": "Deals to fix",
+          "ALL_GOOD": "Every open deal is complete and up to date."
+        },
+        "ISSUES": {
+          "no_amount": "No value",
+          "no_close_date": "No close date",
+          "past_close_date": "Close date passed",
+          "no_owner": "No owner",
+          "stale": "No activity for {days} days"
+        },
+        "ISSUE_CHIPS": {
+          "no_amount": "No value",
+          "no_close_date": "No close date",
+          "past_close_date": "Date passed",
+          "no_owner": "No owner",
+          "stale": "Quiet"
+        },
+        "SCORECARD": {
+          "DAYS": "{days} days",
+          "AVERAGE_NOTE": "Team average over {count} active employees (with a target or deals in the period).",
+          "TARGET_LINE": "{won} won of {target}",
+          "TEAM": "Team {value}",
+          "METRICS": {
+            "attainment": "Attainment",
+            "won_cents": "Won",
+            "win_rate": "Win rate",
+            "coverage": "Coverage",
+            "sales_cycle": "Sales cycle",
+            "average_deal_cents": "Average deal",
+            "activity_count": "Activity",
+            "new_deal_count": "New deals",
+            "completeness": "Complete data"
+          }
         }
       }
     },

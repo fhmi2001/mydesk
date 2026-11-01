@@ -61,7 +61,71 @@ export const REPORTS = [
     lists: true,
     columns: ['category', 'close_date', 'probability'],
   },
+  // Wave ب
+  {
+    key: 'coverage',
+    number: 8,
+    icon: 'i-lucide-shield-check',
+    period: 'forward',
+    noPipeline: true,
+    columns: ['close_date', 'stage', 'probability'],
+  },
+  {
+    key: 'win_rate',
+    number: 10,
+    icon: 'i-lucide-percent',
+    period: 'past',
+    lists: true,
+    groups: true,
+    columns: ['status', 'closed_at', 'lost_reason'],
+  },
+  {
+    key: 'losses',
+    number: 12,
+    icon: 'i-lucide-circle-x',
+    period: 'past',
+    lists: true,
+    columns: ['closed_at', 'lost_reason'],
+  },
+  {
+    key: 'activity',
+    number: 14,
+    icon: 'i-lucide-activity',
+    period: 'past',
+    // The team's activity is for the manager (the server refuses anyone else)
+    adminOnly: true,
+    columns: ['closed_at'],
+  },
+  {
+    key: 'new_deals',
+    number: 15,
+    icon: 'i-lucide-sprout',
+    period: 'past',
+    lists: true,
+    columns: ['stage', 'close_date'],
+  },
+  {
+    key: 'data_quality',
+    number: 16,
+    icon: 'i-lucide-list-checks',
+    period: null,
+    lists: true,
+    stage: true,
+    columns: ['issues', 'stage', 'close_date'],
+  },
+  {
+    key: 'scorecard',
+    number: 19,
+    icon: 'i-lucide-id-card',
+    period: 'forward',
+    noPipeline: true,
+    columns: ['stage', 'close_date'],
+  },
 ];
+
+// The reports a user may open: the manager's own ones are left out for employees
+export const reportsFor = isAdmin =>
+  REPORTS.filter(r => isAdmin || !r.adminOnly);
 
 export const reportFor = key => REPORTS.find(r => r.key === key) || REPORTS[0];
 

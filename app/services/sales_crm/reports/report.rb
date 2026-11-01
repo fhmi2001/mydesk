@@ -18,6 +18,8 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
                 "COALESCE(SUM(#{PROBABILITY}), 0)"].map { |sql| Arel.sql(sql) }.freeze
 
   class << self
+    # Reports only an administrator may open (the team's activity)
+    def admin_only? = false
     # The managed-list filters a report takes (product, lead source), and whether it takes a stage
     def list_filters = []
     def stage_filter? = false
@@ -46,7 +48,7 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
   # The deals behind one number, a page at a time
   def drill(page: 1)
     relation = drill_scope(cell)
-    { total_count: relation.count, total_cents: relation.sum('crm_deals.amount_cents'),
+    { type: 'deals', total_count: relation.count, total_cents: relation.sum('crm_deals.amount_cents'),
       items: relation.includes(:stage, :assignee, :contact).reorder(drill_order).page(page.to_i.clamp(1, 10_000)).per(PER_PAGE)
                      .map { |deal| line(deal) } }
   end
@@ -138,6 +140,59 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
       sum(mine).merge(assignee_id: id, name: people[id], cell: cell.merge(assignee_cell(id)))
     end
     result.sort_by { |row| -row[:total_cents] }
+  end
+
+  # A bucket's dates (cell from / to), kept inside the period
+  def window_for(cell)
+    first = [SalesCrm::Period.parse_date(cell[:from]) || period.first, period.first].max
+    last = [SalesCrm::Period.parse_date(cell[:to]) || period.last, period.last].min
+    SalesCrm::Period.new(first, [last, first].max)
+  end
+
+  # Charts over the period go by day, week (from Saturday) or month, depending on its length
+  def interval
+    return 'day' if period.days <= 31
+    return 'week' if period.days <= 92
+
+    'month'
+  end
+
+  def bucket_start(date)
+    case interval
+    when 'day' then date
+    when 'week' then date - ((date.wday + 1) % 7) # Saturday starts the week
+    else date.beginning_of_month
+    end
+  end
+
+  def bucket_end(start)
+    { 'day' => start, 'week' => start + 6 }.fetch(interval) { start.end_of_month }
+  end
+
+  # Every bucket of the period, empty ones included, as [start, cell]
+  def bucket_cells
+    period.dates.map { |date| bucket_start(date) }.uniq.map do |start|
+      [start, { from: [start, period.first].max.iso8601, to: [bucket_end(start), period.last].min.iso8601 }]
+    end
+  end
+
+  def riyadh_date(time) = time.in_time_zone(SalesCrm::Period.zone).to_date
+
+  # A cell's managed-list values (product_id, lead_source_id, competitor_id): 'none' for deals without one
+  LIST_COLUMNS = %i[product_id lead_source_id competitor_id].freeze
+
+  def by_lists(relation, cell)
+    LIST_COLUMNS.reduce(relation) do |rel, column|
+      next rel unless cell.key?(column)
+
+      value = cell[column].to_s
+      rel.where(column => value == NONE ? nil : value.to_i)
+    end
+  end
+
+  # id => name of managed-list items, archived ones included (a deal keeps its value)
+  def item_names(ids)
+    account.crm_list_items.where(id: ids.compact.uniq).pluck(:id, :name).to_h
   end
 
   # The employees with a target in a month the period touches

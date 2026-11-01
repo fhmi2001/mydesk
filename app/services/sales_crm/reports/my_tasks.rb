@@ -19,7 +19,7 @@ class SalesCrm::Reports::MyTasks < SalesCrm::Reports::Report
   def drill(page: 1)
     relation = kind_scope(KINDS.include?(cell[:kind].to_s) ? cell[:kind].to_s : 'overdue')
     relation = relation.where(kind: cell[:task_kind].to_s) if SalesCrm::Task.kinds.key?(cell[:task_kind].to_s)
-    { total_count: relation.count,
+    { type: 'tasks', total_count: relation.count,
       items: relation.includes(:assignee, :contact, :deal, :conversation).page(page.to_i.clamp(1, 10_000)).per(PER_PAGE)
                      .map { |task| SalesCrm::Presenter.task(task, now: @now) } }
   end

@@ -1,6 +1,6 @@
 <script setup>
 // Custom (MyDesk): the manager's row per employee in a report. columns: [{ key, label, format, cell?, tone? }]
-// format: money | count | percent; `cell(row)` makes the number open its deals; `tone(row)` colours it.
+// format: money | count | percent | times; `cell(row)` makes the number open its deals; `tone(row)` colours it.
 import { useI18n } from 'vue-i18n';
 import { useCrmFormat } from '../../shared/useCrmFormat';
 import CellButton from './CellButton.vue';
@@ -23,12 +23,16 @@ const format = (row, column) => {
   if (v === null || v === undefined) return '—';
   if (column.format === 'money') return money(v, props.currency);
   if (column.format === 'percent') return `${number(v)}%`;
+  if (column.format === 'times') return `${number(v)}×`;
+  if (column.format === 'text') return v;
   return number(v);
 };
 const toneClass = (row, column) =>
-  ({ good: 'text-n-teal-11', bad: 'text-n-ruby-11 font-medium' })[
-    column.tone?.(row)
-  ] || '';
+  ({
+    good: 'text-n-teal-11',
+    warn: 'text-n-amber-11',
+    bad: 'text-n-ruby-11 font-medium',
+  })[column.tone?.(row)] || '';
 </script>
 
 <template>

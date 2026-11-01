@@ -33,37 +33,10 @@ class SalesCrm::Reports::WonLost < SalesCrm::Reports::Report
     status == 'won' ? deals.won.where(won_at: window.range) : deals.lost.where(lost_at: window.range)
   end
 
-  # A bucket's dates, kept inside the period
-  def window_for(cell)
-    first = [SalesCrm::Period.parse_date(cell[:from]) || period.first, period.first].max
-    last = [SalesCrm::Period.parse_date(cell[:to]) || period.last, period.last].min
-    SalesCrm::Period.new(first, [last, first].max)
-  end
-
-  def interval
-    return 'day' if period.days <= 31
-    return 'week' if period.days <= 92
-
-    'month'
-  end
-
-  def bucket_start(date)
-    case interval
-    when 'day' then date
-    when 'week' then date - ((date.wday + 1) % 7) # Saturday starts the week
-    else date.beginning_of_month
-    end
-  end
-
-  def bucket_end(start)
-    { 'day' => start, 'week' => start + 6 }.fetch(interval) { start.end_of_month }
-  end
-
   # Every bucket of the period, empty ones included, so the chart has no gaps
   def buckets
     sums = bucket_sums
-    period.dates.map { |date| bucket_start(date) }.uniq.map do |start|
-      cell = { from: [start, period.first].max.iso8601, to: [bucket_end(start), period.last].min.iso8601 }
+    bucket_cells.map do |start, cell|
       sums.fetch(start, EMPTY_BUCKET).merge(bucket: start.iso8601, cell: cell)
     end
   end

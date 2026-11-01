@@ -19,7 +19,7 @@ import { useCrmLists } from '../../shared/useCrmLists';
 import { useCrmFormat } from '../../shared/useCrmFormat';
 import { periodRange } from '../periods';
 import {
-  REPORTS,
+  reportsFor,
   reportFor,
   forwardRange,
   PAST_PERIODS,
@@ -34,6 +34,13 @@ import MyTasksReport from './MyTasksReport.vue';
 import WonLostReport from './WonLostReport.vue';
 import QuotaReport from './QuotaReport.vue';
 import ForecastReport from './ForecastReport.vue';
+import CoverageReport from './CoverageReport.vue';
+import WinRateReport from './WinRateReport.vue';
+import LossesReport from './LossesReport.vue';
+import ActivityReport from './ActivityReport.vue';
+import NewDealsReport from './NewDealsReport.vue';
+import DataQualityReport from './DataQualityReport.vue';
+import ScorecardReport from './ScorecardReport.vue';
 
 const BODIES = {
   pipeline_by_stage: PipelineByStageReport,
@@ -43,6 +50,13 @@ const BODIES = {
   won_lost: WonLostReport,
   quota: QuotaReport,
   forecast: ForecastReport,
+  coverage: CoverageReport,
+  win_rate: WinRateReport,
+  losses: LossesReport,
+  activity: ActivityReport,
+  new_deals: NewDealsReport,
+  data_quality: DataQualityReport,
+  scorecard: ScorecardReport,
 };
 
 const route = useRoute();
@@ -57,7 +71,11 @@ const agents = useMapGetter('agents/getAgents');
 const currentUser = useMapGetter('getCurrentUser');
 const currentAccount = useMapGetter('getCurrentAccount');
 
-const report = computed(() => reportFor(route.params.reportKey));
+// An employee who follows a link to a manager's report lands on the first one instead
+const report = computed(() => {
+  const found = reportFor(route.params.reportKey);
+  return found.adminOnly && !isAdmin.value ? reportFor('') : found;
+});
 const R = key => t(`CRM.REPORTS.WAVE.REPORTS.${report.value.key}.${key}`);
 
 const period = ref('month');
@@ -69,6 +87,8 @@ const productId = ref('');
 const leadSourceId = ref('');
 const stageId = ref('');
 const days = ref('');
+// Report 10: what to compare (assignee, product, lead_source); empty lets the server pick
+const groupBy = ref('');
 
 const data = ref(null);
 const isLoading = ref(true);
@@ -119,6 +139,7 @@ const params = computed(() => ({
   lead_source_id: (report.value.lists && leadSourceId.value) || undefined,
   stage_id: (report.value.stage && stageId.value) || undefined,
   days: (report.value.days && days.value) || undefined,
+  group_by: (report.value.groups && groupBy.value) || undefined,
 }));
 
 const applyPeriod = () => {
@@ -159,6 +180,7 @@ watch(
   () => report.value.key,
   () => {
     data.value = null;
+    groupBy.value = '';
     if (!periodOptions.value.some(o => o.value === period.value))
       period.value = 'month';
     applyPeriod();
@@ -169,7 +191,10 @@ watch(period, () => {
   applyPeriod();
   if (period.value !== 'custom') load();
 });
-watch([pipelineId, assigneeId, productId, leadSourceId, stageId], load);
+watch(
+  [pipelineId, assigneeId, productId, leadSourceId, stageId, groupBy],
+  load
+);
 
 const periodNote = computed(() =>
   data.value?.period
@@ -293,7 +318,7 @@ const print = async () => {
         {{ t('CRM.REPORTS.WAVE.OVERVIEW') }}
       </router-link>
       <router-link
-        v-for="item in REPORTS"
+        v-for="item in reportsFor(isAdmin)"
         :key="item.key"
         :to="{ name: 'crm_report', params: { reportKey: item.key } }"
         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-label-small whitespace-nowrap"
@@ -490,6 +515,7 @@ const print = async () => {
           :data="data"
           :currency="currency"
           @drill="openDrill"
+          @group="value => (groupBy = value)"
         />
       </div>
     </div>

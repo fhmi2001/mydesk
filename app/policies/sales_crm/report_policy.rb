@@ -4,4 +4,6 @@ class SalesCrm::ReportPolicy < ApplicationPolicy
   def index? = true
   def export? = account_user&.administrator?
   def settings? = account_user&.administrator?
+  # The reports about the team as a whole (SalesCrm::Reports::Report.admin_only?)
+  def team? = account_user&.administrator?
 end

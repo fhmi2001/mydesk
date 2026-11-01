@@ -29,8 +29,10 @@ class Api::V1::Accounts::Crm::ReportsController < Api::V1::Accounts::Crm::BaseCo
   private
 
   def catalog_report
-    filters = params.permit(:product_id, :lead_source_id, :stage_id, :days, :full, cell: {}).to_h.symbolize_keys
-    report(SalesCrm::Reports::Catalog.fetch(params[:key]), **filters)
+    klass = SalesCrm::Reports::Catalog.fetch(params[:key])
+    authorize SalesCrm::Deal, :team?, policy_class: SalesCrm::ReportPolicy if klass.admin_only?
+    filters = params.permit(:product_id, :lead_source_id, :stage_id, :days, :full, :group_by, cell: {}).to_h.symbolize_keys
+    report(klass, **filters)
   end
 
   def report(klass, **overrides)

@@ -540,8 +540,10 @@ Rails.application.routes.draw do
               get :export
               get :stage_win_rates
               # Custom (MyDesk): the reports of SalesCrm::Reports::Catalog
-              get ':key', action: :show, constraints: { key: /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast/ }
-              get ':key/deals', action: :drill, constraints: { key: /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast/ }
+              crm_report_keys = /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast|coverage|win_rate|losses|
+                                  activity|new_deals|data_quality|scorecard/x
+              get ':key', action: :show, constraints: { key: crm_report_keys }
+              get ':key/deals', action: :drill, constraints: { key: crm_report_keys }
             end
             resource :settings, only: [:show, :update], controller: 'settings'
             resources :lost_reasons, only: [:index, :create, :update, :destroy] do

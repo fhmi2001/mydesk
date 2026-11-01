@@ -31,7 +31,9 @@ const totalCents = ref(null);
 const isLoading = ref(false);
 const failed = ref(false);
 
-const isTasks = computed(() => props.reportKey === 'my_tasks');
+// The server says what it listed: deals, or tasks (my tasks, the team's activity)
+const resultType = ref('deals');
+const isTasks = computed(() => resultType.value === 'tasks');
 const hasMore = computed(() => items.value.length < totalCount.value);
 
 const fetchPage = async () => {
@@ -45,6 +47,7 @@ const fetchPage = async () => {
     });
     items.value =
       page.value === 1 ? data.items : [...items.value, ...data.items];
+    resultType.value = data.type || 'deals';
     totalCount.value = data.total_count;
     totalCents.value = data.total_cents ?? null;
   } catch {

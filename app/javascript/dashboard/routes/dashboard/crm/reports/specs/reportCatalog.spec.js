@@ -1,4 +1,9 @@
-import { forwardRange, reportFor, REPORTS } from '../wave/reportCatalog';
+import {
+  forwardRange,
+  reportFor,
+  reportsFor,
+  REPORTS,
+} from '../wave/reportCatalog';
 import { periodRange } from '../periods';
 
 describe('reportCatalog', () => {
@@ -37,8 +42,11 @@ describe('reportCatalog', () => {
     });
   });
 
-  it('lists the seven reports of wave A and falls back to the first', () => {
-    expect(REPORTS.map(r => r.number)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+  it('lists the reports of waves A and B, and falls back to the first', () => {
+    expect(REPORTS.map(r => r.number)).toEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16, 19,
+    ]);
+    expect(reportsFor(false).map(r => r.key)).not.toContain('activity');
     expect(reportFor('nope').key).toBe('pipeline_by_stage');
   });
 });

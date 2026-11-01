@@ -17,7 +17,7 @@ import AgentPicker from '../shared/AgentPicker.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
 import SummaryCards from './SummaryCards.vue';
 import { periodRange } from './periods';
-import { REPORTS } from './wave/reportCatalog';
+import { reportsFor } from './wave/reportCatalog';
 
 const { t, locale } = useI18n();
 const store = useStore();
@@ -237,7 +237,7 @@ const exportCsv = async () => {
     <!-- The reports of phase 4, each answering one question (reports/wave) -->
     <nav class="px-6 pb-6" :aria-label="t('CRM.REPORTS.WAVE.NAV')">
       <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <li v-for="item in REPORTS" :key="item.key">
+        <li v-for="item in reportsFor(isAdmin)" :key="item.key">
           <router-link
             :to="{ name: 'crm_report', params: { reportKey: item.key } }"
             class="flex items-start h-full gap-3 p-4 transition-colors rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1 focus-visible:outline-2 focus-visible:outline-n-brand"

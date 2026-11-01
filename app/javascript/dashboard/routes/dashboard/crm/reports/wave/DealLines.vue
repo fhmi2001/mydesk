@@ -97,6 +97,15 @@ const days = value =>
             >
               {{ days(deal.days_overdue) }}
             </span>
+            <span v-else-if="column === 'issues'" class="flex flex-wrap gap-1">
+              <span
+                v-for="issue in deal.issues"
+                :key="issue"
+                class="px-1.5 py-0.5 rounded bg-n-ruby-3 text-n-ruby-11 text-label-small whitespace-nowrap"
+              >
+                {{ t(`CRM.REPORTS.WAVE.ISSUE_CHIPS.${issue}`) }}
+              </span>
+            </span>
             <span
               v-else-if="column === 'status'"
               :class="
