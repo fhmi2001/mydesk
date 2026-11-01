@@ -35,7 +35,7 @@ const unassigned = name => name || t('CRM.COMMON.UNASSIGNED');
 
 <template>
   <div class="flex flex-col gap-6">
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
       <NumberTile
         :label="L('COUNT')"
         :value="number(data.totals.count)"

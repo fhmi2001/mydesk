@@ -1,5 +1,6 @@
 <script setup>
 // Custom (MyDesk): التقرير 5, what closed in the period and how (SalesCrm::Reports::WonLost)
+import { COLORS } from './reportColors';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BarChart from 'shared/components/charts/BarChart.vue';
@@ -70,15 +71,15 @@ const chart = computed(() => ({
     {
       id: 'won',
       label: t('CRM.REPORTS.TIMELINE.WON'),
-      color: 'rgb(var(--teal-9))',
-      valueColor: 'rgb(var(--teal-11))',
+      color: COLORS.won.rgb,
+      valueColor: COLORS.won.rgbText,
       data: props.data.buckets.map(b => ({ value: b.won_count })),
     },
     {
       id: 'lost',
       label: t('CRM.REPORTS.TIMELINE.LOST'),
-      color: 'rgb(var(--ruby-9))',
-      valueColor: 'rgb(var(--ruby-11))',
+      color: COLORS.lost.rgb,
+      valueColor: COLORS.lost.rgbText,
       data: props.data.buckets.map(b => ({ value: b.lost_count })),
     },
   ],

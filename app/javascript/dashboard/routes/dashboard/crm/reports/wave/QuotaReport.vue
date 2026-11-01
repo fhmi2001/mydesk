@@ -1,5 +1,6 @@
 <script setup>
 // Custom (MyDesk): التقرير 6, won against the target, and what is left (SalesCrm::Reports::Quota)
+import { COLORS } from './reportColors';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useCrmFormat } from '../../shared/useCrmFormat';
@@ -105,7 +106,7 @@ const assigneeColumns = computed(() => [
       >
         <div
           class="h-full rounded-full transition-[width]"
-          :class="progress >= 100 ? 'bg-n-teal-9' : 'bg-n-iris-9'"
+          :class="progress >= 100 ? COLORS.won.bar : COLORS.open.bar"
           :style="{ width: `${progress}%` }"
         />
       </div>
@@ -120,7 +121,7 @@ const assigneeColumns = computed(() => [
         <polyline
           :points="line.target"
           fill="none"
-          stroke="rgb(var(--slate-8))"
+          :stroke="COLORS.neutral.rgb"
           stroke-width="2"
           stroke-dasharray="6 5"
           vector-effect="non-scaling-stroke"
@@ -128,7 +129,7 @@ const assigneeColumns = computed(() => [
         <polyline
           :points="line.won"
           fill="none"
-          stroke="rgb(var(--iris-9))"
+          :stroke="COLORS.won.rgb"
           stroke-width="2.5"
           vector-effect="non-scaling-stroke"
         />
@@ -139,7 +140,11 @@ const assigneeColumns = computed(() => [
         <span class="tabular-nums">{{ firstDay && date(firstDay) }}</span>
         <span class="inline-flex items-center gap-4">
           <span class="inline-flex items-center gap-1.5">
-            <span class="w-4 h-0.5 bg-n-iris-9" aria-hidden="true" />
+            <span
+              class="w-4 h-0.5"
+              :class="COLORS.won.bar"
+              aria-hidden="true"
+            />
             {{ L('WON_SO_FAR') }}
           </span>
           <span class="inline-flex items-center gap-1.5">

@@ -4,6 +4,7 @@
 export const REPORTS = [
   {
     key: 'pipeline_by_stage',
+    group: 'pipeline',
     number: 1,
     icon: 'i-lucide-columns-3',
     period: null,
@@ -12,6 +13,7 @@ export const REPORTS = [
   },
   {
     key: 'closing',
+    group: 'pipeline',
     number: 2,
     icon: 'i-lucide-calendar-clock',
     period: 'forward',
@@ -21,6 +23,7 @@ export const REPORTS = [
   },
   {
     key: 'stale',
+    group: 'health',
     number: 3,
     icon: 'i-lucide-hourglass',
     period: null,
@@ -31,6 +34,7 @@ export const REPORTS = [
   },
   {
     key: 'my_tasks',
+    group: 'activity',
     number: 4,
     icon: 'i-lucide-list-checks',
     period: 'past',
@@ -38,6 +42,7 @@ export const REPORTS = [
   },
   {
     key: 'won_lost',
+    group: 'results',
     number: 5,
     icon: 'i-lucide-scale',
     period: 'past',
@@ -46,6 +51,7 @@ export const REPORTS = [
   },
   {
     key: 'quota',
+    group: 'performance',
     number: 6,
     icon: 'i-lucide-target',
     period: 'forward',
@@ -55,6 +61,7 @@ export const REPORTS = [
   },
   {
     key: 'forecast',
+    group: 'forecast',
     number: 7,
     icon: 'i-lucide-trending-up',
     period: 'forward',
@@ -64,6 +71,7 @@ export const REPORTS = [
   // Wave ب
   {
     key: 'coverage',
+    group: 'forecast',
     number: 8,
     icon: 'i-lucide-shield-check',
     period: 'forward',
@@ -72,6 +80,7 @@ export const REPORTS = [
   },
   {
     key: 'win_rate',
+    group: 'conversion',
     number: 10,
     icon: 'i-lucide-percent',
     period: 'past',
@@ -81,6 +90,7 @@ export const REPORTS = [
   },
   {
     key: 'losses',
+    group: 'results',
     number: 12,
     icon: 'i-lucide-circle-x',
     period: 'past',
@@ -89,6 +99,7 @@ export const REPORTS = [
   },
   {
     key: 'activity',
+    group: 'activity',
     number: 14,
     icon: 'i-lucide-activity',
     period: 'past',
@@ -98,6 +109,7 @@ export const REPORTS = [
   },
   {
     key: 'new_deals',
+    group: 'pipeline',
     number: 15,
     icon: 'i-lucide-sprout',
     period: 'past',
@@ -106,6 +118,7 @@ export const REPORTS = [
   },
   {
     key: 'data_quality',
+    group: 'health',
     number: 16,
     icon: 'i-lucide-list-checks',
     period: null,
@@ -115,6 +128,7 @@ export const REPORTS = [
   },
   {
     key: 'scorecard',
+    group: 'performance',
     number: 19,
     icon: 'i-lucide-id-card',
     period: 'forward',
@@ -124,6 +138,7 @@ export const REPORTS = [
   // Wave ج
   {
     key: 'conversion',
+    group: 'conversion',
     number: 9,
     icon: 'i-lucide-filter',
     period: 'past',
@@ -132,6 +147,7 @@ export const REPORTS = [
   },
   {
     key: 'cycle',
+    group: 'conversion',
     number: 11,
     icon: 'i-lucide-timer',
     period: 'past',
@@ -141,6 +157,7 @@ export const REPORTS = [
   },
   {
     key: 'changes',
+    group: 'pipeline',
     number: 13,
     icon: 'i-lucide-git-compare-arrows',
     period: 'past',
@@ -152,6 +169,7 @@ export const REPORTS = [
   },
   {
     key: 'revenue',
+    group: 'results',
     number: 17,
     icon: 'i-lucide-coins',
     period: 'past',
@@ -161,6 +179,7 @@ export const REPORTS = [
   },
   {
     key: 'deal_size',
+    group: 'results',
     number: 18,
     icon: 'i-lucide-ruler',
     period: 'past',
@@ -169,6 +188,17 @@ export const REPORTS = [
     adminOnly: true,
     columns: ['closed_at'],
   },
+];
+
+// The navigation's groups, in order (CRM_REPORTS_PLAN.md, phase 5)
+export const GROUPS = [
+  'pipeline',
+  'forecast',
+  'results',
+  'conversion',
+  'performance',
+  'activity',
+  'health',
 ];
 
 // The reports a user may open: the manager's own ones are left out for employees

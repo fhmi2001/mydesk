@@ -544,6 +544,7 @@ Rails.application.routes.draw do
                                   activity|new_deals|data_quality|scorecard|conversion|cycle|changes|revenue|deal_size/x
               get ':key', action: :show, constraints: { key: crm_report_keys }
               get ':key/deals', action: :drill, constraints: { key: crm_report_keys }
+              get ':key/download', action: :download, constraints: { key: crm_report_keys }
             end
             resource :settings, only: [:show, :update], controller: 'settings'
             resources :lost_reasons, only: [:index, :create, :update, :destroy] do

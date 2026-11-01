@@ -1,6 +1,7 @@
 <script setup>
 // Custom (MyDesk): the manager's row per employee in a report. columns: [{ key, label, format, cell?, tone? }]
 // format: money | count | percent | times; `cell(row)` makes the number open its deals; `tone(row)` colours it.
+import { TONE_TEXT } from './reportColors';
 import { useI18n } from 'vue-i18n';
 import { useCrmFormat } from '../../shared/useCrmFormat';
 import CellButton from './CellButton.vue';
@@ -27,12 +28,7 @@ const format = (row, column) => {
   if (column.format === 'text') return v;
   return number(v);
 };
-const toneClass = (row, column) =>
-  ({
-    good: 'text-n-teal-11',
-    warn: 'text-n-amber-11',
-    bad: 'text-n-ruby-11 font-medium',
-  })[column.tone?.(row)] || '';
+const toneClass = (row, column) => TONE_TEXT[column.tone?.(row)] || '';
 </script>
 
 <template>
@@ -47,7 +43,11 @@ const toneClass = (row, column) =>
           >
             #
           </th>
-          <th scope="col" class="py-2 font-medium text-start">
+          <!-- The name stays in view while the numbers scroll on a narrow screen -->
+          <th
+            scope="col"
+            class="sticky z-[1] py-2 pe-3 font-medium start-0 text-start bg-n-solid-1"
+          >
             {{ t('CRM.REPORTS.AGENTS.AGENT') }}
           </th>
           <th
@@ -65,7 +65,10 @@ const toneClass = (row, column) =>
           <td v-if="ranked" class="py-2.5 pe-2 tabular-nums text-n-slate-10">
             {{ number(row.rank) }}
           </td>
-          <th scope="row" class="py-2.5 font-normal text-start text-n-slate-12">
+          <th
+            scope="row"
+            class="sticky z-[1] py-2.5 pe-3 font-normal start-0 text-start text-n-slate-12 bg-n-solid-1 whitespace-nowrap"
+          >
             {{ name(row) }}
           </th>
           <td

@@ -61,6 +61,159 @@ ar:
       lost_note: ملاحظات الخسارة
       lost_reason: سبب الخسارة
       created_at: تاريخ الإنشاء
+    reports:
+      export:
+        sheets:
+          summary: الملخص
+          deals: الصفقات
+        sections:
+          totals: الإجماليات
+          previous_totals: الفترة السابقة
+          team_average: متوسط الفريق
+          rows: التفاصيل
+          assignees: حسب المسؤول
+          cards: بطاقات الموظفين
+          stages: المراحل
+          buckets: على مدى الفترة
+          sources: حسب المصدر
+          reasons: الأسباب
+          competitors: المنافسون
+          lost_reasons: أسباب الخسارة
+          cumulative: التراكمي اليومي
+        values:
+          status:
+            open: مفتوحة
+            won: مكسوبة
+            lost: خاسرة
+            done: منجزة
+          forecast_category:
+            commit: مؤكد
+            best_case: محتمل
+            pipeline: غير مؤكد
+            omitted: مستبعد
+          kind:
+            task: مهمة
+            call: مكالمة
+            meeting: اجتماع
+          rating:
+            good: كافية
+            warn: أقل من المطلوب
+            bad: غير كافية
+          'true': نعم
+          'false': لا
+        filters:
+          report: التقرير
+          question: السؤال
+          period: الفترة
+          assignee: المسؤول
+          whole_team: الفريق كله
+          pipeline: المسار
+          stage: المرحلة
+          product: المنتج
+          lead_source: مصدر العميل
+          exported_at: تاريخ التصدير
+          exported_by: صدّره
+        fields:
+          count: العدد
+          total_cents: القيمة
+          weighted_cents: القيمة المرجّحة
+          average_probability: متوسط الاحتمالية %
+          name: الاسم
+          title: العنوان
+          contact_name: العميل
+          assignee: المسؤول
+          stage: المرحلة
+          status: الحالة
+          amount_cents: القيمة
+          close_date: الإغلاق المتوقع
+          probability: الاحتمالية %
+          forecast_category: فئة التوقع
+          won_at: تاريخ الكسب
+          lost_at: تاريخ الخسارة
+          lost_reason: سبب الخسارة
+          days_since_activity: أيام بلا نشاط
+          days_overdue: أيام التأخير
+          kind: النوع
+          due_at: الاستحقاق
+          done_at: تاريخ الإنجاز
+          deal: الصفقة
+          contact: العميل
+          won_count: المكسوبة
+          won_cents: قيمة المكسوب
+          lost_count: الخاسرة
+          lost_cents: قيمة الخاسر
+          by_count: نسبة الفوز %
+          by_value: نسبة الفوز بالقيمة %
+          attainment: نسبة الإنجاز %
+          target_cents: الهدف
+          remaining_cents: المتبقي
+          coverage: التغطية (أضعاف)
+          rating: التقييم
+          open_cents: المفتوح المتوقع
+          open_count: الصفقات المفتوحة
+          forecast_cents: التوقع
+          best_case_cents: أفضل حالة
+          gap_cents: ما ينقص
+          forecast_attainment: إنجاز التوقع %
+          rate: النسبة %
+          complete_count: المكتملة
+          to_fix: تحتاج إكمالاً
+          overdue_count: المتأخرة
+          today_count: مستحقة اليوم
+          done_count: المنجزة
+          activity_count: النشاط
+          note_count: الملاحظات
+          average_cents: متوسط الصفقة
+          average_deal_cents: متوسط الصفقة
+          win_rate: نسبة الفوز %
+          sales_cycle: دورة البيع (أيام)
+          completeness: اكتمال البيانات %
+          new_deal_count: الصفقات الجديدة
+          rank: الترتيب
+          share: الحصة %
+          growth: النمو %
+          previous_cents: الفترة السابقة
+          bucket: الفترة
+          date: التاريخ
+          average_days: متوسط الأيام
+          team_rate: نسبة الفريق %
+          dropped: لم تنتقل
+          cycle_days: دورة البيع (أيام)
+          created_count: المنشأة
+          top_reason: السبب الأكثر
+          pipeline_name: المسار
+          at_risk: تحتاج متابعة
+          stale: راكدة
+          overdue: متأخرة
+          by_kind: حسب النوع
+          call: مكالمة
+          meeting: اجتماع
+          task: مهمة
+          issues: النقص
+          no_amount: بلا قيمة
+          no_close_date: بلا تاريخ إغلاق
+          past_close_date: تجاوزت التاريخ
+          no_owner: بلا مسؤول
+          categories: الفئات
+          commit: مؤكد
+          best_case: محتمل
+          pipeline: غير مؤكد
+          omitted: مستبعد
+          counts: الأعداد
+          waterfall: الشلال
+          start: البداية
+          new: جديدة
+          increased: زيادة
+          decreased: نقص
+          won: مكسوبة
+          lost: خاسرة
+          end: النهاية
+          advanced: تقدّمت
+          moved_back: تراجعت
+          slipped: تأجّلت
+          reason: السبب
+          days: أيام الركود
+          key: المفتاح
   super_admin:
     navigation:
       crm: CRM

@@ -19,13 +19,14 @@ import { useCrmLists } from '../../shared/useCrmLists';
 import { useCrmFormat } from '../../shared/useCrmFormat';
 import { periodRange } from '../periods';
 import {
-  reportsFor,
   reportFor,
   forwardRange,
   PAST_PERIODS,
   FORWARD_PERIODS,
 } from './reportCatalog';
 import DrillPanel from './DrillPanel.vue';
+import ReportNav from './ReportNav.vue';
+import { saveFile } from './saveFile';
 import { printReport, escapeHtml } from './printReport';
 import PipelineByStageReport from './PipelineByStageReport.vue';
 import ClosingReport from './ClosingReport.vue';
@@ -101,6 +102,9 @@ const days = ref('');
 const groupBy = ref('');
 
 const data = ref(null);
+// When the numbers on screen were fetched (shown under the title)
+const updatedAt = ref('');
+const filtersOpen = ref(false);
 const isLoading = ref(true);
 const isUnavailable = ref(false);
 const drillPanel = ref(null);
@@ -170,7 +174,13 @@ const load = async () => {
   try {
     const key = report.value.key;
     const response = await crmReportsAPI.report(key, params.value);
-    if (key === report.value.key) data.value = response.data;
+    if (key === report.value.key) {
+      data.value = response.data;
+      updatedAt.value = new Intl.DateTimeFormat(locale.value, {
+        hour: 'numeric',
+        minute: '2-digit',
+      }).format(new Date());
+    }
   } catch (error) {
     isUnavailable.value = !error?.response || error.response.status >= 500;
   } finally {
@@ -234,7 +244,8 @@ const P = key => t(`CRM.REPORTS.WAVE.PRINT.${key}`);
 const optionLabel = (options, value) =>
   options.find(o => String(o.value) === String(value))?.label;
 
-const printFilters = () => {
+// What shaped the numbers: the period and each filter, named as the page shows them
+const filterRows = () => {
   const p = params.value;
   const rows = [];
   if (data.value?.period && report.value.period)
@@ -268,10 +279,55 @@ const printFilters = () => {
     ]);
   if (report.value.days && data.value?.days)
     rows.push([t('CRM.REPORTS.WAVE.STALE_DAYS'), number(data.value.days)]);
-  rows.push([P('PRINTED_AT'), dateTime(new Date().toISOString())]);
-  rows.push([P('PRINTED_BY'), currentUser.value?.name]);
   return rows;
 };
+
+const printFilters = () => [
+  ...filterRows(),
+  [P('PRINTED_AT'), dateTime(new Date().toISOString())],
+  [P('PRINTED_BY'), currentUser.value?.name],
+];
+
+// Exporting (the manager): the report as Excel, or its deals as CSV, under the same heading as a printout
+const X = (key, args) => t(`CRM.REPORTS.WAVE.EXPORT.${key}`, args);
+const exporting = ref('');
+const exportAs = async format => {
+  exporting.value = format;
+  try {
+    const heading = [
+      [X('REPORT'), R('NAME')],
+      [X('QUESTION'), R('QUESTION')],
+      ...filterRows(),
+    ].map(([label, value]) => ({ label, value: value || '—' }));
+    const { data: blob } = await crmReportsAPI.download(report.value.key, {
+      ...params.value,
+      file_format: format,
+      heading: JSON.stringify(heading),
+    });
+    const span = data.value?.period
+      ? `-${data.value.period.from}-${data.value.period.to}`
+      : '';
+    saveFile(blob, `${report.value.key}${span}.${format}`);
+  } catch {
+    useAlert(t('CRM.COMMON.ERROR'));
+  } finally {
+    exporting.value = '';
+  }
+};
+
+// How many filters narrow the report beyond the period, on the phone's button
+const FILTER_KEYS = [
+  'pipeline_id',
+  'assignee_id',
+  'product_id',
+  'lead_source_id',
+  'stage_id',
+  'days',
+];
+const filterToggleLabel = computed(() => {
+  const count = FILTER_KEYS.filter(key => params.value[key]).length;
+  return count ? X('FILTERS_ON', { count: number(count) }) : X('FILTERS');
+});
 
 const printHeader = () => {
   const meta = printFilters()
@@ -323,218 +379,235 @@ const print = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full min-w-0 overflow-y-auto">
-    <nav
-      class="flex gap-1 px-6 pt-5 overflow-x-auto shrink-0"
-      :aria-label="t('CRM.REPORTS.WAVE.NAV')"
-    >
-      <router-link
-        :to="{ name: 'crm_reports' }"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-label-small text-n-slate-11 hover:bg-n-alpha-2 whitespace-nowrap"
+  <div class="flex flex-col h-full min-w-0 lg:flex-row">
+    <ReportNav :current="report.key" />
+    <div class="flex flex-col flex-1 min-w-0 overflow-y-auto">
+      <CrmPageHeader :title="R('QUESTION')" :subtitle="R('DESCRIPTION')">
+        <template #actions>
+          <Button
+            :label="P('BUTTON')"
+            variant="faded"
+            size="sm"
+            icon="i-lucide-printer"
+            :is-loading="isPrinting"
+            :disabled="!data || isLoading"
+            @click="print"
+          />
+          <!-- Exporting is for the manager (gap-analysis.md, question 5); the server refuses anyone else -->
+          <template v-if="isAdmin">
+            <Button
+              :label="X('EXCEL')"
+              variant="faded"
+              size="sm"
+              icon="i-lucide-sheet"
+              :is-loading="exporting === 'xlsx'"
+              :disabled="!data || isLoading"
+              @click="exportAs('xlsx')"
+            />
+            <Button
+              :label="X('CSV')"
+              variant="faded"
+              size="sm"
+              icon="i-lucide-download"
+              :is-loading="exporting === 'csv'"
+              :disabled="!data || isLoading"
+              @click="exportAs('csv')"
+            />
+          </template>
+        </template>
+      </CrmPageHeader>
+      <p
+        v-if="updatedAt"
+        class="px-6 -mt-2 pb-3 text-label-small text-n-slate-10"
+        aria-live="polite"
       >
-        <span class="i-lucide-layout-dashboard size-4" aria-hidden="true" />
-        {{ t('CRM.REPORTS.WAVE.OVERVIEW') }}
-      </router-link>
-      <router-link
-        v-for="item in reportsFor(isAdmin)"
-        :key="item.key"
-        :to="{ name: 'crm_report', params: { reportKey: item.key } }"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-label-small whitespace-nowrap"
-        :class="
-          item.key === report.key
-            ? 'bg-n-alpha-2 text-n-slate-12 font-medium'
-            : 'text-n-slate-11 hover:bg-n-alpha-2'
-        "
-        :aria-current="item.key === report.key ? 'page' : undefined"
-      >
-        <span :class="item.icon" class="size-4" aria-hidden="true" />
-        {{ t(`CRM.REPORTS.WAVE.REPORTS.${item.key}.NAME`) }}
-      </router-link>
-    </nav>
+        {{
+          report.period && periodNote
+            ? X('UPDATED_WITH_PERIOD', { period: periodNote, time: updatedAt })
+            : X('UPDATED', { time: updatedAt })
+        }}
+      </p>
 
-    <CrmPageHeader :title="R('QUESTION')" :subtitle="R('DESCRIPTION')">
-      <template #actions>
+      <p
+        v-if="!isAdmin"
+        class="flex items-center gap-2 px-6 pb-4 text-body-main text-n-slate-11"
+      >
+        <span class="i-lucide-user-round size-4 shrink-0" aria-hidden="true" />
+        {{
+          report.tasks
+            ? t('CRM.REPORTS.WAVE.OWN_TASKS')
+            : t('CRM.REPORTS.OWN_ONLY')
+        }}
+      </p>
+
+      <!-- On a phone the filters fold behind one button -->
+      <div class="px-6 pb-3 lg:hidden">
         <Button
-          :label="P('BUTTON')"
+          :label="filterToggleLabel"
           variant="faded"
           size="sm"
-          icon="i-lucide-printer"
-          :is-loading="isPrinting"
-          :disabled="!data || isLoading"
-          @click="print"
+          icon="i-lucide-sliders-horizontal"
+          :aria-expanded="filtersOpen"
+          @click="filtersOpen = !filtersOpen"
         />
-      </template>
-    </CrmPageHeader>
-
-    <p
-      v-if="!isAdmin"
-      class="flex items-center gap-2 px-6 pb-4 text-body-main text-n-slate-11"
-    >
-      <span class="i-lucide-user-round size-4 shrink-0" aria-hidden="true" />
-      {{
-        report.tasks
-          ? t('CRM.REPORTS.WAVE.OWN_TASKS')
-          : t('CRM.REPORTS.OWN_ONLY')
-      }}
-    </p>
-
-    <div class="flex flex-wrap items-end gap-3 px-6 pb-4">
-      <template v-if="report.period">
-        <div class="flex flex-col gap-1">
-          <span class="text-label-small text-n-slate-11" aria-hidden="true">
-            {{ t('CRM.REPORTS.PERIOD') }}
-          </span>
-          <Select
-            v-model="period"
-            :options="periodOptions"
-            :aria-label="t('CRM.REPORTS.PERIOD')"
-            class="w-40"
-          />
-        </div>
-        <template v-if="period === 'custom'">
-          <Input
-            v-model="from"
-            type="date"
-            :label="t('CRM.REPORTS.FROM')"
-            size="sm"
-            @change="load"
-          />
-          <Input
-            v-model="to"
-            type="date"
-            :label="t('CRM.REPORTS.TO')"
-            size="sm"
-            @change="load"
-          />
+      </div>
+      <div
+        class="flex-wrap items-end gap-3 px-6 pb-4"
+        :class="filtersOpen ? 'flex' : 'hidden lg:flex'"
+      >
+        <template v-if="report.period">
+          <div class="flex flex-col gap-1">
+            <span class="text-label-small text-n-slate-11" aria-hidden="true">
+              {{ t('CRM.REPORTS.PERIOD') }}
+            </span>
+            <Select
+              v-model="period"
+              :options="periodOptions"
+              :aria-label="t('CRM.REPORTS.PERIOD')"
+              class="w-40"
+            />
+          </div>
+          <template v-if="period === 'custom'">
+            <Input
+              v-model="from"
+              type="date"
+              :label="t('CRM.REPORTS.FROM')"
+              size="sm"
+              @change="load"
+            />
+            <Input
+              v-model="to"
+              type="date"
+              :label="t('CRM.REPORTS.TO')"
+              size="sm"
+              @change="load"
+            />
+          </template>
         </template>
-      </template>
-      <div
-        v-if="!report.tasks && !report.noPipeline && pipelineOptions.length > 2"
-        class="flex flex-col gap-1"
-      >
-        <span class="text-label-small text-n-slate-11" aria-hidden="true">
-          {{ t('CRM.DEALS.PIPELINE') }}
-        </span>
-        <Select
-          v-model="pipelineId"
-          :options="pipelineOptions"
-          :aria-label="t('CRM.DEALS.PIPELINE')"
-          class="w-44"
-        />
-      </div>
-      <div v-if="showAssignee" class="flex flex-col gap-1 w-44">
-        <span class="text-label-small text-n-slate-11" aria-hidden="true">
-          {{ t('CRM.DEALS.ASSIGNEE') }}
-        </span>
-        <AgentPicker
-          v-model="assigneeId"
-          :none-label="t('CRM.REPORTS.WAVE.WHOLE_TEAM')"
-          :aria-label="t('CRM.DEALS.ASSIGNEE')"
-        />
-      </div>
-      <div v-if="report.stage" class="flex flex-col gap-1">
-        <span class="text-label-small text-n-slate-11" aria-hidden="true">
-          {{ t('CRM.REPORTS.WAVE.STAGE') }}
-        </span>
-        <Select
-          v-model="stageId"
-          :options="stageOptions"
-          :aria-label="t('CRM.REPORTS.WAVE.STAGE')"
-          class="w-44"
-        />
-      </div>
-      <template v-if="report.lists">
-        <div v-if="productOptions.length > 1" class="flex flex-col gap-1">
+        <div
+          v-if="
+            !report.tasks && !report.noPipeline && pipelineOptions.length > 2
+          "
+          class="flex flex-col gap-1"
+        >
           <span class="text-label-small text-n-slate-11" aria-hidden="true">
-            {{ t('CRM.LISTS.product') }}
+            {{ t('CRM.DEALS.PIPELINE') }}
           </span>
           <Select
-            v-model="productId"
-            :options="productOptions"
-            :aria-label="t('CRM.LISTS.product')"
-            class="w-40"
+            v-model="pipelineId"
+            :options="pipelineOptions"
+            :aria-label="t('CRM.DEALS.PIPELINE')"
+            class="w-44"
           />
         </div>
-        <div v-if="sourceOptions.length > 1" class="flex flex-col gap-1">
+        <div v-if="showAssignee" class="flex flex-col gap-1 w-44">
           <span class="text-label-small text-n-slate-11" aria-hidden="true">
-            {{ t('CRM.LISTS.lead_source') }}
+            {{ t('CRM.DEALS.ASSIGNEE') }}
+          </span>
+          <AgentPicker
+            v-model="assigneeId"
+            :none-label="t('CRM.REPORTS.WAVE.WHOLE_TEAM')"
+            :aria-label="t('CRM.DEALS.ASSIGNEE')"
+          />
+        </div>
+        <div v-if="report.stage" class="flex flex-col gap-1">
+          <span class="text-label-small text-n-slate-11" aria-hidden="true">
+            {{ t('CRM.REPORTS.WAVE.STAGE') }}
           </span>
           <Select
-            v-model="leadSourceId"
-            :options="sourceOptions"
-            :aria-label="t('CRM.LISTS.lead_source')"
-            class="w-40"
+            v-model="stageId"
+            :options="stageOptions"
+            :aria-label="t('CRM.REPORTS.WAVE.STAGE')"
+            class="w-44"
           />
         </div>
-      </template>
-      <Input
-        v-if="report.days"
-        v-model="days"
-        type="number"
-        min="1"
-        max="365"
-        :label="t('CRM.REPORTS.WAVE.STALE_DAYS')"
-        :placeholder="data?.days ? String(data.days) : ''"
-        size="sm"
-        class="w-32"
-        @change="load"
-      />
-      <span
-        v-if="isLoading && data"
-        class="flex items-center gap-2 pb-2 text-label-small text-n-slate-11"
-        role="status"
-      >
-        <Spinner class="!size-4" />
-        {{ t('CRM.REPORTS.UPDATING') }}
-      </span>
-      <span
-        v-else-if="report.period && periodNote"
-        class="pb-2 text-label-small text-n-slate-10"
-      >
-        {{ periodNote }}
-      </span>
-    </div>
-
-    <CrmUnavailable
-      v-if="isUnavailable"
-      :is-loading="isLoading"
-      @retry="load"
-    />
-    <div
-      v-else-if="!data"
-      class="flex items-center justify-center flex-1 py-16"
-    >
-      <Spinner />
-    </div>
-    <!-- reportBody: what a printout copies -->
-    <div v-else ref="reportBody">
-      <div
-        v-if="data.empty"
-        class="flex flex-col items-center gap-2 px-6 py-16 mx-6 mb-8 text-center rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
-      >
+        <template v-if="report.lists">
+          <div v-if="productOptions.length > 1" class="flex flex-col gap-1">
+            <span class="text-label-small text-n-slate-11" aria-hidden="true">
+              {{ t('CRM.LISTS.product') }}
+            </span>
+            <Select
+              v-model="productId"
+              :options="productOptions"
+              :aria-label="t('CRM.LISTS.product')"
+              class="w-40"
+            />
+          </div>
+          <div v-if="sourceOptions.length > 1" class="flex flex-col gap-1">
+            <span class="text-label-small text-n-slate-11" aria-hidden="true">
+              {{ t('CRM.LISTS.lead_source') }}
+            </span>
+            <Select
+              v-model="leadSourceId"
+              :options="sourceOptions"
+              :aria-label="t('CRM.LISTS.lead_source')"
+              class="w-40"
+            />
+          </div>
+        </template>
+        <Input
+          v-if="report.days"
+          v-model="days"
+          type="number"
+          min="1"
+          max="365"
+          :label="t('CRM.REPORTS.WAVE.STALE_DAYS')"
+          :placeholder="data?.days ? String(data.days) : ''"
+          size="sm"
+          class="w-32"
+          @change="load"
+        />
         <span
-          :class="report.icon"
-          class="size-8 text-n-slate-9"
-          aria-hidden="true"
-        />
-        <p class="text-heading-3 text-n-slate-12">{{ R('EMPTY') }}</p>
-        <p class="max-w-md text-body-main text-n-slate-11">
-          {{ R('EMPTY_HINT') }}
-        </p>
+          v-if="isLoading && data"
+          class="flex items-center gap-2 pb-2 text-label-small text-n-slate-11"
+          role="status"
+        >
+          <Spinner class="!size-4" />
+          {{ t('CRM.REPORTS.UPDATING') }}
+        </span>
       </div>
+
+      <CrmUnavailable
+        v-if="isUnavailable"
+        :is-loading="isLoading"
+        @retry="load"
+      />
       <div
-        v-else
-        class="px-6 pb-8 transition-opacity"
-        :class="{ 'opacity-60': isLoading }"
-        :aria-busy="isLoading"
+        v-else-if="!data"
+        class="flex items-center justify-center flex-1 py-16"
       >
-        <component
-          :is="body"
-          :data="data"
-          :currency="currency"
-          @drill="openDrill"
-          @group="value => (groupBy = value)"
-        />
+        <Spinner />
+      </div>
+      <!-- reportBody: what a printout copies -->
+      <div v-else ref="reportBody">
+        <div
+          v-if="data.empty"
+          class="flex flex-col items-center gap-2 px-6 py-16 mx-6 mb-8 text-center rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak"
+        >
+          <span
+            :class="report.icon"
+            class="size-8 text-n-slate-9"
+            aria-hidden="true"
+          />
+          <p class="text-heading-3 text-n-slate-12">{{ R('EMPTY') }}</p>
+          <p class="max-w-md text-body-main text-n-slate-11">
+            {{ R('EMPTY_HINT') }}
+          </p>
+        </div>
+        <div
+          v-else
+          class="px-6 pb-8 transition-opacity"
+          :class="{ 'opacity-60': isLoading }"
+          :aria-busy="isLoading"
+        >
+          <component
+            :is="body"
+            :data="data"
+            :currency="currency"
+            @drill="openDrill"
+            @group="value => (groupBy = value)"
+          />
+        </div>
       </div>
     </div>
 

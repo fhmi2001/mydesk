@@ -1,5 +1,6 @@
 <script setup>
 // Custom (MyDesk): التقرير 18, are our deals getting bigger or smaller? (SalesCrm::Reports::DealSize)
+import { COLORS } from './reportColors';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BarChart from 'shared/components/charts/BarChart.vue';
@@ -35,8 +36,8 @@ const chart = computed(() => ({
     {
       id: 'average',
       label: L('AVERAGE'),
-      color: 'rgb(var(--teal-9))',
-      valueColor: 'rgb(var(--teal-11))',
+      color: COLORS.won.rgb,
+      valueColor: COLORS.won.rgbText,
       data: props.data.buckets.map(b => ({
         value: Math.round((b.average_cents || 0) / 100),
       })),

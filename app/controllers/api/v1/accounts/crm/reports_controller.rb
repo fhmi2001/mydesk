@@ -26,7 +26,37 @@ class Api::V1::Accounts::Crm::ReportsController < Api::V1::Accounts::Crm::BaseCo
     render json: catalog_report.drill(page: params[:page])
   end
 
+  # A report as Excel (its numbers and its deals) or CSV (its deals, or those behind one number with `cell`), for
+  # administrators. `heading` carries what the page shows above the report (its name, period and filters).
+  def download
+    authorize SalesCrm::Deal, :export?, policy_class: SalesCrm::ReportPolicy
+    sheet = SalesCrm::Reports::Spreadsheet.new(catalog_report, title: heading.first&.last.to_s, filters: heading + exported)
+    name = "#{params[:key]}-#{params[:from]}-#{params[:to]}".delete_suffix('--')
+    if params[:file_format] == 'csv'
+      send_data sheet.csv, type: 'text/csv; charset=utf-8', filename: "#{name}.csv"
+    else
+      send_data sheet.xlsx, type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', filename: "#{name}.xlsx"
+    end
+  end
+
   private
+
+  # [[label, value], ...] from the page (a JSON list of { label, value }), at most 20 short lines
+  def heading
+    lines = JSON.parse(params[:heading].to_s)
+    return [] unless lines.is_a?(Array)
+
+    lines.first(20).filter_map do |line|
+      [line['label'].to_s.first(100), line['value'].to_s.first(200)] if line.is_a?(Hash)
+    end
+  rescue JSON::ParserError
+    []
+  end
+
+  def exported
+    [[I18n.t('sales_crm.reports.export.filters.exported_at'), Time.current.in_time_zone(SalesCrm::Period.zone).strftime('%Y-%m-%d %H:%M')],
+     [I18n.t('sales_crm.reports.export.filters.exported_by'), Current.user.available_name]]
+  end
 
   def catalog_report
     klass = SalesCrm::Reports::Catalog.fetch(params[:key])

@@ -158,6 +158,14 @@ class CrmReportsAPI extends ApiClient {
   drill(key, params) {
     return axios.get(`${this.url}/${key}/deals`, { params });
   }
+
+  // A report as a file (file_format: xlsx or csv), for administrators
+  download(key, params) {
+    return axios.get(`${this.url}/${key}/download`, {
+      params,
+      responseType: 'blob',
+    });
+  }
 }
 
 class CrmLostReasonsAPI extends ApiClient {

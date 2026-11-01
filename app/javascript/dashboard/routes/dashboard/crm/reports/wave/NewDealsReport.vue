@@ -1,5 +1,6 @@
 <script setup>
 // Custom (MyDesk): التقرير 15, how many new deals and from where (SalesCrm::Reports::NewDeals)
+import { COLORS } from './reportColors';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BarChart from 'shared/components/charts/BarChart.vue';
@@ -39,8 +40,8 @@ const chart = computed(() => ({
     {
       id: 'created',
       label: L('COUNT'),
-      color: 'rgb(var(--iris-9))',
-      valueColor: 'rgb(var(--iris-11))',
+      color: COLORS.open.rgb,
+      valueColor: COLORS.open.rgbText,
       data: props.data.buckets.map(b => ({ value: b.count })),
     },
   ],

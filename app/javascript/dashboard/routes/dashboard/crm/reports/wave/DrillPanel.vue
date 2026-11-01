@@ -9,6 +9,9 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import { crmReportsAPI } from 'dashboard/api/crm';
 import { useCrmFormat } from '../../shared/useCrmFormat';
 import DealLines from './DealLines.vue';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+import { saveFile } from './saveFile';
 
 const props = defineProps({
   reportKey: { type: String, required: true },
@@ -81,11 +84,40 @@ const summary = computed(() => {
   return `${count} · ${money(totalCents.value, props.currency)}`;
 });
 
+// The manager can take these deals away as CSV (the server refuses anyone else)
+const isAdmin = useMapGetter('crm/status/isAdmin');
+const isExporting = ref(false);
+const exportCsv = async () => {
+  isExporting.value = true;
+  try {
+    const { data: blob } = await crmReportsAPI.download(props.reportKey, {
+      ...props.params,
+      cell: cell.value,
+      file_format: 'csv',
+    });
+    saveFile(blob, `${props.reportKey}-deals.csv`);
+  } catch {
+    useAlert(t('CRM.COMMON.ERROR'));
+  } finally {
+    isExporting.value = false;
+  }
+};
+
 defineExpose({ open });
 </script>
 
 <template>
   <SidePanel ref="panel" :title="title" :description="summary" width="3xl">
+    <template v-if="isAdmin && items.length" #header-actions>
+      <Button
+        :label="t('CRM.REPORTS.WAVE.EXPORT.CSV')"
+        variant="faded"
+        size="sm"
+        icon="i-lucide-download"
+        :is-loading="isExporting"
+        @click="exportCsv"
+      />
+    </template>
     <div v-if="isLoading && !items.length" class="flex justify-center py-10">
       <Spinner />
     </div>

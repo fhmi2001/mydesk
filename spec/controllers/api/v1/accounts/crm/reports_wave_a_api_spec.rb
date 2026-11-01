@@ -52,6 +52,23 @@ RSpec.describe 'Sales CRM reports, wave أ', type: :request do # -- request spec
     expect(response).to have_http_status(:unauthorized)
   end
 
+  it 'downloads a report for the manager, as Excel or as the CSV of one number' do
+    heading = [{ label: 'التقرير', value: 'الصفقات حسب المرحلة' }]
+    get "#{base}/pipeline_by_stage/download", params: { heading: heading.to_json }, headers: admin.create_new_auth_token
+    expect(response).to have_http_status(:ok)
+    expect(response.media_type).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    expect(Roo::Excelx.new(StringIO.new(response.body)).sheet(0).row(2).first(2)).to eq(['التقرير', 'الصفقات حسب المرحلة'])
+
+    get "#{base}/pipeline_by_stage/download", params: { file_format: 'csv', cell: { assignee_id: colleague.id } },
+                                              headers: admin.create_new_auth_token
+    expect(CSV.parse(response.body.delete_prefix('﻿')).size).to eq(2) # the header and the colleague's deal
+  end
+
+  it 'refuses a download to an employee' do
+    get "#{base}/pipeline_by_stage/download", headers: agent.create_new_auth_token
+    expect(response).to have_http_status(:unauthorized)
+  end
+
   it 'knows no other report' do
     get "#{base}/nonsense", headers: admin.create_new_auth_token, as: :json
     expect(response).to have_http_status(:not_found)

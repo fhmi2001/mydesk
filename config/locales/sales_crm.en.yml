@@ -61,6 +61,159 @@ en:
       lost_note: Lost notes
       lost_reason: Lost reason
       created_at: Created at
+    reports:
+      export:
+        sheets:
+          summary: Summary
+          deals: Deals
+        sections:
+          totals: Totals
+          previous_totals: Period before
+          team_average: Team average
+          rows: Details
+          assignees: By owner
+          cards: Employee cards
+          stages: Stages
+          buckets: Over the period
+          sources: By source
+          reasons: Reasons
+          competitors: Competitors
+          lost_reasons: Lost reasons
+          cumulative: Day by day
+        values:
+          status:
+            open: Open
+            won: Won
+            lost: Lost
+            done: Done
+          forecast_category:
+            commit: Commit
+            best_case: Best case
+            pipeline: Pipeline
+            omitted: Omitted
+          kind:
+            task: Task
+            call: Call
+            meeting: Meeting
+          rating:
+            good: Enough
+            warn: Below target
+            bad: Not enough
+          'true': 'Yes'
+          'false': 'No'
+        filters:
+          report: Report
+          question: Question
+          period: Period
+          assignee: Owner
+          whole_team: Whole team
+          pipeline: Pipeline
+          stage: Stage
+          product: Product
+          lead_source: Lead source
+          exported_at: Exported on
+          exported_by: Exported by
+        fields:
+          count: Count
+          total_cents: Value
+          weighted_cents: Weighted value
+          average_probability: Average probability %
+          name: Name
+          title: Title
+          contact_name: Customer
+          assignee: Owner
+          stage: Stage
+          status: Status
+          amount_cents: Value
+          close_date: Expected close
+          probability: Probability %
+          forecast_category: Forecast category
+          won_at: Won on
+          lost_at: Lost on
+          lost_reason: Lost reason
+          days_since_activity: Days quiet
+          days_overdue: Days late
+          kind: Kind
+          due_at: Due
+          done_at: Done on
+          deal: Deal
+          contact: Customer
+          won_count: Won
+          won_cents: Won value
+          lost_count: Lost
+          lost_cents: Lost value
+          by_count: Win rate %
+          by_value: Win rate by value %
+          attainment: Attainment %
+          target_cents: Target
+          remaining_cents: Left
+          coverage: Coverage (times)
+          rating: Rating
+          open_cents: Open, closing
+          open_count: Open deals
+          forecast_cents: Forecast
+          best_case_cents: Best case
+          gap_cents: Gap
+          forecast_attainment: Forecast attainment %
+          rate: Rate %
+          complete_count: Complete
+          to_fix: To fix
+          overdue_count: Overdue
+          today_count: Due today
+          done_count: Done
+          activity_count: Activity
+          note_count: Notes
+          average_cents: Average deal
+          average_deal_cents: Average deal
+          win_rate: Win rate %
+          sales_cycle: Sales cycle (days)
+          completeness: Complete data %
+          new_deal_count: New deals
+          rank: Rank
+          share: Share %
+          growth: Growth %
+          previous_cents: Period before
+          bucket: Period
+          date: Date
+          average_days: Average days
+          team_rate: Team rate %
+          dropped: Did not go on
+          cycle_days: Sales cycle (days)
+          created_count: Created
+          top_reason: Main reason
+          pipeline_name: Pipeline
+          at_risk: Need attention
+          stale: Stale
+          overdue: Late
+          by_kind: By kind
+          call: Call
+          meeting: Meeting
+          task: Task
+          issues: Missing
+          no_amount: No value
+          no_close_date: No close date
+          past_close_date: Date passed
+          no_owner: No owner
+          categories: Categories
+          commit: Commit
+          best_case: Best case
+          pipeline: Pipeline
+          omitted: Omitted
+          counts: Counts
+          waterfall: Waterfall
+          start: Start
+          new: New
+          increased: Increased
+          decreased: Decreased
+          won: Won
+          lost: Lost
+          end: End
+          advanced: Advanced
+          moved_back: Moved back
+          slipped: Pushed
+          reason: Reason
+          days: Stale days
+          key: Key
   super_admin:
     navigation:
       crm: CRM

@@ -1,6 +1,7 @@
 <script setup>
 // Custom (MyDesk): one headline number of a report. With a `cell` it is a button that opens the deals behind it; with
 // a delta it says how it moved against the previous period.
+import { COLORS, TONE_TEXT } from './reportColors';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -19,14 +20,13 @@ const { t } = useI18n();
 const toneClass = computed(
   () =>
     ({
-      good: 'text-n-teal-11',
-      bad: 'text-n-ruby-11',
-      warn: 'text-n-amber-11',
+      ...TONE_TEXT,
+      bad: COLORS.lost.text,
     })[props.tone] || 'text-n-slate-12'
 );
 const deltaClass = computed(() => {
-  if (props.delta?.tone === 'up') return 'text-n-teal-11';
-  if (props.delta?.tone === 'down') return 'text-n-ruby-11';
+  if (props.delta?.tone === 'up') return COLORS.won.text;
+  if (props.delta?.tone === 'down') return COLORS.lost.text;
   return 'text-n-slate-10';
 });
 </script>
