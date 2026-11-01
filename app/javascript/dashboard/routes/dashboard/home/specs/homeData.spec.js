@@ -1,0 +1,158 @@
+import ConversationAPI from 'dashboard/api/inbox/conversation';
+import ReportsAPI from 'dashboard/api/reports';
+import CSATReportsAPI from 'dashboard/api/csatReports';
+import SummaryReportsAPI from 'dashboard/api/summaryReports';
+import LiveReportsAPI from 'dashboard/api/liveReports';
+import { crmReportsAPI, crmTasksAPI } from 'dashboard/api/crm';
+import { riyadhDayBounds, loadAgentHome, loadManagerHome } from '../homeData';
+
+vi.mock('dashboard/api/inbox/conversation', () => ({
+  default: { get: vi.fn(), meta: vi.fn() },
+}));
+vi.mock('dashboard/api/reports', () => ({
+  default: { getSummary: vi.fn(), getReports: vi.fn() },
+}));
+vi.mock('dashboard/api/summaryReports', () => ({
+  default: { getInboxReports: vi.fn() },
+}));
+vi.mock('dashboard/api/liveReports', () => ({
+  default: { getGroupedConversations: vi.fn() },
+}));
+vi.mock('dashboard/api/csatReports', () => ({
+  default: { getMetrics: vi.fn() },
+}));
+vi.mock('dashboard/api/crm', () => ({
+  crmReportsAPI: { report: vi.fn() },
+  crmTasksAPI: { get: vi.fn() },
+}));
+
+const ok = data => Promise.resolve({ data });
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  ConversationAPI.get.mockImplementation(() => ok({ data: { payload: [] } }));
+  ConversationAPI.meta.mockImplementation(() => ok({ meta: {} }));
+  ReportsAPI.getSummary.mockImplementation(() =>
+    ok({ conversations_count: 3 })
+  );
+  CSATReportsAPI.getMetrics.mockImplementation(() => ok({ total_count: 1 }));
+  crmReportsAPI.report.mockImplementation(key => ok({ key }));
+  crmTasksAPI.get.mockImplementation(() => ok({ tasks: [], total: 0 }));
+  ReportsAPI.getReports.mockImplementation(() => ok([]));
+  SummaryReportsAPI.getInboxReports.mockImplementation(() => ok([]));
+  LiveReportsAPI.getGroupedConversations.mockImplementation(() => ok([]));
+});
+
+describe('the charts', () => {
+  afterEach(() => vi.useRealTimers());
+
+  it('asks the manager for the last 7 days by day', async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-11-01T09:00:00Z'));
+    const data = await loadManagerHome({ crmEnabled: true });
+    const week = { from: 1792962000, to: 1793566799, groupBy: 'day' };
+    expect(ReportsAPI.getReports).toHaveBeenCalledWith({
+      metric: 'conversations_count',
+      ...week,
+    });
+    expect(ReportsAPI.getReports).toHaveBeenCalledWith({
+      metric: 'avg_first_response_time',
+      ...week,
+    });
+    expect(SummaryReportsAPI.getInboxReports).toHaveBeenCalledWith({
+      since: 1792962000,
+      until: 1793566799,
+    });
+    expect(LiveReportsAPI.getGroupedConversations).toHaveBeenCalledWith({
+      groupBy: 'assignee_id',
+    });
+    expect(crmReportsAPI.report).toHaveBeenCalledWith('pipeline_by_stage', {});
+    expect(Object.keys(data)).toEqual(
+      expect.arrayContaining([
+        'traffic',
+        'responseTrend',
+        'channels',
+        'load',
+        'pipeline',
+      ])
+    );
+  });
+
+  it("sends none of the manager's reports for an employee", async () => {
+    await loadAgentHome({ crmEnabled: true });
+    expect(ReportsAPI.getReports).not.toHaveBeenCalled();
+    expect(ReportsAPI.getSummary).not.toHaveBeenCalled();
+    expect(SummaryReportsAPI.getInboxReports).not.toHaveBeenCalled();
+    expect(LiveReportsAPI.getGroupedConversations).not.toHaveBeenCalled();
+    expect(crmReportsAPI.report).toHaveBeenCalledWith('pipeline_by_stage', {});
+  });
+});
+
+describe('riyadhDayBounds', () => {
+  it('gives the Riyadh calendar day in epoch seconds', () => {
+    expect(riyadhDayBounds(new Date(2026, 10, 1))).toEqual({
+      since: 1793480400,
+      until: 1793566799,
+    });
+  });
+});
+
+describe('loadManagerHome', () => {
+  it('keeps the rest when one source fails', async () => {
+    CSATReportsAPI.getMetrics.mockImplementation(() =>
+      Promise.reject(new Error('500'))
+    );
+    const data = await loadManagerHome({ crmEnabled: true });
+    expect(data.csat).toBeNull();
+    expect(data.meta).toEqual({ meta: {} });
+    expect(data.summary).toEqual({ conversations_count: 3 });
+    expect(data.quota).toEqual({ key: 'quota' });
+  });
+
+  it('asks for every open conversation by longest wait', async () => {
+    await loadManagerHome({ crmEnabled: false });
+    expect(ConversationAPI.get).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: 'open',
+        assigneeType: 'all',
+        sortBy: 'waiting_since_asc',
+      })
+    );
+  });
+});
+
+describe('loadAgentHome', () => {
+  it('sends no sales request when the CRM is off', async () => {
+    const data = await loadAgentHome({ crmEnabled: false });
+    expect(crmReportsAPI.report).not.toHaveBeenCalled();
+    expect(crmTasksAPI.get).not.toHaveBeenCalled();
+    expect(data.tasks).toBeNull();
+    expect(data.deals).toBeNull();
+    expect(data.quota).toBeNull();
+  });
+
+  it('asks for my open conversations by longest wait', async () => {
+    await loadAgentHome({ crmEnabled: true });
+    expect(ConversationAPI.get).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: 'open',
+        assigneeType: 'me',
+        sortBy: 'waiting_since_asc',
+      })
+    );
+  });
+});
+
+describe('the deals closing soon', () => {
+  afterEach(() => vi.useRealTimers());
+
+  it('asks for the next 7 days, across the end of the month', async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-10-28T09:00:00Z'));
+    await loadAgentHome({ crmEnabled: true });
+    expect(crmReportsAPI.report).toHaveBeenCalledWith('closing', {
+      from: '2026-10-28',
+      to: '2026-11-04',
+    });
+  });
+});

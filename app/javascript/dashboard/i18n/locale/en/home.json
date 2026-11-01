@@ -1,0 +1,98 @@
+{
+  "HOME": {
+    "TITLE": "Dashboard",
+    "MORNING": "Good morning, {name}",
+    "EVENING": "Good evening, {name}",
+    "WAITING_COUNT": {
+      "one": "1 thing is waiting for you today",
+      "other": "{count} things are waiting for you today"
+    },
+    "NEEDS_YOU_COUNT": {
+      "one": "1 thing needs you today",
+      "other": "{count} things need you today"
+    },
+    "WAITING_FOR_YOU": "Waiting for you now",
+    "NEEDS_YOU": "Needs your attention",
+    "EMPTY": "Nothing is waiting for you right now",
+    "OPEN_CONVERSATIONS": "Open the conversations",
+    "LOAD_FAILED": "Could not load",
+    "LIST_FAILED": "Part of this list could not load, so it may be incomplete",
+    "WAITED_MINUTES": "{count}m ago",
+    "WAITED_HOURS": "{count}h ago",
+    "LATE_DAYS": {
+      "one": "1 day late",
+      "other": "{count} days late"
+    },
+    "DUE_AT": "{time}",
+    "CLOSES_ON": "Closes {date}",
+    "MINUTES": "{count}m",
+    "SUPPORT_TODAY": "Support — today",
+    "SALES_MONTH": "Sales — this month",
+    "TEAM": "The team — target this month",
+    "ACTIONS": {
+      "CONVERSATION": "New conversation",
+      "DEAL": "Deal",
+      "TASK": "Task",
+      "CONTACT": "Contact",
+      "CAMPAIGN": "Campaign"
+    },
+    "TILES": {
+      "MY_OPEN": "My open conversations",
+      "TASKS_TODAY": "Tasks today",
+      "LATE": "{count} late",
+      "MY_TARGET": "Of this month's target",
+      "OPEN": "Open conversations",
+      "FIRST_RESPONSE": "Average first response",
+      "CSAT": "Customer satisfaction",
+      "TEAM_TARGET": "Team target reached",
+      "FORECAST": "Forecast {rate} · {amount}"
+    },
+    "LINES": {
+      "UNASSIGNED": {
+        "one": "1 conversation with no one assigned",
+        "other": "{count} conversations with no one assigned"
+      },
+      "WAITING_LONG": {
+        "one": "1 conversation waiting over an hour",
+        "other": "{count} conversations waiting over an hour"
+      },
+      "LEAK": "Deals leak most at «{stage}»: only {rate} get there",
+      "LAST_30": "Last 30 days",
+      "STALE": {
+        "one": "1 stale deal",
+        "other": "{count} stale deals"
+      },
+      "LATE_TASKS": {
+        "one": "1 late task across the team",
+        "other": "{count} late tasks across the team"
+      },
+      "MOST": "{name}: {count}",
+      "WAITING_LONG_MORE": "More than {count} conversations waiting over an hour"
+    },
+    "HOURS": "{count}h",
+    "KPI": {
+      "NEW_TODAY": "New conversations today",
+      "RESOLVED_TODAY": "Resolved today",
+      "RESOLUTION_TIME": "Average resolution time",
+      "SALES": "Sales this month",
+      "MY_SALES": "My sales this month",
+      "PIPELINE": "Open deals value",
+      "MY_PIPELINE": "My open deals value"
+    },
+    "CHARTS": {
+      "TRAFFIC": "New conversations a day — last 7 days",
+      "RESPONSE": "Average first response — last 7 days",
+      "RESPONSE_LEGEND": "In minutes",
+      "WON_VS_TARGET": "Sales against the target this month",
+      "WON_LEGEND": "Won",
+      "TARGET_LEGEND": "Due by today",
+      "PIPELINE": "Open deals by stage",
+      "CHANNELS": "Conversations by channel — last 7 days",
+      "LOAD": "Open conversations per agent now",
+      "NO_INBOX": "Deleted inbox",
+      "EMPTY": "No data yet",
+      "DAY": "Day"
+    },
+    "WAITED_LATE": "{time} · late"
+  }
+}

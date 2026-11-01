@@ -86,9 +86,9 @@ describe('useConversationRoutePath', () => {
   });
 
   describe('buildConversationListPath', () => {
-    it('builds the dashboard path by default', () => {
+    it('builds the conversations path by default', () => {
       const { buildConversationListPath } = useConversationRoutePath();
-      expect(buildConversationListPath()).toBe('/app/accounts/1/dashboard');
+      expect(buildConversationListPath()).toBe('/app/accounts/1/conversations');
     });
 
     it('keeps the inbox context', () => {
@@ -121,7 +121,7 @@ describe('useConversationRoutePath', () => {
       mockRoute.params = { accountId: '1', id: '7' };
       const { buildConversationListPath } = useConversationRoutePath();
       expect(buildConversationListPath({ keepFolderScope: false })).toBe(
-        '/app/accounts/1/dashboard'
+        '/app/accounts/1/conversations'
       );
     });
 

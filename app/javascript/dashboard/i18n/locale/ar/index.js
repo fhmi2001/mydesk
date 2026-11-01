@@ -28,6 +28,7 @@ import integrations from './integrations.json';
 // Custom (MyDesk)
 import smartAssistant from './smartAssistant.json';
 import crm from './crm.json'; // Custom (MyDesk): Sales CRM
+import home from './home.json'; // Custom (MyDesk): the home screen
 import labelsMgmt from './labelsMgmt.json';
 import login from './login.json';
 import macros from './macros.json';
@@ -75,6 +76,7 @@ export default {
   ...integrations,
   ...smartAssistant,
   ...crm,
+  ...home, // Custom (MyDesk)
   ...labelsMgmt,
   ...login,
   ...macros,

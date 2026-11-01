@@ -402,6 +402,14 @@ const assigneeViews = computed(() => {
 
 const menuItems = computed(() => {
   return [
+    // Custom (MyDesk): the home screen («لوحة التحكم») comes first
+    {
+      name: 'Dashboard',
+      label: t('HOME.TITLE'),
+      icon: 'i-lucide-layout-dashboard',
+      to: accountScopedRoute('home_dashboard'),
+      activeOn: ['home_dashboard'],
+    },
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),

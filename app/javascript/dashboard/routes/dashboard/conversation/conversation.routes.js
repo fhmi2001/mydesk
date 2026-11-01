@@ -45,7 +45,9 @@ const redirectFolderConversationIfUnavailable = async (to, _from, next) => {
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/dashboard'),
+      // Custom (MyDesk): /dashboard is the home screen («لوحة التحكم», home/home.routes.js); the conversations moved here.
+      // Everything opens them by the name 'home', so only the path changed.
+      path: frontendURL('accounts/:accountId/conversations'),
       name: 'home',
       meta: {
         permissions: CONVERSATION_PERMISSIONS,
