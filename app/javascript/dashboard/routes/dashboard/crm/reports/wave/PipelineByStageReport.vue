@@ -84,13 +84,13 @@ const unassigned = name => name || t('CRM.COMMON.UNASSIGNED');
                     aria-hidden="true"
                   />
                   {{ row.name }}
-                  <span class="text-label-small text-n-slate-10">
+                  <span class="text-label-small text-n-slate-11">
                     {{ `${row.probability}%` }}
                   </span>
                 </span>
                 <span
                   v-if="showPipeline"
-                  class="block text-label-small text-n-slate-10"
+                  class="block text-label-small text-n-slate-11"
                 >
                   {{ row.pipeline_name }}
                 </span>

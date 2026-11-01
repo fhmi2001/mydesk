@@ -148,7 +148,7 @@ const tone = stage => {
                   :empty="!stage.count"
                   @drill="drill"
                 />
-                <span class="block text-label-small text-n-slate-10">
+                <span class="block text-label-small text-n-slate-11">
                   {{ L('TEAM', { rate: percent(stage.team_rate) }) }}
                 </span>
               </td>

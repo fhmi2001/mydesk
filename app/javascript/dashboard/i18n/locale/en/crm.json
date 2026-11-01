@@ -856,7 +856,7 @@
           "NO_TARGETS": "No targets set this month.",
           "WEEK": "The last 7 days",
           "WEEK_VALUE": "Open value went from {start} to {end}.",
-          "ALERT_LEAK": "Deals leak most at «{stage}»: only {rate} get there.",
+          "ALERT_LEAK": "Over the last 30 days, deals leak most at «{stage}»: only {rate} get there.",
           "ALERT_COVERAGE": "{name}’s open deals cover only {coverage} of what is left of the target.",
           "ALERT_DATA": "{count} open deals are incomplete or out of date.",
           "ALERT_STALE": "{count} deals worth {value} have stopped or passed their close date."

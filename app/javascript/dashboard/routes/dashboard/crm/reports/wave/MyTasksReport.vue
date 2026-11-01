@@ -77,7 +77,7 @@ const kinds = computed(() =>
             >
               {{ task.title }}
             </router-link>
-            <p class="text-label-small text-n-slate-10">
+            <p class="text-label-small text-n-slate-11">
               {{ t(`CRM.TASKS.KINDS.${task.kind}`) }}
               <template v-if="task.deal">
                 ·

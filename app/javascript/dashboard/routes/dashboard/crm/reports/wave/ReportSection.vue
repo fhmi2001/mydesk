@@ -16,7 +16,7 @@ defineProps({
       <h2 class="text-heading-3 text-n-slate-12">{{ title }}</h2>
       <p
         v-if="note"
-        class="text-label-small text-n-slate-10"
+        class="text-label-small text-n-slate-11"
         :data-print-hide="screenNote || undefined"
       >
         {{ note }}

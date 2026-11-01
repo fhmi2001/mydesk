@@ -142,7 +142,7 @@ const assigneeColumns = computed(() =>
               :class="
                 step.kind === 'total'
                   ? 'font-medium text-n-slate-12'
-                  : 'text-n-slate-10'
+                  : 'text-n-slate-11'
               "
             >
               {{ signed(step) }}

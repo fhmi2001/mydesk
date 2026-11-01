@@ -143,7 +143,7 @@ const lostMax = computed(() =>
         @drill="drill"
       />
     </div>
-    <p class="-mt-4 text-label-small text-n-slate-10">
+    <p class="-mt-4 text-label-small text-n-slate-11">
       {{ t('CRM.REPORTS.DELTA_NOTE') }}
     </p>
 

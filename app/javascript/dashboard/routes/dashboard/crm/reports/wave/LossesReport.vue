@@ -57,7 +57,7 @@ const assigneeColumns = computed(() => [
         :delta="deltaFor(cur.total_cents, prev.total_cents, true)"
       />
     </div>
-    <p class="-mt-3 text-label-small text-n-slate-10">
+    <p class="-mt-3 text-label-small text-n-slate-11">
       {{ t('CRM.REPORTS.DELTA_NOTE') }}
     </p>
 

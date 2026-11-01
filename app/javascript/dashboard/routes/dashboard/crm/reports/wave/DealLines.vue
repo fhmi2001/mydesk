@@ -58,7 +58,7 @@ const days = value =>
             </router-link>
             <span
               v-if="deal.contact_name"
-              class="block text-label-small text-n-slate-10"
+              class="block text-label-small text-n-slate-11"
             >
               {{ deal.contact_name }}
             </span>

@@ -85,7 +85,7 @@ const assigneeColumns = computed(() => [
         @drill="drill"
       />
     </div>
-    <p class="-mt-3 text-label-small text-n-slate-10">
+    <p class="-mt-3 text-label-small text-n-slate-11">
       {{ L('HOW', { multiple: number(data.multiple) }) }}
     </p>
 

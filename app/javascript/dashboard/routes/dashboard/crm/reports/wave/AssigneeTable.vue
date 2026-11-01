@@ -62,7 +62,7 @@ const toneClass = (row, column) => TONE_TEXT[column.tone?.(row)] || '';
       </thead>
       <tbody class="divide-y divide-n-weak">
         <tr v-for="row in rows" :key="row.assignee_id ?? 'none'">
-          <td v-if="ranked" class="py-2.5 pe-2 tabular-nums text-n-slate-10">
+          <td v-if="ranked" class="py-2.5 pe-2 tabular-nums text-n-slate-11">
             {{ number(row.rank) }}
           </td>
           <th

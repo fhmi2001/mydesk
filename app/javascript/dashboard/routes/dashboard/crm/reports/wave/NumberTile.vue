@@ -27,7 +27,7 @@ const toneClass = computed(
 const deltaClass = computed(() => {
   if (props.delta?.tone === 'up') return COLORS.won.text;
   if (props.delta?.tone === 'down') return COLORS.lost.text;
-  return 'text-n-slate-10';
+  return 'text-n-slate-11';
 });
 </script>
 
@@ -55,7 +55,7 @@ const deltaClass = computed(() => {
     >
       {{ value }}
     </span>
-    <span v-if="note" class="mt-1 text-label-small text-n-slate-10">
+    <span v-if="note" class="mt-1 text-label-small text-n-slate-11">
       {{ note }}
     </span>
     <span

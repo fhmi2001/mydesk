@@ -179,7 +179,7 @@ const assigneeColumns = computed(() => [
             <tr
               v-for="key in CATEGORY_ROWS"
               :key="key"
-              :class="{ 'text-n-slate-10': key === 'omitted' }"
+              :class="{ 'text-n-slate-11': key === 'omitted' }"
             >
               <th scope="row" class="py-2.5 font-normal text-start">
                 {{ C(key) }}

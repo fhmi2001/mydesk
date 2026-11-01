@@ -15,6 +15,7 @@ import { useCrmFormat } from '../../shared/useCrmFormat';
 import { periodRange } from '../periods';
 import { forwardRange } from './reportCatalog';
 import { COLORS } from './reportColors';
+import { findLeak } from './leak';
 import NumberTile from './NumberTile.vue';
 import DrillPanel from './DrillPanel.vue';
 import ReportNav from './ReportNav.vue';
@@ -28,10 +29,11 @@ const statusFlags = useMapGetter('crm/status/getUIFlags');
 
 const D = (key, args) => t(`CRM.REPORTS.WAVE.DASHBOARD.${key}`, args);
 
-// What each card reads: the report and its period (the month ahead, the month so far, or the last 7 days)
+// What each card reads: the report and its period (the month ahead, the month so far, the last 7 or 30 days)
 const month = forwardRange('month');
 const monthSoFar = periodRange('month');
 const lastWeek = periodRange('last_7');
+const lastMonth = periodRange('last_30');
 const MINE = {
   pipeline_by_stage: {},
   closing: month,
@@ -45,7 +47,7 @@ const TEAM = {
   forecast: month,
   coverage: month,
   changes: lastWeek,
-  conversion: monthSoFar,
+  conversion: lastMonth,
   data_quality: {},
   stale: {},
 };
@@ -124,10 +126,7 @@ const closingSoon = computed(() => (r('closing')?.rows || []).slice(0, LIST));
 const alerts = computed(() => {
   if (!isAdmin.value) return [];
   const list = [];
-  const conversion = r('conversion');
-  const leak = conversion?.rows?.find(
-    row => row.stage_id === conversion.leak_stage_id
-  );
+  const leak = findLeak(r('conversion'));
   if (leak)
     list.push({
       key: 'conversion',
@@ -181,7 +180,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
       />
       <p
         v-if="updatedAt"
-        class="px-6 -mt-2 pb-4 text-label-small text-n-slate-10"
+        class="px-6 -mt-2 pb-4 text-label-small text-n-slate-11"
       >
         {{ D('UPDATED', { time: updatedAt }) }}
       </p>
@@ -304,7 +303,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
                   </span>
                 </li>
               </ul>
-              <p v-else class="text-label-small text-n-slate-10">
+              <p v-else class="text-label-small text-n-slate-11">
                 {{ D('NOTHING') }}
               </p>
             </div>
@@ -323,7 +322,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
                 :columns="['days_since_activity']"
                 :currency="currency"
               />
-              <p v-else class="text-label-small text-n-slate-10">
+              <p v-else class="text-label-small text-n-slate-11">
                 {{ D('NOTHING') }}
               </p>
             </div>
@@ -342,7 +341,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
                 :columns="['close_date']"
                 :currency="currency"
               />
-              <p v-else class="text-label-small text-n-slate-10">
+              <p v-else class="text-label-small text-n-slate-11">
                 {{ D('NOTHING') }}
               </p>
             </div>
@@ -436,7 +435,7 @@ const changeCounts = computed(() => r('changes')?.totals?.counts || {});
                 :key="row.assignee_id ?? 'none'"
                 class="grid items-center grid-cols-[1.5rem_8rem_1fr_auto] gap-2 text-body-main"
               >
-                <span class="tabular-nums text-n-slate-10">{{
+                <span class="tabular-nums text-n-slate-11">{{
                   number(row.rank)
                 }}</span>
                 <span class="truncate text-n-slate-12">{{

@@ -46,7 +46,7 @@ const compare = (card, metric) => {
   const mine = card[metric.key];
   const team = average.value?.[metric.key];
   if (mine === null || team === null || team === undefined || mine === team)
-    return { arrow: '', tone: 'text-n-slate-10' };
+    return { arrow: '', tone: 'text-n-slate-11' };
   const better = metric.lowerIsBetter ? mine < team : mine > team;
   return {
     arrow: mine > team ? '▲' : '▼',
@@ -63,7 +63,7 @@ const drill = (card, metric) =>
 
 <template>
   <div class="flex flex-col gap-6">
-    <p v-if="average" class="text-label-small text-n-slate-10">
+    <p v-if="average" class="text-label-small text-n-slate-11">
       {{ L('AVERAGE_NOTE', { count: number(data.team_size) }) }}
     </p>
     <section

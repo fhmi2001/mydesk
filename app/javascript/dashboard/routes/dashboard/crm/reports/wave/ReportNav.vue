@@ -84,7 +84,7 @@ const linkClass = active =>
         {{ dashboardLabel }}
       </router-link>
       <div v-for="item in groups" :key="item.group" class="mb-3">
-        <p class="px-3 mb-1 text-label-small text-n-slate-10">
+        <p class="px-3 mb-1 text-label-small text-n-slate-11">
           {{ t(`CRM.REPORTS.WAVE.GROUPS.${item.group}`) }}
         </p>
         <router-link

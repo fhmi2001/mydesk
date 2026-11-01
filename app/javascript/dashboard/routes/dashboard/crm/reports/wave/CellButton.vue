@@ -20,7 +20,7 @@ const emit = defineEmits(['drill']);
   >
     {{ label }}
   </button>
-  <span v-else class="tabular-nums text-n-slate-10" dir="auto">{{
+  <span v-else class="tabular-nums text-n-slate-11" dir="auto">{{
     label
   }}</span>
 </template>

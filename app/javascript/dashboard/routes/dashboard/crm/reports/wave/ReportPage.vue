@@ -418,7 +418,7 @@ const print = async () => {
       </CrmPageHeader>
       <p
         v-if="updatedAt"
-        class="px-6 -mt-2 pb-3 text-label-small text-n-slate-10"
+        class="px-6 -mt-2 pb-3 text-label-small text-n-slate-11"
         aria-live="polite"
       >
         {{
