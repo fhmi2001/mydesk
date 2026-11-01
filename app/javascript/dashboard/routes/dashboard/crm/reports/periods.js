@@ -19,6 +19,9 @@ export const periodRange = (period, now = new Date()) => {
     case 'quarter':
       start.setMonth(Math.floor(start.getMonth() / 3) * 3, 1);
       return { from: iso(start), to };
+    case 'year':
+      start.setMonth(0, 1);
+      return { from: iso(start), to };
     case 'month':
     default:
       start.setDate(1);

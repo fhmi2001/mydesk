@@ -8,6 +8,7 @@ import DealDetailPage from './deals/DealDetailPage.vue';
 import DealEditorPage from './deals/DealEditorPage.vue';
 import TasksPage from './tasks/TasksPage.vue';
 import ReportsPage from './reports/ReportsPage.vue';
+import ReportPage from './reports/wave/ReportPage.vue';
 import SalesSettingsPage from './settings/SalesSettingsPage.vue';
 
 const everyone = {
@@ -69,6 +70,13 @@ export const routes = [
         name: 'crm_reports',
         meta: everyone,
         component: ReportsPage,
+      },
+      {
+        // One report of phase 4 (reports/wave/reportCatalog.js)
+        path: 'reports/:reportKey',
+        name: 'crm_report',
+        meta: everyone,
+        component: ReportPage,
       },
       {
         path: 'settings',

@@ -44,8 +44,17 @@ class SalesCrm::Period
 
   def days = (last - first).to_i + 1
 
-  # The same number of days just before this period, for comparisons
-  def previous = self.class.new(first - days, first - 1)
+  # The same number of days just before this period, for comparisons; whole months compare with the months before them
+  # (October with September, not with 31 days from 31 August)
+  def previous
+    return self.class.new(first << months, first - 1) if whole_months?
+
+    self.class.new(first - days, first - 1)
+  end
+
+  def whole_months? = first.day == 1 && last == last.end_of_month
+
+  def months = ((last.year * 12) + last.month) - ((first.year * 12) + first.month) + 1
 
   # Each month the period touches: [first day of the month, days of the period in it, days in the month]
   def month_overlaps

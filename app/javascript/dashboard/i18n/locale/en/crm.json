@@ -297,6 +297,7 @@
         "week": "This week",
         "month": "This month",
         "quarter": "This quarter",
+        "year": "This year",
         "custom": "Custom"
       },
       "FROM": "From",
@@ -358,7 +359,185 @@
         "WON": "Won",
         "LOST": "Lost"
       },
-      "EXPORT": "Export CSV"
+      "EXPORT": "Export CSV",
+      "WAVE": {
+        "NAV": "Sales reports",
+        "OVERVIEW": "Overview",
+        "OPEN_DEALS": "Show the deals",
+        "DRILL_COUNT": "{count} deals",
+        "DRILL_EMPTY": "Nothing to show.",
+        "OWN_TASKS": "This report shows your own tasks.",
+        "WHOLE_TEAM": "Whole team",
+        "STAGE": "Stage",
+        "STALE_DAYS": "Quiet for (days)",
+        "PERIOD_NOTE": "{from} – {to}",
+        "PERIODS": {
+          "today": "Today",
+          "week": "This week",
+          "month": "This month",
+          "next_month": "Next month",
+          "quarter": "This quarter",
+          "year": "This year",
+          "custom": "Custom"
+        },
+        "COLUMNS": {
+          "title": "Deal",
+          "assignee": "Owner",
+          "amount": "Value",
+          "stage": "Stage",
+          "close_date": "Expected close",
+          "probability": "Probability",
+          "category": "Forecast category",
+          "days_overdue": "Days late",
+          "closed_at": "Closed on",
+          "lost_reason": "Lost reason",
+          "days_since_activity": "Days quiet",
+          "status": "Result"
+        },
+        "CATEGORIES": {
+          "commit": "Commit",
+          "best_case": "Best case",
+          "pipeline": "Pipeline",
+          "omitted": "Omitted"
+        },
+        "REPORTS": {
+          "pipeline_by_stage": {
+            "NAME": "Pipeline by stage",
+            "QUESTION": "How many open deals, worth how much, sit in each stage?",
+            "DESCRIPTION": "Open deals right now, by stage. The weighted value multiplies each deal by its probability.",
+            "EMPTY": "No open deals",
+            "EMPTY_HINT": "Open deals show here by stage as soon as they are added."
+          },
+          "closing": {
+            "NAME": "Closing this period",
+            "QUESTION": "Which deals must be closed before the period ends?",
+            "DESCRIPTION": "Open deals whose expected close date falls in the period, soonest first.",
+            "EMPTY": "No deals expected to close in this period",
+            "EMPTY_HINT": "Pick another period, or set expected close dates on open deals."
+          },
+          "stale": {
+            "NAME": "Stale and late deals",
+            "QUESTION": "Which deals have stopped moving or passed their close date?",
+            "DESCRIPTION": "Open deals with no activity for a while, or whose expected close date has passed.",
+            "EMPTY": "No stale or late deals",
+            "EMPTY_HINT": "Every open deal had recent activity and is still on schedule."
+          },
+          "my_tasks": {
+            "NAME": "My tasks",
+            "QUESTION": "What is due from me today, and what is late?",
+            "DESCRIPTION": "Your overdue and due-today calls, meetings and tasks, and what you finished in the period.",
+            "EMPTY": "Nothing due",
+            "EMPTY_HINT": "No overdue or due-today tasks, and none finished in this period."
+          },
+          "won_lost": {
+            "NAME": "Wins and losses",
+            "QUESTION": "What closed in the period, and how?",
+            "DESCRIPTION": "Deals won and lost in the period, against the period before.",
+            "EMPTY": "No deals closed in this period",
+            "EMPTY_HINT": "Pick a longer period to see results."
+          },
+          "quota": {
+            "NAME": "Target attainment",
+            "QUESTION": "How much of the target is won, and how much is left?",
+            "DESCRIPTION": "Value won in the period against the monthly targets set in Sales settings.",
+            "EMPTY": "No target and nothing won",
+            "EMPTY_HINT": "Set monthly targets in Sales settings to track attainment."
+          },
+          "forecast": {
+            "NAME": "Sales forecast",
+            "QUESTION": "How much will we close by the end of the period?",
+            "DESCRIPTION": "Won so far, plus the open deals expected in the period by forecast category, against the target.",
+            "EMPTY": "Nothing won or expected in this period",
+            "EMPTY_HINT": "Set expected close dates on open deals to build a forecast."
+          }
+        },
+        "PIPELINE": {
+          "COUNT": "Open deals",
+          "VALUE": "Open value",
+          "WEIGHTED": "Weighted value",
+          "WEIGHTED_NOTE": "Value × probability",
+          "BY_STAGE": "By stage",
+          "STAGE": "Stage",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "CLOSING": {
+          "COUNT": "Deals",
+          "VALUE": "Value",
+          "WEIGHTED": "Weighted value",
+          "AVG_PROBABILITY": "Average probability",
+          "BY_ASSIGNEE": "By owner",
+          "DEALS": "Deals to close",
+          "PARTIAL": "Showing {shown} of {total}; click the count to see all"
+        },
+        "STALE": {
+          "AT_RISK": "Need attention",
+          "STALE": "No activity for {days} days",
+          "OVERDUE": "Past close date",
+          "AT_RISK_VALUE": "Value at risk",
+          "BY_ASSIGNEE": "By owner",
+          "DEALS": "Deals to move",
+          "QUIET_FIRST": "Quietest first"
+        },
+        "TASKS": {
+          "OVERDUE": "Overdue",
+          "TODAY": "Due later today",
+          "DONE": "Done in the period",
+          "LIST": "To do",
+          "NONE_OPEN": "No overdue or due-today tasks.",
+          "ALL_TASKS": "All tasks"
+        },
+        "WON_LOST": {
+          "WON": "Won",
+          "LOST": "Lost",
+          "WIN_RATE": "Win rate",
+          "WIN_RATE_VALUE": "Win rate by value",
+          "WON_VALUE": "Won value",
+          "LOST_VALUE": "Lost value",
+          "OVER_TIME": "Over time",
+          "BAR_HINT": "Click a bar to see its deals",
+          "CLOSED_IN": "Closed from",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "QUOTA": {
+          "ATTAINMENT": "Attainment",
+          "NO_TARGET": "No target set",
+          "WON": "Won",
+          "TARGET": "Target",
+          "REMAINING": "Left to win",
+          "PROGRESS": "Progress",
+          "LINE_LABEL": "{won} won against a target of {target}",
+          "WON_SO_FAR": "Won so far",
+          "TARGET_PACE": "Target, spread over the days",
+          "RANKING": "Ranking"
+        },
+        "FORECAST": {
+          "WON": "Won",
+          "FORECAST": "Forecast",
+          "FORECAST_NOTE": "Won + commit",
+          "BEST_CASE": "Best case",
+          "BEST_CASE_NOTE": "Forecast + best case",
+          "TARGET": "Target",
+          "ATTAINMENT": "Forecast attainment",
+          "NO_TARGET": "No target set",
+          "AGAINST_TARGET": "Against the target",
+          "GAP": "Still missing to reach the target with the forecast:",
+          "BY_CATEGORY": "By forecast category",
+          "CATEGORY_HINT": "The category picked on the deal, else from its probability (90%+ commit, 50%+ best case)",
+          "CATEGORY": "Category",
+          "COUNT": "Deals",
+          "VALUE": "Value",
+          "WEIGHTED": "Weighted value",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "PRINT": {
+          "BUTTON": "Print / PDF",
+          "PRINTED_AT": "Printed on",
+          "PRINTED_BY": "Printed by",
+          "REPORT_NUMBER": "Report {n}",
+          "OWN_DEALS": "Shows the deals of the employee who printed it only.",
+          "OWN_TASKS": "Shows the tasks of the employee who printed it."
+        }
+      }
     },
     "SETTINGS": {
       "TITLE": "Sales settings",

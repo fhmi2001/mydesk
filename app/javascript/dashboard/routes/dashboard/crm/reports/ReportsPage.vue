@@ -17,6 +17,7 @@ import AgentPicker from '../shared/AgentPicker.vue';
 import { useCrmFormat } from '../shared/useCrmFormat';
 import SummaryCards from './SummaryCards.vue';
 import { periodRange } from './periods';
+import { REPORTS } from './wave/reportCatalog';
 
 const { t, locale } = useI18n();
 const store = useStore();
@@ -41,7 +42,7 @@ const isLoading = ref(true);
 const isUnavailable = ref(false);
 
 const periodOptions = computed(() =>
-  ['today', 'week', 'month', 'quarter', 'custom'].map(p => ({
+  ['today', 'week', 'month', 'quarter', 'year', 'custom'].map(p => ({
     value: p,
     label: t(`CRM.REPORTS.PERIODS.${p}`),
   }))
@@ -232,6 +233,32 @@ const exportCsv = async () => {
       <span class="i-lucide-user-round size-4 shrink-0" aria-hidden="true" />
       {{ t('CRM.REPORTS.OWN_ONLY') }}
     </p>
+
+    <!-- The reports of phase 4, each answering one question (reports/wave) -->
+    <nav class="px-6 pb-6" :aria-label="t('CRM.REPORTS.WAVE.NAV')">
+      <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <li v-for="item in REPORTS" :key="item.key">
+          <router-link
+            :to="{ name: 'crm_report', params: { reportKey: item.key } }"
+            class="flex items-start h-full gap-3 p-4 transition-colors rounded-xl bg-n-solid-1 outline outline-1 -outline-offset-1 outline-n-weak hover:bg-n-alpha-1 focus-visible:outline-2 focus-visible:outline-n-brand"
+          >
+            <span
+              :class="item.icon"
+              class="size-5 mt-0.5 shrink-0 text-n-iris-11"
+              aria-hidden="true"
+            />
+            <span class="min-w-0">
+              <span class="block text-body-main font-medium text-n-slate-12">
+                {{ t(`CRM.REPORTS.WAVE.REPORTS.${item.key}.NAME`) }}
+              </span>
+              <span class="block mt-0.5 text-label-small text-n-slate-11">
+                {{ t(`CRM.REPORTS.WAVE.REPORTS.${item.key}.QUESTION`) }}
+              </span>
+            </span>
+          </router-link>
+        </li>
+      </ul>
+    </nav>
 
     <!-- Each select carries its caption as aria-label: the captions are not <label for> targets -->
     <div class="flex flex-wrap items-end gap-3 px-6 pb-4">

@@ -17,7 +17,21 @@ class Api::V1::Accounts::Crm::ReportsController < Api::V1::Accounts::Crm::BaseCo
     send_data "﻿#{csv}", type: 'text/csv; charset=utf-8', filename: "deals-#{params[:from]}-#{params[:to]}.csv"
   end
 
+  # The reports of SalesCrm::Reports::Catalog: one for both roles, the numbers, then the deals behind any of them
+  def show
+    render json: catalog_report.perform
+  end
+
+  def drill
+    render json: catalog_report.drill(page: params[:page])
+  end
+
   private
+
+  def catalog_report
+    filters = params.permit(:product_id, :lead_source_id, :stage_id, :days, :full, cell: {}).to_h.symbolize_keys
+    report(SalesCrm::Reports::Catalog.fetch(params[:key]), **filters)
+  end
 
   def report(klass, **overrides)
     klass.new(account: Current.account, user: Current.user, from: params[:from], to: params[:to],

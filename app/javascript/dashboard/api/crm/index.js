@@ -149,6 +149,15 @@ class CrmReportsAPI extends ApiClient {
   export(params) {
     return axios.get(`${this.url}/export`, { params, responseType: 'blob' });
   }
+
+  // One report of SalesCrm::Reports::Catalog, and the deals behind one of its numbers (`cell`)
+  report(key, params) {
+    return axios.get(`${this.url}/${key}`, { params });
+  }
+
+  drill(key, params) {
+    return axios.get(`${this.url}/${key}/deals`, { params });
+  }
 }
 
 class CrmLostReasonsAPI extends ApiClient {

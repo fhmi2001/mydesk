@@ -539,6 +539,9 @@ Rails.application.routes.draw do
               get :timeline
               get :export
               get :stage_win_rates
+              # Custom (MyDesk): the reports of SalesCrm::Reports::Catalog
+              get ':key', action: :show, constraints: { key: /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast/ }
+              get ':key/deals', action: :drill, constraints: { key: /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast/ }
             end
             resource :settings, only: [:show, :update], controller: 'settings'
             resources :lost_reasons, only: [:index, :create, :update, :destroy] do
