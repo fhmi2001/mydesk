@@ -63,17 +63,16 @@ export const loadRows = (grouped, agents) => {
 // The open deals' value in each stage; with several pipelines, each row also names its pipeline (`sub`, shown under
 // the stage, so two stages of the same name stay apart on a narrow screen)
 export const stageRows = report => {
-  const rows = report?.rows || [];
+  const rows = (report?.rows || []).filter(row => row.count > 0);
+  // Only the pipelines that hold deals: empty stages of another pipeline do not make the names ambiguous
   const pipelines = new Set(rows.map(row => row.pipeline_name)).size;
-  return rows
-    .filter(row => row.count > 0)
-    .map(row => ({
-      id: row.stage_id,
-      name: row.name,
-      sub: pipelines > 1 ? row.pipeline_name : '',
-      value: row.total_cents,
-      count: row.count,
-    }));
+  return rows.map(row => ({
+    id: row.stage_id,
+    name: row.name,
+    sub: pipelines > 1 ? row.pipeline_name : '',
+    value: row.total_cents,
+    count: row.count,
+  }));
 };
 
 // Like linePoints, but a missing value (null) breaks the line into segments rather than ending it: a day with nothing

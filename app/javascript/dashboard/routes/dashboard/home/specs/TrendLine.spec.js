@@ -77,4 +77,34 @@ describe('TrendLine scale', () => {
       '9 min'
     );
   });
+
+  it('reads a dashed line that runs ahead (a target) on the last day the solid lines reach', () => {
+    const wrapper = mount(TrendLine, {
+      props: {
+        lines: [
+          {
+            id: 'target',
+            label: 'Target',
+            values: [10, 20, 30, 40],
+            color: 'grey',
+            dashed: true,
+          },
+          {
+            id: 'won',
+            label: 'Won',
+            values: [0, 5, null, null],
+            color: 'teal',
+          },
+        ],
+        max: 40,
+        format: value => `${value} SAR`,
+        ariaLabel: 'Won against target',
+        table: { headers: [], rows: [] },
+      },
+    });
+    const axis = wrapper.find('[data-testid="trend-axis"]').text();
+    expect(axis).toContain('Target · 20 SAR');
+    expect(axis).toContain('Won · 5 SAR');
+    expect(axis).not.toContain('40 SAR');
+  });
 });

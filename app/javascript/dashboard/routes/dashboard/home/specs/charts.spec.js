@@ -136,6 +136,29 @@ describe('stageRows', () => {
     ]);
   });
 
+  it('counts only the pipelines holding deals', () => {
+    expect(
+      stageRows({
+        rows: [
+          {
+            stage_id: 1,
+            name: 'Lead',
+            pipeline_name: 'B2B',
+            count: 2,
+            total_cents: 500,
+          },
+          {
+            stage_id: 3,
+            name: 'Lead',
+            pipeline_name: 'Retail',
+            count: 0,
+            total_cents: 0,
+          },
+        ],
+      })
+    ).toEqual([{ id: 1, name: 'Lead', sub: '', value: 500, count: 2 }]);
+  });
+
   it('uses the stage name alone for a single pipeline', () => {
     expect(
       stageRows({

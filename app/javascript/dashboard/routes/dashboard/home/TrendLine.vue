@@ -19,9 +19,23 @@ const props = defineProps({
 const W = 300;
 const H = 100;
 
+const isKnown = value => value !== null && value !== undefined;
+const lastKnown = values => values.findLastIndex(isKnown);
+
+// The last day the solid lines reach (today): a dashed line that runs ahead to the period's end, as a target does,
+// is read on that day, not at its end
+const reached = computed(() => {
+  const solid = props.lines.filter(line => !line.dashed);
+  return solid.length ? Math.max(...solid.map(l => lastKnown(l.values))) : -1;
+});
+
 const latest = line => {
-  const known = line.values.filter(v => v !== null && v !== undefined);
-  return known.length ? props.format(known.at(-1)) : '';
+  const values =
+    line.dashed && reached.value >= 0
+      ? line.values.slice(0, reached.value + 1)
+      : line.values;
+  const at = lastKnown(values);
+  return at >= 0 ? props.format(values[at]) : '';
 };
 
 const drawn = computed(() =>
