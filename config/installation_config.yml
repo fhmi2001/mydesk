@@ -750,4 +750,8 @@
   display_title: 'Monthly replies per account'
   description: 'Replies each account assistant may send per month before conversations go straight to the team (default 1000)'
   locked: false
+- name: SMART_ASSISTANT_CRM_MONTHLY_LIMIT
+  display_title: 'Monthly Sales AI requests per account'
+  description: 'Conversation summaries and follow-up drafts each account may ask for per month, apart from the reply quota (default 300)'
+  locked: false
 ## ---- End of smart assistant ---- ##

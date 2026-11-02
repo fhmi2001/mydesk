@@ -15,6 +15,15 @@ RSpec.describe SalesCrm::ActivityLog do
     expect(activity.data).to eq('from_stage_id' => 1, 'to_stage_id' => 2)
   end
 
+  it "moves the deal's last activity and last touch when a person acts, not when the system does" do
+    deal.update_columns(last_activity_at: nil, last_touch_at: 2.days.ago) # rubocop:disable Rails/SkipsModelValidations
+    described_class.record(deal: deal, kind: 'conversation_linked', user: nil)
+    expect(deal.reload.last_touch_at).to be < 1.day.ago
+
+    activity = described_class.record(deal: deal, kind: 'note_added', user: user)
+    expect(deal.reload).to have_attributes(last_activity_at: activity.created_at, last_touch_at: activity.created_at)
+  end
+
   it 'rejects an unknown kind' do
     expect { described_class.record(deal: deal, kind: 'bogus', user: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end

@@ -217,6 +217,7 @@
         "task_done": "أنجز المهمة «{title}»",
         "discarded": "حذف الصفقة",
         "restored": "استعاد الصفقة",
+        "conversation_linked": "نقل متابعة الصفقة إلى المحادثة #{number}",
         "SYSTEM": "النظام",
         "close_date_changed": "غيّر تاريخ الإغلاق المتوقع إلى {date}"
       },

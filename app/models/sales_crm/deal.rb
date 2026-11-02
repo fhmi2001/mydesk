@@ -11,6 +11,9 @@ class SalesCrm::Deal < ApplicationRecord
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :creator, class_name: 'User', optional: true
   belongs_to :conversation, optional: true
+  # The conversation the deal is followed in now; conversation stays the one it came from (CONVERSATION_SALES_PLAN.md, decision ح)
+  belongs_to :active_conversation, class_name: 'Conversation', optional: true
+  belongs_to :campaign, optional: true
   SalesCrm::ListItem::DEAL_COLUMNS.each_key do |list|
     belongs_to list.to_sym, class_name: 'SalesCrm::ListItem', optional: true
   end
@@ -25,6 +28,8 @@ class SalesCrm::Deal < ApplicationRecord
   enum priority: { low: 0, medium: 1, high: 2 }, _prefix: :priority
   # Set only when the employee picks one; effective_forecast_category derives it from the probability otherwise
   enum forecast_category: { pipeline: 0, best_case: 1, commit: 2, omitted: 3 }, _prefix: :forecast
+  # direct: its conversation came from a live chat campaign; influenced: the customer got an SMS campaign shortly before
+  enum campaign_attribution: { direct: 0, influenced: 1 }, _prefix: :campaign
   COMMIT_FROM = 90
   BEST_CASE_FROM = 50
 
@@ -39,6 +44,7 @@ class SalesCrm::Deal < ApplicationRecord
 
   before_validation :snapshot_contact_name
   before_save :normalize_search_columns
+  before_create :start_conversation_links
 
   # Amount as a decimal in major units, e.g. 50000.00 SAR
   def amount
@@ -72,6 +78,12 @@ class SalesCrm::Deal < ApplicationRecord
   end
 
   private
+
+  # A new deal is followed in the conversation it came from, and its last touch is its creation
+  def start_conversation_links
+    self.active_conversation_id ||= conversation_id
+    self.last_touch_at ||= Time.current
+  end
 
   def snapshot_contact_name
     self.contact_name_snapshot = contact.name if contact && (contact_id_changed? || contact_name_snapshot.blank?)

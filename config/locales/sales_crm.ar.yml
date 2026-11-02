@@ -22,6 +22,9 @@ ar:
       invalid_list: القائمة غير معروفة
       invalid_stale_days: حد الركود عدد أيام من 1 إلى 365
       invalid_coverage: معيار التغطية رقم من 0.5 إلى 20
+      invalid_followup_days: أيام الصمت قبل المتابعة عدد من 1 إلى 30
+      invalid_attribution_days: نافذة إسناد حملات SMS عدد أيام من 1 إلى 90
+      invalid_channel_source: اختر لكل صندوق وارد في الحساب مصدراً من قائمة «مصدر العميل»
       not_closed: الصفقة مفتوحة أصلاً
       invalid_amount: القيمة ليست رقماً صحيحاً
       invalid_currency: العملة غير مدعومة

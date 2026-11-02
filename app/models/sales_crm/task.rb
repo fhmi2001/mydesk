@@ -12,6 +12,8 @@ class SalesCrm::Task < ApplicationRecord
   enum status: { open: 0, done: 1 }
   # What kind of follow-up it is, for the activity reports
   enum kind: { task: 0, call: 1, meeting: 2 }
+  # Where it came from: the stage rules and the silence follow-up open at most one open task of their own per deal
+  enum origin: { manual: 0, stage_rule: 1, follow_up: 2, automation: 3 }, _prefix: :from
 
   validates :title, presence: true, length: { maximum: TITLE_MAX }
   validates :description, length: { maximum: 5000 }

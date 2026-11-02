@@ -71,6 +71,45 @@ RSpec.describe 'Sales CRM report fields API', type: :request do
       get "#{base}/settings", headers: admin.create_new_auth_token, as: :json
       expect(response.parsed_body).to include('default_currency' => 'SAR', 'currency_locked' => true)
     end
+
+    describe 'conversation settings' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:whatsapp) { SalesCrm::ListItem.create!(account: account, list: 'lead_source', name: 'واتساب') }
+
+      it 'starts with 3 silent days and a 14-day SMS window, and keeps what the administrator sets' do
+        get "#{base}/settings", headers: admin.create_new_auth_token, as: :json
+        expect(response.parsed_body).to include('followup_days' => 3, 'sms_attribution_days' => 14, 'channel_sources' => {})
+
+        patch "#{base}/settings", params: { settings: { followup_days: '5', sms_attribution_days: '30',
+                                                        channel_sources: { inbox.id.to_s => whatsapp.id } } },
+                                  headers: admin.create_new_auth_token, as: :json
+        expect(response.parsed_body).to include('followup_days' => 5, 'sms_attribution_days' => 30,
+                                                'channel_sources' => { inbox.id.to_s => whatsapp.id })
+        expect(account.reload.crm_lead_source_for_inbox(inbox.id)).to eq(whatsapp)
+      end
+
+      it 'clears an inbox mapped to nothing' do
+        account.update!(crm_channel_sources: { inbox.id.to_s => whatsapp.id })
+        patch "#{base}/settings", params: { settings: { channel_sources: { inbox.id.to_s => nil } } },
+                                  headers: admin.create_new_auth_token, as: :json
+        expect(response.parsed_body['channel_sources']).to eq({})
+      end
+
+      it "refuses another account's inbox, an item of another list and days out of range" do
+        other_inbox = create(:inbox)
+        product = SalesCrm::ListItem.create!(account: account, list: 'product', name: 'باقة')
+        [{ channel_sources: { other_inbox.id.to_s => whatsapp.id } }, { channel_sources: { inbox.id.to_s => product.id } },
+         { followup_days: '0' }, { sms_attribution_days: '400' }].each do |settings|
+          patch "#{base}/settings", params: { settings: settings }, headers: admin.create_new_auth_token, as: :json
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+
+      it 'is for administrators only' do
+        patch "#{base}/settings", params: { settings: { followup_days: '5' } }, headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 
   describe 'deals' do

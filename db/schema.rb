@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_31_192749) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_02_184801) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1181,13 +1181,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_192749) do
     t.integer "forecast_category"
     t.integer "probability_override"
     t.datetime "last_activity_at"
+    t.bigint "active_conversation_id"
+    t.datetime "last_message_at"
+    t.datetime "last_touch_at"
+    t.bigint "campaign_id"
+    t.integer "campaign_attribution"
+    t.index ["account_id", "active_conversation_id", "status"], name: "idx_on_account_id_active_conversation_id_status_5ce3373430"
     t.index ["account_id", "assignee_id", "status"], name: "index_crm_deals_on_account_id_and_assignee_id_and_status"
+    t.index ["account_id", "campaign_id"], name: "index_crm_deals_on_account_id_and_campaign_id"
     t.index ["account_id", "close_date"], name: "index_crm_deals_on_account_id_and_close_date"
     t.index ["account_id", "competitor_id"], name: "index_crm_deals_on_account_id_and_competitor_id"
     t.index ["account_id", "contact_id"], name: "index_crm_deals_on_account_id_and_contact_id"
     t.index ["account_id", "discarded_at"], name: "index_crm_deals_on_account_id_and_discarded_at"
     t.index ["account_id", "industry_id"], name: "index_crm_deals_on_account_id_and_industry_id"
     t.index ["account_id", "last_activity_at"], name: "index_crm_deals_on_account_id_and_last_activity_at"
+    t.index ["account_id", "last_touch_at"], name: "index_crm_deals_on_account_id_and_last_touch_at"
     t.index ["account_id", "lead_source_id"], name: "index_crm_deals_on_account_id_and_lead_source_id"
     t.index ["account_id", "pipeline_id", "stage_id", "position"], name: "idx_on_account_id_pipeline_id_stage_id_position_346854b22d"
     t.index ["account_id", "product_id"], name: "index_crm_deals_on_account_id_and_product_id"
@@ -1251,11 +1259,34 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_192749) do
     t.string "color", default: "#94a3b8", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "silence_followup", default: false, null: false
+    t.integer "followup_task_days"
+    t.string "followup_task_title"
     t.index ["account_id"], name: "index_crm_stages_on_account_id"
     t.index ["pipeline_id", "position"], name: "index_crm_stages_on_pipeline_id_and_position"
     t.index ["pipeline_id"], name: "index_crm_stages_one_lost_per_pipeline", unique: true, where: "(kind = 2)"
     t.index ["pipeline_id"], name: "index_crm_stages_one_won_per_pipeline", unique: true, where: "(kind = 1)"
     t.check_constraint "probability >= 0 AND probability <= 100", name: "crm_stages_probability_range"
+  end
+
+  create_table "crm_suggestions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id"
+    t.bigint "contact_id"
+    t.bigint "deal_id"
+    t.integer "kind", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "origin", default: 0, null: false
+    t.jsonb "content", default: {}, null: false
+    t.bigint "decided_by_id"
+    t.datetime "decided_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "conversation_id", "kind", "status"], name: "idx_on_account_id_conversation_id_kind_status_2cc771e4ef"
+    t.index ["account_id", "deal_id", "kind", "status"], name: "idx_on_account_id_deal_id_kind_status_5c0aee95e2"
+    t.index ["conversation_id", "kind"], name: "index_crm_suggestions_one_pending_per_conversation", unique: true, where: "((status = 0) AND (kind = ANY (ARRAY[0, 1])))"
+    t.index ["deal_id", "kind"], name: "index_crm_suggestions_one_pending_per_deal", unique: true, where: "((status = 0) AND (kind = ANY (ARRAY[2, 3, 4])))"
+    t.index ["status", "decided_at"], name: "index_crm_suggestions_on_status_and_decided_at"
   end
 
   create_table "crm_targets", force: :cascade do |t|
@@ -1288,9 +1319,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_31_192749) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "kind", default: 0, null: false
+    t.integer "origin", default: 0, null: false
     t.index ["account_id", "assignee_id", "kind"], name: "index_crm_tasks_on_account_id_and_assignee_id_and_kind"
     t.index ["account_id", "assignee_id", "status", "due_at"], name: "idx_on_account_id_assignee_id_status_due_at_04a4ef7d19"
     t.index ["account_id", "contact_id"], name: "index_crm_tasks_on_account_id_and_contact_id"
+    t.index ["account_id", "deal_id", "origin", "status"], name: "idx_on_account_id_deal_id_origin_status_a63eb34adc"
     t.index ["account_id", "deal_id"], name: "index_crm_tasks_on_account_id_and_deal_id"
     t.index ["status", "due_at", "reminded_at"], name: "index_crm_tasks_for_reminders"
   end

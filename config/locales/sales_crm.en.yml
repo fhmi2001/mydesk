@@ -22,6 +22,9 @@ en:
       invalid_list: Unknown list
       invalid_stale_days: The stale threshold is a number of days from 1 to 365
       invalid_coverage: The coverage target is a number from 0.5 to 20
+      invalid_followup_days: The silent days before a follow-up are a number from 1 to 30
+      invalid_attribution_days: The SMS campaign window is a number of days from 1 to 90
+      invalid_channel_source: Pick a lead source from the list for an inbox of this account
       not_closed: The deal is already open
       invalid_amount: The amount is not a valid number
       invalid_currency: Unsupported currency

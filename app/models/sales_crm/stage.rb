@@ -12,6 +12,10 @@ class SalesCrm::Stage < ApplicationRecord
   validates :name, presence: true, length: { maximum: 60 }
   validates :probability, numericality: { only_integer: true, in: 0..100 }
   validates :color, format: { with: /\A#[0-9a-fA-F]{6}\z/ }
+  # The task a deal gets when it enters this stage, due this many days later (none when blank)
+  validates :followup_task_days, numericality: { only_integer: true, in: 1..365 }, allow_nil: true
+  validates :followup_task_title, presence: true, if: -> { followup_task_days.present? }
+  validates :followup_task_title, length: { maximum: SalesCrm::Task::TITLE_MAX }
 
   before_validation :default_color
   before_validation { self.account_id ||= pipeline&.account_id }

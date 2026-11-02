@@ -2,7 +2,7 @@
 # services, never edited.
 class SalesCrm::Activity < ApplicationRecord
   KINDS = %w[created stage_changed amount_changed close_date_changed assignee_changed priority_changed won lost reopened
-             note_added task_added task_done discarded restored].freeze
+             note_added task_added task_done discarded restored conversation_linked].freeze
 
   belongs_to :account
   belongs_to :deal, class_name: 'SalesCrm::Deal', inverse_of: :activities

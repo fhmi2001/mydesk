@@ -27,6 +27,7 @@ const icons = {
   task_done: 'i-lucide-check-circle-2',
   discarded: 'i-lucide-trash-2',
   restored: 'i-lucide-undo-2',
+  conversation_linked: 'i-lucide-messages-square',
 };
 
 const describe = activity => {
@@ -38,6 +39,7 @@ const describe = activity => {
       ? `${data.reason || ''} (${data.note})`
       : data.reason || '',
     title: data.title || '',
+    number: data.display_id || '',
     date:
       activity.kind === 'close_date_changed' && data.to ? date(data.to) : '—',
     ...(activity.kind === 'priority_changed' && {

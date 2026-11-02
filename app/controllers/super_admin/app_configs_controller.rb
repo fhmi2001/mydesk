@@ -16,7 +16,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   MYDESK_CONFIGS = {
     'salla' => %w[SALLA_CLIENT_ID SALLA_CLIENT_SECRET SALLA_WEBHOOK_SECRET],
     'whatsapp_web' => %w[WHATSAPP_WEB_API_URL WHATSAPP_WEB_API_KEY WHATSAPP_WEB_CHATWOOT_URL],
-    'smart_assistant' => %w[SMART_ASSISTANT_OPENAI_API_KEY SMART_ASSISTANT_MODEL SMART_ASSISTANT_MONTHLY_REPLY_LIMIT]
+    'smart_assistant' => %w[SMART_ASSISTANT_OPENAI_API_KEY SMART_ASSISTANT_MODEL SMART_ASSISTANT_MONTHLY_REPLY_LIMIT
+                            SMART_ASSISTANT_CRM_MONTHLY_LIMIT]
   }.freeze
 
   before_action :set_config

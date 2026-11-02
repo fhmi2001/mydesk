@@ -14,6 +14,19 @@ module SalesCrm::Visibility
     admin?(account, user) ? relation : relation.where(assignee_id: user.id)
   end
 
+  # An employee's suggestions: a new deal or a note from the conversations assigned to them, and the follow-up, won
+  # and lost messages of their own deals. A colleague's deal stays out even when the employee handles its conversation.
+  def suggestions(account, user)
+    base = account.crm_suggestions
+    return base if admin?(account, user)
+
+    from_conversations = base.where(kind: SalesCrm::Suggestion::CONVERSATION_KINDS,
+                                    conversation_id: account.conversations.where(assignee_id: user.id).select(:id))
+    from_deals = base.where(kind: SalesCrm::Suggestion::DEAL_KINDS,
+                            deal_id: account.crm_deals.where(assignee_id: user.id).select(:id))
+    from_conversations.or(from_deals)
+  end
+
   # An employee's tasks: those on their own deals, those assigned to them, and the ones they wrote that belong to
   # no deal. A task on a colleague's deal stays out, since it would show that deal's title.
   def tasks(account, user)

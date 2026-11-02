@@ -217,6 +217,7 @@
         "task_done": "completed the task «{title}»",
         "discarded": "deleted the deal",
         "restored": "restored the deal",
+        "conversation_linked": "moved the deal's follow-up to conversation #{number}",
         "SYSTEM": "System",
         "close_date_changed": "changed the expected close date to {date}"
       },

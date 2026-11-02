@@ -20,6 +20,11 @@ RSpec.describe SalesCrm::Task do
     expect(described_class.due(now)).to eq([due])
   end
 
+  it 'is manual unless it says where it came from' do
+    expect(create(:crm_task, account: account).origin).to eq('manual')
+    expect(described_class.origins.keys).to eq(%w[manual stage_rule follow_up automation])
+  end
+
   it 'survives deletion of its deal' do
     deal = create(:crm_deal, account: account)
     task = create(:crm_task, account: account, deal: deal)
