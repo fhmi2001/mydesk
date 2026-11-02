@@ -9,7 +9,7 @@ class SalesCrm::Reports::DealSize < SalesCrm::Reports::Report
 
   def initialize(account:, user:, **filters)
     super
-    @period = SalesCrm::Period.new(SalesCrm::Period.today.beginning_of_year, SalesCrm::Period.today) if filters[:from].blank?
+    @period = SalesCrm::Period.new(today.beginning_of_year, today, zone) if filters[:from].blank?
   end
 
   def build
@@ -35,7 +35,7 @@ class SalesCrm::Reports::DealSize < SalesCrm::Reports::Report
 
   # [{ bucket, average_cents, count, cell }] for every bucket of the period
   def series(relation, cell = {})
-    by_bucket = sized(period, relation).pluck(:won_at, :amount_cents).group_by { |at, _| bucket_start(riyadh_date(at)) }
+    by_bucket = sized(period, relation).pluck(:won_at, :amount_cents).group_by { |at, _| bucket_start(local_date(at)) }
     bucket_cells.map do |start, bucket_cell|
       amounts = by_bucket.fetch(start, []).map(&:last)
       { bucket: start.iso8601, count: amounts.size, average_cents: SalesCrm::Metrics::Ratio.average_cents(amounts.sum, amounts.size),

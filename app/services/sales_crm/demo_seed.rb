@@ -89,7 +89,7 @@ class SalesCrm::DemoSeed
 
   private
 
-  def zone = SalesCrm::Period.zone
+  def zone = SalesCrm::TimeZone.for(account)
   def at(date, hour = 10, minute = 0) = zone.local(date.year, date.month, date.day, hour, minute)
   def first_day = anchor - DAYS + 1
   # Nothing happens after 17:00 on the anchor day (the checks look at the data from 18:00 that day)

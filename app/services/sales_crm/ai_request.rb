@@ -7,7 +7,7 @@ module SalesCrm::AiRequest
     fail_ai!(:ai_not_configured) unless SmartAssistant::Config.configured?
     return unless SmartAssistant::Usage.crm_limit_reached?(account)
 
-    fail_ai!(:ai_limit_reached, date: I18n.l(SalesCrm::Period.today.next_month.beginning_of_month, format: :long))
+    fail_ai!(:ai_limit_reached, date: I18n.l(SalesCrm::Period.today(SalesCrm::TimeZone.for(account)).next_month.beginning_of_month, format: :long))
   end
 
   # The latest `limit` public messages, oldest first: «العميل: ...» / «الفريق: ...»

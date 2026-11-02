@@ -14,8 +14,7 @@ class SalesCrm::Reports::Changes < SalesCrm::Reports::Report
 
   def initialize(account:, user:, **filters)
     super
-    today = SalesCrm::Period.today
-    @period = SalesCrm::Period.new(today - 6, today) if filters[:from].blank?
+    @period = SalesCrm::Period.new(today - 6, today, zone) if filters[:from].blank?
   end
 
   def build

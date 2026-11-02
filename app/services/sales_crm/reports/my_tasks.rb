@@ -1,6 +1,6 @@
 # Custom (MyDesk): التقرير 4, مهامي ومتابعاتي: what is asked of me today and what is late. Always the signed-in user's own
 # open tasks, administrators included (the matrix gives the manager no team view of it). Overdue: due before now. Due
-# today: due between now and the end of the day in Riyadh. Done: completed in the period, compared with the one before.
+# today: due between now and the end of the day in the account's time zone. Done: completed in the period, compared with the one before.
 class SalesCrm::Reports::MyTasks < SalesCrm::Reports::Report
   KEY = 'my_tasks'.freeze
   KINDS = %w[overdue today done].freeze

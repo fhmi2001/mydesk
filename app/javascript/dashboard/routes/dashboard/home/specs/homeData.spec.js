@@ -5,7 +5,7 @@ import SummaryReportsAPI from 'dashboard/api/summaryReports';
 import LiveReportsAPI from 'dashboard/api/liveReports';
 import HomeAPI from 'dashboard/api/home';
 import { crmReportsAPI, crmTasksAPI } from 'dashboard/api/crm';
-import { riyadhDayBounds, loadAgentHome, loadManagerHome } from '../homeData';
+import { loadAgentHome, loadManagerHome } from '../homeData';
 
 vi.mock('dashboard/api/inbox/conversation', () => ({
   default: { get: vi.fn(), meta: vi.fn() },
@@ -90,15 +90,6 @@ describe('the charts', () => {
     expect(SummaryReportsAPI.getInboxReports).not.toHaveBeenCalled();
     expect(LiveReportsAPI.getGroupedConversations).not.toHaveBeenCalled();
     expect(crmReportsAPI.report).toHaveBeenCalledWith('pipeline_by_stage', {});
-  });
-});
-
-describe('riyadhDayBounds', () => {
-  it('gives the Riyadh calendar day in epoch seconds', () => {
-    expect(riyadhDayBounds(new Date(2026, 10, 1))).toEqual({
-      since: 1793480400,
-      until: 1793566799,
-    });
   });
 });
 

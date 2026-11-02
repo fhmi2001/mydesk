@@ -642,6 +642,26 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response).to have_http_status(:forbidden)
       end
     end
+
+    # Custom (MyDesk): the time zone picked in the general settings, for Sales and Chatwoot's own reports
+    context 'with the reporting time zone' do
+      it 'lets an administrator pick it, and refuses one that does not exist' do
+        patch "/api/v1/accounts/#{account.id}", params: { reporting_timezone: 'Asia/Dubai' }, headers: admin.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:success)
+        expect(account.reload.reporting_timezone).to eq('Asia/Dubai')
+        expect(SalesCrm::TimeZone.for(account).tzinfo.name).to eq('Asia/Dubai')
+
+        patch "/api/v1/accounts/#{account.id}", params: { reporting_timezone: 'Mars/Olympus' }, headers: admin.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.reload.reporting_timezone).to eq('Asia/Dubai')
+      end
+
+      it 'is not for agents' do
+        patch "/api/v1/accounts/#{account.id}", params: { reporting_timezone: 'Asia/Dubai' }, headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unauthorized)
+        expect(account.reload.reporting_timezone).to be_nil
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/update_active_at' do

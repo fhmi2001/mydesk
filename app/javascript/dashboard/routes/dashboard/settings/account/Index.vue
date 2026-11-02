@@ -16,6 +16,9 @@ import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
 import SectionLayout from './components/SectionLayout.vue';
+// Custom (MyDesk): the account's time zone, for Sales and the reports
+import { timeZoneOptions } from '../inbox/helpers/businessHour';
+import { DEFAULT_TIME_ZONE } from 'dashboard/routes/dashboard/crm/reports/periods';
 
 export default {
   components: {
@@ -45,6 +48,7 @@ export default {
       domain: '',
       supportEmail: '',
       features: {},
+      reportingTimezone: DEFAULT_TIME_ZONE, // Custom (MyDesk)
     };
   },
   validations: {
@@ -90,6 +94,20 @@ export default {
         this.featureInboundEmailEnabled && !!this.features.custom_reply_email
       );
     },
+    // Custom (MyDesk): one entry per time zone, the account's own kept even when the list names it otherwise
+    timeZones() {
+      const seen = new Set();
+      const options = timeZoneOptions().filter(
+        ({ value }) => !seen.has(value) && seen.add(value)
+      );
+      if (!seen.has(this.reportingTimezone)) {
+        options.push({
+          label: this.reportingTimezone,
+          value: this.reportingTimezone,
+        });
+      }
+      return options;
+    },
     currentAccount() {
       return this.getAccount(this.accountId) || {};
     },
@@ -110,8 +128,15 @@ export default {
   methods: {
     async initializeAccount() {
       try {
-        const { name, locale, id, domain, support_email, features } =
-          this.getAccount(this.accountId);
+        const {
+          name,
+          locale,
+          id,
+          domain,
+          support_email,
+          features,
+          reporting_timezone,
+        } = this.getAccount(this.accountId);
 
         const effectiveLocale = this.uiSettings?.locale || locale;
         if (effectiveLocale) {
@@ -123,6 +148,7 @@ export default {
         this.domain = domain;
         this.supportEmail = support_email;
         this.features = features;
+        this.reportingTimezone = reporting_timezone || DEFAULT_TIME_ZONE; // Custom (MyDesk)
       } catch (error) {
         // Ignore error
       }
@@ -140,6 +166,7 @@ export default {
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
+          reporting_timezone: this.reportingTimezone, // Custom (MyDesk)
         });
         // If user locale is set, update the locale with user locale
         const updatedLocale = this.uiSettings?.locale || this.locale;
@@ -147,6 +174,8 @@ export default {
           this.$root.$i18n.locale = updatedLocale;
         }
         this.getAccount(this.id).locale = this.locale;
+        // Custom (MyDesk): Sales reads the new time zone at once, without a reload
+        this.$store.dispatch('crm/status/fetch');
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
@@ -199,6 +228,28 @@ export default {
                 {{ lang.name }}
               </option>
             </select>
+          </WithLabel>
+          <!-- Custom (MyDesk): where a day starts, for Sales and the reports -->
+          <WithLabel
+            name="reporting-timezone"
+            :label="$t('GENERAL_SETTINGS.FORM.TIMEZONE.LABEL')"
+          >
+            <select
+              v-model="reportingTimezone"
+              data-testid="reporting-timezone"
+              class="!mb-0 text-sm"
+            >
+              <option
+                v-for="zone in timeZones"
+                :key="zone.value"
+                :value="zone.value"
+              >
+                {{ zone.label }}
+              </option>
+            </select>
+            <template #help>
+              {{ $t('GENERAL_SETTINGS.FORM.TIMEZONE.HELP') }}
+            </template>
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyDomainEnabled"

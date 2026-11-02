@@ -51,7 +51,7 @@ class SalesCrm::DemoConversations
 
   attr_reader :account
 
-  def zone = SalesCrm::Period.zone
+  def zone = SalesCrm::TimeZone.for(account)
   def first_day = @seed.anchor - SalesCrm::DemoSeed::DAYS + 1
   def cutoff = zone.local(@seed.anchor.year, @seed.anchor.month, @seed.anchor.day, 17)
   def pick(list) = list[@rng.rand(list.size)]

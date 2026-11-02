@@ -18,6 +18,9 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/models/notification.rb` | `crm_task_due: 20` in `NOTIFICATION_TYPES`; a branch in `push_message_title` | Task reminders in the bell / push |
 | `config/locales/en.yml`, `config/locales/ar.yml` | `notifications.notification_title.crm_task_due` | Reminder title |
 | `config/schedule.yml` | `sales_crm_task_reminder_job` (*/5 min), `sales_crm_purge_discarded_deals_job` (daily), `sales_crm_purge_dismissed_suggestions_job` (daily) | Reminders; purge of deals deleted > 30 days ago; purge of suggestions dismissed > 30 days ago |
+| `app/controllers/api/v1/accounts_controller.rb` | `:reporting_timezone` in `permitted_settings_attributes` | The account's time zone, picked in the general settings; Sales counts its days in it (Riyadh until picked) and Chatwoot's own reports already read it |
+| `app/javascript/dashboard/routes/dashboard/settings/account/Index.vue`, `app/javascript/dashboard/i18n/locale/{en,ar}/generalSettings.json` | «المنطقة الزمنية» select under the site language, saved as `reporting_timezone`; refetches `crm/status` after saving; `FORM.TIMEZONE` strings | Where a day starts, for Sales and the reports |
+| `spec/controllers/api/v1/accounts_controller_spec.rb` | «with the reporting time zone» context | An administrator can set it, an agent cannot, an unknown zone is refused |
 | `config/installation_config.yml` | `SMART_ASSISTANT_CRM_MONTHLY_LIMIT` | The Sales AI requests' monthly limit, apart from the reply quota (CONVERSATION_SALES_PLAN.md) |
 | `app/controllers/super_admin/app_configs_controller.rb` | `SMART_ASSISTANT_CRM_MONTHLY_LIMIT` in the `smart_assistant` list | Set from Super Admin > smart assistant |
 | `config/routes.rb` | `namespace :crm` under `api/v1/accounts/:account_id`; three `super_admin/crm_overview` routes | The CRM API and the Super Admin page |

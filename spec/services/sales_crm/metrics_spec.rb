@@ -40,8 +40,38 @@ RSpec.describe SalesCrm::Metrics do
       expect(period.month_overlaps).to eq([[Date.new(2026, 10, 1), 16, 31], [Date.new(2026, 11, 1), 15, 30]])
     end
 
-    it 'always uses Riyadh, whatever the account reporting time zone says' do
+    it 'uses Riyadh until the account picks its time zone in the general settings' do
       expect(SalesCrm::TimeZone.for(account).tzinfo.name).to eq('Asia/Riyadh')
+      account.update!(reporting_timezone: 'Asia/Dubai')
+      expect(SalesCrm::TimeZone.for(account).tzinfo.name).to eq('Asia/Dubai')
+    end
+
+    it "cuts the days at the account's midnight, and the period before it keeps the same time zone" do
+      dubai = ActiveSupport::TimeZone['Asia/Dubai']
+      # 00:30 on the 20th in Dubai is still 23:30 on the 19th in Riyadh
+      travel_to dubai.local(2026, 10, 20, 0, 30) do
+        expect(described_class.today(dubai)).to eq(Date.new(2026, 10, 20))
+        expect(described_class.today).to eq(Date.new(2026, 10, 19))
+        period = described_class.parse(nil, nil, zone: dubai)
+        expect([period.first, period.last]).to eq([Date.new(2026, 10, 1), Date.new(2026, 10, 20)])
+        expect(period.begins_at).to eq(dubai.local(2026, 10, 1))
+        expect(period.previous.begins_at).to eq(dubai.local(2026, 9, 11))
+        expect(described_class.month(Date.new(2026, 9, 3), dubai).ends_at).to eq(dubai.local(2026, 9, 30).end_of_day)
+      end
+    end
+  end
+
+  describe SalesCrm::Metrics::DaysSinceActivity, "in the account's time zone" do
+    it "counts the days and finds the stale deals in the account's days" do
+      dubai = ActiveSupport::TimeZone['Asia/Dubai']
+      travel_to dubai.local(2026, 10, 20, 10) do
+        # 23:30 on the 5th in Riyadh is 00:30 on the 6th in Dubai: 14 Dubai days ago, 15 Riyadh days
+        quiet = deal(last_touch_at: riyadh.local(2026, 10, 5, 23, 30))
+        expect(described_class.call(quiet)).to eq(15)
+        expect(described_class.call(quiet, today: Date.new(2026, 10, 20), zone: dubai)).to eq(14)
+        expect(described_class.stale(deals, 15, today: Date.new(2026, 10, 20), zone: dubai)).to be_empty
+        expect(described_class.stale(deals, 15)).to eq([quiet])
+      end
     end
   end
 

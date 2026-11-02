@@ -167,10 +167,11 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
 
     it 'reports: summary for admin, export as csv' do
       deal_for(agent)
-      get "#{base}/reports/summary", params: { from: Date.current.beginning_of_month, to: Date.current }, headers: admin.create_new_auth_token,
+      today = SalesCrm::Period.today(SalesCrm::TimeZone.for(account)) # the account's day, not the UTC one
+      get "#{base}/reports/summary", params: { from: today.beginning_of_month, to: today }, headers: admin.create_new_auth_token,
                                      as: :json
       expect(response.parsed_body['current']).to include('open_count' => 1)
-      get "#{base}/reports/export", params: { from: Date.current.beginning_of_month, to: Date.current }, headers: admin.create_new_auth_token
+      get "#{base}/reports/export", params: { from: today.beginning_of_month, to: today }, headers: admin.create_new_auth_token
       expect(response.content_type).to include('text/csv')
       expect(response.body).to include('باقة')
     end

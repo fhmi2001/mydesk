@@ -68,9 +68,9 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
   def drill_order = { amount_cents: :desc, id: :desc }
 
   def forward_period(filters)
-    first = SalesCrm::Period.parse_date(filters[:from]) || SalesCrm::Period.today.beginning_of_month
+    first = SalesCrm::Period.parse_date(filters[:from]) || today.beginning_of_month
     last = SalesCrm::Period.parse_date(filters[:to]) || first.end_of_month
-    SalesCrm::Period.new(first, [last, first].max)
+    SalesCrm::Period.new(first, [last, first].max, zone)
   end
 
   def dates(window) = { from: window.first.iso8601, to: window.last.iso8601 }
@@ -91,7 +91,7 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
   end
 
   # One deal as a report lists it
-  def line(deal, today: SalesCrm::Period.today)
+  def line(deal, today: self.today)
     { id: deal.id, title: deal.title, amount_cents: deal.amount_cents, currency: deal.currency, status: deal.status,
       close_date: deal.close_date, won_at: deal.won_at, lost_at: deal.lost_at, lost_reason: deal.lost_reason,
       probability: deal.effective_probability, forecast_category: deal.effective_forecast_category }.merge(line_context(deal, today))
@@ -101,7 +101,7 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
     { stage: { id: deal.stage_id, name: deal.stage&.name, color: deal.stage&.color },
       assignee: deal.assignee && { id: deal.assignee.id, name: deal.assignee.available_name },
       contact_name: deal.display_contact_name, last_activity_at: deal.last_activity_at,
-      days_since_activity: SalesCrm::Metrics::DaysSinceActivity.call(deal, today: today),
+      days_since_activity: SalesCrm::Metrics::DaysSinceActivity.call(deal, zone: zone, today: today),
       days_overdue: days_overdue(deal, today) }
   end
 
@@ -146,7 +146,7 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
   def window_for(cell)
     first = [SalesCrm::Period.parse_date(cell[:from]) || period.first, period.first].max
     last = [SalesCrm::Period.parse_date(cell[:to]) || period.last, period.last].min
-    SalesCrm::Period.new(first, [last, first].max)
+    SalesCrm::Period.new(first, [last, first].max, zone)
   end
 
   # Charts over the period go by day, week (from Saturday) or month, depending on its length
@@ -176,7 +176,7 @@ class SalesCrm::Reports::Report < SalesCrm::Reports::Base
     end
   end
 
-  def riyadh_date(time) = time.in_time_zone(SalesCrm::Period.zone).to_date
+  def local_date(time) = time.in_time_zone(zone).to_date
 
   # A cell's managed-list values (product, lead source, competitor, industry, region): 'none' for deals without one
   LIST_COLUMNS = %i[product_id lead_source_id competitor_id industry_id region_id].freeze

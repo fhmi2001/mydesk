@@ -14,7 +14,7 @@ class SalesCrm::Reports::Stale < SalesCrm::Reports::Report
   def initialize(account:, user:, **filters)
     super
     @days = filters[:days].to_i.positive? ? filters[:days].to_i.clamp(1, 365) : account.crm_stale_days_value
-    @today = SalesCrm::Period.today
+    @today = today
   end
 
   def build
@@ -34,7 +34,7 @@ class SalesCrm::Reports::Stale < SalesCrm::Reports::Report
 
   def kind_scope(kind)
     open = deals.open
-    stale = SalesCrm::Metrics::DaysSinceActivity.stale(open, @days, today: @today)
+    stale = SalesCrm::Metrics::DaysSinceActivity.stale(open, @days, zone: zone, today: @today)
     overdue = open.where(close_date: ...@today)
     { 'stale' => stale, 'overdue' => overdue }.fetch(kind) { stale.or(overdue) }
   end

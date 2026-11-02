@@ -138,7 +138,7 @@ class SalesCrm::Reports::Spreadsheet
 
   def cell_value(key, value)
     return value.to_i / 100.0 if money?(key) && value
-    return value.in_time_zone(SalesCrm::Period.zone).strftime('%Y-%m-%d %H:%M') if value.is_a?(Time) || value.is_a?(ActiveSupport::TimeWithZone)
+    return value.in_time_zone(report.zone).strftime('%Y-%m-%d %H:%M') if value.is_a?(Time) || value.is_a?(ActiveSupport::TimeWithZone)
 
     named(key, value)
   end

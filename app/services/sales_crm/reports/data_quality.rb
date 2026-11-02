@@ -11,7 +11,7 @@ class SalesCrm::Reports::DataQuality < SalesCrm::Reports::Report
 
   def initialize(account:, user:, **filters)
     super
-    @today = SalesCrm::Period.today
+    @today = today
   end
 
   def build
@@ -43,7 +43,7 @@ class SalesCrm::Reports::DataQuality < SalesCrm::Reports::Report
 
   # Stale is the shared condition of Metrics::DaysSinceActivity (the report 3 counts the same deals)
   def issue_scope(issue)
-    return SalesCrm::Metrics::DaysSinceActivity.stale(deals, account.crm_stale_days_value, today: @today) if issue == 'stale'
+    return SalesCrm::Metrics::DaysSinceActivity.stale(deals, account.crm_stale_days_value, zone: zone, today: @today) if issue == 'stale'
 
     deals.open.where(*condition(issue))
   end

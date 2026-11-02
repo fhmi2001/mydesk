@@ -1,5 +1,9 @@
 // Custom (MyDesk): is the Sales CRM on for this account, my overdue tasks, and the account's CRM settings
 import { crmStatusAPI } from 'dashboard/api/crm';
+import {
+  DEFAULT_TIME_ZONE,
+  setSalesTimeZone,
+} from 'dashboard/routes/dashboard/crm/reports/periods';
 
 export const types = {
   SET: 'crm/status/SET',
@@ -14,7 +18,7 @@ const initialState = () => ({
   overdueCount: 0,
   settings: {
     default_currency: 'SAR',
-    timezone: 'Asia/Riyadh',
+    timezone: DEFAULT_TIME_ZONE,
   },
   uiFlags: { isFetching: false, hasFetched: false, isUnavailable: false },
 });
@@ -64,6 +68,8 @@ export const mutations = {
     _state.overdueCount = Number(data.overdue_count || 0);
     if (data.settings)
       _state.settings = { ..._state.settings, ...data.settings };
+    // The report shortcuts and the home screen count days in the account's time zone
+    setSalesTimeZone(_state.settings.timezone);
   },
   [types.SET_OVERDUE](_state, count) {
     _state.overdueCount = Number(count || 0);
@@ -73,6 +79,7 @@ export const mutations = {
   },
   [types.RESET](_state) {
     Object.assign(_state, initialState());
+    setSalesTimeZone(null);
   },
 };
 

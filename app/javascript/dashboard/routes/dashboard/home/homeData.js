@@ -7,7 +7,7 @@ import SummaryReportsAPI from 'dashboard/api/summaryReports';
 import LiveReportsAPI from 'dashboard/api/liveReports';
 import HomeAPI from 'dashboard/api/home';
 import { crmReportsAPI, crmTasksAPI } from 'dashboard/api/crm';
-import { periodRange, riyadhToday } from '../crm/reports/periods';
+import { dayBounds, periodRange, salesToday } from '../crm/reports/periods';
 import { forwardRange } from '../crm/reports/wave/reportCatalog';
 
 const pad = n => String(n).padStart(2, '0');
@@ -17,19 +17,10 @@ const iso = day =>
 // Deals closing from today through the next 7 days, across a month's end
 const CLOSING_DAYS = 7;
 const closingSoon = () => {
-  const today = riyadhToday();
+  const today = salesToday();
   const last = new Date(today);
   last.setDate(today.getDate() + CLOSING_DAYS);
   return { from: iso(today), to: iso(last) };
-};
-
-// A calendar day (as riyadhToday() gives it) from 00:00:00 to 23:59:59 in Riyadh (UTC+3, no daylight saving)
-export const riyadhDayBounds = day => {
-  const date = iso(day);
-  return {
-    since: Date.parse(`${date}T00:00:00+03:00`) / 1000,
-    until: Date.parse(`${date}T23:59:59+03:00`) / 1000,
-  };
 };
 
 const waitingConversations = assigneeType =>
@@ -65,7 +56,7 @@ const withSales = (crmEnabled, requests) =>
 // Last month from its first day to the same day as today (its last day when it is shorter): this month so far is
 // compared with that, not with the whole of last month
 const lastMonthSoFar = () => {
-  const today = riyadhToday();
+  const today = salesToday();
   const first = new Date(today.getFullYear(), today.getMonth() - 1, 1);
   const lastDay = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
   const same = new Date(
@@ -96,8 +87,8 @@ const weekBounds = today => {
   const first = new Date(today);
   first.setDate(today.getDate() - 6);
   return {
-    since: riyadhDayBounds(first).since,
-    until: riyadhDayBounds(today).until,
+    since: dayBounds(first).since,
+    until: dayBounds(today).until,
   };
 };
 
@@ -110,8 +101,8 @@ const daily = (metric, week) =>
   });
 
 export const loadManagerHome = ({ crmEnabled }) => {
-  const today = riyadhToday();
-  const todayBounds = riyadhDayBounds(today);
+  const today = salesToday();
+  const todayBounds = dayBounds(today);
   const week = weekBounds(today);
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
@@ -123,7 +114,7 @@ export const loadManagerHome = ({ crmEnabled }) => {
     summary: ReportsAPI.getSummary(todayBounds.since, todayBounds.until),
     // Yesterday up to this hour: today so far is compared with that, not with the whole of yesterday
     summarySoFar: ReportsAPI.getSummary(
-      riyadhDayBounds(yesterday).since,
+      dayBounds(yesterday).since,
       now - 86400
     ),
     traffic: daily('conversations_count', week),

@@ -1,11 +1,19 @@
-// Custom (MyDesk): the report period shortcuts, as YYYY-MM-DD. "Today" is the day in Riyadh, as the server counts
-// it (SalesCrm::Period), whatever the time zone of the device.
-export const RIYADH = 'Asia/Riyadh';
+// Custom (MyDesk): the report period shortcuts, as YYYY-MM-DD. "Today" is the day in the account's time zone (picked in
+// the general settings, Riyadh until then), as the server counts it (SalesCrm::Period), whatever the time zone of the
+// device. The CRM status (store/modules/crm/status.js) sets it once the server says which one it is.
+import { zonedTimeToUtc } from 'date-fns-tz';
 
-// The Riyadh calendar day of an instant, as a local Date at midnight (so getDate() and friends read Riyadh's day)
-export const riyadhToday = (instant = new Date()) => {
+export const DEFAULT_TIME_ZONE = 'Asia/Riyadh';
+let salesTimeZone = DEFAULT_TIME_ZONE;
+
+export const setSalesTimeZone = timeZone => {
+  salesTimeZone = timeZone || DEFAULT_TIME_ZONE;
+};
+
+// The calendar day of an instant in that time zone, as a local Date at midnight (so getDate() and friends read its day)
+export const salesToday = (instant = new Date()) => {
   const [year, month, day] = new Intl.DateTimeFormat('en-CA', {
-    timeZone: RIYADH,
+    timeZone: salesTimeZone,
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -21,7 +29,15 @@ const iso = d => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 
-export const periodRange = (period, now = riyadhToday()) => {
+// A calendar day (as salesToday() gives it) from 00:00:00 to 23:59:59 in that time zone, in epoch seconds
+export const dayBounds = day => {
+  const date = iso(day);
+  const seconds = time =>
+    zonedTimeToUtc(`${date}T${time}`, salesTimeZone).getTime() / 1000;
+  return { since: seconds('00:00:00'), until: seconds('23:59:59') };
+};
+
+export const periodRange = (period, now = salesToday()) => {
   const to = iso(now);
   const start = new Date(now);
   switch (period) {

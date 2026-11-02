@@ -4,7 +4,9 @@ require 'rails_helper'
 
 RSpec.describe 'Sales CRM visibility', type: :request do # -- request spec across controllers
   let(:account) { create(:account) }
-  let(:period) { { from: Date.current.beginning_of_month.iso8601, to: Date.current.iso8601 } }
+  # The account's day, not the UTC one: between midnight and 03:00 in Riyadh they differ
+  let(:today) { SalesCrm::Period.today(SalesCrm::TimeZone.for(account)) }
+  let(:period) { { from: today.beginning_of_month.iso8601, to: today.iso8601 } }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:colleague) { create(:user, account: account, role: :agent) }

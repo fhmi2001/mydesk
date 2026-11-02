@@ -46,7 +46,7 @@ class SalesCrm::Reports::WonLost < SalesCrm::Reports::Report
     sums = Hash.new { |h, k| h[k] = EMPTY_BUCKET.dup }
     STATUSES.each do |status|
       closed(status, period).pluck(:"#{status}_at", :amount_cents).each do |at, cents|
-        bucket = sums[bucket_start(at.in_time_zone(SalesCrm::Period.zone).to_date)]
+        bucket = sums[bucket_start(local_date(at))]
         bucket[:"#{status}_count"] += 1
         bucket[:"#{status}_cents"] += cents
       end

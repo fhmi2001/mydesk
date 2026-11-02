@@ -46,7 +46,7 @@ class SalesCrm::Reports::NewDeals < SalesCrm::Reports::Report
 
   def buckets
     sums = created(period).pluck(:created_at, :amount_cents).each_with_object(Hash.new { |h, k| h[k] = [0, 0] }) do |(at, cents), acc|
-      bucket = acc[bucket_start(riyadh_date(at))]
+      bucket = acc[bucket_start(local_date(at))]
       bucket[0] += 1
       bucket[1] += cents
     end
