@@ -72,11 +72,4 @@ describe('AttentionList counts', () => {
     ]);
     expect(wrapper.text()).toContain('HOME.LINES.UNASSIGNED.other');
   });
-
-  it('says "more than" when only a full page was read', () => {
-    const wrapper = mountLines([
-      { kind: 'waiting_long', count: 25, data: { count: 25, more: true } },
-    ]);
-    expect(wrapper.text()).toContain('HOME.LINES.WAITING_LONG_MORE');
-  });
 });

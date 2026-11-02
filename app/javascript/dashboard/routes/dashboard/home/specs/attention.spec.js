@@ -3,8 +3,6 @@ import {
   managerItems,
   agentTargetRate,
   MAX_ITEMS,
-  PAGE_SIZE,
-  lateCount,
 } from '../attention';
 
 const now = new Date('2026-11-01T09:00:00Z');
@@ -138,23 +136,5 @@ describe('agentTargetRate', () => {
     expect(
       agentTargetRate({ totals: { target_cents: 10000, attainment: 62 } })
     ).toBe(62);
-  });
-});
-
-describe('lateCount', () => {
-  it('counts the conversations waiting an hour or more', () => {
-    expect(
-      lateCount(
-        [conversation(1, 90), conversation(2, 30), conversation(3, 0)],
-        now
-      )
-    ).toEqual({ count: 1, more: false });
-  });
-
-  it('says there may be more when a full page is all late', () => {
-    const page = Array.from({ length: PAGE_SIZE }, (_, i) =>
-      conversation(i + 1, 120)
-    );
-    expect(lateCount(page, now)).toEqual({ count: PAGE_SIZE, more: true });
   });
 });

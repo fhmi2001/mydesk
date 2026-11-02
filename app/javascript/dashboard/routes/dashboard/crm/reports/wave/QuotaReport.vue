@@ -134,11 +134,15 @@ const assigneeColumns = computed(() => [
           vector-effect="non-scaling-stroke"
         />
       </svg>
+      <!-- The line runs left to right in time, in RTL too: its dates follow it -->
       <div
+        dir="ltr"
         class="flex flex-wrap items-center justify-between gap-3 mt-2 text-label-small text-n-slate-11"
       >
-        <span class="tabular-nums">{{ firstDay && date(firstDay) }}</span>
-        <span class="inline-flex items-center gap-4">
+        <span class="tabular-nums" dir="auto">{{
+          firstDay && date(firstDay)
+        }}</span>
+        <span class="inline-flex items-center gap-4" dir="auto">
           <span class="inline-flex items-center gap-1.5">
             <span
               class="w-4 h-0.5"
@@ -155,7 +159,9 @@ const assigneeColumns = computed(() => [
             {{ L('TARGET_PACE') }}
           </span>
         </span>
-        <span class="tabular-nums">{{ lastDay && date(lastDay) }}</span>
+        <span class="tabular-nums" dir="auto">{{
+          lastDay && date(lastDay)
+        }}</span>
       </div>
     </ReportSection>
 

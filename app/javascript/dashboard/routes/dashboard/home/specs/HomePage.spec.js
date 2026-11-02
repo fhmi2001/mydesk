@@ -182,3 +182,16 @@ describe('HomePage numbers in one place', () => {
     expect(strip.text()).toContain('HOME.TILES.MY_TARGET');
   });
 });
+
+describe('HomePage late conversations', () => {
+  it("words the server's count of conversations waiting over an hour", async () => {
+    role.value = 'administrator';
+    loadManagerHome.mockResolvedValue({
+      meta: { meta: { unassigned_count: 0 } },
+      waiting: { late_count: 3 },
+    });
+    const wrapper = mountPage();
+    await flushPromises();
+    expect(wrapper.text()).toContain('HOME.LINES.WAITING_LONG.other');
+  });
+});

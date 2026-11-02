@@ -71,10 +71,7 @@ const ROWS = {
     to: accountScopedRoute('home', {}, { assignee: 'unassigned' }),
   }),
   waiting_long: l => ({
-    // Only the first page of conversations is read: a full page all late says "more than 25"
-    text: l.data.more
-      ? t('HOME.LINES.WAITING_LONG_MORE', { count: number(l.count) })
-      : plural('HOME.LINES.WAITING_LONG', l.count),
+    text: plural('HOME.LINES.WAITING_LONG', l.count),
     to: accountScopedRoute('home', {}, { assignee: 'all' }),
   }),
   leak: l => ({

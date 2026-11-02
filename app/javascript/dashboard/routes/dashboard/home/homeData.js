@@ -5,6 +5,7 @@ import ReportsAPI from 'dashboard/api/reports';
 import CSATReportsAPI from 'dashboard/api/csatReports';
 import SummaryReportsAPI from 'dashboard/api/summaryReports';
 import LiveReportsAPI from 'dashboard/api/liveReports';
+import HomeAPI from 'dashboard/api/home';
 import { crmReportsAPI, crmTasksAPI } from 'dashboard/api/crm';
 import { periodRange, riyadhToday } from '../crm/reports/periods';
 import { forwardRange } from '../crm/reports/wave/reportCatalog';
@@ -61,6 +62,20 @@ const withSales = (crmEnabled, requests) =>
     ])
   );
 
+// Last month from its first day to the same day as today (its last day when it is shorter): this month so far is
+// compared with that, not with the whole of last month
+const lastMonthSoFar = () => {
+  const today = riyadhToday();
+  const first = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const lastDay = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+  const same = new Date(
+    first.getFullYear(),
+    first.getMonth(),
+    Math.min(today.getDate(), lastDay)
+  );
+  return { from: iso(first), to: iso(same) };
+};
+
 // The support reports are the manager's only (ReportPolicy): an employee's home asks for none of them. The pipeline
 // report is the employee's own deals, the team's for a manager.
 export const loadAgentHome = ({ crmEnabled }) =>
@@ -71,6 +86,7 @@ export const loadAgentHome = ({ crmEnabled }) =>
       tasks: () => crmReportsAPI.report('my_tasks', periodRange('month')),
       deals: () => crmReportsAPI.report('closing', closingSoon()),
       quota: () => crmReportsAPI.report('quota', forwardRange('month')),
+      quotaSoFar: () => crmReportsAPI.report('quota', lastMonthSoFar()),
       pipeline: () => crmReportsAPI.report('pipeline_by_stage', {}),
     }),
   });
@@ -97,11 +113,19 @@ export const loadManagerHome = ({ crmEnabled }) => {
   const today = riyadhToday();
   const todayBounds = riyadhDayBounds(today);
   const week = weekBounds(today);
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  const now = Math.floor(Date.now() / 1000);
   return settle({
     meta: ConversationAPI.meta({ status: 'open' }),
-    waiting: waitingConversations('all'),
-    // Carries yesterday's figures too, as `previous`
+    // Counted on the server: the late conversations themselves are not needed
+    waiting: HomeAPI.waiting(),
     summary: ReportsAPI.getSummary(todayBounds.since, todayBounds.until),
+    // Yesterday up to this hour: today so far is compared with that, not with the whole of yesterday
+    summarySoFar: ReportsAPI.getSummary(
+      riyadhDayBounds(yesterday).since,
+      now - 86400
+    ),
     traffic: daily('conversations_count', week),
     responseTrend: daily('avg_first_response_time', week),
     channels: SummaryReportsAPI.getInboxReports(week),
@@ -112,6 +136,7 @@ export const loadManagerHome = ({ crmEnabled }) => {
     }),
     ...withSales(crmEnabled, {
       quota: () => crmReportsAPI.report('quota', forwardRange('month')),
+      quotaSoFar: () => crmReportsAPI.report('quota', lastMonthSoFar()),
       forecast: () => crmReportsAPI.report('forecast', forwardRange('month')),
       conversion: () =>
         crmReportsAPI.report('conversion', periodRange('last_30')),

@@ -19,6 +19,8 @@ import {
   loadRows,
   stageRows,
   gapsWhereNone,
+  dayLabel,
+  isOverloaded,
 } from './charts';
 
 const props = defineProps({
@@ -50,7 +52,7 @@ const weekday = at =>
 // 2. New conversations a day
 const traffic = computed(() => dailySeries(d('traffic')));
 const trafficChart = computed(() => ({
-  categories: traffic.value.map(day => weekday(day.at)),
+  categories: traffic.value.map(day => dayLabel(day.at)),
   series: [
     {
       id: 'conversations',
@@ -135,6 +137,13 @@ const monthEnd = computed(() => d('quota')?.cumulative?.at(-1)?.date);
 const stages = computed(() => stageRows(d('pipeline')));
 const channels = computed(() => channelRows(d('channels'), inboxes.value));
 const load = computed(() => loadRows(d('load'), agents.value));
+// Amber only for an agent holding twice the team's average or more
+const overloaded = row => isOverloaded(load.value)(row);
+// The word says it too, not the colour alone
+const loadLabel = row =>
+  overloaded(row)
+    ? t('HOME.CHARTS.OVERLOADED', { count: number(row.value) })
+    : number(row.value);
 
 const failed = key => !d(key);
 </script>
@@ -170,6 +179,7 @@ const failed = key => !d(key);
           :end="response.at(-1) && date(response.at(-1).at.toISOString())"
           :aria-label="t('HOME.CHARTS.RESPONSE')"
           :table="responseTable"
+          :format="value => t('HOME.MINUTES', { count: number(value) })"
         />
       </ChartCard>
     </template>
@@ -188,6 +198,7 @@ const failed = key => !d(key);
           :end="monthEnd && date(monthEnd)"
           :aria-label="t('HOME.CHARTS.WON_VS_TARGET')"
           :table="wonTable"
+          :format="value => compactMoney(value, currency)"
         />
       </ChartCard>
       <ChartCard
@@ -227,8 +238,11 @@ const failed = key => !d(key);
       >
         <BarRows
           :rows="load"
-          :label="row => number(row.value)"
-          :bar-class="COLORS.warn.bar"
+          :label="loadLabel"
+          :bar-class="COLORS.neutral.bar"
+          :bar-class-for="
+            row => (overloaded(row) ? COLORS.warn.bar : COLORS.neutral.bar)
+          "
           :no-name="t('CRM.COMMON.UNASSIGNED')"
         />
       </ChartCard>

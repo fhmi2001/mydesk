@@ -94,8 +94,7 @@
         "many": "{count} مهمة متأخرة لدى الفريق",
         "other": "{count} مهمة متأخرة لدى الفريق"
       },
-      "MOST": "{name}: {count}",
-      "WAITING_LONG_MORE": "أكثر من {count} محادثة تجاوزت ساعة دون رد"
+      "MOST": "{name}: {count}"
     },
     "HOURS": "{count} س",
     "KPI": {
@@ -119,7 +118,8 @@
       "LOAD": "المحادثات المفتوحة لكل موظف الآن",
       "NO_INBOX": "قناة محذوفة",
       "EMPTY": "لا بيانات بعد",
-      "DAY": "اليوم"
+      "DAY": "اليوم",
+      "OVERLOADED": "{count} · مُثقَل"
     },
     "WAITED_LATE": "{time} · متأخرة"
   }

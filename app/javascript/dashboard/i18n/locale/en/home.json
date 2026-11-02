@@ -66,8 +66,7 @@
         "one": "1 late task across the team",
         "other": "{count} late tasks across the team"
       },
-      "MOST": "{name}: {count}",
-      "WAITING_LONG_MORE": "More than {count} conversations waiting over an hour"
+      "MOST": "{name}: {count}"
     },
     "HOURS": "{count}h",
     "KPI": {
@@ -91,7 +90,8 @@
       "LOAD": "Open conversations per agent now",
       "NO_INBOX": "Deleted inbox",
       "EMPTY": "No data yet",
-      "DAY": "Day"
+      "DAY": "Day",
+      "OVERLOADED": "{count} · overloaded"
     },
     "WAITED_LATE": "{time} · late"
   }

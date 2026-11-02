@@ -7,6 +7,8 @@ import {
   channelRows,
   loadRows,
   stageRows,
+  dayLabel,
+  isOverloaded,
 } from '../charts';
 
 describe('dailySeries', () => {
@@ -129,8 +131,8 @@ describe('stageRows', () => {
         ],
       })
     ).toEqual([
-      { id: 1, name: 'Lead · B2B', value: 500, count: 2 },
-      { id: 3, name: 'Lead · Retail', value: 100, count: 1 },
+      { id: 1, name: 'Lead', sub: 'B2B', value: 500, count: 2 },
+      { id: 3, name: 'Lead', sub: 'Retail', value: 100, count: 1 },
     ]);
   });
 
@@ -147,7 +149,7 @@ describe('stageRows', () => {
           },
         ],
       })
-    ).toEqual([{ id: 1, name: 'Lead', value: 500, count: 2 }]);
+    ).toEqual([{ id: 1, name: 'Lead', sub: '', value: 500, count: 2 }]);
   });
 });
 
@@ -168,5 +170,32 @@ describe('lineSegments', () => {
 describe('gapsWhereNone', () => {
   it('leaves out a day with no conversations, whose average means nothing', () => {
     expect(gapsWhereNone([5, 0, 7], [3, 0, 2])).toEqual([5, null, 7]);
+  });
+});
+
+describe('dayLabel', () => {
+  it('is the day and month, short enough for seven bars on a phone', () => {
+    expect(dayLabel(new Date(2026, 9, 27))).toBe('27/10');
+    expect(dayLabel(new Date(2026, 10, 2))).toBe('2/11');
+  });
+});
+
+describe('isOverloaded', () => {
+  const rows = [
+    { id: 1, value: 16 },
+    { id: 2, value: 4 },
+    { id: 3, value: 4 },
+  ];
+
+  it('flags an agent holding twice the team average or more', () => {
+    // average 8: 16 is twice it
+    expect(isOverloaded(rows)(rows[0])).toBe(true);
+    expect(isOverloaded(rows)(rows[1])).toBe(false);
+  });
+
+  it('flags no one in a team of one', () => {
+    expect(isOverloaded([{ id: 1, value: 9 }])({ id: 1, value: 9 })).toBe(
+      false
+    );
   });
 });

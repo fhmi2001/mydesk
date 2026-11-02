@@ -1,7 +1,8 @@
 <script setup>
 // Custom (MyDesk): one or two lines over a period (charts.js lineSegments), as the quota report draws its own: lines
 // [{ id, label, values, color, dashed }], the dates at both ends, and a legend. A missing value leaves a gap (a lone
-// point is a dot); `table` ({ headers, rows }) gives screen readers the values the picture shows.
+// point is a dot); `table` ({ headers, rows }) gives screen readers the values the picture shows. With `format`, the top
+// of the scale shows above the line and each line's latest value beside its legend.
 import { computed } from 'vue';
 import { lineSegments } from './charts';
 
@@ -12,10 +13,16 @@ const props = defineProps({
   end: { type: String, default: '' },
   ariaLabel: { type: String, required: true },
   table: { type: Object, required: true },
+  format: { type: Function, default: null },
 });
 
 const W = 300;
 const H = 100;
+
+const latest = line => {
+  const known = line.values.filter(v => v !== null && v !== undefined);
+  return known.length ? props.format(known.at(-1)) : '';
+};
 
 const drawn = computed(() =>
   props.lines.flatMap(line =>
@@ -33,12 +40,32 @@ const drawn = computed(() =>
 
 <template>
   <div>
+    <div v-if="format" dir="ltr" aria-hidden="true" class="flex">
+      <span
+        data-testid="trend-max"
+        class="text-label-small tabular-nums text-n-slate-11"
+        dir="auto"
+      >
+        {{ format(max) }}
+      </span>
+    </div>
     <svg
       :viewBox="`0 -6 ${W} ${H + 12}`"
       class="w-full h-36"
       preserveAspectRatio="none"
       aria-hidden="true"
     >
+      <!-- The top of the scale -->
+      <line
+        v-if="format"
+        x1="0"
+        :x2="W"
+        y1="0"
+        y2="0"
+        stroke="rgb(var(--slate-6))"
+        stroke-dasharray="2 4"
+        vector-effect="non-scaling-stroke"
+      />
       <template v-for="segment in drawn" :key="segment.key">
         <circle
           v-if="segment.dot"
@@ -78,15 +105,19 @@ const drawn = computed(() =>
         </tr>
       </tbody>
     </table>
+    <!-- The line runs left to right in time (as the bar charts do), in RTL too: its dates follow it -->
     <div
+      data-testid="trend-axis"
+      dir="ltr"
       class="flex flex-wrap items-center justify-between gap-3 mt-2 text-label-small text-n-slate-11"
       aria-hidden="true"
     >
-      <span class="tabular-nums">{{ start }}</span>
+      <span class="tabular-nums" dir="auto">{{ start }}</span>
       <span class="flex flex-wrap gap-3">
         <span
           v-for="line in lines"
           :key="line.id"
+          dir="auto"
           class="flex items-center gap-1"
         >
           <span
@@ -94,9 +125,12 @@ const drawn = computed(() =>
             :style="{ background: line.color }"
           />
           {{ line.label }}
+          <bdi v-if="format && latest(line)" class="tabular-nums">
+            {{ `· ${latest(line)}` }}
+          </bdi>
         </span>
       </span>
-      <span class="tabular-nums">{{ end }}</span>
+      <span class="tabular-nums" dir="auto">{{ end }}</span>
     </div>
   </div>
 </template>

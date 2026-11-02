@@ -4,8 +4,6 @@
 export const MAX_ITEMS = 8;
 // A conversation waiting this long is late
 export const LATE_MINUTES = 60;
-// The conversations list's page size (CONVERSATION_RESULTS_PER_PAGE): the home screen reads only the first page
-export const PAGE_SIZE = 25;
 
 const RANK = { task_overdue: 0, conversation: 1, task_today: 2, deal: 3 };
 
@@ -83,16 +81,3 @@ export const managerItems = ({
 // The employee's attainment of this month's target, in percent (the quota report is already their own); null without one
 export const agentTargetRate = quota =>
   quota?.totals?.target_cents > 0 ? quota.totals.attainment : null;
-
-// How many of the first page of open conversations (longest wait first) have waited LATE_MINUTES or more. A full page
-// that is all late may hide more: `more` says so.
-export const lateCount = (conversations, now = new Date()) => {
-  const cutoff = now.getTime() / 1000 - LATE_MINUTES * 60;
-  const count = conversations.filter(
-    c => c.waiting_since && c.waiting_since <= cutoff
-  ).length;
-  return {
-    count,
-    more: conversations.length >= PAGE_SIZE && count === conversations.length,
-  };
-};

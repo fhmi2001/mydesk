@@ -60,7 +60,8 @@ export const loadRows = (grouped, agents) => {
   );
 };
 
-// The open deals' value in each stage; the pipeline's name joins the stage's when there are several pipelines
+// The open deals' value in each stage; with several pipelines, each row also names its pipeline (`sub`, shown under
+// the stage, so two stages of the same name stay apart on a narrow screen)
 export const stageRows = report => {
   const rows = report?.rows || [];
   const pipelines = new Set(rows.map(row => row.pipeline_name)).size;
@@ -68,7 +69,8 @@ export const stageRows = report => {
     .filter(row => row.count > 0)
     .map(row => ({
       id: row.stage_id,
-      name: pipelines > 1 ? `${row.name} · ${row.pipeline_name}` : row.name,
+      name: row.name,
+      sub: pipelines > 1 ? row.pipeline_name : '',
       value: row.total_cents,
       count: row.count,
     }));
@@ -93,3 +95,12 @@ export const lineSegments = (values, { width, height, max }) => {
 // An average per day (first response) is null on the days with no conversations
 export const gapsWhereNone = (averages, counts) =>
   averages.map((value, i) => (counts[i] ? value : null));
+
+// A bar chart's day: day/month, short enough for seven bars on a phone (a weekday name gets cut)
+export const dayLabel = at => `${at.getDate()}/${at.getMonth() + 1}`;
+
+// Whether an agent's open conversations are twice the team's average or more: only they get the warning colour
+export const isOverloaded = rows => {
+  const average = rows.reduce((sum, row) => sum + row.value, 0) / rows.length;
+  return row => rows.length > 1 && row.value >= 2 * average;
+};

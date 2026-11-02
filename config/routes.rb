@@ -442,6 +442,10 @@ Rails.application.routes.draw do
           end
 
           # Custom (MyDesk): WhatsApp Web (QR) channel through the Evolution API gateway
+          # Custom (MyDesk): the home screen's count of conversations waiting an hour or more
+          resource :home, controller: 'home', only: [] do
+            get :waiting
+          end
           resource :whatsapp_web, controller: 'whatsapp_web', only: [:show, :create] do
             get 'inboxes/:inbox_id/connection', action: :connection
             delete 'inboxes/:inbox_id/connection', action: :logout

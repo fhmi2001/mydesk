@@ -1,11 +1,14 @@
 <script setup>
-// Custom (MyDesk): ranked horizontal bars (charts.js rows: { id, name, value }); `label` is the text beside each bar
+// Custom (MyDesk): ranked horizontal bars (charts.js rows: { id, name, sub?, value }); `label` is the text beside each
+// bar. `sub` (a stage's pipeline) shows under the name; `barClassFor(row)` colours a bar by its own rule (the load
+// chart's amber only for the overloaded).
 import { computed } from 'vue';
 
 const props = defineProps({
   rows: { type: Array, required: true },
   label: { type: Function, required: true },
   barClass: { type: String, required: true },
+  barClassFor: { type: Function, default: null },
   noName: { type: String, required: true },
 });
 
@@ -14,7 +17,9 @@ const bars = computed(() => {
   return props.rows.map(row => ({
     id: row.id,
     name: row.name || props.noName,
+    sub: row.sub || '',
     text: props.label(row),
+    fill: props.barClassFor ? props.barClassFor(row) : props.barClass,
     width: `${(row.value / max) * 100}%`,
   }));
 });
@@ -25,15 +30,24 @@ const bars = computed(() => {
     <li
       v-for="bar in bars"
       :key="bar.id"
-      class="grid items-center grid-cols-[7rem_1fr_auto] gap-3"
+      class="grid items-center grid-cols-[minmax(0,9rem)_1fr_auto] gap-3"
     >
-      <span class="truncate text-body-main text-n-slate-12">{{
-        bar.name
-      }}</span>
+      <span class="flex flex-col min-w-0">
+        <span
+          class="text-body-main text-n-slate-12 line-clamp-2"
+          :title="bar.name"
+        >
+          {{ bar.name }}
+        </span>
+        <span v-if="bar.sub" class="truncate text-label-small text-n-slate-11">
+          {{ bar.sub }}
+        </span>
+      </span>
       <span class="h-2 overflow-hidden rounded-full bg-n-alpha-2">
         <span
+          data-testid="bar-fill"
           class="block h-full rounded-full"
-          :class="barClass"
+          :class="bar.fill"
           :style="{ width: bar.width }"
         />
       </span>

@@ -3,6 +3,7 @@ import ReportsAPI from 'dashboard/api/reports';
 import CSATReportsAPI from 'dashboard/api/csatReports';
 import SummaryReportsAPI from 'dashboard/api/summaryReports';
 import LiveReportsAPI from 'dashboard/api/liveReports';
+import HomeAPI from 'dashboard/api/home';
 import { crmReportsAPI, crmTasksAPI } from 'dashboard/api/crm';
 import { riyadhDayBounds, loadAgentHome, loadManagerHome } from '../homeData';
 
@@ -14,6 +15,9 @@ vi.mock('dashboard/api/reports', () => ({
 }));
 vi.mock('dashboard/api/summaryReports', () => ({
   default: { getInboxReports: vi.fn() },
+}));
+vi.mock('dashboard/api/home', () => ({
+  default: { waiting: vi.fn() },
 }));
 vi.mock('dashboard/api/liveReports', () => ({
   default: { getGroupedConversations: vi.fn() },
@@ -41,6 +45,7 @@ beforeEach(() => {
   ReportsAPI.getReports.mockImplementation(() => ok([]));
   SummaryReportsAPI.getInboxReports.mockImplementation(() => ok([]));
   LiveReportsAPI.getGroupedConversations.mockImplementation(() => ok([]));
+  HomeAPI.waiting.mockImplementation(() => ok({ late_count: 0 }));
 });
 
 describe('the charts', () => {
@@ -109,15 +114,11 @@ describe('loadManagerHome', () => {
     expect(data.quota).toEqual({ key: 'quota' });
   });
 
-  it('asks for every open conversation by longest wait', async () => {
-    await loadManagerHome({ crmEnabled: false });
-    expect(ConversationAPI.get).toHaveBeenCalledWith(
-      expect.objectContaining({
-        status: 'open',
-        assigneeType: 'all',
-        sortBy: 'waiting_since_asc',
-      })
-    );
+  it('counts the late conversations on the server, without loading them', async () => {
+    const data = await loadManagerHome({ crmEnabled: false });
+    expect(HomeAPI.waiting).toHaveBeenCalled();
+    expect(ConversationAPI.get).not.toHaveBeenCalled();
+    expect(data.waiting).toEqual({ late_count: 0 });
   });
 });
 
@@ -153,6 +154,34 @@ describe('the deals closing soon', () => {
     expect(crmReportsAPI.report).toHaveBeenCalledWith('closing', {
       from: '2026-10-28',
       to: '2026-11-04',
+    });
+  });
+});
+
+describe('like-for-like comparisons', () => {
+  afterEach(() => vi.useRealTimers());
+
+  it('asks for yesterday up to this hour, and last month up to this day', async () => {
+    vi.useFakeTimers();
+    // 12:00 in Riyadh on 2 November
+    vi.setSystemTime(new Date('2026-11-02T09:00:00Z'));
+    const data = await loadManagerHome({ crmEnabled: true });
+    expect(ReportsAPI.getSummary).toHaveBeenCalledWith(1793480400, 1793523600);
+    expect(crmReportsAPI.report).toHaveBeenCalledWith('quota', {
+      from: '2026-10-01',
+      to: '2026-10-02',
+    });
+    expect(data).toHaveProperty('summarySoFar');
+    expect(data).toHaveProperty('quotaSoFar');
+  });
+
+  it("asks the employee's own last month up to this day", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-11-02T09:00:00Z'));
+    await loadAgentHome({ crmEnabled: true });
+    expect(crmReportsAPI.report).toHaveBeenCalledWith('quota', {
+      from: '2026-10-01',
+      to: '2026-10-02',
     });
   });
 });

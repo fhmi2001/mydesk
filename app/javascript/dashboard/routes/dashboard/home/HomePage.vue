@@ -9,19 +9,14 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import NumberTile from '../crm/reports/wave/NumberTile.vue';
 import { findLeak } from '../crm/reports/wave/leak';
-import { deltaFor } from '../crm/reports/summaryDelta';
+import { compareKpi } from './kpi';
 import { useCrmFormat } from '../crm/shared/useCrmFormat';
 import ActionBar from './ActionBar.vue';
 import AttentionList from './AttentionList.vue';
 import TeamBars from './TeamBars.vue';
 import HomeCharts from './HomeCharts.vue';
 import { loadAgentHome, loadManagerHome } from './homeData';
-import {
-  agentItems,
-  managerItems,
-  agentTargetRate,
-  lateCount,
-} from './attention';
+import { agentItems, managerItems, agentTargetRate } from './attention';
 
 const { t } = useI18n();
 const store = useStore();
@@ -103,7 +98,8 @@ const lines = computed(() => {
     Object.entries(byName).sort((a, b) => b[1] - a[1])[0] || [];
   return managerItems({
     unassigned: d('meta') ? { count: meta.value.unassigned_count } : null,
-    waitingLong: d('waiting') ? lateCount(payload('waiting')) : null,
+    // Counted on the server (HomeController#waiting)
+    waitingLong: d('waiting') ? { count: d('waiting').late_count } : null,
     leak: leak ? { name: leak.name, rate: leak.rate } : null,
     stale: stale ? { count: stale.count, amount: stale.total_cents } : null,
     lateTasks: tasks ? { count: tasks.total, topName, topCount } : null,
@@ -131,26 +127,30 @@ const satisfaction = computed(() => {
     : '—';
 });
 
-// The numbers strip, every number of the screen in one place: today against yesterday (the summary carries it as
-// `previous`), the month against the last
+// The numbers strip, every number of the screen in one place: today against yesterday up to the same hour, the month
+// against last month up to the same day (kpi.js)
 const duration = seconds => {
   if (!seconds) return '—';
   return seconds < 3600
     ? t('HOME.MINUTES', { count: number(Math.round(seconds / 60)) })
     : t('HOME.HOURS', { count: number(Math.round(seconds / 360) / 10) });
 };
-const summaryKpi = (key, label, format, lowerIsBetter = false) => {
+// average: an average (a time) rather than a count; a slower one is worse
+const summaryKpi = (key, label, format, average = false) => {
   const summary = d('summary');
   if (!summary) return { key, label, value: LOAD_FAILED };
+  const current = Number(summary[key]) || 0;
+  const soFar = d('summarySoFar');
   return {
     key,
     label,
-    value: format(Number(summary[key]) || 0),
-    delta: deltaFor(
-      Number(summary[key]) || 0,
-      Number(summary.previous?.[key]) || 0,
-      lowerIsBetter
-    ),
+    value: format(current),
+    delta: soFar
+      ? compareKpi(current, Number(soFar[key]) || 0, {
+          average,
+          lowerIsBetter: average,
+        })
+      : null,
   };
 };
 const salesKpis = () => {
@@ -176,12 +176,10 @@ const salesKpis = () => {
       value: quota
         ? compactMoney(quota.totals.won_cents, currency.value)
         : LOAD_FAILED,
-      delta: quota
-        ? deltaFor(
-            quota.totals.won_cents,
-            quota.previous_totals?.won_cents ?? null
-          )
-        : null,
+      delta:
+        quota && d('quotaSoFar')
+          ? compareKpi(quota.totals.won_cents, d('quotaSoFar').totals.won_cents)
+          : null,
     },
     {
       key: 'pipeline',
