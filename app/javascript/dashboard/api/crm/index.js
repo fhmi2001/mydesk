@@ -60,6 +60,13 @@ class CrmDealsAPI extends ApiClient {
     return axios.post(`${this.url}/${id}/restore`);
   }
 
+  // Follow the deal in another conversation of its customer, by display id
+  linkConversation(id, conversationId) {
+    return axios.post(`${this.url}/${id}/link_conversation`, {
+      conversation_id: conversationId,
+    });
+  }
+
   notes(id) {
     return axios.get(`${this.url}/${id}/notes`);
   }
@@ -114,6 +121,39 @@ class CrmContactSummaryAPI extends ApiClient {
 
   get(contactId) {
     return axios.get(`${this.url}/${contactId}/summary`);
+  }
+}
+
+// What the Sales section knows about one conversation, by its display id (lead source of its inbox, ...)
+class CrmConversationsAPI extends ApiClient {
+  constructor() {
+    super('crm/conversations', { accountScoped: true });
+  }
+
+  // A draft the employee edits; nothing is saved by it
+  summary(id) {
+    return axios.post(`${this.url}/${id}/summary`);
+  }
+}
+
+// The deal badges of the conversation cards, for up to 100 contacts at once
+class CrmContactBadgesAPI extends ApiClient {
+  constructor() {
+    super('crm/contact_badges', { accountScoped: true });
+  }
+
+  get(contactIds) {
+    return axios.get(this.url, { params: { contact_ids: contactIds } });
+  }
+}
+
+class CrmSuggestionsAPI extends ApiClient {
+  constructor() {
+    super('crm/suggestions', { accountScoped: true });
+  }
+
+  dismiss(id) {
+    return axios.post(`${this.url}/${id}/dismiss`);
   }
 }
 
@@ -251,6 +291,9 @@ export const crmPipelinesAPI = new CrmPipelinesAPI();
 export const crmDealsAPI = new CrmDealsAPI();
 export const crmTasksAPI = new CrmTasksAPI();
 export const crmContactSummaryAPI = new CrmContactSummaryAPI();
+export const crmConversationsAPI = new CrmConversationsAPI();
+export const crmSuggestionsAPI = new CrmSuggestionsAPI();
+export const crmContactBadgesAPI = new CrmContactBadgesAPI();
 export const crmReportsAPI = new CrmReportsAPI();
 export const crmSettingsAPI = new CrmSettingsAPI();
 export const crmLostReasonsAPI = new CrmLostReasonsAPI();

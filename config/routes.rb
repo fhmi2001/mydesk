@@ -524,6 +524,7 @@ Rails.application.routes.draw do
                 patch :move
                 post :reopen
                 post :restore
+                post :link_conversation
               end
               resources :notes, controller: 'deal_notes', only: [:index, :create, :destroy]
               get :activities, to: 'deal_notes#activities'
@@ -535,6 +536,13 @@ Rails.application.routes.draw do
               end
             end
             get 'contacts/:contact_id/summary', to: 'contact_summaries#show'
+            resources :contact_badges, only: [:index]
+            resources :conversations, only: [:show] do
+              post :summary, on: :member
+            end
+            resources :suggestions, only: [] do
+              post :dismiss, on: :member
+            end
             scope :reports, controller: 'reports' do
               get :summary
               get :funnel

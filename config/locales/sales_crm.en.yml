@@ -25,6 +25,11 @@ en:
       invalid_followup_days: The silent days before a follow-up are a number from 1 to 30
       invalid_attribution_days: The SMS campaign window is a number of days from 1 to 90
       invalid_channel_source: Pick a lead source from the list for an inbox of this account
+      ai_not_configured: The summary needs the smart assistant, which is not set up on this platform yet
+      ai_limit_reached: This month's Sales requests to the assistant are used up; they renew on %{date}
+      conversation_empty: This conversation has no messages to summarize
+      too_many_contacts: At most %{count} contacts per request
+      conversation_of_another_contact: This conversation is not with this deal's customer
       not_closed: The deal is already open
       invalid_amount: The amount is not a valid number
       invalid_currency: Unsupported currency

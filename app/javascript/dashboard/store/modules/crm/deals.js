@@ -1,6 +1,7 @@
 // Custom (MyDesk): the deals board. Moves are optimistic: the card jumps at once and snaps back if the
 // server refuses (no lost reason, stale version, outage).
 import { crmDealsAPI } from 'dashboard/api/crm';
+import { refreshBadges } from 'dashboard/routes/dashboard/conversation/crm/dealBadges';
 
 export const types = {
   SET_BOARD: 'crm/deals/SET_BOARD',
@@ -259,8 +260,9 @@ export const actions = {
     }
   },
 
-  // ActionCable: another agent changed something
+  // ActionCable: another agent changed something. The conversation cards' deal badges follow it too.
   onRemoteChange({ dispatch, state: _state }, payload) {
+    refreshBadges();
     if (!_state.uiFlags.hasFetched) return;
     if (
       payload.pipeline_id &&

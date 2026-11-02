@@ -1,7 +1,7 @@
 # Custom (MyDesk): deals: the board / table, one deal, create, edit, move, reopen, delete, restore, forecast
 class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseController
   before_action :set_pipeline, only: [:index, :forecast]
-  before_action :set_deal, only: [:show, :update, :move, :reopen, :destroy]
+  before_action :set_deal, only: [:show, :update, :move, :reopen, :destroy, :link_conversation]
 
   def index
     result = service(SalesCrm::Deals::Search).perform(deals_scope, pipeline: @pipeline, **search_filters)
@@ -49,6 +49,13 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   def reopen
     authorize @deal
     render json: SalesCrm::Presenter.deal(service(SalesCrm::Deals::Reopen).perform(@deal))
+  end
+
+  # Custom (MyDesk): follow the deal in another conversation of its customer (decision ح)
+  def link_conversation
+    authorize @deal, :update?
+    deal = service(SalesCrm::Deals::LinkConversation).perform(@deal, params.require(:conversation_id))
+    render json: SalesCrm::Presenter.deal(deal)
   end
 
   def destroy
@@ -102,6 +109,6 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   def deal_params
     params.require(:deal).permit(:title, :amount, :pipeline_id, :stage_id, :contact_id, :assignee_id, :close_date, :description,
                                  :conversation_id, :priority, :forecast_category, :probability_override, :lock_version,
-                                 *SalesCrm::ListItem::DEAL_COLUMNS.values)
+                                 :suggestion_id, *SalesCrm::ListItem::DEAL_COLUMNS.values)
   end
 end

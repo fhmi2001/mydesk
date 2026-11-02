@@ -112,4 +112,51 @@ RSpec.describe SmartAssistant::ReplyJob do
 
     expect(responder).not_to have_received(:perform)
   end
+
+  # CONVERSATION_SALES_PLAN.md, idea أ2: a suggestion the employee accepts or dismisses; never a deal by itself
+  describe 'a clear intent to buy' do
+    let(:lead) { { product: 'كراتين', quantity: '500', city: 'جدة', summary: 'يطلب سعر 500 كرتون' } }
+
+    before do
+      account.enable_features!('sales_crm')
+      result[:sales_lead] = lead
+    end
+
+    it 'leaves a pending deal suggestion on the conversation, and no deal' do
+      described_class.perform_now(message.id)
+
+      suggestion = SalesCrm::Suggestion.last
+      expect(suggestion).to have_attributes(kind: 'new_deal', status: 'pending', origin: 'assistant',
+                                            conversation_id: conversation.id, contact_id: conversation.contact_id)
+      expect(suggestion.content).to eq(lead.stringify_keys)
+      expect(account.crm_deals.count).to eq(0)
+    end
+
+    it 'keeps the suggestion even when the reply is dropped for a newer message' do
+      allow(responder).to receive(:perform) do
+        create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming, content: 'وكم السعر؟')
+        result
+      end
+
+      described_class.perform_now(message.id)
+
+      expect(SalesCrm::Suggestion.where(conversation: conversation).count).to eq(1)
+    end
+
+    it 'keeps the first pending suggestion when the customer asks again' do
+      SalesCrm::Suggestion.create!(account: account, conversation: conversation, kind: :new_deal, content: { summary: 'أول' })
+
+      described_class.perform_now(message.id)
+
+      expect(SalesCrm::Suggestion.pluck(:content)).to eq([{ 'summary' => 'أول' }])
+    end
+
+    it 'suggests nothing when the Sales section is off' do
+      account.disable_features!('sales_crm')
+
+      described_class.perform_now(message.id)
+
+      expect(SalesCrm::Suggestion.count).to eq(0)
+    end
+  end
 end

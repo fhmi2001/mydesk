@@ -29,6 +29,7 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/javascript/dashboard/components-next/sidebar/Sidebar.vue` | the «المبيعات» group (Deals, Tasks + overdue badge, Reports, Settings); `crm/status/fetch` on mount | Navigation |
 | `app/javascript/dashboard/helper/actionCable.js` | `crm.deal_*` / `crm.task_*` events → `crm/deals/onRemoteChange`, `crm/tasks/onRemoteChange` | Live updates between agents |
 | `app/javascript/dashboard/composables/useUISettings.js` | `{ name: 'crm' }` in `DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER` | The panel section appears for users with a saved order too |
+| `app/javascript/dashboard/components/widgets/conversation/ConversationCard.vue` | `DealBadge` import and one line in the status row | The customer's open deals on each conversation card (CONVERSATION_SALES_PLAN.md, أ4) |
 | `app/javascript/dashboard/routes/dashboard/conversation/ContactPanel.vue` | the `crm` accordion item rendering `ContactCrmSection` | Deals & tasks beside the conversation |
 | `app/javascript/dashboard/routes/dashboard/contacts/pages/ContactManageView.vue` | a `CRM` tab rendering `ContactCrmSection` | Deals & tasks on the contact page |
 | `app/javascript/dashboard/i18n/locale/{en,ar}/index.js` | `crm.json` import + spread | Translations |

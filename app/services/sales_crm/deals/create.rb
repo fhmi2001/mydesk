@@ -2,7 +2,7 @@
 # needs an amount, an expected close date and an owner (the creator unless one is given).
 class SalesCrm::Deals::Create < SalesCrm::BaseService
   PERMITTED = (%i[title amount pipeline_id stage_id contact_id assignee_id close_date description conversation_id source priority
-                  forecast_category probability_override] + LIST_PARAMS).freeze
+                  forecast_category probability_override suggestion_id] + LIST_PARAMS).freeze
 
   def perform(params)
     params = params.to_h.symbolize_keys.slice(*PERMITTED)
@@ -12,15 +12,27 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
 
     ActiveRecord::Base.transaction do
       deal = account.crm_deals.new(attributes(params, pipeline, stage))
-      assign_list_items(deal, params)
+      assign_list_items(deal, params_with_inbox_source(params, deal.conversation))
       require_open_essentials!(deal)
       deal.save!
+      accept_suggestion(deal, params[:suggestion_id])
       announce(deal)
       deal
     end
   end
 
   private
+
+  # The «صفقة جديدة» suggestion the deal was made from, when the employee may see it and it is still pending
+  def accept_suggestion(deal, suggestion_id)
+    return if suggestion_id.blank?
+
+    suggestion = SalesCrm::Visibility.suggestions(account, user).pending.new_deal.find_by(id: suggestion_id)
+    return unless suggestion
+
+    suggestion.decide!(:accepted, user)
+    suggestion.update!(deal: deal)
+  end
 
   def announce(deal)
     log(deal, 'created', stage_id: deal.stage_id)
@@ -56,6 +68,15 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
   def status_attributes(stage)
     { status: { 'open' => :open, 'won' => :won, 'lost' => :lost }[stage.kind],
       won_at: (Time.current if stage.won?), lost_at: (Time.current if stage.lost?) }
+  end
+
+  # A deal from a conversation starts with the lead source the manager mapped to its inbox, unless the employee chose
+  # one (or chose none) in the form. A deal without a conversation keeps what the employee picked.
+  def params_with_inbox_source(params, conversation)
+    return params if conversation.nil? || params.key?(:lead_source_id)
+
+    source = account.crm_lead_source_for_inbox(conversation.inbox_id)
+    source ? params.merge(lead_source_id: source.id) : params
   end
 
   def source_for(source, conversation)

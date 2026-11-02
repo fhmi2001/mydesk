@@ -11,7 +11,12 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
-import { crmContactSummaryAPI } from 'dashboard/api/crm';
+import {
+  crmContactSummaryAPI,
+  crmConversationsAPI,
+  crmDealsAPI,
+  crmSuggestionsAPI,
+} from 'dashboard/api/crm';
 import { useCrmFormat } from 'dashboard/routes/dashboard/crm/shared/useCrmFormat';
 import {
   apiErrorMessage,
@@ -19,6 +24,9 @@ import {
 } from 'dashboard/routes/dashboard/crm/shared/dealHelpers';
 import LostReasonDialog from 'dashboard/routes/dashboard/crm/deals/LostReasonDialog.vue';
 import TaskForm from 'dashboard/routes/dashboard/crm/tasks/TaskForm.vue';
+import DealSuggestionCard from './DealSuggestionCard.vue';
+import SummaryDraft from './SummaryDraft.vue';
+import LinkConversationBar from './LinkConversationBar.vue';
 
 const props = defineProps({
   contactId: { type: [Number, String], required: true },
@@ -55,11 +63,56 @@ const looseTasks = computed(() =>
   tasks.value.filter(task => !deals.value.some(d => d.id === task.deal?.id))
 );
 
+// The deal suggestions of this conversation the user may see (CONVERSATION_SALES_PLAN.md, أ2); the panel works without
+const suggestions = ref([]);
+const aiAvailable = ref(false);
+// The customer's open deals followed in another conversation (decision ح): the «اربطها» bar
+const linkableDeals = ref([]);
+const isLinking = ref(false);
+const newDealSuggestions = computed(() =>
+  suggestions.value.filter(s => s.kind === 'new_deal')
+);
+const loadSuggestions = async () => {
+  if (!props.conversationId) {
+    suggestions.value = [];
+    linkableDeals.value = [];
+    return;
+  }
+  try {
+    const { data } = await crmConversationsAPI.show(props.conversationId);
+    suggestions.value = data.suggestions || [];
+    linkableDeals.value = data.linkable_deals || [];
+    aiAvailable.value = Boolean(data.ai_available);
+  } catch {
+    suggestions.value = [];
+    linkableDeals.value = [];
+  }
+};
+
+// أ3: a summary draft of this conversation, edited before it is saved as a note or starts a deal
+const summaryDraft = ref(null);
+const isSummarizing = ref(false);
+const isSavingSummary = ref(false);
+const summarize = async () => {
+  isSummarizing.value = true;
+  try {
+    const { data } = await crmConversationsAPI.summary(props.conversationId);
+    summaryDraft.value = data;
+  } catch (error) {
+    useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));
+  } finally {
+    isSummarizing.value = false;
+  }
+};
+
 const load = async () => {
   if (!enabled.value || !props.contactId) return;
   try {
     if (!pipelines.value.length) await store.dispatch('crm/pipelines/fetch');
-    const { data } = await crmContactSummaryAPI.get(props.contactId);
+    const [{ data }] = await Promise.all([
+      crmContactSummaryAPI.get(props.contactId),
+      loadSuggestions(),
+    ]);
     deals.value = data.deals;
     tasks.value = data.tasks;
     closedCount.value = data.closed_count;
@@ -72,7 +125,7 @@ const load = async () => {
 };
 
 onMounted(load);
-watch(() => [props.contactId, enabled.value], load);
+watch(() => [props.contactId, props.conversationId, enabled.value], load);
 
 const visible = computed(() => enabled.value && loaded.value && !failed.value);
 
@@ -153,8 +206,9 @@ const openTaskFor = async (deal = null) => {
   taskForm.value?.open();
 };
 
-// A new deal opens in its own page with this contact and conversation filled in, and comes back here once saved
-const openNewDeal = () => {
+// A new deal opens in its own page with this contact and conversation filled in, and comes back here once saved.
+// From a suggestion it also starts with what the customer asked for, and accepting it is saving the deal.
+const openNewDeal = (extra = {}) => {
   const { contact_id, contact_name, assignee_id, conversation_id } =
     basePresets.value;
   router.push(
@@ -167,9 +221,79 @@ const openNewDeal = () => {
         assignee_id: assignee_id || undefined,
         conversation_id: conversation_id || undefined,
         return_to: router.currentRoute.value.fullPath,
+        ...extra,
       }
     )
   );
+};
+
+const createFromSuggestion = suggestion => {
+  const { product, summary } = suggestion.content || {};
+  openNewDeal({
+    title: product || undefined,
+    description: summary || undefined,
+    suggestion_id: suggestion.id,
+  });
+};
+
+const linkHere = async deal => {
+  isLinking.value = true;
+  try {
+    await crmDealsAPI.linkConversation(deal.id, props.conversationId);
+    useAlert(t('CRM.PANEL.LINK.DONE', { title: deal.title }));
+    load();
+  } catch (error) {
+    handleError(error);
+  } finally {
+    isLinking.value = false;
+  }
+};
+
+const saveSummaryNote = async ({ deal, content }) => {
+  isSavingSummary.value = true;
+  try {
+    await crmDealsAPI.addNote(deal.id, content);
+    summaryDraft.value = null;
+    useAlert(t('CRM.PANEL.SUMMARY.NOTE_SAVED'));
+    load();
+  } catch (error) {
+    handleError(error);
+  } finally {
+    isSavingSummary.value = false;
+  }
+};
+
+// The amount and date the conversation stated, through the usual deal update so the change is logged
+const applySummary = async ({ deal, ...changes }) => {
+  isSavingSummary.value = true;
+  try {
+    await crmDealsAPI.update(deal.id, {
+      ...changes,
+      lock_version: deal.lock_version,
+    });
+    useAlert(t('CRM.PANEL.SUMMARY.APPLIED'));
+    load();
+  } catch (error) {
+    handleError(error);
+  } finally {
+    isSavingSummary.value = false;
+  }
+};
+
+const createDealFromSummary = ({ content, amount, close_date: closeDate }) =>
+  openNewDeal({
+    description: content || undefined,
+    amount: amount || undefined,
+    close_date: closeDate || undefined,
+  });
+
+const dismissSuggestion = async suggestion => {
+  try {
+    await crmSuggestionsAPI.dismiss(suggestion.id);
+    suggestions.value = suggestions.value.filter(s => s.id !== suggestion.id);
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 const onTaskSubmit = async ({ payload }) => {
@@ -213,13 +337,28 @@ const TASK_CHECK_CLASS =
     class="flex flex-col gap-3"
     data-test-id="contact-crm-section"
   >
-    <div class="flex items-center gap-2">
+    <LinkConversationBar
+      v-if="linkableDeals.length"
+      :deals="linkableDeals"
+      :is-linking="isLinking"
+      @link="linkHere"
+    />
+
+    <DealSuggestionCard
+      v-for="suggestion in newDealSuggestions"
+      :key="suggestion.id"
+      :suggestion="suggestion"
+      @create="createFromSuggestion"
+      @dismiss="dismissSuggestion"
+    />
+
+    <div class="flex flex-wrap items-center gap-2">
       <Button
         :label="t('CRM.PANEL.NEW_DEAL')"
         size="xs"
         variant="faded"
         icon="i-lucide-briefcase"
-        @click="openNewDeal"
+        @click="openNewDeal()"
       />
       <Button
         :label="t('CRM.PANEL.NEW_TASK')"
@@ -228,7 +367,37 @@ const TASK_CHECK_CLASS =
         icon="i-lucide-list-plus"
         @click="openTaskFor()"
       />
+      <Button
+        v-if="conversationId"
+        :label="t('CRM.PANEL.SUMMARY.ACTION')"
+        size="xs"
+        variant="faded"
+        icon="i-lucide-sparkles"
+        :disabled="!aiAvailable || isSummarizing"
+        :is-loading="isSummarizing"
+        aria-describedby="crm-summary-unavailable"
+        @click="summarize"
+      />
     </div>
+    <!-- A disabled button shows no tooltip, so the reason is written out -->
+    <p
+      v-if="conversationId && !aiAvailable"
+      id="crm-summary-unavailable"
+      class="text-label-small text-n-slate-11"
+    >
+      {{ t('CRM.PANEL.SUMMARY.UNAVAILABLE') }}
+    </p>
+
+    <SummaryDraft
+      v-if="summaryDraft"
+      :draft="summaryDraft"
+      :deals="deals"
+      :is-saving="isSavingSummary"
+      @save-note="saveSummaryNote"
+      @apply="applySummary"
+      @create-deal="createDealFromSummary"
+      @close="summaryDraft = null"
+    />
 
     <p
       v-if="!deals.length && !tasks.length"

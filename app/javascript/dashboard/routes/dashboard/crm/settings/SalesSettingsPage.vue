@@ -1,6 +1,7 @@
 <script setup>
 // Custom (MyDesk): Sales > Settings (administrators), one tab each: General (the Sales currency, the
-// report thresholds), Lost reasons, Lists (lead source, product, competitor, region, industry), Targets, Pipelines.
+// report thresholds), Conversations (lead source per inbox, follow-up days, SMS window), Lost reasons, Lists (lead
+// source, product, competitor, region, industry), Targets, Pipelines.
 // The tab is kept in ?tab= so links (e.g. "Edit pipeline") can open the right one.
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -20,13 +21,22 @@ import PipelineEditor from './PipelineEditor.vue';
 import LostReasonsEditor from './LostReasonsEditor.vue';
 import ListItemsEditor from './ListItemsEditor.vue';
 import TargetsEditor from './TargetsEditor.vue';
+import ConversationSettings from './ConversationSettings.vue';
+import { useCrmLists } from '../shared/useCrmLists';
 
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const TABS = ['general', 'lost_reasons', 'lists', 'targets', 'pipelines'];
+const TABS = [
+  'general',
+  'conversations',
+  'lost_reasons',
+  'lists',
+  'targets',
+  'pipelines',
+];
 const activeTab = computed(() =>
   TABS.includes(route.query.tab) ? route.query.tab : 'general'
 );
@@ -38,6 +48,8 @@ const onTab = tab =>
   router.replace({ query: { ...route.query, tab: tab.key } });
 
 const pipelines = useMapGetter('crm/pipelines/all');
+const inboxes = useMapGetter('inboxes/getInboxes');
+const lists = useCrmLists();
 const pipelineFlags = useMapGetter('crm/pipelines/getUIFlags');
 const isAdmin = useMapGetter('crm/status/isAdmin');
 
@@ -81,6 +93,7 @@ onMounted(async () => {
     const [{ data }] = await Promise.all([
       crmSettingsAPI.get(),
       store.dispatch('crm/pipelines/fetch'),
+      lists.load(),
     ]);
     settings.value = data;
     staleDays.value = String(data.stale_days);
@@ -174,13 +187,15 @@ const confirmDelete = async () => {
     </div>
 
     <div v-else class="flex flex-col gap-6 px-6 pb-8">
-      <TabBar
-        :key="activeTab"
-        :tabs="tabs"
-        :initial-active-tab="activeTabIndex"
-        class="self-start"
-        @tab-changed="onTab"
-      />
+      <!-- Six tabs outgrow a phone: they scroll in their own row instead of the page -->
+      <div class="max-w-full overflow-x-auto">
+        <TabBar
+          :key="activeTab"
+          :tabs="tabs"
+          :initial-active-tab="activeTabIndex"
+          @tab-changed="onTab"
+        />
+      </div>
 
       <!-- The tab already names this panel, so its heading is for screen readers only -->
       <section
@@ -239,6 +254,14 @@ const confirmDelete = async () => {
           />
         </div>
       </section>
+
+      <ConversationSettings
+        v-if="activeTab === 'conversations'"
+        :inboxes="inboxes"
+        :sources="lists.items.lead_source"
+        :settings="settings"
+        @save="saveSetting"
+      />
 
       <LostReasonsEditor v-if="activeTab === 'lost_reasons'" />
 

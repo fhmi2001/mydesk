@@ -4,6 +4,8 @@ import {
   buildDealPayload,
   validateStages,
   dealToForm,
+  emptyDealForm,
+  withConversationDefaults,
 } from '../dealHelpers';
 
 describe('dealHelpers', () => {
@@ -129,5 +131,35 @@ describe('dealHelpers', () => {
     expect(
       buildDealPayload({ title: 'x', amount: '1', priority: 'low' }).priority
     ).toBe('low');
+  });
+
+  it('sends the suggestion a new deal comes from, and nothing when there is none', () => {
+    expect(
+      buildDealPayload(emptyDealForm({ title: 'x', suggestion_id: 7 }))
+        .suggestion_id
+    ).toBe(7);
+    expect(buildDealPayload(emptyDealForm({ title: 'x' }))).not.toHaveProperty(
+      'suggestion_id'
+    );
+  });
+
+  describe('withConversationDefaults', () => {
+    it("fills the lead source mapped to the conversation's inbox", () => {
+      const form = emptyDealForm({ conversation_id: 7 });
+      expect(
+        withConversationDefaults(form, { lead_source_id: 3 }).lead_source_id
+      ).toBe(3);
+    });
+
+    it('keeps a lead source already chosen, and fills nothing without one', () => {
+      const chosen = emptyDealForm({ lead_source_id: 5 });
+      expect(
+        withConversationDefaults(chosen, { lead_source_id: 3 }).lead_source_id
+      ).toBe(5);
+      expect(
+        withConversationDefaults(emptyDealForm(), { lead_source_id: null })
+          .lead_source_id
+      ).toBe('');
+    });
   });
 });
