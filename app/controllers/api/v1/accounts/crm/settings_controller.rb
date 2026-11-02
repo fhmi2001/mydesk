@@ -9,7 +9,7 @@ class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseC
 
   def update
     attrs = params.require(:settings).permit(:default_currency, :stale_days, :coverage_multiple, :followup_days,
-                                             :sms_attribution_days, channel_sources: {})
+                                             :sms_attribution_days, :won_lost_messages, channel_sources: {})
     assign_thresholds(attrs)
     assign_conversation_settings(attrs)
     Current.account.save!
@@ -36,6 +36,7 @@ class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseC
       account.crm_sms_attribution_days = whole_number!(attrs[:sms_attribution_days], 1..90, :invalid_attribution_days)
     end
     account.crm_channel_sources = channel_sources!(attrs[:channel_sources]) if attrs.key?(:channel_sources)
+    account.crm_won_lost_messages = ActiveModel::Type::Boolean.new.cast(attrs[:won_lost_messages]) if attrs.key?(:won_lost_messages)
   end
 
   # Merges the given inboxes into the map; an inbox given nothing loses its lead source
@@ -77,6 +78,6 @@ class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseC
       currency_locked: SalesCrm::Currency.locked?(account),
       stale_days: account.crm_stale_days_value, coverage_multiple: account.crm_coverage_multiple_value,
       followup_days: account.crm_followup_days_value, sms_attribution_days: account.crm_sms_attribution_days_value,
-      channel_sources: account.crm_channel_sources_value }
+      channel_sources: account.crm_channel_sources_value, won_lost_messages: account.crm_won_lost_messages_value }
   end
 end

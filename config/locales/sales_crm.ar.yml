@@ -34,6 +34,8 @@ ar:
       invalid_amount: القيمة ليست رقماً صحيحاً
       invalid_currency: العملة غير مدعومة
       not_found: غير موجود
+    follow_up:
+      task_title: 'متابعة: %{title}'
     activities:
       created: أُنشئت الصفقة
       stage_changed: تغيّرت المرحلة

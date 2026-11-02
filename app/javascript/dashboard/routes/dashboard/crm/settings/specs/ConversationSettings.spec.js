@@ -42,6 +42,14 @@ describe('ConversationSettings', () => {
     ]);
   });
 
+  it('turns the won and lost message suggestions off and on', async () => {
+    const wrapper = mountSettings({ won_lost_messages: true });
+    const box = wrapper.find('[data-testid="won-lost-messages"]');
+    expect(box.element.checked).toBe(true);
+    await box.setValue(false);
+    expect(wrapper.emitted('save')).toEqual([[{ won_lost_messages: false }]]);
+  });
+
   it('saves the silent days and the SMS window when the field is left with a new value', async () => {
     const wrapper = mountSettings();
     const [followup, window] = wrapper.findAll('input');

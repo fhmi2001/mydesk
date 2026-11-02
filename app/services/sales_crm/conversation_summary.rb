@@ -21,12 +21,13 @@ class SalesCrm::ConversationSummary
     strict: true
   }.freeze
 
+  include SalesCrm::AiRequest
+
   pattr_initialize [:account!, :conversation!]
 
   def perform
-    fail!(:ai_not_configured) unless SmartAssistant::Config.configured?
-    fail!(:ai_limit_reached, date: I18n.l(renews_on, format: :long)) if SmartAssistant::Usage.crm_limit_reached?(account)
-    fail!(:conversation_empty) if transcript.blank?
+    ensure_ai_available!(account)
+    fail_ai!(:conversation_empty) if transcript.blank?
 
     draft(SmartAssistant::LlmClient.new(account: account, kind: :crm_summary)
                                    .complete(instructions: instructions, messages: [{ role: :user, content: transcript }],
@@ -36,9 +37,7 @@ class SalesCrm::ConversationSummary
   private
 
   def transcript
-    @transcript ||= conversation.messages.where(message_type: %i[incoming outgoing], private: false).where.not(content: [nil, ''])
-                                .reorder(id: :desc).limit(MESSAGES).to_a.reverse
-                                .map { |message| "#{message.incoming? ? 'العميل' : 'الفريق'}: #{message.content}" }.join("\n")
+    @transcript ||= transcript_of(conversation, MESSAGES)
   end
 
   def draft(result)
@@ -57,12 +56,6 @@ class SalesCrm::ConversationSummary
     Date.iso8601(value.to_s).iso8601
   rescue Date::Error
     nil
-  end
-
-  def renews_on = SalesCrm::Period.today.next_month.beginning_of_month
-
-  def fail!(key, **args)
-    raise SalesCrm::ValidationError, I18n.t("sales_crm.errors.#{key}", **args)
   end
 
   def instructions

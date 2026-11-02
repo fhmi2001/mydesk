@@ -88,6 +88,13 @@ RSpec.describe 'Sales CRM report fields API', type: :request do
         expect(account.reload.crm_lead_source_for_inbox(inbox.id)).to eq(whatsapp)
       end
 
+      it 'keeps the won and lost message suggestions on unless the administrator turns them off' do
+        get "#{base}/settings", headers: admin.create_new_auth_token, as: :json
+        expect(response.parsed_body).to include('won_lost_messages' => true)
+        patch "#{base}/settings", params: { settings: { won_lost_messages: false } }, headers: admin.create_new_auth_token, as: :json
+        expect(response.parsed_body).to include('won_lost_messages' => false)
+      end
+
       it 'clears an inbox mapped to nothing' do
         account.update!(crm_channel_sources: { inbox.id.to_s => whatsapp.id })
         patch "#{base}/settings", params: { settings: { channel_sources: { inbox.id.to_s => nil } } },

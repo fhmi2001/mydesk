@@ -34,6 +34,28 @@ RSpec.describe SalesCrm::Suggestion do
     expect(described_class.new(account: account, conversation: conversation, kind: :new_deal)).to be_valid
   end
 
+  describe 'reaching the open conversation panel live' do
+    let!(:admin) { create(:user, account: account, role: :administrator) }
+    let(:handler) { create(:user, account: account, role: :agent) }
+    let(:owner) { create(:user, account: account, role: :agent) }
+
+    it "tells the conversation's assignee and the administrators about a new deal suggestion" do
+      conversation.update!(assignee: handler)
+      expect { suggest(:new_deal) }.to have_enqueued_job(ActionCableBroadcastJob).with(
+        contain_exactly(admin.pubsub_token, handler.pubsub_token), 'crm.suggestion_created',
+        hash_including(kind: 'new_deal', conversation_id: conversation.display_id)
+      )
+    end
+
+    it "tells the deal's owner, not the conversation's assignee, about a follow-up" do
+      conversation.update!(assignee: handler)
+      deal.update!(assignee: owner)
+      expect { suggest(:follow_up, deal: deal) }.to have_enqueued_job(ActionCableBroadcastJob).with(
+        contain_exactly(admin.pubsub_token, owner.pubsub_token), 'crm.suggestion_created', anything
+      )
+    end
+  end
+
   describe '#decide!' do
     let(:user) { create(:user, account: account) }
 

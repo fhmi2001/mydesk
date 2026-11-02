@@ -541,7 +541,11 @@ Rails.application.routes.draw do
               post :summary, on: :member
             end
             resources :suggestions, only: [] do
-              post :dismiss, on: :member
+              member do
+                post :dismiss
+                post :draft
+                post :accept
+              end
             end
             scope :reports, controller: 'reports' do
               get :summary

@@ -155,6 +155,15 @@ class CrmSuggestionsAPI extends ApiClient {
   dismiss(id) {
     return axios.post(`${this.url}/${id}/dismiss`);
   }
+
+  // The AI draft of a deal's follow-up, won or lost message
+  draft(id) {
+    return axios.post(`${this.url}/${id}/draft`);
+  }
+
+  accept(id) {
+    return axios.post(`${this.url}/${id}/accept`);
+  }
 }
 
 class CrmReportsAPI extends ApiClient {

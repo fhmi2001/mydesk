@@ -41,7 +41,15 @@ class SalesCrm::Pipelines::Update < SalesCrm::BaseService
 
     color = row[:color].presence || stage.color.presence || SalesCrm::Stage::DEFAULT_COLORS[row[:kind].to_s]
     stage.assign_attributes(name: row[:name], probability: row[:probability], kind: row[:kind], position: index, color: color)
+    assign_followup_rules(stage, row)
     stage.save!
+  end
+
+  # The silence follow-up switch and the task-on-entry rule, only when the row carries them (CONVERSATION_SALES_PLAN.md)
+  def assign_followup_rules(stage, row)
+    stage.silence_followup = ActiveModel::Type::Boolean.new.cast(row[:silence_followup]) if row.key?(:silence_followup)
+    stage.followup_task_days = row[:followup_task_days].presence&.to_i if row.key?(:followup_task_days)
+    stage.followup_task_title = row[:followup_task_title].to_s.strip.presence if row.key?(:followup_task_title)
   end
 
   def empty_stage(pipeline, stage, target_id)

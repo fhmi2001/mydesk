@@ -2,6 +2,7 @@
 import { ref, computed, h, shallowRef, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useStore } from 'dashboard/composables/store'; // Custom (MyDesk)
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useOperators } from 'dashboard/components-next/filter/operators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -322,10 +323,19 @@ const hasAutomationMutated = computed(() => {
   );
 });
 
+// Custom (MyDesk): the Sales actions only for accounts with the Sales section (a store-less mount shows none)
+const crmStore = useStore();
+const crmEnabled = computed(() =>
+  Boolean(crmStore?.getters?.['crm/status/isEnabled'])
+);
+const CRM_ACTIONS = ['suggest_crm_deal', 'create_crm_task', 'move_crm_deal'];
+
 const automationActionTypes = computed(() => {
-  const actionTypes = isCloudFeatureEnabled('sla')
-    ? AUTOMATION_ACTION_TYPES
-    : AUTOMATION_ACTION_TYPES.filter(({ key }) => key !== 'add_sla');
+  const actionTypes = (
+    isCloudFeatureEnabled('sla')
+      ? AUTOMATION_ACTION_TYPES
+      : AUTOMATION_ACTION_TYPES.filter(({ key }) => key !== 'add_sla')
+  ).filter(({ key }) => crmEnabled.value || !CRM_ACTIONS.includes(key));
 
   return actionTypes.map(action => ({
     ...action,

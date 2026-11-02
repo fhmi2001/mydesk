@@ -941,7 +941,16 @@
         "FOLLOWUP_DAYS": "Silent days before a follow-up",
         "FOLLOWUP_DAYS_HINT": "After this, a follow-up is suggested for a customer who has not replied, in the stages that have it on. From 1 to 30.",
         "SMS_DAYS": "SMS campaign window (days)",
-        "SMS_DAYS_HINT": "A deal created within this time after a campaign message to the customer is credited to the campaign. From 1 to 90."
+        "SMS_DAYS_HINT": "A deal created within this time after a campaign message to the customer is credited to the campaign. From 1 to 90.",
+        "WON_LOST": "Suggest a thank-you on a win, and a question about why on a loss",
+        "WON_LOST_HINT": "The suggestion appears in the deal's conversation; the employee writes the draft and sends it themselves."
+      },
+      "FOLLOWUP": {
+        "SILENCE": "Follow up a quiet customer",
+        "TASK_AFTER": "Task on entry after",
+        "TASK_DAYS": "Days before the task on entering the stage",
+        "DAYS_TITLED": "days, titled",
+        "TASK_TITLE": "Task title (the stage name when left blank)"
       },
       "CURRENCY_HINT": "The currency of every sales deal. It cannot change once the first deal is added.",
       "REPORTS_HEADING": "Report thresholds",
@@ -950,11 +959,34 @@
       "COVERAGE": "Pipeline coverage target (times)",
       "COVERAGE_HINT": "Open pipeline needed compared with the remaining target."
     },
+    "AUTOMATION": {
+      "DEAL_TITLE": "Suggested deal title (the customer's name is added)",
+      "SUGGEST_HINT": "A suggestion appears in the conversation panel; the employee creates the deal with its amount and date.",
+      "TASK_TITLE": "Task title",
+      "KIND": "Task type",
+      "KINDS": { "task": "Task", "call": "Call", "meeting": "Meeting" },
+      "HOURS": "After how many hours",
+      "HOURS_HINT": "hours. For the conversation's assignee, else an administrator.",
+      "STAGE": "Stage",
+      "MOVE_HINT": "Moves the deal followed in this conversation. Moving to lost is not available, since it needs a reason."
+    },
     "BADGE": {
       "TITLE": "Open deals with this customer: {count} · the biggest is in «{stage}»",
       "MORE": "+{count}"
     },
     "PANEL": {
+      "DEAL_MESSAGE": {
+        "follow_up": "Suggested follow-up: the customer has not replied",
+        "won_message": "Thank-you after the win",
+        "lost_question": "Ask why it did not go ahead",
+        "DRAFT": "Draft",
+        "WRITE": "Write the draft",
+        "COPY": "Copy the draft",
+        "DISMISS": "Dismiss",
+        "COPIED": "Draft copied. Paste it in the reply and send it yourself.",
+        "WINDOW_CLOSED": "Over 24 hours have passed since the customer's last message on official WhatsApp: send an approved template, or send it yourself by SMS.",
+        "CSAT_HINT": "The satisfaction survey is on for this inbox and goes to the customer when the conversation is resolved."
+      },
       "LINK": {
         "LABEL": "Link the conversation to a deal",
         "ONE": "This is a new conversation with the customer of «{title}», which is still followed in another one.",
@@ -965,6 +997,7 @@
       },
       "SUGGESTION": {
         "TITLE": "Deal suggested by the assistant",
+        "FROM_AUTOMATION": "Deal suggested by an automation rule",
         "CREATE": "Create deal",
         "DISMISS": "Dismiss"
       },

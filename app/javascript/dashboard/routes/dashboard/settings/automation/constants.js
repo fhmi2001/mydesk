@@ -848,6 +848,14 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'SEND_MESSAGE_VIA_INBOX',
     inputType: 'inbox_message',
   },
+  // Custom (MyDesk): the Sales actions (shown only when the account has the Sales section)
+  {
+    key: 'suggest_crm_deal',
+    label: 'SUGGEST_CRM_DEAL',
+    inputType: 'crm_action',
+  },
+  { key: 'create_crm_task', label: 'CREATE_CRM_TASK', inputType: 'crm_action' },
+  { key: 'move_crm_deal', label: 'MOVE_CRM_DEAL', inputType: 'crm_action' },
   {
     key: 'add_private_note',
     label: 'ADD_PRIVATE_NOTE',

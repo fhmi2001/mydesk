@@ -1,6 +1,6 @@
 <script setup>
 // Custom (MyDesk): edit one pipeline: name and stages (by drag or the up/down buttons), remove with a
-// target stage when the removed stage still holds deals. Beside each open stage's probability sits its actual
+// target stage when the removed stage still holds deals. Each open stage carries its follow-up rules (StageFollowupRules). Beside each open stage's probability sits its actual
 // win rate from the account's last 12 months, as a suggestion the admin can copy in; it never changes alone.
 import { ref, computed, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -11,6 +11,7 @@ import Select from 'dashboard/components-next/select/Select.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import { crmReportsAPI } from 'dashboard/api/crm';
 import { validateStages } from '../shared/dealHelpers';
+import StageFollowupRules from './StageFollowupRules.vue';
 
 const props = defineProps({
   pipeline: { type: Object, required: true },
@@ -60,6 +61,9 @@ const addStage = () => {
     probability: 50,
     kind: 'open',
     color: '#8B8D98', // DESIGN.md ink-faint: a neutral until the admin picks one
+    silence_followup: false,
+    followup_task_days: null,
+    followup_task_title: null,
   });
 };
 
@@ -126,6 +130,19 @@ const confirmRemoval = () => {
   moveDialog.value?.close();
 };
 
+// The task on entry: whole days from 1 to 365 (none otherwise), titled after the stage when left blank
+const taskRule = stage => {
+  const days = parseInt(stage.followup_task_days, 10);
+  if (stage.kind !== 'open' || !(days >= 1 && days <= 365)) {
+    return { followup_task_days: '', followup_task_title: '' };
+  }
+  return {
+    followup_task_days: days,
+    followup_task_title:
+      String(stage.followup_task_title || '').trim() || stage.name.trim(),
+  };
+};
+
 const save = () => {
   const result = validateStages(stages.value);
   errors.value = result.errors;
@@ -142,6 +159,8 @@ const save = () => {
       probability: Number(s.probability),
       kind: s.kind,
       color: s.color,
+      silence_followup: Boolean(s.silence_followup),
+      ...taskRule(s),
     })),
     stage_moves: stageMoves,
   });
@@ -199,132 +218,138 @@ const errorText = key =>
       class="flex flex-col gap-2"
     >
       <template #item="{ element, index }">
-        <li
-          class="flex flex-wrap items-center gap-2 p-2 rounded-xl bg-n-slate-2 sm:flex-nowrap"
-        >
-          <span
-            class="drag-handle i-lucide-grip-vertical size-4 shrink-0 text-n-slate-10 cursor-grab"
-            aria-hidden="true"
-          />
-          <!-- Input puts its class on the <input> itself, so each field sits in its own flex item -->
-          <div class="flex-1 min-w-0 basis-40">
-            <Input
-              v-model="element.name"
-              :placeholder="t('CRM.SETTINGS.STAGE_NAME')"
-              :aria-label="t('CRM.SETTINGS.STAGE_NAME')"
-              size="sm"
+        <li class="flex flex-col gap-2 p-2 rounded-xl bg-n-slate-2">
+          <div class="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+            <span
+              class="drag-handle i-lucide-grip-vertical size-4 shrink-0 text-n-slate-10 cursor-grab"
+              aria-hidden="true"
             />
-          </div>
-          <div class="w-20 shrink-0">
-            <Input
-              v-model="element.probability"
-              type="number"
-              min="0"
-              max="100"
-              size="sm"
-              :aria-label="t('CRM.SETTINGS.PROBABILITY')"
-            />
-          </div>
-          <!-- The actual rate: a button that copies it into the probability once there is enough history,
+            <!-- Input puts its class on the <input> itself, so each field sits in its own flex item -->
+            <div class="flex-1 min-w-0 basis-40">
+              <Input
+                v-model="element.name"
+                :placeholder="t('CRM.SETTINGS.STAGE_NAME')"
+                :aria-label="t('CRM.SETTINGS.STAGE_NAME')"
+                size="sm"
+              />
+            </div>
+            <div class="w-20 shrink-0">
+              <Input
+                v-model="element.probability"
+                type="number"
+                min="0"
+                max="100"
+                size="sm"
+                :aria-label="t('CRM.SETTINGS.PROBABILITY')"
+              />
+            </div>
+            <!-- The actual rate: a button that copies it into the probability once there is enough history,
                otherwise how many closed deals it has so far -->
-          <div
-            class="flex items-center w-20 shrink-0 text-label-small tabular-nums"
-          >
-            <template v-if="actualFor(element)">
-              <button
-                v-if="actualFor(element).win_rate !== null"
-                type="button"
-                class="px-1.5 py-1 rounded-md text-n-slate-12 hover:bg-n-alpha-2 focus-visible:outline-2 focus-visible:outline-n-brand"
-                :title="
-                  t('CRM.SETTINGS.ACTUAL_FROM', {
-                    count: actualFor(element).closed_count,
-                  })
-                "
-                :aria-label="
-                  t('CRM.SETTINGS.USE_ACTUAL', {
-                    rate: Math.round(actualFor(element).win_rate),
-                    name: stageLabel(element, index),
-                  })
-                "
-                @click="useActual(element, actualFor(element).win_rate)"
-              >
-                {{ Math.round(actualFor(element).win_rate) }}%
-              </button>
-              <span
-                v-else
-                class="text-n-slate-10"
-                :title="
-                  t('CRM.SETTINGS.ACTUAL_NOT_ENOUGH', {
-                    count: actualFor(element).closed_count,
-                    min: actualFor(element).min_closed,
-                  })
-                "
-              >
-                —
-                <span class="sr-only">
-                  {{
+            <div
+              class="flex items-center w-20 shrink-0 text-label-small tabular-nums"
+            >
+              <template v-if="actualFor(element)">
+                <button
+                  v-if="actualFor(element).win_rate !== null"
+                  type="button"
+                  class="px-1.5 py-1 rounded-md text-n-slate-12 hover:bg-n-alpha-2 focus-visible:outline-2 focus-visible:outline-n-brand"
+                  :title="
+                    t('CRM.SETTINGS.ACTUAL_FROM', {
+                      count: actualFor(element).closed_count,
+                    })
+                  "
+                  :aria-label="
+                    t('CRM.SETTINGS.USE_ACTUAL', {
+                      rate: Math.round(actualFor(element).win_rate),
+                      name: stageLabel(element, index),
+                    })
+                  "
+                  @click="useActual(element, actualFor(element).win_rate)"
+                >
+                  {{ Math.round(actualFor(element).win_rate) }}%
+                </button>
+                <span
+                  v-else
+                  class="text-n-slate-10"
+                  :title="
                     t('CRM.SETTINGS.ACTUAL_NOT_ENOUGH', {
                       count: actualFor(element).closed_count,
                       min: actualFor(element).min_closed,
                     })
-                  }}
+                  "
+                >
+                  —
+                  <span class="sr-only">
+                    {{
+                      t('CRM.SETTINGS.ACTUAL_NOT_ENOUGH', {
+                        count: actualFor(element).closed_count,
+                        min: actualFor(element).min_closed,
+                      })
+                    }}
+                  </span>
                 </span>
-              </span>
-            </template>
-          </div>
-          <div class="w-28 shrink-0">
-            <Select
-              v-model="element.kind"
-              :options="kindOptions"
-              :aria-label="t('CRM.SETTINGS.KIND')"
+              </template>
+            </div>
+            <div class="w-28 shrink-0">
+              <Select
+                v-model="element.kind"
+                :options="kindOptions"
+                :aria-label="t('CRM.SETTINGS.KIND')"
+              />
+            </div>
+            <input
+              v-model="element.color"
+              type="color"
+              class="w-8 h-8 p-0 bg-transparent border-0 rounded cursor-pointer shrink-0"
+              :aria-label="t('CRM.SETTINGS.COLOR')"
             />
+            <div class="flex items-center gap-0.5 shrink-0 ms-auto sm:ms-0">
+              <Button
+                icon="i-lucide-arrow-up"
+                size="xs"
+                variant="ghost"
+                color="slate"
+                :disabled="index === 0"
+                :aria-label="
+                  t('CRM.SETTINGS.MOVE_UP', {
+                    name: stageLabel(element, index),
+                  })
+                "
+                @click="moveStage(index, -1)"
+              />
+              <Button
+                icon="i-lucide-arrow-down"
+                size="xs"
+                variant="ghost"
+                color="slate"
+                :disabled="index === stages.length - 1"
+                :aria-label="
+                  t('CRM.SETTINGS.MOVE_DOWN', {
+                    name: stageLabel(element, index),
+                  })
+                "
+                @click="moveStage(index, 1)"
+              />
+              <Button
+                icon="i-lucide-x"
+                size="xs"
+                variant="ghost"
+                color="slate"
+                :aria-label="
+                  t('CRM.SETTINGS.REMOVE_STAGE_NAMED', {
+                    name: stageLabel(element, index),
+                  })
+                "
+                @click="removeStage(element)"
+              />
+            </div>
           </div>
-          <input
-            v-model="element.color"
-            type="color"
-            class="w-8 h-8 p-0 bg-transparent border-0 rounded cursor-pointer shrink-0"
-            :aria-label="t('CRM.SETTINGS.COLOR')"
+          <!-- An open stage's follow-up rules (silence follow-up, task on entry) -->
+          <StageFollowupRules
+            v-if="element.kind === 'open'"
+            :stage="element"
+            @update="patch => Object.assign(element, patch)"
           />
-          <div class="flex items-center gap-0.5 shrink-0 ms-auto sm:ms-0">
-            <Button
-              icon="i-lucide-arrow-up"
-              size="xs"
-              variant="ghost"
-              color="slate"
-              :disabled="index === 0"
-              :aria-label="
-                t('CRM.SETTINGS.MOVE_UP', {
-                  name: stageLabel(element, index),
-                })
-              "
-              @click="moveStage(index, -1)"
-            />
-            <Button
-              icon="i-lucide-arrow-down"
-              size="xs"
-              variant="ghost"
-              color="slate"
-              :disabled="index === stages.length - 1"
-              :aria-label="
-                t('CRM.SETTINGS.MOVE_DOWN', {
-                  name: stageLabel(element, index),
-                })
-              "
-              @click="moveStage(index, 1)"
-            />
-            <Button
-              icon="i-lucide-x"
-              size="xs"
-              variant="ghost"
-              color="slate"
-              :aria-label="
-                t('CRM.SETTINGS.REMOVE_STAGE_NAMED', {
-                  name: stageLabel(element, index),
-                })
-              "
-              @click="removeStage(element)"
-            />
-          </div>
         </li>
       </template>
     </Draggable>

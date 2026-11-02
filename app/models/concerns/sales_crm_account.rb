@@ -24,7 +24,12 @@ module SalesCrmAccount
     has_many :crm_targets, class_name: 'SalesCrm::Target', dependent: :delete_all
 
     store_accessor :settings, :crm_default_currency, :crm_stale_days, :crm_coverage_multiple,
-                   :crm_followup_days, :crm_sms_attribution_days, :crm_channel_sources
+                   :crm_followup_days, :crm_sms_attribution_days, :crm_channel_sources, :crm_won_lost_messages
+  end
+
+  # The thank-you and "why not?" suggestions when a deal is won or lost: on unless the administrator turns them off
+  def crm_won_lost_messages_value
+    ActiveModel::Type::Boolean.new.cast(crm_won_lost_messages) != false
   end
 
   def crm_followup_days_value

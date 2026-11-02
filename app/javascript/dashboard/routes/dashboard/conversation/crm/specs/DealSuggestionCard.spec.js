@@ -20,6 +20,21 @@ describe('DealSuggestionCard', () => {
     );
   });
 
+  it("shows an automation rule's suggestion by its title, and says where it came from", () => {
+    const wrapper = mount(DealSuggestionCard, {
+      props: {
+        suggestion: {
+          id: 8,
+          kind: 'new_deal',
+          origin: 'automation',
+          content: { title: 'طلب جملة — سارة' },
+        },
+      },
+    });
+    expect(wrapper.text()).toContain('طلب جملة — سارة');
+    expect(wrapper.text()).toContain('CRM.PANEL.SUGGESTION.FROM_AUTOMATION');
+  });
+
   it('asks to create the deal or to dismiss the suggestion', async () => {
     const wrapper = mountCard({ summary: 'x' });
     const [create, dismiss] = wrapper.findAll('button');

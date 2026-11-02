@@ -4,7 +4,7 @@
 # colleague's deal moved (SalesCrm::Visibility).
 module SalesCrm::Broadcast
   EVENTS = %w[crm.deal_created crm.deal_updated crm.deal_moved crm.deal_discarded crm.deal_restored
-              crm.task_created crm.task_updated crm.task_completed crm.task_destroyed].freeze
+              crm.task_created crm.task_updated crm.task_completed crm.task_destroyed crm.suggestion_created].freeze
 
   module_function
 

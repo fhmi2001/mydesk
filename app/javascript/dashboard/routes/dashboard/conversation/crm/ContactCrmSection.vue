@@ -24,9 +24,11 @@ import {
 } from 'dashboard/routes/dashboard/crm/shared/dealHelpers';
 import LostReasonDialog from 'dashboard/routes/dashboard/crm/deals/LostReasonDialog.vue';
 import TaskForm from 'dashboard/routes/dashboard/crm/tasks/TaskForm.vue';
-import DealSuggestionCard from './DealSuggestionCard.vue';
 import SummaryDraft from './SummaryDraft.vue';
 import LinkConversationBar from './LinkConversationBar.vue';
+import DealMessageCard from './DealMessageCard.vue';
+import { useSuggestionArrivals } from './useSuggestionArrivals';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 const props = defineProps({
   contactId: { type: [Number, String], required: true },
@@ -69,9 +71,14 @@ const aiAvailable = ref(false);
 // The customer's open deals followed in another conversation (decision ح): the «اربطها» bar
 const linkableDeals = ref([]);
 const isLinking = ref(false);
-const newDealSuggestions = computed(() =>
-  suggestions.value.filter(s => s.kind === 'new_deal')
+// A deal's follow-up, won and lost messages (ج2)
+const DEAL_MESSAGE_KINDS = ['follow_up', 'won_message', 'lost_question'];
+const dealMessageSuggestions = computed(() =>
+  suggestions.value.filter(s => DEAL_MESSAGE_KINDS.includes(s.kind))
 );
+const csatSurveyEnabled = ref(false);
+const canReply = ref(true);
+const writingId = ref(null);
 const loadSuggestions = async () => {
   if (!props.conversationId) {
     suggestions.value = [];
@@ -83,6 +90,7 @@ const loadSuggestions = async () => {
     suggestions.value = data.suggestions || [];
     linkableDeals.value = data.linkable_deals || [];
     aiAvailable.value = Boolean(data.ai_available);
+    csatSurveyEnabled.value = Boolean(data.csat_survey_enabled);
   } catch {
     suggestions.value = [];
     linkableDeals.value = [];
@@ -126,6 +134,8 @@ const load = async () => {
 
 onMounted(load);
 watch(() => [props.contactId, props.conversationId, enabled.value], load);
+// A suggestion made in the background shows at once, without leaving the conversation
+useSuggestionArrivals(() => props.conversationId, loadSuggestions);
 
 const visible = computed(() => enabled.value && loaded.value && !failed.value);
 
@@ -227,15 +237,6 @@ const openNewDeal = (extra = {}) => {
   );
 };
 
-const createFromSuggestion = suggestion => {
-  const { product, summary } = suggestion.content || {};
-  openNewDeal({
-    title: product || undefined,
-    description: summary || undefined,
-    suggestion_id: suggestion.id,
-  });
-};
-
 const linkHere = async deal => {
   isLinking.value = true;
   try {
@@ -286,6 +287,35 @@ const createDealFromSummary = ({ content, amount, close_date: closeDate }) =>
     amount: amount || undefined,
     close_date: closeDate || undefined,
   });
+
+const writeDraft = async suggestion => {
+  writingId.value = suggestion.id;
+  try {
+    const { data } = await crmSuggestionsAPI.draft(suggestion.id);
+    canReply.value = data.can_reply !== false;
+    suggestions.value = suggestions.value.map(s =>
+      s.id === suggestion.id
+        ? { ...s, content: { ...s.content, draft: data.draft } }
+        : s
+    );
+  } catch (error) {
+    useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));
+  } finally {
+    writingId.value = null;
+  }
+};
+
+// The employee sends it themselves: the text goes to the clipboard and the suggestion counts as used
+const copyDraft = async (suggestion, text) => {
+  try {
+    await copyTextToClipboard(text);
+    await crmSuggestionsAPI.accept(suggestion.id);
+    suggestions.value = suggestions.value.filter(s => s.id !== suggestion.id);
+    useAlert(t('CRM.PANEL.DEAL_MESSAGE.COPIED'));
+  } catch (error) {
+    handleError(error);
+  }
+};
 
 const dismissSuggestion = async suggestion => {
   try {
@@ -344,14 +374,19 @@ const TASK_CHECK_CLASS =
       @link="linkHere"
     />
 
-    <DealSuggestionCard
-      v-for="suggestion in newDealSuggestions"
+    <DealMessageCard
+      v-for="suggestion in dealMessageSuggestions"
       :key="suggestion.id"
       :suggestion="suggestion"
-      @create="createFromSuggestion"
+      :can-reply="canReply"
+      :csat-survey-enabled="csatSurveyEnabled"
+      :is-writing="writingId === suggestion.id"
+      @write="writeDraft"
+      @copy="copyDraft"
       @dismiss="dismissSuggestion"
     />
 
+    <!-- A «صفقة جديدة» suggestion shows above the reply box (DealSuggestionBar), not here -->
     <div class="flex flex-wrap items-center gap-2">
       <Button
         :label="t('CRM.PANEL.NEW_DEAL')"

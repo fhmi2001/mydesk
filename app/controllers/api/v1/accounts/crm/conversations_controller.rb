@@ -8,7 +8,8 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
     render json: { lead_source_id: Current.account.crm_lead_source_for_inbox(@conversation.inbox_id)&.id,
                    suggestions: pending_suggestions(@conversation).map { |s| present_suggestion(s) },
                    linkable_deals: linkable_deals(@conversation),
-                   ai_available: SmartAssistant::Config.configured? }
+                   ai_available: SmartAssistant::Config.configured?,
+                   csat_survey_enabled: @conversation.inbox.csat_survey_enabled }
   end
 
   # A draft the employee edits before saving it as a note (أ3); nothing is written here
@@ -24,7 +25,7 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
 
   def pending_suggestions(conversation)
     SalesCrm::Visibility.suggestions(Current.account, Current.user).pending.where(conversation_id: conversation.id)
-                        .order(:created_at)
+                        .includes(:deal).order(:created_at)
   end
 
   # The customer's open deals the user may see (their owner or an administrator) that are followed in another
@@ -41,6 +42,6 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
   end
 
   def present_suggestion(suggestion)
-    suggestion.slice(:id, :kind, :origin, :content, :deal_id, :created_at)
+    suggestion.slice(:id, :kind, :origin, :content, :deal_id, :created_at).merge(deal_title: suggestion.deal&.title)
   end
 end

@@ -17,6 +17,7 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
       deal.save!
       accept_suggestion(deal, params[:suggestion_id])
       announce(deal)
+      SalesCrm::StageEntry.call(deal, stage)
       deal
     end
   end

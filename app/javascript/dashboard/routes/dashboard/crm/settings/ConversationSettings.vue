@@ -104,6 +104,25 @@ const saveDays = (key, value) => {
           @blur="saveDays('sms_attribution_days', smsDays)"
         />
       </div>
+      <label
+        class="flex items-start gap-2 mt-4 cursor-pointer text-body-main text-n-slate-12"
+      >
+        <input
+          type="checkbox"
+          data-testid="won-lost-messages"
+          class="mt-1 size-4 accent-n-brand"
+          :checked="settings.won_lost_messages !== false"
+          @change="
+            event => emit('save', { won_lost_messages: event.target.checked })
+          "
+        />
+        <span>
+          {{ t('CRM.SETTINGS.CONVERSATIONS.WON_LOST') }}
+          <span class="block text-label-small text-n-slate-11">
+            {{ t('CRM.SETTINGS.CONVERSATIONS.WON_LOST_HINT') }}
+          </span>
+        </span>
+      </label>
     </div>
   </section>
 </template>

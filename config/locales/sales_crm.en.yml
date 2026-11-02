@@ -34,6 +34,8 @@ en:
       invalid_amount: The amount is not a valid number
       invalid_currency: Unsupported currency
       not_found: Not found
+    follow_up:
+      task_title: 'Follow up: %{title}'
     activities:
       created: Deal created
       stage_changed: Stage changed

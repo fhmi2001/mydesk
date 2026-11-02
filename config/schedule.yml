@@ -110,6 +110,12 @@ sales_crm_purge_discarded_deals_job:
   class: 'SalesCrm::PurgeDiscardedDealsJob'
   queue: scheduled_jobs
 
+# Custom (MyDesk): Sales follow-up when a customer goes quiet (hourly)
+sales_crm_follow_up_job:
+  cron: '15 * * * *'
+  class: 'SalesCrm::FollowUpJob'
+  queue: scheduled_jobs
+
 # Custom (MyDesk): purge of Sales suggestions dismissed over 30 days ago (daily 03:40)
 sales_crm_purge_dismissed_suggestions_job:
   cron: '40 3 * * *'

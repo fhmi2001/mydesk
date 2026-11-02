@@ -2,6 +2,8 @@
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 // Custom (MyDesk): channel + message of "send a message through a channel"
 import AutomationActionInboxMessageInput from './AutomationActionInboxMessageInput.vue';
+// Custom (MyDesk): the settings of the Sales actions
+import AutomationCrmActionInput from 'dashboard/routes/dashboard/crm/automation/AutomationCrmActionInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -15,6 +17,7 @@ export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionInboxMessageInput,
+    AutomationCrmActionInput,
     AutomationActionFileInput,
     WootMessageEditor,
     NextButton,
@@ -102,9 +105,14 @@ export default {
       }));
     },
     isVerticalLayout() {
-      return ['team_message', 'inbox_message', 'textarea', 'email'].includes(
-        this.inputType
-      );
+      // Custom (MyDesk): + crm_action
+      return [
+        'team_message',
+        'inbox_message',
+        'crm_action',
+        'textarea',
+        'email',
+      ].includes(this.inputType);
     },
     castMessageVmodel: {
       get() {
@@ -224,6 +232,13 @@ export default {
         v-else-if="inputType === 'inbox_message'"
         v-model="action_params"
         :dropdown-max-height="dropdownMaxHeight"
+      />
+      <!-- Custom (MyDesk): the Sales actions -->
+      <AutomationCrmActionInput
+        v-else-if="inputType === 'crm_action'"
+        :model-value="castMessageVmodel"
+        :action-name="action_name"
+        @update:model-value="value => (action_params = value)"
       />
       <WootMessageEditor
         v-else-if="inputType === 'textarea'"

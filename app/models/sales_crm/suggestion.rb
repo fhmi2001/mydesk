@@ -20,9 +20,22 @@ class SalesCrm::Suggestion < ApplicationRecord
 
   validates :deal, presence: true, if: -> { DEAL_KINDS.include?(kind) }
 
+  # The conversation panel shows it at once, wherever it came from (the assistant, a rule, the hourly follow-up)
+  after_create_commit :announce
+
   def decide!(decision, user)
     raise AlreadyDecided unless pending?
 
     update!(status: decision, decided_by: user, decided_at: Time.current)
+  end
+
+  private
+
+  # To those who may see it (SalesCrm::Visibility.suggestions): the conversation's assignee for a new deal or a note,
+  # the deal's owner for its messages; SalesCrm::Broadcast adds the administrators
+  def announce
+    audience = DEAL_KINDS.include?(kind) ? deal&.assignee_id : conversation&.assignee_id
+    SalesCrm::Broadcast.call(account, 'crm.suggestion_created',
+                             { id: id, kind: kind, conversation_id: conversation&.display_id }, to: audience)
   end
 end

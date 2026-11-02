@@ -29,6 +29,15 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/javascript/dashboard/components-next/sidebar/Sidebar.vue` | the «المبيعات» group (Deals, Tasks + overdue badge, Reports, Settings); `crm/status/fetch` on mount | Navigation |
 | `app/javascript/dashboard/helper/actionCable.js` | `crm.deal_*` / `crm.task_*` events → `crm/deals/onRemoteChange`, `crm/tasks/onRemoteChange` | Live updates between agents |
 | `app/javascript/dashboard/composables/useUISettings.js` | `{ name: 'crm' }` in `DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER` | The panel section appears for users with a saved order too |
+| `app/models/automation_rule.rb` | `suggest_crm_deal create_crm_task move_crm_deal` in `actions_attributes` | The Sales actions of automation rules (CONVERSATION_SALES_PLAN.md, ج1); their code is `SalesCrm::AutomationActionsPatch`, prepended into `AutomationRules::ActionService` from `config/initializers/sales_crm.rb` |
+| `app/javascript/dashboard/routes/dashboard/settings/automation/constants.js` | three `crm_action` entries in `AUTOMATION_ACTION_TYPES` | The actions in the rule editor |
+| `app/javascript/dashboard/routes/dashboard/settings/automation/AutomationRuleForm.vue` | hides the three actions when `crm/status/isEnabled` is false | Only for accounts with the Sales section |
+| `app/javascript/dashboard/components/widgets/AutomationActionInput.vue` | `crm_action` input type rendering `AutomationCrmActionInput` | The actions' settings (title, kind, hours, stage) |
+| `app/javascript/dashboard/composables/useEditableAutomation.js` | `crm_action` params read back as one object, like `inbox_message` | Editing a saved rule |
+| `app/javascript/dashboard/helper/automationHelper.js`, `app/javascript/dashboard/helper/validations.js` | icons; required settings of each Sales action | Rule editor |
+| `app/javascript/dashboard/i18n/locale/{ar,en}/automation.json` | `ACTIONS.SUGGEST_CRM_DEAL`, `CREATE_CRM_TASK`, `MOVE_CRM_DEAL` | Action names |
+| `app/javascript/dashboard/components/widgets/conversation/MessagesView.vue` | `DealSuggestionBar` import, registration, and one line above the reply box | A «صفقة جديدة» suggestion where the employee replies, even with the side panel closed |
+| `app/javascript/dashboard/helper/actionCable.js`, `app/javascript/shared/constants/busEvents.js` | `crm.suggestion_created` → `BUS_EVENTS.CRM_SUGGESTION_CREATED` | Suggestions made in the background appear at once |
 | `app/javascript/dashboard/components/widgets/conversation/ConversationCard.vue` | `DealBadge` import and one line in the status row | The customer's open deals on each conversation card (CONVERSATION_SALES_PLAN.md, أ4) |
 | `app/javascript/dashboard/routes/dashboard/conversation/ContactPanel.vue` | the `crm` accordion item rendering `ContactCrmSection` | Deals & tasks beside the conversation |
 | `app/javascript/dashboard/routes/dashboard/contacts/pages/ContactManageView.vue` | a `CRM` tab rendering `ContactCrmSection` | Deals & tasks on the contact page |

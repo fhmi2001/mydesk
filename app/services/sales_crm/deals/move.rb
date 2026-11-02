@@ -14,7 +14,7 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
       place(deal, stage, position)
       apply_status(deal, stage, lost_reason, lost_note)
       deal.save!
-      log_move(deal, stage, from_stage_id)
+      record_move(deal, stage, from_stage_id)
       broadcast('crm.deal_moved', { id: deal.id, stage_id: stage.id, position: deal.position, pipeline_id: deal.pipeline_id,
                                     from_stage_id: from_stage_id }, to: deal.assignee_id)
       deal
@@ -53,11 +53,13 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
     end
   end
 
-  def log_move(deal, stage, from_stage_id)
+  # Logs a change of stage and sets off what entering the new stage does (SalesCrm::StageEntry)
+  def record_move(deal, stage, from_stage_id)
     return if from_stage_id == stage.id
 
     log(deal, 'stage_changed', from_stage_id: from_stage_id, to_stage_id: stage.id)
     log(deal, 'won') if stage.won?
     log(deal, 'lost', reason: deal.lost_reason, note: deal.lost_note) if stage.lost?
+    SalesCrm::StageEntry.call(deal, stage)
   end
 end

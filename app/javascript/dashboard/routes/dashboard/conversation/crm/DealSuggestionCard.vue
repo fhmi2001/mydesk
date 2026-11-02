@@ -7,11 +7,18 @@ import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   suggestion: { type: Object, required: true },
+  // One short row (above the reply box): the text beside its buttons, wrapping on a narrow screen
+  inline: { type: Boolean, default: false },
 });
 const emit = defineEmits(['create', 'dismiss']);
 const { t } = useI18n();
 
 const content = computed(() => props.suggestion.content || {});
+const heading = computed(() =>
+  props.suggestion.origin === 'automation'
+    ? t('CRM.PANEL.SUGGESTION.FROM_AUTOMATION')
+    : t('CRM.PANEL.SUGGESTION.TITLE')
+);
 // What, how many, where: only the parts the customer said
 const details = computed(() =>
   [content.value.product, content.value.quantity, content.value.city]
@@ -23,27 +30,35 @@ const details = computed(() =>
 
 <template>
   <section
-    class="flex flex-col gap-2 p-3 rounded-lg bg-n-iris-2 outline outline-1 -outline-offset-1 outline-n-iris-5"
-    :aria-label="t('CRM.PANEL.SUGGESTION.TITLE')"
+    class="flex gap-2 p-3 rounded-lg bg-n-iris-2 outline outline-1 -outline-offset-1 outline-n-iris-5"
+    :class="inline ? 'flex-wrap items-center justify-between' : 'flex-col'"
+    :aria-label="heading"
   >
-    <p
-      class="flex items-center gap-1.5 text-label-small font-medium text-n-iris-11"
-    >
-      <span class="i-lucide-sparkles size-3.5" aria-hidden="true" />
-      {{ t('CRM.PANEL.SUGGESTION.TITLE') }}
-    </p>
-    <p v-if="content.summary" class="text-body-main text-n-slate-12" dir="auto">
-      {{ content.summary }}
-    </p>
-    <p
-      v-if="details"
-      data-testid="suggestion-details"
-      class="text-label-small text-n-slate-11"
-      dir="auto"
-    >
-      {{ details }}
-    </p>
-    <div class="flex items-center gap-2">
+    <div class="flex flex-col min-w-0 gap-1" :class="{ 'flex-1': inline }">
+      <p
+        class="flex items-center gap-1.5 text-label-small font-medium text-n-iris-11"
+      >
+        <span class="i-lucide-sparkles size-3.5" aria-hidden="true" />
+        {{ heading }}
+      </p>
+      <!-- The assistant writes a summary; an automation rule gives a title -->
+      <p
+        v-if="content.summary || content.title"
+        class="text-body-main text-n-slate-12"
+        dir="auto"
+      >
+        {{ content.summary || content.title }}
+      </p>
+      <p
+        v-if="details"
+        data-testid="suggestion-details"
+        class="text-label-small text-n-slate-11"
+        dir="auto"
+      >
+        {{ details }}
+      </p>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
       <Button
         :label="t('CRM.PANEL.SUGGESTION.CREATE')"
         size="xs"

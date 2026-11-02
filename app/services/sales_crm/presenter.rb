@@ -9,7 +9,9 @@ module SalesCrm::Presenter
   end
 
   def stage(stage)
-    { id: stage.id, name: stage.name, probability: stage.probability, kind: stage.kind, position: stage.position, color: stage.color }
+    { id: stage.id, name: stage.name, probability: stage.probability, kind: stage.kind, position: stage.position, color: stage.color,
+      silence_followup: stage.silence_followup, followup_task_days: stage.followup_task_days,
+      followup_task_title: stage.followup_task_title }
   end
 
   def deal(deal)

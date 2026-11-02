@@ -78,6 +78,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'crm.task_updated': this.onCrmTaskChanged,
       'crm.task_completed': this.onCrmTaskChanged,
       'crm.task_destroyed': this.onCrmTaskChanged,
+      'crm.suggestion_created': this.onCrmSuggestionCreated,
       'captain.playground.response': this.onCaptainPlaygroundResponse,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
@@ -406,6 +407,12 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onCrmTaskChanged = data => {
     this.app.$store.dispatch('crm/tasks/onRemoteChange', data);
+  };
+
+  // A Sales suggestion (assistant, rule or follow-up): the conversation panel showing it reloads its suggestions
+  // eslint-disable-next-line class-methods-use-this
+  onCrmSuggestionCreated = data => {
+    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, data);
   };
 
   onNotificationCreated = data => {

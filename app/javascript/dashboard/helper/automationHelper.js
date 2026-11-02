@@ -98,6 +98,9 @@ const ACTION_ICONS = {
   send_email_transcript: 'i-lucide-mail',
   send_message: 'i-lucide-message-square',
   send_message_via_inbox: 'i-lucide-send-horizontal', // Custom (MyDesk)
+  suggest_crm_deal: 'i-lucide-briefcase', // Custom (MyDesk): the Sales actions
+  create_crm_task: 'i-lucide-list-plus', // Custom (MyDesk)
+  move_crm_deal: 'i-lucide-arrow-right-left', // Custom (MyDesk)
   add_private_note: 'i-lucide-sticky-note',
   send_attachment: 'i-lucide-paperclip',
   send_webhook_event: 'i-lucide-webhook',
