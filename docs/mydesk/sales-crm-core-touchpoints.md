@@ -39,6 +39,7 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/javascript/dashboard/components/widgets/conversation/MessagesView.vue` | `DealSuggestionBar` import, registration, and one line above the reply box | A «صفقة جديدة» suggestion where the employee replies, even with the side panel closed |
 | `app/javascript/dashboard/helper/actionCable.js`, `app/javascript/shared/constants/busEvents.js` | `crm.suggestion_created` → `BUS_EVENTS.CRM_SUGGESTION_CREATED` | Suggestions made in the background appear at once |
 | `app/javascript/dashboard/components/widgets/conversation/ConversationCard.vue` | `DealBadge` import and one line in the status row | The customer's open deals on each conversation card (CONVERSATION_SALES_PLAN.md, أ4) |
+| `app/javascript/dashboard/components-next/Conversation/ConversationCard/ConversationCardExpanded.vue` | `DealBadge` import and one element at the start of the right section | The same badge on the wide list row, the layout shown when no conversation is open |
 | `app/javascript/dashboard/routes/dashboard/conversation/ContactPanel.vue` | the `crm` accordion item rendering `ContactCrmSection` | Deals & tasks beside the conversation |
 | `app/javascript/dashboard/routes/dashboard/contacts/pages/ContactManageView.vue` | a `CRM` tab rendering `ContactCrmSection` | Deals & tasks on the contact page |
 | `app/javascript/dashboard/i18n/locale/{en,ar}/index.js` | `crm.json` import + spread | Translations |

@@ -460,3 +460,17 @@
 | 12 | حساب الركود من عمودين | عمود واحد `last_touch_at` يحمل الأحدث بينهما، يُحدَّث مع كل منهما | القسم 1.3، والمرحلة 1، ود1 |
 | 13 | استمرار المحادثة بعد حلّها | محادثة الأصل ثابتة، ومحادثة جارية `active_conversation_id` تنتقل تلقائياً في الحالة الواضحة، وبنقرة «اربطها» أو يدوياً في غيرها | القسم 1.3، والمرحلة 1، وأ4، وج2، ود1 |
 | 14 | `lock_to_single_conversation` | لا يُفعَّل من هذه الخطة | القسم 1.3 |
+
+## صور الشاشات (المرحلة 5)
+
+من الحساب التجريبي (`rails sales_crm:demo_seed`)، بصلاحية المدير. صور التقارير 20 و21 و22 في [docs/reports/README.md](../reports/README.md).
+
+| الشاشة | الصورة |
+|---|---|
+| اقتراح صفقة من المساعد أعلى صندوق الكتابة | [manager-suggestion-bar](screenshots/manager-suggestion-bar.jpg) |
+| شارة الصفقة في قائمة المحادثات | [manager-deal-badges](screenshots/manager-deal-badges.jpg) |
+| إعدادات المبيعات، تبويب «المحادثات» | [manager-conversation-settings](screenshots/manager-conversation-settings.jpg) |
+| قواعد المتابعة لكل مرحلة في محرر المسار | [manager-stage-rules](screenshots/manager-stage-rules.jpg) |
+| إجراء المبيعات في الأتمتة | [manager-automation-action](screenshots/manager-automation-action.jpg) |
+
+على عرض الهاتف (390 بكسل) قيس الشريط بدل تصويره: يملأ العرض دون تمرير أفقي، ويقع فوق صندوق الكتابة مباشرة.

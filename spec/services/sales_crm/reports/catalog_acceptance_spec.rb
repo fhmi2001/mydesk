@@ -39,7 +39,8 @@ RSpec.describe SalesCrm::Reports::Catalog do
   def dig_path(data, path)
     path.split('.').reduce(data) do |node, part|
       name, field, value = part.match(/\A([^\[]+)(?:\[(\w+)=(.+)\])?\z/).captures
-      found = node && (node[name.to_sym] || node[name])
+      # key? rather than ||, so a false value is read as false, not as missing
+      found = node && (node.key?(name.to_sym) ? node[name.to_sym] : node[name])
       field ? Array(found).find { |row| (row[field.to_sym] || row[field]).to_s == value } : found
     end
   end
@@ -61,7 +62,9 @@ RSpec.describe SalesCrm::Reports::Catalog do
     ['coverage', { from: '2026-11-01', to: '2026-11-30' }, 'totals.open_cents', :open_cents],
     ['losses', { from: '2026-07-01', to: '2026-09-30' }, 'totals.count', :count],
     ['new_deals', { from: '2026-10-01', to: '2026-10-31' }, 'totals.count', :count],
-    ['activity', { from: '2026-10-01', to: '2026-10-31' }, 'totals.activity_count', :activity_count]
+    ['activity', { from: '2026-10-01', to: '2026-10-31' }, 'totals.activity_count', :activity_count],
+    ['activity', { from: '2026-10-01', to: '2026-10-31' }, 'totals.message_count', :message_count],
+    ['conversation_deals', { from: '2026-10-01', to: '2026-10-31' }, 'totals.conversation_count', :conversation_count]
   ]
 
   team_sums.each do |key, params, total, field|
@@ -75,7 +78,10 @@ RSpec.describe SalesCrm::Reports::Catalog do
     [['pipeline_by_stage', {}, {}, 'totals.count'],
      ['closing', { from: '2026-11-01', to: '2026-11-30' }, {}, 'totals.count'],
      ['won_lost', { from: '2026-07-01', to: '2026-09-30' }, { status: 'won' }, 'totals.won_count'],
-     ['new_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.count']].each do |key, params, cell, path|
+     ['new_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.count'],
+     # Custom (MyDesk): the conversation reports (CONVERSATION_SALES_PLAN.md, phase 4)
+     ['response_speed', { from: '2026-05-01', to: '2026-10-31' }, { bucket: 'under_5m' }, 'buckets[key=under_5m].closed_count'],
+     ['conversation_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.deal_count']].each do |key, params, cell, path|
       count = dig_path(report(key, 'manager', params).perform, path)
       drilled = report(key, 'manager', params.merge(cell: cell))
       expect(drilled.drill[:total_count]).to eq(count), key

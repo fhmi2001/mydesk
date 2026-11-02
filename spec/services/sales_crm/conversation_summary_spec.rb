@@ -35,6 +35,19 @@ RSpec.describe SalesCrm::ConversationSummary do
     end
   end
 
+  it 'writes nothing: no deal, no note, no amount until the employee saves' do
+    deal = create(:crm_deal, account: account, conversation: conversation, amount_cents: 100)
+    expect { summarize }.not_to(change { [account.crm_deals.count, account.crm_notes.count] })
+    expect(deal.reload.amount_cents).to eq(100)
+  end
+
+  it 'is not stopped by the reply quota of the assistant, which is apart' do
+    assistant = SmartAssistant.for_account(account).tap(&:save!)
+    allow(SmartAssistant::Config).to receive(:monthly_reply_limit).and_return(0)
+    expect(assistant.quota_reached?).to be(true)
+    expect(summarize[:summary]).to eq('يريد 500 كرتون')
+  end
+
   it 'drops an amount or a date the conversation did not give' do
     answer.merge!('suggested_amount' => '', 'suggested_close_date' => 'next week')
     expect(summarize).to include(suggested_amount: nil, suggested_close_date: nil)

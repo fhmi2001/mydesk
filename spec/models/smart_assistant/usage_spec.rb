@@ -32,6 +32,12 @@ RSpec.describe SmartAssistant::Usage do
       expect(described_class.crm_limit_reached?(account)).to be(false)
     end
 
+    it 'never counts toward the reply quota, which counts the assistant bot replies' do
+      assistant = SmartAssistant.for_account(account).tap(&:save!)
+      5.times { sales_call(:crm_summary) }
+      expect(assistant.replies_this_month).to eq(0)
+    end
+
     it 'is reached once the Sales calls hit the limit, whatever the replies' do
       sales_call(:crm_summary)
       sales_call(:crm_message)

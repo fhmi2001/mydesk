@@ -1,7 +1,8 @@
 # Custom (MyDesk): demo data for the Sales reports (CRM_REPORTS_PLAN.md, phase 6). One account, a manager and four
 # employees, about 200 deals over the six months up to `anchor` with their whole history in the activity log (created,
 # moves between stages days apart, value changes, pushed close dates, won and lost), tasks done and late, notes, and a
-# monthly target per employee. Everything comes from one seeded random generator and dates relative to `anchor`, so
+# monthly target per employee; in the demo account, conversations too (SalesCrm::DemoConversations). Everything comes
+# from one seeded random generator and dates relative to `anchor`, so
 # the same anchor always gives the same data: docs/reports/expected_numbers.yml is checked against it
 # (spec/services/sales_crm/reports/catalog_acceptance_spec.rb). Records are written directly, with their past timestamps; the
 # services would stamp them now.
@@ -63,6 +64,8 @@ class SalesCrm::DemoSeed
       customers
       DEALS.times { |index| deal(index) }
       tasks_and_notes
+      # Demo conversations, replies, campaigns and suggestions: in the demo account only, never in a real one
+      SalesCrm::DemoConversations.new(self).perform unless @target
     end
     self
   end
@@ -96,6 +99,7 @@ class SalesCrm::DemoSeed
 
   # A fresh start: the account's Sales data goes, its users and settings stay
   def clear
+    SalesCrm::DemoConversations.clear(account)
     %i[crm_activities crm_notes crm_tasks crm_deals crm_targets contacts].each { |records| account.public_send(records).delete_all }
     account.reload # delete_all leaves those associations loaded and empty; the rows written next must be read afresh
   end
