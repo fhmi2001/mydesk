@@ -33,7 +33,7 @@ module SuperAdmin::NavigationHelper
   end
 
   def monitor_open?
-    controller_name.in? %w[instance_statuses user_diagnostics whatsapp_web_statuses] # Custom (MyDesk): + WhatsApp Web
+    controller_name.in? %w[instance_statuses user_diagnostics whatsapp_web_statuses crm_overview] # Custom (MyDesk): + WhatsApp Web, CRM
   end
 
   def settings_pages
@@ -95,6 +95,9 @@ module SuperAdmin::NavigationHelper
       # Custom (MyDesk): the WhatsApp Web (QR) gateway
       { label: t('super_admin.navigation.whatsapp_web'), url: super_admin_whatsapp_web_status_path, icon: 'i-lucide-message-circle',
         active: controller_name == 'whatsapp_web_statuses' },
+      # Custom (MyDesk): the Sales CRM across accounts
+      { label: t('super_admin.navigation.crm'), url: super_admin_crm_overview_index_path, icon: 'i-lucide-briefcase',
+        active: controller_name == 'crm_overview' },
       { label: t('super_admin.navigation.sidekiq_dashboard'), url: sidekiq_web_path, icon: 'i-lucide-layers', external: true }
     ]
   end

@@ -39,7 +39,8 @@ export const conversationListPageURL = ({
   teamId,
   customViewId,
 }) => {
-  let url = `accounts/${accountId}/dashboard`;
+  // Custom (MyDesk): the conversation list moved from /dashboard (now the home screen) to /conversations
+  let url = `accounts/${accountId}/conversations`;
   if (label) {
     url = `accounts/${accountId}/label/${label}`;
   } else if (teamId) {

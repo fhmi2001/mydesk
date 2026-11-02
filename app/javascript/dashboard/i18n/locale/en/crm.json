@@ -1,0 +1,984 @@
+{
+  "CRM": {
+    "SIDEBAR": {
+      "GROUP": "Sales",
+      "DEALS": "Deals",
+      "TASKS": "Tasks",
+      "REPORTS": "Sales reports",
+      "SETTINGS": "Sales settings"
+    },
+    "COMMON": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "DELETE": "Delete",
+      "EDIT": "Edit",
+      "CLOSE": "Close",
+      "RETRY": "Retry",
+      "LOADING": "Loading…",
+      "NONE": "—",
+      "NO_ASSIGNEE": "No assignee",
+      "ANY_ASSIGNEE": "Any assignee",
+      "UNASSIGNED": "Unassigned",
+      "SEARCH": "Search",
+      "SHOW_MORE": "Show more",
+      "ALL": "All",
+      "OPEN": "Open",
+      "WON": "Won",
+      "LOST": "Lost",
+      "DONE": "Done",
+      "CONFIRM": "Confirm",
+      "ERROR": "Something went wrong. Please try again.",
+      "SAVED": "Saved",
+      "UNAVAILABLE_TITLE": "The CRM is temporarily unavailable",
+      "UNAVAILABLE_BODY": "Your conversations keep working. Try again in a moment.",
+      "STALE_TITLE": "This deal changed",
+      "STALE_BODY": "Someone else updated it. Reload to see the latest version.",
+      "RELOAD": "Reload",
+      "DISABLED": "The Sales CRM is not enabled for this account.",
+      "BACK": "Back"
+    },
+    "CONTACT_PICKER": {
+      "TYPE_MORE": "Type at least two characters to search customers.",
+      "NO_MATCH": "No customer with that name or number.",
+      "NO_CONTACTS": "No customers yet."
+    },
+    "PLURALS": {
+      "DEALS": {
+        "zero": "No deals",
+        "one": "1 deal",
+        "two": "2 deals",
+        "few": "{count} deals",
+        "many": "{count} deals",
+        "other": "{count} deals"
+      },
+      "TASKS": {
+        "zero": "No tasks",
+        "one": "1 task",
+        "two": "2 tasks",
+        "few": "{count} tasks",
+        "many": "{count} tasks",
+        "other": "{count} tasks"
+      },
+      "OPEN_DEALS": {
+        "zero": "0 open",
+        "one": "1 open",
+        "two": "2 open",
+        "few": "{count} open",
+        "many": "{count} open",
+        "other": "{count} open"
+      },
+      "DAYS": {
+        "zero": "0 days",
+        "one": "1 day",
+        "two": "2 days",
+        "few": "{count} days",
+        "many": "{count} days",
+        "other": "{count} days"
+      }
+    },
+    "DEALS": {
+      "TITLE": "Deals",
+      "SUBTITLE": "Track every opportunity from the first contact to a win or a loss.",
+      "NEW": "New deal",
+      "EDIT_PIPELINE": "Edit pipeline",
+      "VIEW_BOARD": "Board",
+      "VIEW_TABLE": "Table",
+      "EXPORT": "Export CSV",
+      "SUMMARY": "{open} · total {total} · expected {expected}",
+      "SUMMARY_OPEN": "open",
+      "SUMMARY_TOTAL": "Total",
+      "SUMMARY_EXPECTED": "Expected",
+      "ADD_TO_STAGE": "Add deal",
+      "COLUMN_TOTAL": "Total",
+      "COLUMN_WEIGHTED": "Weighted",
+      "COLUMN_WEIGHTED_HINT": "Weighted amount: each deal times its win probability (its own, else the stage's)",
+      "COLUMN_OUTCOME": "Probability",
+      "COLUMN_WON": "Won (100%)",
+      "COLUMN_LOST": "Lost (0%)",
+      "EMPTY_TITLE": "No deals yet",
+      "EMPTY_BODY": "Create the first deal, or add one from a customer's conversation.",
+      "EMPTY_SEARCH": "No deals match your search.",
+      "PIPELINE": "Pipeline",
+      "STATUS": "Status",
+      "PRIORITY": "Priority",
+      "ANY_PRIORITY": "Any priority",
+      "PRIORITIES": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "ASSIGNEE": "Assignee",
+      "SEARCH_PLACEHOLDER": "Search deals…",
+      "DISCARDED_TAB": "Deleted",
+      "RESTORE": "Restore",
+      "RESTORED": "Deal restored",
+      "DELETED": "Deal deleted",
+      "DELETE_CONFIRM_TITLE": "Delete this deal?",
+      "DELETE_CONFIRM_BODY": "It can be restored from the Deleted tab for 30 days.",
+      "COLUMNS": {
+        "TITLE": "Title",
+        "AMOUNT": "Amount",
+        "STAGE": "Stage",
+        "CONTACT": "Customer",
+        "ASSIGNEE": "Assignee",
+        "CLOSE_DATE": "Expected close",
+        "STATUS": "Status",
+        "UPDATED": "Updated",
+        "DELETED_AT": "Deleted"
+      },
+      "FORM": {
+        "NEW_TITLE": "New deal",
+        "EDIT_TITLE": "Edit deal",
+        "TITLE": "Title",
+        "TITLE_PLACEHOLDER": "e.g. Gold package",
+        "AMOUNT": "Amount",
+        "CURRENCY": "Currency",
+        "STAGE": "Stage",
+        "CONTACT": "Customer",
+        "CONTACT_PLACEHOLDER": "Search customers by name or phone",
+        "CONTACT_NONE": "No customer",
+        "ASSIGNEE": "Assignee",
+        "CLOSE_DATE": "Expected close date",
+        "CLOSE_DATE_PAST": "This date is in the past.",
+        "DESCRIPTION": "Notes",
+        "TITLE_REQUIRED": "A title is required",
+        "AMOUNT_INVALID": "Enter a valid amount",
+        "SAVED": "Deal saved",
+        "REPORT_FIELDS": "For reports",
+        "FORECAST_CATEGORY": "Forecast category",
+        "FORECAST_AUTO": "Automatic (from the probability)",
+        "PROBABILITY": "Probability %",
+        "PROBABILITY_FROM_STAGE": "From the stage: {value}",
+        "PROBABILITY_HINT": "Leave empty to follow the stage. Moving the deal resets it to the stage.",
+        "AMOUNT_REQUIRED": "Enter an amount above zero; an open deal needs one.",
+        "CLOSE_DATE_REQUIRED": "Enter the expected close date; an open deal needs one.",
+        "ESSENTIALS": "Essentials",
+        "PEOPLE": "Contact and owner",
+        "FORECAST_HEADING": "Classification and forecast",
+        "REQUIRED_NOTE": "Fields marked * are required for open deals.",
+        "AMOUNT_IN": "Amount ({currency})",
+        "REPORT_FIELDS_HINT": "Optional; used to group deals in reports.",
+        "ASSIGNEE_ADMIN_ONLY": "Only the manager can hand a deal to someone else."
+      },
+      "LOST_DIALOG": {
+        "TITLE": "Why was this deal lost?",
+        "BODY": "The reason appears in the lost reasons report.",
+        "REASON": "Reason",
+        "PLACEHOLDER": "Choose a reason",
+        "CONFIRM": "Mark as lost",
+        "REQUIRED": "A reason is required",
+        "NOTE": "Additional notes (optional)",
+        "NOTE_PLACEHOLDER": "e.g. asked for a 30% discount"
+      },
+      "DETAIL": {
+        "BACK": "Back to deals",
+        "MARK_WON": "Mark as won",
+        "MARK_LOST": "Mark as lost",
+        "REOPEN": "Reopen",
+        "WON_AT": "Won on {date}",
+        "LOST_AT": "Lost on {date}: {reason}",
+        "TASKS": "Tasks",
+        "ADD_TASK": "Add task",
+        "NO_TASKS": "No tasks for this deal yet.",
+        "NOTES": "Notes",
+        "ADD_NOTE": "Add note",
+        "NOTE_PLACEHOLDER": "Write a note…",
+        "NEW_NOTE": "New note",
+        "DELETE_NOTE": "Delete note",
+        "NO_NOTES": "No notes yet.",
+        "ACTIVITY": "Activity",
+        "NO_ACTIVITY": "No activity yet.",
+        "CONVERSATIONS": "Customer conversations",
+        "OPEN_CONVERSATION": "Open conversation",
+        "SOURCE": "Source",
+        "SOURCES": {
+          "manual": "Added manually",
+          "conversation_source": "From a conversation",
+          "salla": "From Salla"
+        },
+        "CREATED_BY": "Created by {name}",
+        "LOST_NOTE": "Lost notes",
+        "FROM_STAGE": "(from the stage)",
+        "SET_ON_DEAL": "(set on the deal)",
+        "AUTO": "(automatic)",
+        "LAST_ACTIVITY": "Last activity"
+      },
+      "ACTIVITY": {
+        "created": "created the deal",
+        "stage_changed": "moved the deal to {stage}",
+        "amount_changed": "changed the amount to {amount}",
+        "assignee_changed": "changed the assignee",
+        "priority_changed": "changed the priority from {from} to {to}",
+        "won": "marked the deal as won",
+        "lost": "marked the deal as lost: {reason}",
+        "reopened": "reopened the deal",
+        "note_added": "added a note",
+        "task_added": "added the task «{title}»",
+        "task_done": "completed the task «{title}»",
+        "discarded": "deleted the deal",
+        "restored": "restored the deal",
+        "SYSTEM": "System",
+        "close_date_changed": "changed the expected close date to {date}"
+      },
+      "VIEW_LABEL": "View",
+      "FORECAST": {
+        "pipeline": "Pipeline",
+        "best_case": "Best case",
+        "commit": "Commit",
+        "omitted": "Omitted"
+      }
+    },
+    "TASKS": {
+      "TITLE": "Tasks",
+      "SUBTITLE": "Follow-ups and reminders for you and your team.",
+      "NEW": "New task",
+      "TABS": {
+        "mine": "Mine",
+        "today": "Today",
+        "overdue": "Overdue",
+        "upcoming": "Upcoming",
+        "done": "Done",
+        "all": "All"
+      },
+      "EMPTY": {
+        "mine": "You have no open tasks.",
+        "today": "Nothing due today.",
+        "overdue": "No overdue tasks. Well done!",
+        "upcoming": "Nothing scheduled.",
+        "done": "No completed tasks yet.",
+        "all": "No open tasks."
+      },
+      "DUE": "Due {date}",
+      "NO_DUE": "No due date",
+      "OVERDUE": "Overdue",
+      "COMPLETE": "Mark as done",
+      "REOPEN": "Reopen",
+      "COMPLETE_ARIA": "Mark “{title}” as done",
+      "REOPEN_ARIA": "Reopen “{title}”",
+      "EDIT_ARIA": "Edit task “{title}”",
+      "DELETE_ARIA": "Delete task “{title}”",
+      "LOAD_MORE": "Show more ({count})",
+      "COPY_LINK": "Copy link",
+      "COPY_LINK_ARIA": "Copy link to task “{title}”",
+      "LINK_COPIED": "Task link copied",
+      "NOT_FOUND": "This task doesn't exist or was deleted.",
+      "COMPLETED": "Task completed",
+      "DELETED": "Task deleted",
+      "DELETE_CONFIRM": "Delete this task?",
+      "FOR_DEAL": "Deal: {title}",
+      "FOR_CONTACT": "Customer: {name}",
+      "FORM": {
+        "NEW_TITLE": "New task",
+        "EDIT_TITLE": "Edit task",
+        "TITLE": "Title",
+        "TITLE_PLACEHOLDER": "e.g. Call the customer about the quote",
+        "DESCRIPTION": "Details",
+        "DUE_AT": "Due date and time",
+        "ASSIGNEE": "Assignee",
+        "CONTACT": "Customer",
+        "DEAL": "Deal",
+        "DEAL_NONE": "No deal",
+        "TITLE_REQUIRED": "A title is required",
+        "SAVED": "Task saved",
+        "KIND": "Type"
+      },
+      "KINDS": {
+        "task": "Task",
+        "call": "Call",
+        "meeting": "Meeting"
+      }
+    },
+    "REPORTS": {
+      "TITLE": "Sales reports",
+      "SUBTITLE": "How your pipeline converts, who closes, and why deals are lost.",
+      "PERIOD": "Period",
+      "PERIODS": {
+        "today": "Today",
+        "week": "This week",
+        "month": "This month",
+        "quarter": "This quarter",
+        "year": "This year",
+        "custom": "Custom"
+      },
+      "FROM": "From",
+      "TO": "To",
+      "INTERVAL": "Interval",
+      "INTERVALS": {
+        "day": "Daily",
+        "week": "Weekly",
+        "month": "Monthly"
+      },
+      "VS_PREVIOUS": "vs previous period",
+      "OWN_ONLY": "These reports show your own deals only. Team numbers are for administrators.",
+      "DELTA_NOTE": "▲▼ change vs the previous period of the same length.",
+      "UPDATING": "Updating…",
+      "SUMMARY": {
+        "TITLE": "Summary",
+        "OPEN": "Open deals",
+        "OPEN_TOTAL": "Open value",
+        "EXPECTED": "Expected value",
+        "WON": "Won",
+        "WON_TOTAL": "Won value",
+        "LOST": "Lost",
+        "WIN_RATE": "Win rate",
+        "AVG_DEAL": "Average won deal",
+        "AVG_DAYS": "Average days to close",
+        "CREATED": "New deals",
+        "NO_CLOSED": "No closed deals in this period",
+        "NO_WON": "No won deals in this period"
+      },
+      "FUNNEL": {
+        "TITLE": "Conversion funnel",
+        "REACHED": "Deals reached",
+        "CONVERSION": "from previous stage",
+        "EMPTY": "No deals in this period."
+      },
+      "AGENTS": {
+        "TITLE": "Agent performance",
+        "MINE": "My performance",
+        "AGENT": "Agent",
+        "OPEN": "Open",
+        "WON": "Won",
+        "LOST": "Lost",
+        "WIN_RATE": "Win rate",
+        "WON_TOTAL": "Won value",
+        "AVG_DAYS": "Avg. days",
+        "OVERDUE_TASKS": "Overdue tasks"
+      },
+      "LOST_REASONS": {
+        "TITLE": "Lost reasons",
+        "REASON": "Reason",
+        "COUNT": "Deals",
+        "TOTAL": "Lost value",
+        "EMPTY": "No lost deals in this period."
+      },
+      "TIMELINE": {
+        "TITLE": "Sales over time",
+        "LEGEND": "Legend",
+        "CREATED": "New",
+        "WON": "Won",
+        "LOST": "Lost"
+      },
+      "EXPORT": "Export CSV",
+      "WAVE": {
+        "NAV": "Sales reports",
+        "OVERVIEW": "Overview",
+        "OPEN_DEALS": "Show the deals",
+        "DRILL_COUNT": "{count} deals",
+        "DRILL_EMPTY": "Nothing to show.",
+        "OWN_TASKS": "This report shows your own tasks.",
+        "WHOLE_TEAM": "Whole team",
+        "STAGE": "Stage",
+        "STALE_DAYS": "Quiet for (days)",
+        "PERIOD_NOTE": "{from} – {to}",
+        "PERIODS": {
+          "last_7": "Last 7 days",
+          "today": "Today",
+          "week": "This week",
+          "month": "This month",
+          "last_month": "Last month",
+          "next_month": "Next month",
+          "quarter": "This quarter",
+          "year": "This year",
+          "custom": "Custom"
+        },
+        "COLUMNS": {
+          "title": "Deal",
+          "assignee": "Owner",
+          "amount": "Value",
+          "stage": "Stage",
+          "close_date": "Expected close",
+          "probability": "Probability",
+          "category": "Forecast category",
+          "days_overdue": "Days late",
+          "closed_at": "Closed on",
+          "lost_reason": "Lost reason",
+          "days_since_activity": "Days quiet",
+          "status": "Result",
+          "issues": "Missing"
+        },
+        "CATEGORIES": {
+          "commit": "Commit",
+          "best_case": "Best case",
+          "pipeline": "Pipeline",
+          "omitted": "Omitted"
+        },
+        "REPORTS": {
+          "pipeline_by_stage": {
+            "NAME": "Pipeline by stage",
+            "QUESTION": "How many open deals, worth how much, sit in each stage?",
+            "DESCRIPTION": "Open deals right now, by stage. The weighted value multiplies each deal by its probability.",
+            "EMPTY": "No open deals",
+            "EMPTY_HINT": "Open deals show here by stage as soon as they are added."
+          },
+          "closing": {
+            "NAME": "Closing this period",
+            "QUESTION": "Which deals must be closed before the period ends?",
+            "DESCRIPTION": "Open deals whose expected close date falls in the period, soonest first.",
+            "EMPTY": "No deals expected to close in this period",
+            "EMPTY_HINT": "Pick another period, or set expected close dates on open deals."
+          },
+          "stale": {
+            "NAME": "Stale and late deals",
+            "QUESTION": "Which deals have stopped moving or passed their close date?",
+            "DESCRIPTION": "Open deals with no activity for a while, or whose expected close date has passed.",
+            "EMPTY": "No stale or late deals",
+            "EMPTY_HINT": "Every open deal had recent activity and is still on schedule."
+          },
+          "my_tasks": {
+            "NAME": "My tasks",
+            "QUESTION": "What is due from me today, and what is late?",
+            "DESCRIPTION": "Your overdue and due-today calls, meetings and tasks, and what you finished in the period.",
+            "EMPTY": "Nothing due",
+            "EMPTY_HINT": "No overdue or due-today tasks, and none finished in this period."
+          },
+          "won_lost": {
+            "NAME": "Wins and losses",
+            "QUESTION": "What closed in the period, and how?",
+            "DESCRIPTION": "Deals won and lost in the period, against the period before.",
+            "EMPTY": "No deals closed in this period",
+            "EMPTY_HINT": "Pick a longer period to see results."
+          },
+          "quota": {
+            "NAME": "Target attainment",
+            "QUESTION": "How much of the target is won, and how much is left?",
+            "DESCRIPTION": "Value won in the period against the monthly targets set in Sales settings.",
+            "EMPTY": "No target and nothing won",
+            "EMPTY_HINT": "Set monthly targets in Sales settings to track attainment."
+          },
+          "forecast": {
+            "NAME": "Sales forecast",
+            "QUESTION": "How much will we close by the end of the period?",
+            "DESCRIPTION": "Won so far, plus the open deals expected in the period by forecast category, against the target.",
+            "EMPTY": "Nothing won or expected in this period",
+            "EMPTY_HINT": "Set expected close dates on open deals to build a forecast."
+          },
+          "coverage": {
+            "NAME": "Pipeline coverage",
+            "QUESTION": "Are the open deals enough to reach the rest of the target?",
+            "DESCRIPTION": "Open value expected to close in the period, divided by what is left of the target.",
+            "EMPTY": "No target and no open deals in this period",
+            "EMPTY_HINT": "Set monthly targets in Sales settings, and expected close dates on open deals."
+          },
+          "win_rate": {
+            "NAME": "Win rate",
+            "QUESTION": "From which employee, product or source do we win most?",
+            "DESCRIPTION": "Won ÷ (won + lost) in the period, by count and by value, against the period before.",
+            "EMPTY": "No deals closed in this period",
+            "EMPTY_HINT": "Pick a longer period to compare win rates."
+          },
+          "losses": {
+            "NAME": "Lost reasons and competitors",
+            "QUESTION": "Why do we lose, and to whom?",
+            "DESCRIPTION": "Deals lost in the period by reason, competitor and the stage they were lost in.",
+            "EMPTY": "No deals lost in this period",
+            "EMPTY_HINT": "Nothing to analyse yet."
+          },
+          "activity": {
+            "NAME": "Team activity",
+            "QUESTION": "Does each employee’s activity match their results?",
+            "DESCRIPTION": "Calls, meetings and tasks completed and notes written by each employee, beside what they won.",
+            "EMPTY": "No activity in this period",
+            "EMPTY_HINT": "Completed tasks and deal notes show here."
+          },
+          "new_deals": {
+            "NAME": "New deals by source",
+            "QUESTION": "How many new deals were created, and where did they come from?",
+            "DESCRIPTION": "Deals created in the period by lead source, over time, against the period before.",
+            "EMPTY": "No new deals in this period",
+            "EMPTY_HINT": "Pick a longer period, or add deals."
+          },
+          "data_quality": {
+            "NAME": "Data quality",
+            "QUESTION": "Which deals are incomplete or out of date and spoil the reports?",
+            "DESCRIPTION": "Open deals missing a value, a close date or an owner, past their close date, or with no recent activity.",
+            "EMPTY": "No open deals",
+            "EMPTY_HINT": "Open deals are checked here as soon as they are added."
+          },
+          "scorecard": {
+            "NAME": "Employee scorecard",
+            "QUESTION": "How does each employee do against the team, and where do they need support?",
+            "DESCRIPTION": "Attainment, win rate, coverage, sales cycle and activity, beside the team average.",
+            "EMPTY": "Nothing to score in this period",
+            "EMPTY_HINT": "Set targets, or pick a period with deals."
+          },
+          "conversion": {
+            "NAME": "Stage conversion",
+            "QUESTION": "At which stage do deals leak?",
+            "DESCRIPTION": "Of the deals created in the period, how many reached each stage and how many went on to the next.",
+            "EMPTY": "No deals created in this period",
+            "EMPTY_HINT": "Pick a longer period, or another pipeline."
+          },
+          "cycle": {
+            "NAME": "Sales cycle and time in stage",
+            "QUESTION": "How long does a deal take to close, and where does it wait?",
+            "DESCRIPTION": "Average days from creation to win, and average days spent in each stage.",
+            "EMPTY": "No deals moved or won in this period",
+            "EMPTY_HINT": "Pick a longer period."
+          },
+          "changes": {
+            "NAME": "Pipeline changes",
+            "QUESTION": "What moved forward, back or out?",
+            "DESCRIPTION": "Deals compared as they stood at the start and at the end of the period.",
+            "EMPTY": "Nothing changed in this period",
+            "EMPTY_HINT": "Pick a longer period."
+          },
+          "revenue": {
+            "NAME": "Revenue by product, industry and region",
+            "QUESTION": "Where does revenue come from?",
+            "DESCRIPTION": "Value won in the period by product, industry or region, its share and its growth.",
+            "EMPTY": "Nothing won in this period",
+            "EMPTY_HINT": "Pick a longer period."
+          },
+          "deal_size": {
+            "NAME": "Average deal size trend",
+            "QUESTION": "Are our deals getting bigger or smaller?",
+            "DESCRIPTION": "Average won deal month by month, for the team and each employee.",
+            "EMPTY": "Nothing won in this period",
+            "EMPTY_HINT": "Pick a longer period: a trend needs months."
+          }
+        },
+        "PIPELINE": {
+          "COUNT": "Open deals",
+          "VALUE": "Open value",
+          "WEIGHTED": "Weighted value",
+          "WEIGHTED_NOTE": "Value × probability",
+          "BY_STAGE": "By stage",
+          "STAGE": "Stage",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "CLOSING": {
+          "COUNT": "Deals",
+          "VALUE": "Value",
+          "WEIGHTED": "Weighted value",
+          "AVG_PROBABILITY": "Average probability",
+          "BY_ASSIGNEE": "By owner",
+          "DEALS": "Deals to close",
+          "PARTIAL": "Showing {shown} of {total}; click the count to see all"
+        },
+        "STALE": {
+          "AT_RISK": "Need attention",
+          "STALE": "No activity for {days} days",
+          "OVERDUE": "Past close date",
+          "AT_RISK_VALUE": "Value at risk",
+          "BY_ASSIGNEE": "By owner",
+          "DEALS": "Deals to move",
+          "QUIET_FIRST": "Quietest first"
+        },
+        "TASKS": {
+          "OVERDUE": "Overdue",
+          "TODAY": "Due later today",
+          "DONE": "Done in the period",
+          "LIST": "To do",
+          "NONE_OPEN": "No overdue or due-today tasks.",
+          "ALL_TASKS": "All tasks"
+        },
+        "WON_LOST": {
+          "WON": "Won",
+          "LOST": "Lost",
+          "WIN_RATE": "Win rate",
+          "WIN_RATE_VALUE": "Win rate by value",
+          "WON_VALUE": "Won value",
+          "LOST_VALUE": "Lost value",
+          "OVER_TIME": "Over time",
+          "BAR_HINT": "Click a bar to see its deals",
+          "CLOSED_IN": "Closed from",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "QUOTA": {
+          "ATTAINMENT": "Attainment",
+          "NO_TARGET": "No target set",
+          "WON": "Won",
+          "TARGET": "Target",
+          "REMAINING": "Left to win",
+          "PROGRESS": "Progress",
+          "LINE_LABEL": "{won} won against a target of {target}",
+          "WON_SO_FAR": "Won so far",
+          "TARGET_PACE": "Target, spread over the days",
+          "RANKING": "Ranking"
+        },
+        "FORECAST": {
+          "WON": "Won",
+          "FORECAST": "Forecast",
+          "FORECAST_NOTE": "Won + commit",
+          "BEST_CASE": "Best case",
+          "BEST_CASE_NOTE": "Forecast + best case",
+          "TARGET": "Target",
+          "ATTAINMENT": "Forecast attainment",
+          "NO_TARGET": "No target set",
+          "AGAINST_TARGET": "Against the target",
+          "GAP": "Still missing to reach the target with the forecast:",
+          "BY_CATEGORY": "By forecast category",
+          "CATEGORY_HINT": "The category picked on the deal, else from its probability (90%+ commit, 50%+ best case)",
+          "CATEGORY": "Category",
+          "COUNT": "Deals",
+          "VALUE": "Value",
+          "WEIGHTED": "Weighted value",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "PRINT": {
+          "BUTTON": "Print / PDF",
+          "PRINTED_AT": "Printed on",
+          "PRINTED_BY": "Printed by",
+          "REPORT_NUMBER": "Report {n}",
+          "OWN_DEALS": "Shows the deals of the employee who printed it only.",
+          "OWN_TASKS": "Shows the tasks of the employee who printed it."
+        },
+        "COVERAGE": {
+          "COVERAGE": "Coverage",
+          "OPEN": "Open, closing this period",
+          "OPEN_COUNT": "{count} deals",
+          "REMAINING": "Left to win",
+          "TARGET_NOTE": "of a target of {target}",
+          "TARGET": "Target",
+          "WON": "Won",
+          "RATING": {
+            "good": "Enough: {multiple}× or more",
+            "warn": "Below {multiple}×: add deals",
+            "bad": "Less than what is left"
+          },
+          "NOTHING_LEFT": "Nothing left to cover",
+          "HOW": "Coverage = open value closing in the period ÷ (target − won). Aim for {multiple}× (Sales settings).",
+          "BY_ASSIGNEE": "By owner",
+          "LOWEST_FIRST": "Lowest coverage first"
+        },
+        "WIN_RATE": {
+          "BY_COUNT": "Win rate",
+          "BY_VALUE": "Win rate by value",
+          "WON": "Won",
+          "LOST": "Lost",
+          "BY": {
+            "assignee": "By owner",
+            "product": "By product",
+            "lead_source": "By lead source"
+          },
+          "GROUPS": {
+            "assignee": "Owner",
+            "product": "Product",
+            "lead_source": "Lead source"
+          },
+          "NONE": {
+            "assignee": "Unassigned",
+            "product": "No product",
+            "lead_source": "No source"
+          },
+          "GROUP_BY": "Compare by",
+          "HINT": "Highest win rate first; the count is the closed deals, click it to see them",
+          "EMPTY_GROUP": "Nothing closed to compare.",
+          "ROW": "{rate} (by value {value})"
+        },
+        "LOSSES": {
+          "COUNT": "Deals lost",
+          "VALUE": "Value lost",
+          "REASONS": "Reasons",
+          "COMPETITORS": "Lost to",
+          "STAGES": "Lost at stage",
+          "STAGES_HINT": "The stage before it was lost",
+          "NONE": "Nothing lost.",
+          "NO_COMPETITOR": "No competitor recorded",
+          "UNKNOWN_STAGE": "Unknown",
+          "BY_ASSIGNEE": "By owner",
+          "TOP_REASON": "Main reason"
+        },
+        "ACTIVITY": {
+          "NOTES": "Notes",
+          "TOTAL": "All activity",
+          "WON": "Won",
+          "WON_VALUE": "Won value",
+          "WIN_RATE": "Win rate",
+          "BY_ASSIGNEE": "By owner",
+          "WHAT_COUNTS": "Completed tasks by kind, and notes on deals; chats do not count"
+        },
+        "NEW_DEALS": {
+          "COUNT": "New deals",
+          "VALUE": "Their value",
+          "BY_SOURCE": "By source",
+          "OVER_TIME": "Over time",
+          "CREATED_FROM": "Created from",
+          "NO_SOURCE": "No source",
+          "NONE": "No new deals.",
+          "SOURCES": "By source",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "DATA_QUALITY": {
+          "RATE": "Complete deals",
+          "RATE_NOTE": "{complete} of {open} open deals",
+          "TO_FIX": "Deals to fix",
+          "OPEN": "Open deals",
+          "COMPLETE_MEANS": "Complete = a value, an expected close date and an owner.",
+          "BY_ASSIGNEE": "By owner",
+          "DEALS": "Deals to fix",
+          "ALL_GOOD": "Every open deal is complete and up to date."
+        },
+        "ISSUES": {
+          "no_amount": "No value",
+          "no_close_date": "No close date",
+          "past_close_date": "Close date passed",
+          "no_owner": "No owner",
+          "stale": "No activity for {days} days"
+        },
+        "ISSUE_CHIPS": {
+          "no_amount": "No value",
+          "no_close_date": "No close date",
+          "past_close_date": "Date passed",
+          "no_owner": "No owner",
+          "stale": "Quiet"
+        },
+        "SCORECARD": {
+          "DAYS": "{days} days",
+          "AVERAGE_NOTE": "Team average over {count} active employees (with a target or deals in the period).",
+          "TARGET_LINE": "{won} won of {target}",
+          "TEAM": "Team {value}",
+          "METRICS": {
+            "attainment": "Attainment",
+            "won_cents": "Won",
+            "win_rate": "Win rate",
+            "coverage": "Coverage",
+            "sales_cycle": "Sales cycle",
+            "average_deal_cents": "Average deal",
+            "activity_count": "Activity",
+            "new_deal_count": "New deals",
+            "completeness": "Complete data"
+          }
+        },
+        "CONVERSION": {
+          "SCOPE": "{count} deals created in “{pipeline}”.",
+          "LEAK": "Biggest leak: {stage}, only {rate} get there.",
+          "FUNNEL": "Funnel",
+          "SKIPPED": "A skipped stage counts as reached",
+          "RATE": "{rate} went on",
+          "BY_ASSIGNEE": "By owner",
+          "VS_TEAM": "Each rate beside the team’s",
+          "CREATED": "Created",
+          "TEAM": "Team {rate}"
+        },
+        "CYCLE": {
+          "DAYS": "{days} days",
+          "CYCLE": "Sales cycle",
+          "WON": "Deals won",
+          "SLOWEST": "Slowest stage",
+          "APPROXIMATE": "{count} deals were created before stage history was kept: their early stages are approximate.",
+          "BY_STAGE": "Days in each stage",
+          "WHAT_COUNTS": "Stays that ended in the period",
+          "STAYS": "{count} stays",
+          "HEAT": "Days in stage by owner"
+        },
+        "CHANGES": {
+          "MOVES": {
+            "new": "New",
+            "advanced": "Moved forward",
+            "moved_back": "Moved back",
+            "slipped": "Close date pushed",
+            "won": "Won",
+            "lost": "Lost",
+            "increased": "Value up",
+            "decreased": "Value down"
+          },
+          "WATERFALL": "Open value, start to end",
+          "WATERFALL_HINT": "Click an amount to see its deals",
+          "STEPS": {
+            "start": "At the start",
+            "new": "New deals",
+            "increased": "Value raised",
+            "decreased": "Value lowered",
+            "won": "Won",
+            "lost": "Lost",
+            "end": "At the end"
+          },
+          "BY_ASSIGNEE": "By owner"
+        },
+        "REVENUE": {
+          "REVENUE": "Revenue",
+          "DEALS": "Deals won",
+          "GROUP_BY": "Group by",
+          "BY": {
+            "product": "By product",
+            "industry": "By industry",
+            "region": "By region"
+          },
+          "GROUPS": {
+            "product": "Product",
+            "industry": "Industry",
+            "region": "Region"
+          },
+          "HINT": "Share of revenue, and growth against the period before",
+          "NOT_SET": "Not set",
+          "NONE": "Nothing won.",
+          "ROW": "{share} of revenue · {growth}",
+          "ROW_NEW": "{share} of revenue · new"
+        },
+        "DEAL_SIZE": {
+          "AVERAGE": "Average won deal",
+          "DEALS": "Deals won",
+          "NO_AMOUNT_LEFT_OUT": "Deals without an amount are left out",
+          "TREND": {
+            "month": "Month by month",
+            "quarter": "Quarter by quarter"
+          },
+          "WON_FROM": "Won from",
+          "BY_ASSIGNEE": "By owner"
+        },
+        "GROUPS": {
+          "pipeline": "Pipeline",
+          "forecast": "Forecast",
+          "results": "Results and revenue",
+          "conversion": "Conversion and speed",
+          "performance": "Performance",
+          "activity": "Activity",
+          "health": "Deal health"
+        },
+        "DASHBOARD": {
+          "MINE": "My board",
+          "TEAM": "Team board",
+          "MINE_HINT": "Your pipeline, what to close this month and what needs you today.",
+          "TEAM_HINT": "The team against its target, the forecast, the week’s changes and what needs attention.",
+          "UPDATED": "This month · updated {time}",
+          "OPEN": "Open deals",
+          "CLOSING": "Closing this month",
+          "STALE": "Need attention",
+          "TASKS": "Late tasks",
+          "TASKS_TODAY": "{count} due later today",
+          "FORECAST": "Forecast",
+          "OF_TARGET": "of a target of {target}",
+          "MY_TARGET": "My target this month",
+          "TARGET_LINE": "{won} won of {target} · {left} left",
+          "TODAY": "To move today",
+          "LATE_TASKS": "Late tasks",
+          "QUIET_DEALS": "Quietest deals",
+          "CLOSING_SOON": "Closing soonest",
+          "NOTHING": "Nothing here.",
+          "TEAM_ATTAINMENT": "Team attainment",
+          "WON": "Won this month",
+          "FORECAST_NOTE": "{rate} of the target",
+          "COVERAGE": "Coverage",
+          "COMPLETE": "Complete data",
+          "TO_FIX": "{count} deals to fix",
+          "RANKING": "Ranking",
+          "NO_TARGETS": "No targets set this month.",
+          "WEEK": "The last 7 days",
+          "WEEK_VALUE": "Open value went from {start} to {end}.",
+          "ALERT_LEAK": "Over the last 30 days, deals leak most at «{stage}»: only {rate} get there.",
+          "ALERT_COVERAGE": "{name}’s open deals cover only {coverage} of what is left of the target.",
+          "ALERT_DATA": "{count} open deals are incomplete or out of date.",
+          "ALERT_STALE": "{count} deals worth {value} have stopped or passed their close date."
+        },
+        "EXPORT": {
+          "EXCEL": "Excel",
+          "CSV": "CSV",
+          "REPORT": "Report",
+          "QUESTION": "Question",
+          "FILTERS": "Filters",
+          "FILTERS_ON": "Filters ({count})",
+          "UPDATED": "Updated {time}",
+          "UPDATED_WITH_PERIOD": "{period} · updated {time}"
+        }
+      }
+    },
+    "SETTINGS": {
+      "TITLE": "Sales settings",
+      "SUBTITLE": "Pipelines, stages and how your team sees deals.",
+      "PIPELINES": "Pipelines",
+      "NEW_PIPELINE": "New pipeline",
+      "PIPELINE_NAME": "Pipeline name",
+      "CURRENCY": "Currency",
+      "CURRENCY_LOCKED": "The currency cannot change once deals exist, since amounts are not converted.",
+      "STAGES": "Stages",
+      "STAGE_NAME": "Stage name",
+      "PROBABILITY": "Probability %",
+      "KIND": "Type",
+      "KINDS": {
+        "open": "Open",
+        "won": "Won",
+        "lost": "Lost"
+      },
+      "COLOR": "Color",
+      "ADD_STAGE": "Add stage",
+      "REMOVE_STAGE": "Remove stage",
+      "REMOVE_STAGE_NAMED": "Remove stage “{name}”",
+      "STAGE_N": "Stage {n}",
+      "ACTUAL": "Actual",
+      "ACTUAL_HINT": "Actual: the real win rate of deals that passed the stage in the last 12 months. Shows after {min} closed deals; click it to use it.",
+      "ACTUAL_FROM": "From {count} closed deals in the last 12 months",
+      "ACTUAL_NOT_ENOUGH": "Not enough data: {count} of {min} closed deals",
+      "USE_ACTUAL": "Use the actual rate {rate}% for stage “{name}”",
+      "MOVE_UP": "Move “{name}” up",
+      "MOVE_DOWN": "Move “{name}” down",
+      "EDIT_REASON": "Edit reason “{name}”",
+      "DELETE_REASON": "Delete reason “{name}”",
+      "REASON_NAME": "Reason name",
+      "SEE_OWN_LABEL": "Agents see only their own deals",
+      "MOVE_DEALS_TITLE": "This stage has deals",
+      "MOVE_DEALS_BODY": "Choose the stage to move its {count} deal(s) to before removing it.",
+      "MOVE_DEALS_TARGET": "Move deals to",
+      "NEED_WON_LOST": "A pipeline needs exactly one Won stage and one Lost stage.",
+      "NEED_OPEN": "A pipeline needs at least one open stage.",
+      "DELETE_PIPELINE": "Delete pipeline",
+      "DELETE_PIPELINE_CONFIRM": "Delete this pipeline? Only empty pipelines can be deleted.",
+      "SAVED": "Pipeline saved",
+      "DELETED": "Pipeline deleted",
+      "DEFAULT_CURRENCY": "Default currency for new pipelines",
+      "ADMIN_ONLY": "Only administrators can change sales settings.",
+      "LOST_REASONS": "Lost reasons",
+      "LOST_REASONS_HINT": "The list agents pick from when a deal is lost. Deals already lost keep their reason.",
+      "NEW_LOST_REASON": "New reason",
+      "ADD_LOST_REASON": "Add reason",
+      "TABS": {
+        "general": "General",
+        "lost_reasons": "Lost reasons",
+        "pipelines": "Pipelines",
+        "lists": "Lists",
+        "targets": "Targets"
+      },
+      "CURRENCY_HINT": "The currency of every sales deal. It cannot change once the first deal is added.",
+      "REPORTS_HEADING": "Report thresholds",
+      "STALE_DAYS": "Stale after (days)",
+      "STALE_DAYS_HINT": "An open deal with no activity for this long counts as stale.",
+      "COVERAGE": "Pipeline coverage target (times)",
+      "COVERAGE_HINT": "Open pipeline needed compared with the remaining target."
+    },
+    "PANEL": {
+      "TITLE": "Deals & tasks",
+      "OPEN_DEALS": "Open deals",
+      "UPCOMING_TASKS": "Upcoming tasks",
+      "NEW_DEAL": "New deal",
+      "NEW_TASK": "New task",
+      "NONE": "No open deals or tasks for this customer.",
+      "CLOSED_COUNT": "{count} closed deal(s)",
+      "VIEW_ALL": "View all",
+      "CHANGE_STAGE": "Change stage",
+      "ADD_TASK": "Task",
+      "ADD_TASK_FOR": "Add a task to deal “{title}”",
+      "STAGE_CHANGED": "Stage updated"
+    },
+    "LISTS": {
+      "lead_source": "Lead source",
+      "product": "Product",
+      "competitor": "Competitor",
+      "region": "Region",
+      "industry": "Industry",
+      "HINTS": {
+        "lead_source": "Where the customer came from. Picked on each deal; drives win rate and new deals by source.",
+        "product": "What you sell. Picked on each deal; drives win rate and revenue by product.",
+        "competitor": "Who you compete with for the deal. Shown in the lost reasons analysis.",
+        "region": "The customer's region, for revenue by region.",
+        "industry": "The customer's industry, for revenue by industry."
+      },
+      "EMPTY": "The list is empty. Add the first item.",
+      "ITEM_NAME": "Item name",
+      "NEW_ITEM": "New item",
+      "ADD": "Add",
+      "EDIT_ITEM": "Edit “{name}”",
+      "ARCHIVE_ITEM": "Remove “{name}” from the list",
+      "ARCHIVE_HINT": "Leaves the list; stays on the deals that have it"
+    },
+    "TARGETS": {
+      "TITLE": "Monthly targets",
+      "HINT": "Each employee's target for the month, in {currency}. The team target is their sum. Leave a field empty to clear that employee's month.",
+      "MONTH": "Month",
+      "EMPLOYEE": "Employee",
+      "AMOUNT": "Target ({currency})",
+      "AMOUNT_FOR": "Target for {name}",
+      "TEAM": "Team target"
+    }
+  }
+}

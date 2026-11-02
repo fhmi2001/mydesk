@@ -6,9 +6,18 @@ vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
+const mockRoute = {
+  name: 'inbox_conversation',
+  path: '/app/accounts/1/conversations/1',
+};
 vi.mock('vue-router', () => ({
-  useRoute: () => ({ path: '/app/accounts/1/conversations/1' }),
+  useRoute: () => mockRoute,
 }));
+
+beforeEach(() => {
+  mockRoute.name = 'inbox_conversation';
+  mockRoute.path = '/app/accounts/1/conversations/1';
+});
 
 const mountComponent = (props = {}) =>
   shallowMount(CopilotEmptyState, {
@@ -40,6 +49,20 @@ describe('CopilotEmptyState', () => {
 
     expect(wrapper.emitted('useSuggestion')[0][0]).toBe(
       'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT'
+    );
+  });
+
+  // Custom (MyDesk): the conversation list moved from /dashboard to /conversations; it keeps the list prompts
+  it('offers the list prompts on the conversation list', () => {
+    mockRoute.name = 'home';
+    mockRoute.path = '/app/accounts/1/conversations';
+    const wrapper = mountComponent();
+
+    expect(wrapper.text()).toContain(
+      'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.LABEL'
+    );
+    expect(wrapper.text()).not.toContain(
+      'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL'
     );
   });
 

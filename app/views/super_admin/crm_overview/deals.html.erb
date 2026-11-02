@@ -1,0 +1,74 @@
+<%# Custom (MyDesk): Super Admin > Monitor > CRM > all accounts' deals (read-only, audited) %>
+<% scope = "super_admin.crm" %>
+<% content_for(:title) { t("#{scope}.all_deals") } %>
+<% statuses = { "open" => :info, "won" => :success, "lost" => :danger } %>
+
+<%= render "section", title: t("#{scope}.all_deals"), description: t("#{scope}.all_deals_description"), icon: "i-lucide-briefcase" do %>
+  <%= form_with url: super_admin_crm_overview_deals_path, method: :get, class: "flex flex-wrap items-end gap-3" do |f| %>
+    <label class="flex flex-col gap-1 text-label-small text-n-slate-11"><%= t("#{scope}.columns.account") %>
+      <%= f.select :account_id, options_from_collection_for_select(@accounts, :id, :name, @filters[:account_id]&.to_i),
+                   { include_blank: t("#{scope}.filters.all_accounts") }, class: "rounded-lg border border-n-weak bg-n-solid-1 px-3 py-2 text-body-main" %>
+    </label>
+    <label class="flex flex-col gap-1 text-label-small text-n-slate-11"><%= t("#{scope}.columns.status") %>
+      <%= f.select :status, options_for_select(statuses.keys.map { |s| [t("#{scope}.statuses.#{s}"), s] }, @filters[:status]),
+                   { include_blank: t("#{scope}.filters.all_statuses") }, class: "rounded-lg border border-n-weak bg-n-solid-1 px-3 py-2 text-body-main" %>
+    </label>
+    <label class="flex flex-col gap-1 text-label-small text-n-slate-11"><%= t("#{scope}.filters.from") %>
+      <%= f.date_field :from, value: @filters[:from], class: "rounded-lg border border-n-weak bg-n-solid-1 px-3 py-2 text-body-main" %></label>
+    <label class="flex flex-col gap-1 text-label-small text-n-slate-11"><%= t("#{scope}.filters.to") %>
+      <%= f.date_field :to, value: @filters[:to], class: "rounded-lg border border-n-weak bg-n-solid-1 px-3 py-2 text-body-main" %></label>
+    <%= f.submit t("#{scope}.filters.apply"), class: "rounded-lg bg-n-brand px-3 py-2 text-sm font-medium text-white" %>
+  <% end %>
+
+  <%= render "card", title: t("#{scope}.totals") do %>
+    <table class="w-full text-body-main">
+      <thead class="text-label-small uppercase text-n-slate-10"><tr>
+        <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.account") %></th>
+        <th class="px-5 py-2 text-end"><%= t("#{scope}.statuses.open") %></th>
+        <th class="px-5 py-2 text-end"><%= t("#{scope}.statuses.won") %></th>
+        <th class="px-5 py-2 text-end"><%= t("#{scope}.statuses.lost") %></th>
+        <th class="px-5 py-2 text-end"><%= t("#{scope}.columns.won_value") %></th>
+      </tr></thead>
+      <tbody class="divide-y divide-n-weak">
+        <% @totals.each do |row| %>
+          <tr>
+            <td class="px-5 py-2"><%= row[:name] %></td>
+            <td class="px-5 py-2 text-end tabular-nums"><%= row[:open] %></td>
+            <td class="px-5 py-2 text-end tabular-nums"><%= row[:won] %></td>
+            <td class="px-5 py-2 text-end tabular-nums"><%= row[:lost] %></td>
+            <td class="px-5 py-2 text-end tabular-nums"><%= number_with_precision(row[:won_cents] / 100.0, precision: 2, delimiter: ',') %></td>
+          </tr>
+        <% end %>
+        <% if @totals.empty? %><tr><td colspan="5" class="px-5 py-4 text-n-slate-11"><%= t("#{scope}.empty") %></td></tr><% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <%= render "card", title: t("#{scope}.deals"), count: @deals.total_count do %>
+    <table class="w-full text-body-main">
+      <thead class="text-label-small uppercase text-n-slate-10"><tr>
+        <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.account") %></th>
+        <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.title") %></th>
+        <th class="px-5 py-2 text-end"><%= t("#{scope}.columns.amount") %></th>
+        <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.stage") %></th>
+        <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.status") %></th>
+        <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.assignee") %></th>
+        <th class="px-5 py-2 text-start"><%= t("#{scope}.columns.updated") %></th>
+      </tr></thead>
+      <tbody class="divide-y divide-n-weak">
+        <% @deals.each do |deal| %>
+          <tr>
+            <td class="px-5 py-2"><%= deal.account.name %></td>
+            <td class="px-5 py-2"><%= link_to deal.title, super_admin_crm_overview_deal_path(deal), class: "text-n-blue-11 hover:underline" %></td>
+            <td class="px-5 py-2 text-end tabular-nums" dir="ltr"><%= number_with_precision(deal.amount, precision: 2, delimiter: ',') %> <%= deal.currency %></td>
+            <td class="px-5 py-2"><%= deal.stage.name %></td>
+            <td class="px-5 py-2"><%= render "badge", label: t("#{scope}.statuses.#{deal.status}"), tone: statuses[deal.status] %></td>
+            <td class="px-5 py-2"><%= deal.assignee&.name || "—" %></td>
+            <td class="px-5 py-2 text-n-slate-11"><%= time_ago_in_words(deal.updated_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="px-5 py-3"><%= paginate @deals %></div>
+  <% end %>
+<% end %>

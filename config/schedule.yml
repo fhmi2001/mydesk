@@ -98,3 +98,14 @@ salla_refresh_tokens_job:
   cron: '0 3 * * *'
   class: 'Salla::RefreshTokensJob'
   queue: scheduled_jobs
+
+# Custom (MyDesk): Sales CRM task reminders (every 5 minutes) and purge of deals deleted over 30 days ago (daily 03:30)
+sales_crm_task_reminder_job:
+  cron: '*/5 * * * *'
+  class: 'SalesCrm::TaskReminderJob'
+  queue: scheduled_jobs
+
+sales_crm_purge_discarded_deals_job:
+  cron: '30 3 * * *'
+  class: 'SalesCrm::PurgeDiscardedDealsJob'
+  queue: scheduled_jobs

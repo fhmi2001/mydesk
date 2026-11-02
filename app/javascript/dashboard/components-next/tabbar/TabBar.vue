@@ -70,6 +70,7 @@ const showDivider = index => {
 
 <template>
   <div
+    role="tablist"
     class="relative flex items-center h-8 rounded-lg bg-n-alpha-1 dark:bg-n-solid-1 w-fit transition-all duration-200 ease-out has-[button:active]:scale-[1.01]"
   >
     <div
@@ -79,9 +80,12 @@ const showDivider = index => {
     />
 
     <template v-for="(tab, index) in tabs" :key="index">
+      <!-- Custom (MyDesk): role/aria-selected so screen readers announce the active tab -->
       <button
         :ref="el => (tabRefs[index] = el)"
         type="button"
+        role="tab"
+        :aria-selected="activeTab === index"
         class="relative z-10 inline-flex items-center min-w-0 gap-1.5 px-4 py-1.5 text-sm border-0 outline-1 outline-transparent rounded-lg transition-all duration-200 ease-out hover:text-n-brand active:scale-[1.02]"
         :class="[
           activeTab === index

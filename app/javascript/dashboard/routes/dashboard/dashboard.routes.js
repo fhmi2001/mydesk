@@ -8,6 +8,8 @@ import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 import campaignsRoutes from './campaigns/campaigns.routes';
+import crmRoutes from './crm/crm.routes'; // Custom (MyDesk): Sales CRM
+import { routes as homeRoutes } from './home/home.routes'; // Custom (MyDesk): the home screen
 import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
@@ -37,6 +39,8 @@ export default {
         ...searchRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
+        ...crmRoutes.routes, // Custom (MyDesk)
+        ...homeRoutes, // Custom (MyDesk)
       ],
     },
     {

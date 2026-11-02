@@ -48,6 +48,9 @@ const routePromptMap = {
 };
 
 const getCurrentRoute = () => {
+  // Custom (MyDesk): the conversation list (route 'home') moved from /dashboard to /conversations; it keeps the
+  // list prompts
+  if (route.name === 'home') return 'dashboard';
   const path = route.path;
   if (path.includes('/conversations')) return 'conversations';
   if (path.includes('/dashboard')) return 'dashboard';

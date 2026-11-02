@@ -442,6 +442,10 @@ Rails.application.routes.draw do
           end
 
           # Custom (MyDesk): WhatsApp Web (QR) channel through the Evolution API gateway
+          # Custom (MyDesk): the home screen's count of conversations waiting an hour or more
+          resource :home, controller: 'home', only: [] do
+            get :waiting
+          end
           resource :whatsapp_web, controller: 'whatsapp_web', only: [:show, :create] do
             get 'inboxes/:inbox_id/connection', action: :connection
             delete 'inboxes/:inbox_id/connection', action: :logout
@@ -506,6 +510,54 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+          end
+          # Custom (MyDesk): Sales CRM (المبيعات): pipelines, deals, tasks, reports, settings
+          namespace :crm do
+            resource :status, only: [:show], controller: 'status'
+            resources :pipelines, only: [:index, :create, :update, :destroy]
+            resources :deals, only: [:index, :show, :create, :update, :destroy] do
+              collection do
+                get :forecast
+                get :discarded
+              end
+              member do
+                patch :move
+                post :reopen
+                post :restore
+              end
+              resources :notes, controller: 'deal_notes', only: [:index, :create, :destroy]
+              get :activities, to: 'deal_notes#activities'
+            end
+            resources :tasks, only: [:index, :show, :create, :update, :destroy] do
+              member do
+                post :complete
+                post :reopen
+              end
+            end
+            get 'contacts/:contact_id/summary', to: 'contact_summaries#show'
+            scope :reports, controller: 'reports' do
+              get :summary
+              get :funnel
+              get :agents
+              get :lost_reasons
+              get :timeline
+              get :export
+              get :stage_win_rates
+              # Custom (MyDesk): the reports of SalesCrm::Reports::Catalog
+              crm_report_keys = /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast|coverage|win_rate|losses|
+                                  activity|new_deals|data_quality|scorecard|conversion|cycle|changes|revenue|deal_size/x
+              get ':key', action: :show, constraints: { key: crm_report_keys }
+              get ':key/deals', action: :drill, constraints: { key: crm_report_keys }
+              get ':key/download', action: :download, constraints: { key: crm_report_keys }
+            end
+            resource :settings, only: [:show, :update], controller: 'settings'
+            resources :lost_reasons, only: [:index, :create, :update, :destroy] do
+              patch :reorder, on: :collection
+            end
+            resources :list_items, only: [:index, :create, :update, :destroy] do
+              patch :reorder, on: :collection
+            end
+            resource :targets, only: [:show, :update]
           end
           resources :portals do
             member do
@@ -851,6 +903,10 @@ Rails.application.routes.draw do
         post :refresh
         delete :remove_number
       end
+      # Custom (MyDesk): the Sales CRM across accounts (read-only)
+      get 'crm_overview', to: 'crm_overview#show', as: :crm_overview_index
+      get 'crm_overview/deals', to: 'crm_overview#deals', as: :crm_overview_deals
+      get 'crm_overview/deals/:id', to: 'crm_overview#deal', as: :crm_overview_deal
 
       resources :search, only: [] do
         collection do

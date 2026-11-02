@@ -12,6 +12,8 @@ import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
 import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
 import ContactMedia from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMedia.vue';
+// Custom (MyDesk): Sales CRM deals & tasks of the contact
+import ContactCrmSection from 'dashboard/routes/dashboard/conversation/crm/ContactCrmSection.vue';
 import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
 import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
 
@@ -23,6 +25,7 @@ const contact = useMapGetter('contacts/getContactById');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 
 const activeTab = ref('attributes');
+const isCrmEnabled = useMapGetter('crm/status/isEnabled'); // Custom (MyDesk)
 const contactMergeRef = ref(null);
 
 const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
@@ -42,12 +45,19 @@ const CONTACT_TABS_OPTIONS = [
   { key: 'HISTORY', value: 'history' },
   { key: 'NOTES', value: 'notes' },
   { key: 'MEDIA', value: 'media' },
+  { key: 'CRM', value: 'crm' }, // Custom (MyDesk)
   { key: 'MERGE', value: 'merge' },
 ];
 
 const tabs = computed(() => {
-  return CONTACT_TABS_OPTIONS.map(tab => ({
-    label: t(`CONTACTS_LAYOUT.SIDEBAR.TABS.${tab.key}`),
+  // Custom (MyDesk): the CRM tab shows only when the account has the Sales CRM on
+  return CONTACT_TABS_OPTIONS.filter(
+    tab => tab.key !== 'CRM' || isCrmEnabled.value
+  ).map(tab => ({
+    label:
+      tab.key === 'CRM'
+        ? t('CRM.PANEL.TITLE')
+        : t(`CONTACTS_LAYOUT.SIDEBAR.TABS.${tab.key}`),
     value: tab.value,
   }));
 });
@@ -176,6 +186,13 @@ onMounted(() => {
           <ContactNotes v-if="activeTab === 'notes'" />
           <ContactHistory v-if="activeTab === 'history'" />
           <ContactMedia v-if="activeTab === 'media'" />
+          <!-- Custom (MyDesk) -->
+          <div v-if="activeTab === 'crm'" class="px-6 py-4">
+            <ContactCrmSection
+              :contact-id="selectedContact.id"
+              :contact-name="selectedContact.name"
+            />
+          </div>
           <ContactMerge
             v-if="activeTab === 'merge'"
             ref="contactMergeRef"

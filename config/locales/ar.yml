@@ -323,6 +323,7 @@ ar:
       sla_missed_next_response: 'هدف سياسة خدمة الرد القادم مفقود للمحادثة (#%{display_id})'
       sla_missed_resolution: 'هدف سياسة خدمة أول حل مفقود للمحادثة (#%{display_id})'
       voice_call_missed: 'Missed call · %{inbox_name}'
+      crm_task_due: 'موعد مهمة: %{title}' # Custom (MyDesk)
     attachment: 'المرفقات'
     no_content: 'لا يوجد محتوى'
   conversations:

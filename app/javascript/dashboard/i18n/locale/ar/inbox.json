@@ -38,6 +38,7 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
       "VOICE_CALL_MISSED": "مكالمة فائتة",
+      "CRM_TASK_DUE": "موعد مهمة",
       "SNOOZED_UNTIL": "مؤجلة لمدة {time}",
       "SNOOZED_ENDS": "انتهى التأجيل"
     },

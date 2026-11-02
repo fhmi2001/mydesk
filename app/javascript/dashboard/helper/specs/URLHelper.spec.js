@@ -13,9 +13,10 @@ import {
 
 describe('#URL Helpers', () => {
   describe('conversationListPageURL', () => {
-    it('should return url to dashboard', () => {
+    // Custom (MyDesk): /dashboard is the home screen; the conversation list lives at /conversations
+    it('should return url to the conversations', () => {
       expect(conversationListPageURL({ accountId: 1 })).toBe(
-        '/app/accounts/1/dashboard'
+        '/app/accounts/1/conversations'
       );
     });
     it('should return url to inbox', () => {
