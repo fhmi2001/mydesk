@@ -537,6 +537,27 @@
             "DESCRIPTION": "Average won deal month by month, for the team and each employee.",
             "EMPTY": "Nothing won in this period",
             "EMPTY_HINT": "Pick a longer period: a trend needs months."
+          },
+          "response_speed": {
+            "NAME": "Response speed and win rate",
+            "QUESTION": "Do faster replies win more?",
+            "DESCRIPTION": "Closed deals by the first reply in their conversation, and the win rate of each bucket.",
+            "EMPTY": "No closed deals with a conversation and a reply in this period",
+            "EMPTY_HINT": "Pick a longer period, or create deals from conversations."
+          },
+          "campaigns": {
+            "NAME": "Campaign return",
+            "QUESTION": "What did each campaign bring?",
+            "DESCRIPTION": "Deals and revenue per campaign, direct or influenced, with the SMS cost and the return per riyal.",
+            "EMPTY": "No deals credited to a campaign in this period",
+            "EMPTY_HINT": "A deal is credited to a campaign only when it is created."
+          },
+          "conversation_deals": {
+            "NAME": "Conversation to deal",
+            "QUESTION": "How many conversations become deals?",
+            "DESCRIPTION": "The period's conversations, how many became deals and how many were won, by channel and employee.",
+            "EMPTY": "No conversations in this period",
+            "EMPTY_HINT": "Pick a longer period."
           }
         },
         "PIPELINE": {
@@ -688,7 +709,9 @@
           "WON_VALUE": "Won value",
           "WIN_RATE": "Win rate",
           "BY_ASSIGNEE": "By owner",
-          "WHAT_COUNTS": "Completed tasks by kind, and notes on deals; chats do not count"
+          "WHAT_COUNTS": "Completed tasks by kind, and notes on deals. The employee's messages to customers show beside them and are not added",
+          "MESSAGES": "Messages to customers",
+          "MESSAGES_HINT": "The employee's replies in their deals' conversations"
         },
         "NEW_DEALS": {
           "COUNT": "New deals",
@@ -807,6 +830,49 @@
           "NONE": "Nothing won.",
           "ROW": "{share} of revenue · {growth}",
           "ROW_NEW": "{share} of revenue · new"
+        },
+        "RESPONSE_SPEED": {
+          "CLOSED": "Closed deals",
+          "EXCLUDED": "Left out",
+          "EXCLUDED_HINT": "Without a conversation, or no reply from an employee yet",
+          "BY_BUCKET": "By speed of the first reply",
+          "CORRELATION": "It shows a link, not a cause: fast deals may simply be easier ones.",
+          "FIRST_REPLY": "First reply within",
+          "WIN_RATE": "Win rate",
+          "AVERAGE_WON": "Average won",
+          "SMALL_SAMPLE": "Small sample",
+          "SMALL_SAMPLE_HINT": "No rate under 10 deals in a bucket. Real time, not working hours.",
+          "BUCKETS": {
+            "under_5m": "Under 5 minutes",
+            "5_30m": "5 to 30 minutes",
+            "30m_2h": "30 minutes to 2 hours",
+            "2h_24h": "2 to 24 hours",
+            "over_24h": "Over 24 hours"
+          }
+        },
+        "CAMPAIGNS": {
+          "BY_CAMPAIGN": "By campaign",
+          "HOW_CREDITED": "Direct: the deal's conversation came from a chat campaign. Influenced: the customer got an SMS campaign within the window before the deal. The two are never added.",
+          "CAMPAIGN": "Campaign",
+          "DIRECT": "Direct",
+          "INFLUENCED": "Influenced",
+          "WON": "Won",
+          "RECIPIENTS": "Recipients",
+          "CONVERSION": "Became deals",
+          "COST": "Cost",
+          "COST_PARTIAL": "some prices unknown",
+          "RETURN": "Return per riyal"
+        },
+        "CONVERSATION_DEALS": {
+          "CONVERSATIONS": "Conversations",
+          "BECAME_DEALS": "Became deals",
+          "CONVERSION": "Conversion",
+          "WON": "won",
+          "WON_VALUE": "Value won",
+          "BY_CHANNEL": "By channel",
+          "CHANNEL": "Channel",
+          "ONCE_HINT": "A conversation counts once, however many deals came from it.",
+          "BY_ASSIGNEE": "By the employee handling the conversation"
         },
         "DEAL_SIZE": {
           "AVERAGE": "Average won deal",

@@ -183,6 +183,14 @@ RSpec.describe SalesCrm::Metrics do
       expect(described_class.call(quiet, today: today)).to eq(3)
       expect(described_class.stale(deals, 14, today: today)).to contain_exactly(active)
     end
+
+    # Decision ح (CONVERSATION_SALES_PLAN.md): an employee's reply to the customer counts too
+    it 'counts from the later of the last activity and the last reply in the conversation' do
+      today = Date.new(2026, 10, 20)
+      replied = deal(last_activity_at: riyadh.local(2026, 10, 1), last_message_at: riyadh.local(2026, 10, 18))
+      expect(described_class.call(replied, today: today)).to eq(2)
+      expect(described_class.stale(deals, 14, today: today)).not_to include(replied)
+    end
   end
 
   describe SalesCrm::Metrics::DataCompleteness do

@@ -11,6 +11,8 @@ const props = defineProps({
   columns: { type: Array, required: true },
   currency: { type: String, default: 'SAR' },
   ranked: { type: Boolean, default: false },
+  // The first column's heading when the rows are not employees (a channel, a campaign)
+  nameLabel: { type: String, default: '' },
 });
 const emit = defineEmits(['drill']);
 
@@ -48,7 +50,7 @@ const toneClass = (row, column) => TONE_TEXT[column.tone?.(row)] || '';
             scope="col"
             class="sticky z-[1] py-2 pe-3 font-medium start-0 text-start bg-n-solid-1"
           >
-            {{ t('CRM.REPORTS.AGENTS.AGENT') }}
+            {{ nameLabel || t('CRM.REPORTS.AGENTS.AGENT') }}
           </th>
           <th
             v-for="column in columns"
@@ -61,7 +63,7 @@ const toneClass = (row, column) => TONE_TEXT[column.tone?.(row)] || '';
         </tr>
       </thead>
       <tbody class="divide-y divide-n-weak">
-        <tr v-for="row in rows" :key="row.assignee_id ?? 'none'">
+        <tr v-for="row in rows" :key="row.key ?? row.assignee_id ?? 'none'">
           <td v-if="ranked" class="py-2.5 pe-2 tabular-nums text-n-slate-11">
             {{ number(row.rank) }}
           </td>

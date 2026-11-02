@@ -44,9 +44,15 @@ describe('reportCatalog', () => {
 
   it('lists the reports of waves A and B, and falls back to the first', () => {
     expect(REPORTS.map(r => r.number)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16, 19, 9, 11, 13, 17, 18,
+      1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 15, 16, 19, 9, 11, 13, 17, 18, 20, 21,
+      22,
     ]);
     expect(reportsFor(false).map(r => r.key)).not.toContain('activity');
+    // Custom (MyDesk): the campaign return is the manager's; the other conversation reports are for everyone
+    expect(reportsFor(false).map(r => r.key)).not.toContain('campaigns');
+    expect(reportsFor(false).map(r => r.key)).toEqual(
+      expect.arrayContaining(['response_speed', 'conversation_deals'])
+    );
     expect(reportFor('nope').key).toBe('pipeline_by_stage');
   });
 });

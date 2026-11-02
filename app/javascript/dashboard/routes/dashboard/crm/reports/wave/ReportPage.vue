@@ -48,6 +48,9 @@ import CycleReport from './CycleReport.vue';
 import ChangesReport from './ChangesReport.vue';
 import RevenueReport from './RevenueReport.vue';
 import DealSizeReport from './DealSizeReport.vue';
+import ResponseSpeedReport from './ResponseSpeedReport.vue';
+import CampaignsReport from './CampaignsReport.vue';
+import ConversationDealsReport from './ConversationDealsReport.vue';
 
 const BODIES = {
   pipeline_by_stage: PipelineByStageReport,
@@ -69,6 +72,9 @@ const BODIES = {
   changes: ChangesReport,
   revenue: RevenueReport,
   deal_size: DealSizeReport,
+  response_speed: ResponseSpeedReport,
+  campaigns: CampaignsReport,
+  conversation_deals: ConversationDealsReport,
 };
 
 const route = useRoute();

@@ -1,11 +1,12 @@
-# Custom (MyDesk): التقرير 3, الصفقات الراكدة والمتأخرة: the open deals that need moving today. Stale: no activity for the
-# account's stale days (14 unless changed, or `days`; المؤشر 9). Overdue: the expected close date has passed. A deal can
+# Custom (MyDesk): التقرير 3, الصفقات الراكدة والمتأخرة: the open deals that need moving today. Stale: no activity and no
+# reply to the customer for the account's stale days (14 unless changed, or `days`; المؤشر 9,
+# Metrics::DaysSinceActivity). Overdue: the expected close date has passed. A deal can
 # be both; «at risk» counts it once. A picture of now: no period, no previous period.
 class SalesCrm::Reports::Stale < SalesCrm::Reports::Report
   KEY = 'stale'.freeze
   KINDS = %w[at_risk stale overdue].freeze
   ZERO = { count: 0, total_cents: 0 }.freeze
-  QUIET_FIRST = Arel.sql('COALESCE(crm_deals.last_activity_at, crm_deals.created_at) ASC, crm_deals.amount_cents DESC')
+  QUIET_FIRST = SalesCrm::Metrics::DaysSinceActivity::ORDER
 
   def self.list_filters = %i[product_id lead_source_id]
   def self.stage_filter? = true

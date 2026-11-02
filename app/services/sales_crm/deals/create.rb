@@ -55,9 +55,12 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
     }.merge(status_attributes(stage), origin_attributes(params), forecast_attributes(params))
   end
 
+  # Where the deal came from: its conversation, how it was made, and the campaign it is credited to (set once)
   def origin_attributes(params)
     conversation = conversation_for(params[:conversation_id])
     { conversation: conversation, source: source_for(params[:source], conversation) }
+      .merge(SalesCrm::CampaignAttribution.for(account, contact: contact_for(params[:contact_id]) || conversation&.contact,
+                                                        conversation: conversation))
   end
 
   def forecast_attributes(params)

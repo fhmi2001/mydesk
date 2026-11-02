@@ -227,6 +227,8 @@ class SalesCrm::DemoSeed
     end
     changes(record, events, attrs, amount, now)
     attrs[:last_activity_at] = events.map(&:first).max || record.created_at
+    # The stale reports read the last touch (Metrics::DaysSinceActivity); no reply in a conversation is seeded yet
+    attrs[:last_touch_at] = attrs[:last_activity_at]
     record.update_columns(attrs.merge(stage_id: attrs.delete(:stage).id))
     log(record, owner, events)
   end

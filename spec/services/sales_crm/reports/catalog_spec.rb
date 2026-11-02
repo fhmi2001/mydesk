@@ -115,6 +115,11 @@ RSpec.describe SalesCrm::Reports::Catalog do
     it 'takes another number of quiet days' do
       expect(run('stale', admin, days: '30')[:totals][:stale][:count]).to eq(0)
     end
+
+    it 'does not count a deal whose employee replied to the customer recently (decision ح)' do
+      deal(amount_cents: 500_000, last_activity_at: riyadh.local(2026, 10, 1), last_message_at: riyadh.local(2026, 10, 19))
+      expect(run('stale', admin)[:totals][:stale]).to eq(count: 2, total_cents: 400_000)
+    end
   end
 
   describe SalesCrm::Reports::MyTasks do

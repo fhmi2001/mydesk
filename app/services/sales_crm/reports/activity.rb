@@ -1,6 +1,7 @@
 # Custom (MyDesk): التقرير 14, نشاط الفريق (للمدير فقط): does each employee's activity match their results? The activity
-# of the period is the tasks they completed, by kind (call, meeting, task), and the notes they wrote on deals; Chatwoot
-# conversations do not count (phase 1). Beside it, what they won and their win rate. Compared with the period before.
+# of the period is the tasks they completed, by kind (call, meeting, task), and the notes they wrote on deals. Beside it,
+# never added to it: their replies to customers in the conversations their deals are followed in (decision ح), and what
+# they won with their win rate. Compared with the period before.
 class SalesCrm::Reports::Activity < SalesCrm::Reports::Report
   KEY = 'activity'.freeze
   KINDS = SalesCrm::Task.kinds.keys.freeze
@@ -40,9 +41,25 @@ class SalesCrm::Reports::Activity < SalesCrm::Reports::Report
   def people_rows(window = period)
     tasks = done_tasks(window).group(:assignee_id, :kind).count
     notes_by = notes(window).group(:user_id).count
-    ids = people_ids(tasks.keys.map(&:first) + notes_by.keys, window)
+    messages_by = messages_by_employee(window)
+    ids = people_ids(tasks.keys.map(&:first) + notes_by.keys + messages_by.keys, window)
     people = names(ids)
-    ids.map { |id| person_row(id, people[id], tasks, notes_by.fetch(id, 0), window) }.sort_by { |r| -r[:activity_count] }
+    rows = ids.map do |id|
+      person_row(id, people[id], tasks, notes_by.fetch(id, 0), window).merge(message_count: messages_by.fetch(id, 0))
+    end
+    rows.sort_by { |r| -r[:activity_count] }
+  end
+
+  # An employee's public replies in the window, in the conversations their own deals are followed in
+  def messages_by_employee(window)
+    owned = account.crm_deals.kept.where.not(active_conversation_id: nil).pluck(:assignee_id, :active_conversation_id)
+    owned.group_by(&:first).each_with_object({}) do |(owner, pairs), counts|
+      next if owner.nil?
+
+      count = Message.where(account_id: account.id, conversation_id: pairs.map(&:last), message_type: :outgoing, private: false,
+                            sender_type: 'User', sender_id: owner, created_at: window.range).count
+      counts[owner] = count if count.positive?
+    end
   end
 
   def people_ids(active, window)
@@ -60,7 +77,8 @@ class SalesCrm::Reports::Activity < SalesCrm::Reports::Report
 
   def sum_rows(rows)
     { by_kind: KINDS.index_with { |kind| rows.sum { |r| r[:by_kind][kind] } }, note_count: rows.sum { |r| r[:note_count] },
-      activity_count: rows.sum { |r| r[:activity_count] }, won_count: rows.sum { |r| r[:won_count] },
+      activity_count: rows.sum { |r| r[:activity_count] }, message_count: rows.sum { |r| r[:message_count] },
+      won_count: rows.sum { |r| r[:won_count] },
       won_cents: rows.sum { |r| r[:won_cents] } }
   end
 end

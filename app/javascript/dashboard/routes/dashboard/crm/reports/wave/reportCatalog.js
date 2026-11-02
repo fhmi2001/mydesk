@@ -190,6 +190,33 @@ export const REPORTS = [
     adminOnly: true,
     columns: ['closed_at'],
   },
+  // Conversations and sales (docs/mydesk/CONVERSATION_SALES_PLAN.md, phase 4)
+  {
+    key: 'response_speed',
+    group: 'conversion',
+    number: 20,
+    icon: 'i-lucide-timer',
+    period: 'past',
+    lists: true,
+    columns: ['closed_at', 'stage'],
+  },
+  {
+    key: 'campaigns',
+    group: 'results',
+    number: 21,
+    icon: 'i-lucide-megaphone',
+    period: 'past',
+    adminOnly: true,
+    columns: ['stage', 'close_date'],
+  },
+  {
+    key: 'conversation_deals',
+    group: 'conversion',
+    number: 22,
+    icon: 'i-lucide-messages-square',
+    period: 'past',
+    columns: ['stage', 'close_date'],
+  },
 ];
 
 // The navigation's groups, in order (CRM_REPORTS_PLAN.md, phase 5)

@@ -154,6 +154,26 @@ RSpec.describe SalesCrm::Reports::Catalog do
     it 'opens the tasks behind a count' do
       expect(drill('activity', admin, { kind: 'call', assignee_id: agent.id })).to include(type: 'tasks', total_count: 2)
     end
+
+    # Decision ح: an employee's replies in their deals' conversations, beside the activity and never added to it
+    it "counts each employee's messages to customers in their deals' conversations" do
+      conversation = create(:conversation, account: account)
+      deal(conversation: conversation)
+      reply = lambda do |at, **attrs|
+        create(:message, account: account, conversation: conversation, inbox: conversation.inbox, message_type: :outgoing,
+                         sender: agent, created_at: at, **attrs)
+      end
+      2.times { reply.call(riyadh.local(2026, 10, 9)) }
+      reply.call(riyadh.local(2026, 10, 9), private: true)
+      reply.call(riyadh.local(2026, 9, 20))
+      create(:message, account: account, inbox: create(:inbox, account: account), message_type: :outgoing, sender: agent,
+                       created_at: riyadh.local(2026, 10, 9)) # not a deal's conversation
+
+      result = run('activity', admin)
+      mine = result[:assignees].find { |r| r[:assignee_id] == agent.id }
+      expect(mine).to include(message_count: 2, activity_count: 4)
+      expect(result[:totals][:message_count]).to eq(2)
+    end
   end
 
   describe SalesCrm::Reports::NewDeals do

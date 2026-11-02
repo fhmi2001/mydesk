@@ -79,10 +79,11 @@ class SalesCrm::Deal < ApplicationRecord
 
   private
 
-  # A new deal is followed in the conversation it came from, and its last touch is its creation
+  # A new deal is followed in the conversation it came from, and its last touch is the later of its activity and a
+  # reply, else its creation
   def start_conversation_links
     self.active_conversation_id ||= conversation_id
-    self.last_touch_at ||= Time.current
+    self.last_touch_at ||= [last_activity_at, last_message_at].compact.max || created_at || Time.current
   end
 
   def snapshot_contact_name
