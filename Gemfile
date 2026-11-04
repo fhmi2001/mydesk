@@ -186,7 +186,7 @@ gem 'omniauth-oauth2'
 gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # Custom (MyDesk): reads Excel/CSV files of phone numbers for SMS campaigns
-gem 'roo', '~> 2.10'
+gem 'roo', '~> 3.0'
 # Custom (MyDesk): writes the Sales reports' Excel exports (CRM_REPORTS_PLAN.md, phase 5)
 gem 'caxlsx', '~> 4.1'
 
