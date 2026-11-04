@@ -1,7 +1,7 @@
 # Custom (MyDesk): monthly sales targets (?month=YYYY-MM). Administrators read every employee's target and the team
 # total, and set them; anyone else reads only their own (docs/reports/gap-analysis.md, decision ب).
 class Api::V1::Accounts::Crm::TargetsController < Api::V1::Accounts::Crm::BaseController
-  before_action :check_admin, only: [:update]
+  before_action :check_admin_authorization?, only: [:update]
 
   def show
     render json: targets_json(params[:month].presence || Date.current.strftime('%Y-%m'))
@@ -17,10 +17,6 @@ class Api::V1::Accounts::Crm::TargetsController < Api::V1::Accounts::Crm::BaseCo
 
   def admin?
     Current.account_user&.administrator?
-  end
-
-  def check_admin
-    raise Pundit::NotAuthorizedError unless admin?
   end
 
   def targets_json(month)

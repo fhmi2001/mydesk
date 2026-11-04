@@ -6,7 +6,7 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
 
   def show
     render json: { lead_source_id: Current.account.crm_lead_source_for_inbox(@conversation.inbox_id)&.id,
-                   suggestions: pending_suggestions(@conversation).map { |s| present_suggestion(s) },
+                   suggestions: pending_suggestions(@conversation).map { |s| SalesCrm::Presenter.suggestion(s) },
                    linkable_deals: linkable_deals(@conversation),
                    ai_available: SmartAssistant::Config.configured?,
                    csat_survey_enabled: @conversation.inbox.csat_survey_enabled }
@@ -19,8 +19,10 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
 
   private
 
+  # Only a conversation the user may open: its summary is a transcript of the conversation
   def set_conversation
     @conversation = Current.account.conversations.find_by!(display_id: params[:id])
+    authorize @conversation, :show?
   end
 
   def pending_suggestions(conversation)
@@ -36,12 +38,6 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
     deals_scope.kept.open.where(contact_id: conversation.contact_id).where.not(active_conversation_id: conversation.id)
                .or(deals_scope.kept.open.where(contact_id: conversation.contact_id, active_conversation_id: nil))
                .includes(:active_conversation).order(updated_at: :desc).limit(10)
-               .map do |deal|
-                 { id: deal.id, title: deal.title, active_conversation_display_id: deal.active_conversation&.display_id }
-               end
-  end
-
-  def present_suggestion(suggestion)
-    suggestion.slice(:id, :kind, :origin, :content, :deal_id, :created_at).merge(deal_title: suggestion.deal&.title)
+               .map { |deal| SalesCrm::Presenter.linkable_deal(deal) }
   end
 end

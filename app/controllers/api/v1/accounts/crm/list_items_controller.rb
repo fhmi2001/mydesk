@@ -2,7 +2,7 @@
 # Everyone reads the active items (the deal form's pickers); administrators add, rename, reorder and archive.
 # Archiving keeps the item on the deals that already have it, so old reports keep their names.
 class Api::V1::Accounts::Crm::ListItemsController < Api::V1::Accounts::Crm::BaseController
-  before_action :check_admin, except: [:index]
+  before_action :check_admin_authorization?, except: [:index]
   before_action :set_list
   before_action :set_item, only: [:update, :destroy]
 
@@ -14,15 +14,11 @@ class Api::V1::Accounts::Crm::ListItemsController < Api::V1::Accounts::Crm::Base
   def create
     items.create!(name: params.require(:name), position: (items.maximum(:position) || -1) + 1)
     render json: items_json
-  rescue ActiveRecord::RecordInvalid => e
-    raise SalesCrm::ValidationError, e.record.errors.full_messages.to_sentence
   end
 
   def update
     @item.update!(name: params.require(:name))
     render json: items_json
-  rescue ActiveRecord::RecordInvalid => e
-    raise SalesCrm::ValidationError, e.record.errors.full_messages.to_sentence
   end
 
   def destroy
@@ -40,10 +36,6 @@ class Api::V1::Accounts::Crm::ListItemsController < Api::V1::Accounts::Crm::Base
   end
 
   private
-
-  def check_admin
-    raise Pundit::NotAuthorizedError unless Current.account_user&.administrator?
-  end
 
   def set_list
     @list = params[:list].presence || Current.account.crm_list_items.find_by(id: params[:id])&.list

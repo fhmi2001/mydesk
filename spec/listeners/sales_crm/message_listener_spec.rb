@@ -16,8 +16,10 @@ RSpec.describe SalesCrm::MessageListener do
   end
 
   it 'listens to the async dispatcher' do
-    registrations = Rails.configuration.dispatcher.async_dispatcher.send(:local_registrations)
-    expect(registrations.map(&:listener)).to include(listener)
+    message = create(:message, account: account, conversation: conversation, inbox: conversation.inbox, message_type: :outgoing,
+                               sender: owner)
+    Rails.configuration.dispatcher.async_dispatcher.publish_event('message.created', Time.zone.now, message: message)
+    expect(deal.reload.last_message_at).to eq(message.reload.created_at)
   end
 
   def reply(conversation, sender: owner, **attrs)

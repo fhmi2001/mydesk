@@ -118,7 +118,7 @@ const load = async () => {
   try {
     if (!pipelines.value.length) await store.dispatch('crm/pipelines/fetch');
     const [{ data }] = await Promise.all([
-      crmContactSummaryAPI.get(props.contactId),
+      crmContactSummaryAPI.summary(props.contactId),
       loadSuggestions(),
     ]);
     deals.value = data.deals;
@@ -268,7 +268,9 @@ const saveSummaryNote = async ({ deal, content }) => {
 const applySummary = async ({ deal, ...changes }) => {
   isSavingSummary.value = true;
   try {
-    await crmDealsAPI.update(deal.id, {
+    // Through the store, so a loaded board and the forecast follow the new amount and date
+    await store.dispatch('crm/deals/update', {
+      id: deal.id,
       ...changes,
       lock_version: deal.lock_version,
     });

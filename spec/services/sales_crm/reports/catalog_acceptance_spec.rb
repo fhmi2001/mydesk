@@ -1,11 +1,12 @@
 # Custom (MyDesk): the acceptance check of CRM_REPORTS_PLAN.md phase 6. The demo data (SalesCrm::DemoSeed, about 200
 # deals over six months with their whole log) is built as it stood at 18:00 on the anchor day, and every report is
 # run on it:
-# - each number in docs/reports/expected_numbers.yml, worked out apart from the app (lib/sales_crm/expected_numbers.rb),
+# - each number in docs/reports/expected_numbers.yml, worked out apart from the app (db/seeds/sales_crm/expected_numbers.rb),
 #   must come out the same;
 # - in every report with a row per employee, the employees add up to the team;
 # - the deals behind a number add up to it.
 require 'rails_helper'
+require Rails.root.join('db/seeds/sales_crm/demo_seed').to_s
 
 RSpec.describe SalesCrm::Reports::Catalog do
   expected = YAML.load_file(Rails.root.join('docs/reports/expected_numbers.yml'))
@@ -18,7 +19,10 @@ RSpec.describe SalesCrm::Reports::Catalog do
     seeded[:seed] = SalesCrm::DemoSeed.new(anchor: anchor).perform
   end
 
+  # Seeding runs outside the per-example transaction, so its rows are removed here; nothing to remove if it failed
   after(:all) do # rubocop:disable RSpec/BeforeAfterAll
+    next unless seeded[:seed]
+
     account = seeded[:seed].account
     users = account.users.to_a
     account.destroy!

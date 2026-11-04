@@ -1,10 +1,11 @@
 # Custom (MyDesk): moves a deal to a stage and position. Landing on the lost stage needs a reason; landing on
 # won/lost sets the status and timestamps. `position` is 1-based among the stage's live deals; the whole
-# stage is renumbered densely so positions always match what the board shows.
+# stage is renumbered densely so positions always match what the board shows. The system rehoming deals out of a
+# removed stage passes reason_required: false, so a deal reaching lost that way keeps whatever reason it had, or none.
 class SalesCrm::Deals::Move < SalesCrm::BaseService
-  def perform(deal, stage_id:, position: nil, lost_reason: nil, lost_note: nil, lock_version: nil) # rubocop:disable Metrics/ParameterLists
+  def perform(deal, stage_id:, position: nil, lost_reason: nil, lost_note: nil, lock_version: nil, reason_required: true) # rubocop:disable Metrics/ParameterLists
     stage = find_stage!(deal.pipeline, stage_id)
-    fail!(:lost_reason_required) if stage.lost? && lost_reason.to_s.strip.blank?
+    fail!(:lost_reason_required) if reason_required && stage.lost? && lost_reason.to_s.strip.blank?
 
     ActiveRecord::Base.transaction do
       from_stage_id = deal.stage_id
@@ -46,7 +47,7 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
     when 'won'
       deal.assign_attributes(status: :won, won_at: deal.won_at || Time.current, lost_at: nil, lost_reason: nil, lost_note: nil)
     when 'lost'
-      deal.assign_attributes(status: :lost, lost_at: deal.lost_at || Time.current, won_at: nil, lost_reason: lost_reason.to_s.strip,
+      deal.assign_attributes(status: :lost, lost_at: deal.lost_at || Time.current, won_at: nil, lost_reason: lost_reason.to_s.strip.presence,
                              lost_note: lost_note.to_s.strip.presence)
     else
       deal.assign_attributes(status: :open, won_at: nil, lost_at: nil, lost_reason: nil, lost_note: nil)

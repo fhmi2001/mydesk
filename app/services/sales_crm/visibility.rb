@@ -10,7 +10,10 @@ module SalesCrm::Visibility
     account.account_users.find_by(user_id: user.id)&.administrator? || false
   end
 
+  # Without a user nobody's deals are visible: a service called with no acting user sees nothing rather than crashing
   def deals(account, user, relation = account.crm_deals.kept)
+    return relation.none if user.nil?
+
     admin?(account, user) ? relation : relation.where(assignee_id: user.id)
   end
 
@@ -18,6 +21,7 @@ module SalesCrm::Visibility
   # and lost messages of their own deals. A colleague's deal stays out even when the employee handles its conversation.
   def suggestions(account, user)
     base = account.crm_suggestions
+    return base.none if user.nil?
     return base if admin?(account, user)
 
     from_conversations = base.where(kind: SalesCrm::Suggestion::CONVERSATION_KINDS,
@@ -31,6 +35,7 @@ module SalesCrm::Visibility
   # no deal. A task on a colleague's deal stays out, since it would show that deal's title.
   def tasks(account, user)
     base = account.crm_tasks
+    return base.none if user.nil?
     return base if admin?(account, user)
 
     own_deals = account.crm_deals.where(assignee_id: user.id).select(:id)

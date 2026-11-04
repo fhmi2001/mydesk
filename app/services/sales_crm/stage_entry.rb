@@ -30,10 +30,7 @@ module SalesCrm::StageEntry
     return unless stage.open? && stage.followup_task_days.present?
     return if deal.tasks.open.from_stage_rule.exists?
 
-    task = deal.account.crm_tasks.create!(title: stage.followup_task_title, due_at: stage.followup_task_days.days.from_now,
-                                          origin: :stage_rule, **task_links(deal))
-    SalesCrm::ActivityLog.record(deal: deal, kind: 'task_added', user: nil, data: { task_id: task.id, title: task.title })
-    SalesCrm::Broadcast.call(deal.account, 'crm.task_created', { id: task.id, assignee_id: task.assignee_id, deal_id: deal.id },
-                             to: task.assignee_id)
+    SalesCrm::Tasks::Create.new(account: deal.account).record!(title: stage.followup_task_title, origin: :stage_rule,
+                                                               due_at: stage.followup_task_days.days.from_now, **task_links(deal))
   end
 end

@@ -3,18 +3,19 @@
 class SalesCrm::Deals::Search < SalesCrm::BaseService
   BOARD_PER_STAGE = 100
   TABLE_PER_PAGE = 50
-  STATUSES = %w[open won lost].freeze
   SORTABLE = %w[title amount_cents close_date updated_at created_at status position priority].freeze
   FILTERS = %i[stage_id assignee_id status priority q view page sort].freeze
 
   # filters: stage_id, assignee_id ('none' for unassigned), status, priority, q (search text), view (:board | :table),
   # page, sort ('column:asc|desc'). Returns { deals:, counts: { stage_id => { count:, total_cents: } }, total:, page: }
+  # where page is the table page served, and nil for the board (it is not paged)
   def perform(scope, pipeline:, **filters)
     filters = filters.slice(*FILTERS)
     relation = filtered(scope.where(pipeline_id: pipeline.id), filters)
     counts = counts_for(relation)
-    deals = filters[:view].to_s == 'table' ? table(relation, filters[:page], filters[:sort]) : board(relation, pipeline)
-    { deals: deals, counts: counts, total: counts.values.sum { |c| c[:count] }, page: filters[:page].to_i }
+    page = filters[:page].to_i.clamp(1, 10_000) if filters[:view].to_s == 'table'
+    deals = page ? table(relation, page, filters[:sort]) : board(relation, pipeline)
+    { deals: deals, counts: counts, total: counts.values.sum { |c| c[:count] }, page: page }
   end
 
   private
@@ -22,7 +23,7 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
   def filtered(relation, filters)
     relation = relation.where(stage_id: filters[:stage_id]) if filters[:stage_id].present?
     relation = relation.where(assignee_id: filters[:assignee_id] == 'none' ? nil : filters[:assignee_id]) if filters[:assignee_id].present?
-    relation = relation.where(status: filters[:status]) if STATUSES.include?(filters[:status].to_s)
+    relation = relation.where(status: filters[:status]) if SalesCrm::Deal.statuses.key?(filters[:status].to_s)
     relation = relation.where(priority: filters[:priority]) if SalesCrm::Deal.priorities.key?(filters[:priority].to_s)
     search(relation, filters[:q])
   end
@@ -55,6 +56,6 @@ class SalesCrm::Deals::Search < SalesCrm::BaseService
     column, direction = (sort.presence || 'updated_at:desc').split(':')
     column = 'updated_at' unless SORTABLE.include?(column)
     relation.order(column => direction == 'asc' ? :asc : :desc, :id => :desc).includes(:contact, :assignee, :stage, :conversation)
-            .page(page.to_i.clamp(1, 10_000)).per(TABLE_PER_PAGE)
+            .page(page).per(TABLE_PER_PAGE)
   end
 end

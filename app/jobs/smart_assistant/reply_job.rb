@@ -83,9 +83,8 @@ class SmartAssistant::ReplyJob < ApplicationJob
 
   # Oldest first and ending with the customer's latest message
   def history(conversation)
-    messages = conversation.messages.where(message_type: %i[incoming outgoing], private: false).where.not(content: [nil, ''])
-                           .reorder(id: :desc).limit(HISTORY_LIMIT).to_a.reverse
-                           .map { |message| { role: message.incoming? ? :user : :assistant, content: message.content } }
+    messages = SmartAssistant::Transcript.recent(conversation, HISTORY_LIMIT)
+                                         .map { |message| { role: message.incoming? ? :user : :assistant, content: message.content } }
     messages.pop while messages.last && messages.last[:role] != :user
     messages
   end

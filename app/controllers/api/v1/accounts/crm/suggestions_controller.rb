@@ -6,7 +6,7 @@ class Api::V1::Accounts::Crm::SuggestionsController < Api::V1::Accounts::Crm::Ba
 
   def dismiss
     @suggestion.decide!(:dismissed, Current.user)
-    render json: @suggestion.slice(:id, :kind, :status)
+    render json: SalesCrm::Presenter.suggestion(@suggestion)
   end
 
   def draft
@@ -20,7 +20,7 @@ class Api::V1::Accounts::Crm::SuggestionsController < Api::V1::Accounts::Crm::Ba
     raise ActiveRecord::RecordNotFound unless deal_kind?
 
     @suggestion.decide!(:accepted, Current.user)
-    render json: @suggestion.slice(:id, :kind, :status)
+    render json: SalesCrm::Presenter.suggestion(@suggestion)
   end
 
   private

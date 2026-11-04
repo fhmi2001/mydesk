@@ -108,7 +108,7 @@ onMounted(async () => {
 
 const saveSetting = async patch => {
   try {
-    const { data } = await crmSettingsAPI.update(patch);
+    const { data } = await crmSettingsAPI.save(patch);
     settings.value = { ...settings.value, ...data };
     store.dispatch('crm/status/fetch');
     store.dispatch('crm/pipelines/fetch');

@@ -66,8 +66,19 @@ module SalesCrm::Presenter
     { id: activity.id, kind: activity.kind, data: activity.data, user: user(activity.user), created_at: activity.created_at }
   end
 
-  def forecast(result)
-    result.to_h
+  # A pending suggestion as the conversation panel lists it, and as dismissing or accepting one answers
+  def suggestion(suggestion)
+    suggestion.slice(:id, :kind, :status, :origin, :content, :deal_id, :created_at).merge(deal_title: suggestion.deal&.title)
+  end
+
+  # A deal of the customer the «اربطها» bar offers to follow in this conversation
+  def linkable_deal(deal)
+    { id: deal.id, title: deal.title, active_conversation_display_id: deal.active_conversation&.display_id }
+  end
+
+  # The stage named on a conversation card's deal badge
+  def stage_badge(stage)
+    { id: stage.id, name: stage.name, color: stage.color }
   end
 
   def contact(contact)

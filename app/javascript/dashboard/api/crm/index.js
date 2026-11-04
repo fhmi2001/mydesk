@@ -7,19 +7,11 @@ class CrmStatusAPI extends ApiClient {
   constructor() {
     super('crm/status', { accountScoped: true });
   }
-
-  get() {
-    return axios.get(this.url);
-  }
 }
 
 class CrmPipelinesAPI extends ApiClient {
   constructor() {
     super('crm/pipelines', { accountScoped: true });
-  }
-
-  update(id, payload) {
-    return axios.patch(`${this.url}/${id}`, payload);
   }
 }
 
@@ -93,10 +85,6 @@ class CrmTasksAPI extends ApiClient {
     return axios.get(this.url, { params });
   }
 
-  show(id) {
-    return axios.get(`${this.url}/${id}`);
-  }
-
   create(task) {
     return axios.post(this.url, { task });
   }
@@ -119,7 +107,7 @@ class CrmContactSummaryAPI extends ApiClient {
     super('crm/contacts', { accountScoped: true });
   }
 
-  get(contactId) {
+  summary(contactId) {
     return axios.get(`${this.url}/${contactId}/summary`);
   }
 }
@@ -222,10 +210,6 @@ class CrmLostReasonsAPI extends ApiClient {
     super('crm/lost_reasons', { accountScoped: true });
   }
 
-  get() {
-    return axios.get(this.url);
-  }
-
   create(name) {
     return axios.post(this.url, { name });
   }
@@ -275,8 +259,8 @@ class CrmTargetsAPI extends ApiClient {
     return axios.get(this.url, { params: { month } });
   }
 
-  // amounts: { userId: '50000' }; a blank amount clears that employee's month
-  update(month, amounts) {
+  // One month's targets at once. amounts: { userId: '50000' }; a blank amount clears that employee's month
+  save(month, amounts) {
     return axios.put(this.url, { month, amounts });
   }
 }
@@ -286,11 +270,8 @@ class CrmSettingsAPI extends ApiClient {
     super('crm/settings', { accountScoped: true });
   }
 
-  get() {
-    return axios.get(this.url);
-  }
-
-  update(settings) {
+  // The account's settings are one record: saved as a whole patch, without an id
+  save(settings) {
     return axios.patch(this.url, { settings });
   }
 }

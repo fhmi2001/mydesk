@@ -14,7 +14,7 @@ vi.mock('dashboard/composables/store', () => ({
     },
   }),
 }));
-vi.mock('../dealBadges', () => ({
+vi.mock('dashboard/store/modules/crm/dealBadges', () => ({
   badges: state.badges,
   requestBadge: vi.fn(),
 }));

@@ -68,7 +68,8 @@ export const dealToForm = deal =>
     ...Object.fromEntries(
       DEAL_LISTS.map(list => [listField(list), deal[listField(list)] ?? ''])
     ),
-    conversation_id: deal.conversation_id,
+    // The CRM API names conversations by display id
+    conversation_id: deal.conversation_display_id,
     lock_version: deal.lock_version,
   });
 

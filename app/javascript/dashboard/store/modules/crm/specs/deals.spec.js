@@ -10,9 +10,9 @@ vi.mock('dashboard/api/crm', () => ({
 }));
 
 import { crmDealsAPI } from 'dashboard/api/crm';
-import { refreshBadges } from 'dashboard/routes/dashboard/conversation/crm/dealBadges';
+import { refreshBadges } from '../dealBadges';
 
-vi.mock('dashboard/routes/dashboard/conversation/crm/dealBadges', () => ({
+vi.mock('../dealBadges', () => ({
   refreshBadges: vi.fn(),
 }));
 

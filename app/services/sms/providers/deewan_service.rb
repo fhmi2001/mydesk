@@ -7,7 +7,9 @@ class Sms::Providers::DeewanService
   # What Deewan returns for a campaign send: the SMS id of the number and the id of the API request
   Receipt = Struct.new(:message_id, :request_id, keyword_init: true)
 
-  # Raised for campaign sends so the campaign can record Deewan's reason (and request id) for each failed number
+  # Raised when Deewan refuses a request: by #send_text_message (campaigns, which record the reason and request id for
+  # each failed number) and by #message_details. #send_message, the conversation reply path, does not raise: like
+  # Chatwoot's other SMS providers it marks the message failed with the reason and returns nil.
   class DeliveryError < StandardError
     attr_reader :request_id
 
@@ -23,7 +25,7 @@ class Sms::Providers::DeewanService
 
   def send_message(contact_number, message)
     response = post(contact_number, message.outgoing_content, channel.phone_number)
-    return sms_id(response) if delivered?(response)
+    return sms_id(response) if accepted?(response)
 
     mark_message_failed(message, error_text(response))
     nil
@@ -32,7 +34,7 @@ class Sms::Providers::DeewanService
   # Campaigns may pick any of the channel's approved sender names; replies use the default one
   def send_text_message(contact_number, message_content, sender_name: nil)
     response = post(contact_number, message_content, sender_name || channel.phone_number)
-    raise DeliveryError.new(error_text(response), request_id: response_body(response)['requestId']) unless delivered?(response)
+    raise DeliveryError.new(error_text(response), request_id: response_body(response)['requestId']) unless accepted?(response)
 
     Receipt.new(message_id: sms_id(response), request_id: response_body(response)['requestId'])
   end
@@ -41,7 +43,7 @@ class Sms::Providers::DeewanService
   # Looked up by the SMS id; Deewan keeps these details for 3 months after sending.
   def message_details(message_id)
     response = HTTParty.get("#{API_URL}/#{message_id}", headers: headers)
-    raise DeliveryError.new(error_text(response), request_id: response_body(response)['requestId']) unless delivered?(response)
+    raise DeliveryError.new(error_text(response), request_id: response_body(response)['requestId']) unless accepted?(response)
 
     details = Array(response_body(response)['data']).first || {}
     { status: details['Status'], price: details['price'] }
@@ -78,7 +80,7 @@ class Sms::Providers::DeewanService
     response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
   end
 
-  def delivered?(response)
+  def accepted?(response)
     response.success? && response_body(response)['replyCode'] == SUCCESS_REPLY_CODE
   end
 

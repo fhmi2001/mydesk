@@ -121,7 +121,7 @@ RSpec.describe 'Sales CRM report fields' do # rubocop:disable RSpec/DescribeClas
   describe 'currency' do
     it 'comes from the Sales settings, for new pipelines and their deals' do
       account.update!(crm_default_currency: 'AED')
-      created = SalesCrm::Pipelines::Create.new(account: account, user: admin).perform(name: 'B2B', currency: 'USD')
+      created = SalesCrm::Pipelines::Create.new(account: account, user: admin).perform(name: 'B2B')
       expect(created.currency).to eq('AED')
     end
 

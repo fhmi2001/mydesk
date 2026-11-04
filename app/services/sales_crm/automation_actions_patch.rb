@@ -23,14 +23,12 @@ module SalesCrm::AutomationActionsPatch
   def create_crm_task(params)
     return unless crm_automation?
 
-    deal = crm_followed_deal
-    task = @account.crm_tasks.create!(
+    SalesCrm::Tasks::Create.new(account: @account).record!(
       title: crm_param(params, :title).to_s.strip.presence || @rule.name, kind: crm_task_kind(params),
       due_at: crm_param(params, :hours).to_i.clamp(0, 24 * 365).hours.from_now, origin: :automation,
       assignee_id: @conversation.assignee_id || @account.account_users.administrator.order(:id).pick(:user_id),
-      conversation: @conversation, contact_id: @conversation.contact_id, deal: deal
+      conversation: @conversation, contact_id: @conversation.contact_id, deal: crm_followed_deal
     )
-    SalesCrm::ActivityLog.record(deal: deal, kind: 'task_added', user: nil, data: { task_id: task.id, title: task.title }) if deal
   end
 
   def move_crm_deal(params)

@@ -8,7 +8,13 @@ RSpec.describe 'Sales CRM conversation API', type: :request do
   let(:whatsapp) { SalesCrm::ListItem.create!(account: account, list: 'lead_source', name: 'واتساب') }
   let(:path) { "/api/v1/accounts/#{account.id}/crm/conversations/#{conversation.display_id}" }
 
-  before { account.enable_features!('sales_crm') }
+  # An agent opens only conversations of their inboxes (ConversationPolicy), as everywhere else in the dashboard
+  def member_of_inbox(user, *conversations) = conversations.each { |c| create(:inbox_member, user: user, inbox: c.inbox) } && user
+
+  before do
+    account.enable_features!('sales_crm')
+    member_of_inbox(agent, conversation)
+  end
 
   it "gives the lead source mapped to the conversation's inbox" do
     account.update!(crm_channel_sources: { conversation.inbox_id.to_s => whatsapp.id })
@@ -72,8 +78,11 @@ RSpec.describe 'Sales CRM conversation API', type: :request do
     end
 
     it "offers nothing to an employee who does not own the deal, nor for the deal's own conversation" do
-      get path, headers: create(:user, account: account, role: :agent).create_new_auth_token, as: :json
+      colleague = member_of_inbox(create(:user, account: account, role: :agent), conversation)
+      get path, headers: colleague.create_new_auth_token, as: :json
       expect(response.parsed_body['linkable_deals']).to eq([])
+
+      member_of_inbox(agent, old_conversation)
 
       get "/api/v1/accounts/#{account.id}/crm/conversations/#{old_conversation.display_id}", headers: agent.create_new_auth_token,
                                                                                              as: :json
@@ -117,6 +126,12 @@ RSpec.describe 'Sales CRM conversation API', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['message']).to eq(I18n.t('sales_crm.errors.ai_not_configured'))
     end
+  end
+
+  it 'refuses a conversation outside the inboxes of the agent' do
+    outside = create(:conversation, account: account)
+    get "/api/v1/accounts/#{account.id}/crm/conversations/#{outside.display_id}", headers: agent.create_new_auth_token, as: :json
+    expect(response).to have_http_status(:unauthorized)
   end
 
   it "does not find another account's conversation" do

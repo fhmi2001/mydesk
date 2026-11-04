@@ -1,7 +1,7 @@
 # Custom (MyDesk): the account's lost reasons list. Everyone reads it (the "why was it lost" picker);
 # administrators add, rename, reorder and delete. Deleting a reason keeps it on deals already lost with it.
 class Api::V1::Accounts::Crm::LostReasonsController < Api::V1::Accounts::Crm::BaseController
-  before_action :check_admin, except: [:index]
+  before_action :check_admin_authorization?, except: [:index]
   before_action :ensure_defaults
   before_action :set_reason, only: [:update, :destroy]
 
@@ -38,10 +38,6 @@ class Api::V1::Accounts::Crm::LostReasonsController < Api::V1::Accounts::Crm::Ba
 
   def ensure_defaults
     SalesCrm::LostReason.ensure_defaults!(Current.account)
-  end
-
-  def check_admin
-    raise Pundit::NotAuthorizedError unless Current.account_user&.administrator?
   end
 
   def set_reason

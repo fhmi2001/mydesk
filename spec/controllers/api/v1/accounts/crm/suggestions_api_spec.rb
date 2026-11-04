@@ -32,6 +32,7 @@ RSpec.describe 'Sales CRM suggestions API', type: :request do
   end
 
   it 'lists the deal suggestions in the conversation for their owner' do
+    create(:inbox_member, user: owner, inbox: conversation.inbox)
     get "/api/v1/accounts/#{account.id}/crm/conversations/#{conversation.display_id}", headers: owner.create_new_auth_token, as: :json
     expect(response.parsed_body['suggestions']).to contain_exactly(include('id' => suggestion.id, 'kind' => 'follow_up',
                                                                            'deal_title' => deal.title))

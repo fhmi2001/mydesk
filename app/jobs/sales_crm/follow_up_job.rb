@@ -38,11 +38,10 @@ class SalesCrm::FollowUpJob < ApplicationJob
 
   def follow_up(deal)
     ActiveRecord::Base.transaction do
-      task = deal.account.crm_tasks.create!(
-        title: I18n.t('sales_crm.follow_up.task_title', title: deal.title), due_at: Time.current, origin: :follow_up, deal: deal,
-        assignee_id: deal.assignee_id, contact_id: deal.contact_id, conversation_id: deal.active_conversation_id
+      SalesCrm::Tasks::Create.new(account: deal.account).record!(
+        title: I18n.t('sales_crm.follow_up.task_title', title: deal.title), due_at: Time.current, origin: :follow_up,
+        **SalesCrm::StageEntry.task_links(deal)
       )
-      SalesCrm::ActivityLog.record(deal: deal, kind: 'task_added', user: nil, data: { task_id: task.id, title: task.title })
       suggest(deal)
     end
   end

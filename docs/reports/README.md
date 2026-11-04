@@ -173,7 +173,7 @@ docker compose exec -e ACCOUNT_ID=2 -e DOMAIN=bajaba.test rails bundle exec rail
 
 **الأرقام المرجعية:**
 - [expected_numbers.yml](expected_numbers.yml) فيه 114 رقماً متوقعاً في 24 فحصاً على بيانات تنتهي يوم 2026-10-31.
-- يحسبها `lib/sales_crm/expected_numbers.rb` من الجداول الخام وبتعريفات ورقة المؤشرات مباشرة، دون استدعاء وحدات المؤشرات أو التقارير.
+- يحسبها `db/seeds/sales_crm/expected_numbers.rb` من الجداول الخام وبتعريفات ورقة المؤشرات مباشرة، دون استدعاء وحدات المؤشرات أو التقارير.
 - لإعادة توليد الملف:
 
 ```bash

@@ -2,7 +2,6 @@
 # it, and a read-only view of every account's deals. Every view of merchant deals is written to the log.
 class SuperAdmin::CrmOverviewController < SuperAdmin::ApplicationController
   PER_PAGE = 50
-  KINDS = %w[open won lost].freeze
 
   def show
     @accounts = Account.order(:id).page(params[:page]).per(PER_PAGE)
@@ -32,7 +31,7 @@ class SuperAdmin::CrmOverviewController < SuperAdmin::ApplicationController
   private
 
   def filters
-    { account_id: params[:account_id].presence, status: (params[:status] if KINDS.include?(params[:status].to_s)),
+    { account_id: params[:account_id].presence, status: (params[:status] if SalesCrm::Deal.statuses.key?(params[:status].to_s)),
       from: params[:from].presence, to: params[:to].presence }
   end
 

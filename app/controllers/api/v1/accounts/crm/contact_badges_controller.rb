@@ -28,6 +28,6 @@ class Api::V1::Accounts::Crm::ContactBadgesController < Api::V1::Accounts::Crm::
     rows = deals.reorder(amount_cents: :desc, id: :asc).pluck(:contact_id, :stage_id)
     first_stage = rows.each_with_object({}) { |(contact_id, stage_id), map| map[contact_id] ||= stage_id }
     stages = Current.account.crm_stages.where(id: first_stage.values.uniq).index_by(&:id)
-    first_stage.transform_values { |stage_id| stages[stage_id]&.slice(:id, :name, :color) }
+    first_stage.transform_values { |stage_id| stages[stage_id] && SalesCrm::Presenter.stage_badge(stages[stage_id]) }
   end
 end

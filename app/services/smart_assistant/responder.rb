@@ -1,6 +1,7 @@
 # Custom (MyDesk): writes the assistant's next reply to a conversation from the merchant's knowledge base.
 # messages are { role: :user | :assistant, content: } oldest first; the last one is the customer's.
-# Returns { reply:, handoff:, sources: } where handoff means a human agent should take over.
+# Returns { reply:, handoff:, sources:, sales_lead: } where handoff means a human agent should take over, and
+# sales_lead is nil or { product:, quantity:, city:, summary: } when the customer asked to buy something.
 class SmartAssistant::Responder
   # A merchant's knowledge base is small, so the closest passages always go to the model, which picks
   # what is relevant; short follow-ups ("how many in a pack?") score too far for a fixed distance cutoff

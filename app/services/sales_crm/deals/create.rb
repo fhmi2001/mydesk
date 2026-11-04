@@ -69,9 +69,9 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
       probability_override: probability_from(params[:probability_override]) }
   end
 
+  # A lost stage is refused before this, so a new deal is either open or won
   def status_attributes(stage)
-    { status: { 'open' => :open, 'won' => :won, 'lost' => :lost }[stage.kind],
-      won_at: (Time.current if stage.won?), lost_at: (Time.current if stage.lost?) }
+    { status: stage.won? ? :won : :open, won_at: (Time.current if stage.won?) }
   end
 
   # A deal from a conversation starts with the lead source the manager mapped to its inbox, unless the employee chose
@@ -93,10 +93,8 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
   # The owner: the one given, else whoever creates the deal
   def assignee_for(id) = id.present? ? account.users.find(id) : user
 
-  def conversation_for(id)
-    return nil if id.blank?
-
-    account.conversations.find_by(display_id: id) || account.conversations.find(id)
+  def conversation_for(display_id)
+    find_conversation!(display_id) if display_id.present?
   end
 
   def next_position(stage)

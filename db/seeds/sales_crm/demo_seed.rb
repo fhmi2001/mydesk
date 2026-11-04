@@ -5,7 +5,9 @@
 # from one seeded random generator and dates relative to `anchor`, so
 # the same anchor always gives the same data: docs/reports/expected_numbers.yml is checked against it
 # (spec/services/sales_crm/reports/catalog_acceptance_spec.rb). Records are written directly, with their past timestamps; the
-# services would stamp them now.
+# services would stamp them now. It lives under db/seeds, outside the app's load paths, so production never loads it;
+# lib/tasks/sales_crm_demo.rake and the acceptance spec require it (DemoConversations, which reads its constants, is
+# required at the end).
 # rubocop:disable Metrics/ClassLength, Metrics/AbcSize, Metrics/ParameterLists, Metrics/CyclomaticComplexity, Rails/SkipsModelValidations -- demo data built step by step, written straight to the tables with its past timestamps
 class SalesCrm::DemoSeed
   ACCOUNT_NAME = 'MyDesk تجريبي'.freeze
@@ -295,3 +297,5 @@ class SalesCrm::DemoSeed
   end
 end
 # rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/ParameterLists, Metrics/CyclomaticComplexity, Rails/SkipsModelValidations
+
+require_relative 'demo_conversations'

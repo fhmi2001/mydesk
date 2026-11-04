@@ -4,7 +4,7 @@ Everything else lives in its own folders (`app/models/sales_crm*`, `app/services
 `app/jobs/sales_crm/`, `app/listeners/sales_crm/`, `app/controllers/api/v1/accounts/crm/`, `app/controllers/super_admin/crm_overview_controller.rb`,
 `app/views/super_admin/crm_overview/`, `config/locales/sales_crm.*.yml`, `app/javascript/dashboard/routes/dashboard/crm/`,
 `app/javascript/dashboard/routes/dashboard/conversation/crm/`, `app/javascript/dashboard/store/modules/crm/`,
-`app/javascript/dashboard/api/crm/`, `app/javascript/dashboard/helper/crmFormat.js`, `app/javascript/dashboard/i18n/locale/*/crm.json`,
+`app/javascript/dashboard/api/crm/`, `app/javascript/dashboard/helper/crmFormat.js`, `db/seeds/sales_crm/` (demo data and reference numbers), `lib/tasks/sales_crm_demo.rake`, `app/javascript/dashboard/i18n/locale/*/crm.json`,
 `spec/**/sales_crm*`, `spec/controllers/api/v1/accounts/crm/`, `spec/i18n/sales_crm_parity_spec.rb`).
 
 Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this list after each Chatwoot upgrade:
@@ -17,7 +17,9 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/models/account.rb` | `include SalesCrmAccount` | CRM associations and settings (the concern is ours: `app/models/concerns/sales_crm_account.rb`) |
 | `app/models/notification.rb` | `crm_task_due: 20` in `NOTIFICATION_TYPES`; a branch in `push_message_title` | Task reminders in the bell / push |
 | `config/locales/en.yml`, `config/locales/ar.yml` | `notifications.notification_title.crm_task_due` | Reminder title |
-| `config/schedule.yml` | `sales_crm_task_reminder_job` (*/5 min), `sales_crm_purge_discarded_deals_job` (daily), `sales_crm_purge_dismissed_suggestions_job` (daily) | Reminders; purge of deals deleted > 30 days ago; purge of suggestions dismissed > 30 days ago |
+| `config/schedule.yml` | `sales_crm_task_reminder_job` (*/5 min), `sales_crm_follow_up_job` (hourly), `sales_crm_purge_discarded_deals_job` (daily), `sales_crm_purge_dismissed_suggestions_job` (daily) | Reminders; a follow-up task when a customer goes quiet; purge of deals deleted > 30 days ago; purge of suggestions dismissed > 30 days ago |
+| `app/jobs/notification/remove_duplicate_notification_job.rb` | skips `crm_task_due` notifications | A task reminder is not a duplicate of the conversation's notifications |
+| `app/javascript/dashboard/routes/dashboard/settings/profile/constants.js` | the `CRM_TASK_DUE` notification type | Task reminders can be switched on and off in the profile |
 | `app/controllers/api/v1/accounts_controller.rb` | `:reporting_timezone` in `permitted_settings_attributes` | The account's time zone, picked in the general settings; Sales counts its days in it (Riyadh until picked) and Chatwoot's own reports already read it |
 | `app/javascript/dashboard/routes/dashboard/settings/account/Index.vue`, `app/javascript/dashboard/i18n/locale/{en,ar}/generalSettings.json` | «المنطقة الزمنية» select under the site language, saved as `reporting_timezone`; refetches `crm/status` after saving; `FORM.TIMEZONE` strings | Where a day starts, for Sales and the reports |
 | `spec/controllers/api/v1/accounts_controller_spec.rb` | «with the reporting time zone» context | An administrator can set it, an agent cannot, an unknown zone is refused |
@@ -47,9 +49,19 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/javascript/dashboard/routes/dashboard/contacts/pages/ContactManageView.vue` | a `CRM` tab rendering `ContactCrmSection` | Deals & tasks on the contact page |
 | `app/javascript/dashboard/i18n/locale/{en,ar}/index.js` | `crm.json` import + spread | Translations |
 
+## Inside our own smart assistant
+
+The smart assistant is ours too, but it calls into Sales, so removing Sales means editing it:
+
+| File | What it does for Sales |
+|---|---|
+| `app/jobs/smart_assistant/reply_job.rb` | passes the reply's `sales_lead` to `SalesCrm::Suggestions::FromAssistant` |
+| `app/services/smart_assistant/responder.rb` | asks the model for `sales_lead` in its answer schema |
+| `app/models/smart_assistant/usage.rb`, `SmartAssistant::Config` | the Sales AI kinds (`crm_summary`, `crm_followup`, `crm_message`) and their monthly limit |
+
 ## Removing the feature
 
 1. Turn `sales_crm` off for every account (Super Admin > account > Features).
-2. Delete the folders listed at the top, `app/models/concerns/sales_crm_account.rb`, `config/initializers/sales_crm.rb` and `docs/mydesk/sales-crm-core-touchpoints.md`.
+2. Remove the Sales parts of the smart assistant listed above, then delete the folders listed at the top, `app/models/concerns/sales_crm_account.rb`, `config/initializers/sales_crm.rb` and `docs/mydesk/sales-crm-core-touchpoints.md`.
 3. Revert the marked lines in the table above.
-4. Delete notifications of type 20 (`crm_task_due`), then add a migration that drops `crm_suggestions, crm_lost_reasons, crm_activities, crm_notes, crm_tasks, crm_deals, crm_stages, crm_pipelines` (in that order).
+4. Delete notifications of type 20 (`crm_task_due`), then add a migration that drops `crm_suggestions, crm_lost_reasons, crm_activities, crm_notes, crm_tasks, crm_targets, crm_deals, crm_list_items, crm_stages, crm_pipelines` (in that order).

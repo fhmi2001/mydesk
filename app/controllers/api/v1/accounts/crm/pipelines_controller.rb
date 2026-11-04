@@ -10,7 +10,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
 
   def create
     authorize SalesCrm::Pipeline
-    pipeline = service(SalesCrm::Pipelines::Create).perform(name: params.require(:name), currency: params[:currency], stages: stage_params)
+    pipeline = service(SalesCrm::Pipelines::Create).perform(name: params.require(:name), stages: stage_params)
     render json: SalesCrm::Presenter.pipeline(pipeline, deals_count: 0)
   end
 

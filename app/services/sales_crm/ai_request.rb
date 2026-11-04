@@ -14,9 +14,8 @@ module SalesCrm::AiRequest
   def transcript_of(conversation, limit)
     return '' unless conversation
 
-    conversation.messages.where(message_type: %i[incoming outgoing], private: false).where.not(content: [nil, ''])
-                .reorder(id: :desc).limit(limit).to_a.reverse
-                .map { |message| "#{message.incoming? ? 'العميل' : 'الفريق'}: #{message.content}" }.join("\n")
+    SmartAssistant::Transcript.recent(conversation, limit)
+                              .map { |message| "#{message.incoming? ? 'العميل' : 'الفريق'}: #{message.content}" }.join("\n")
   end
 
   def fail_ai!(key, **args)

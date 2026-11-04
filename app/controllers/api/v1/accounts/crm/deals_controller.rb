@@ -17,7 +17,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   end
 
   def forecast
-    render json: SalesCrm::Presenter.forecast(SalesCrm::Forecast.call(forecast_scope, pipeline: @pipeline))
+    render json: SalesCrm::Forecast.call(forecast_scope, pipeline: @pipeline).to_h
   end
 
   def show
@@ -96,7 +96,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
 
   # deals_scope is already the employee's own deals; an administrator may narrow the forecast to one employee
   def forecast_scope
-    return deals_scope unless Current.account_user&.administrator? && params[:assignee_id].present?
+    return deals_scope unless params[:assignee_id].present? && policy(SalesCrm::Deal).narrow_to_assignee?
 
     deals_scope.where(assignee_id: params[:assignee_id])
   end

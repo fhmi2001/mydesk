@@ -1,7 +1,7 @@
 # Custom (MyDesk): account-level CRM settings (administrators): the Sales section's one currency
 # (changeable only while there are no deals), and the report thresholds (stale days, pipeline coverage multiple)
 class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseController
-  before_action :check_admin
+  before_action :check_admin_authorization?
 
   def show
     render json: settings_json
@@ -18,10 +18,6 @@ class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseC
   end
 
   private
-
-  def check_admin
-    raise Pundit::NotAuthorizedError unless Current.account_user&.administrator?
-  end
 
   def assign_thresholds(attrs)
     Current.account.crm_stale_days = whole_number!(attrs[:stale_days], 1..365) if attrs.key?(:stale_days)

@@ -97,14 +97,13 @@ class SmartAssistant < ApplicationRecord
   def link_inbox!(inbox)
     current = inbox.agent_bot_inbox
     return if current&.agent_bot_id == agent_bot_id && current.active?
-    raise ActiveRecord::RecordInvalid, inbox_taken_error(inbox) if current && current.agent_bot_id != agent_bot_id
+
+    if current && current.agent_bot_id != agent_bot_id
+      errors.add(:inbox_ids, I18n.t('smart_assistant.errors.inbox_has_bot', inbox: inbox.name))
+      raise ActiveRecord::RecordInvalid, self
+    end
 
     (current || AgentBotInbox.new(inbox: inbox, agent_bot: agent_bot)).update!(status: :active)
-  end
-
-  def inbox_taken_error(inbox)
-    errors.add(:inbox_ids, I18n.t('smart_assistant.errors.inbox_has_bot', inbox: inbox.name))
-    self
   end
 
   def inboxes_belong_to_account

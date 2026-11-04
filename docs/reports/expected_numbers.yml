@@ -1,5 +1,5 @@
 # Custom (MyDesk): the Sales reports' reference numbers for the demo data up to 2026-10-31, worked out by
-# lib/sales_crm/expected_numbers.rb apart from the app. Regenerate: rails sales_crm:expected_numbers
+# db/seeds/sales_crm/expected_numbers.rb apart from the app. Regenerate: rails sales_crm:expected_numbers
 anchor: '2026-10-31'
 checks:
 - report: pipeline_by_stage

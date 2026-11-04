@@ -83,7 +83,7 @@ const save = async () => {
         return [agent.id, cents === null ? '' : (cents / 100).toFixed(2)];
       })
     );
-    await crmTargetsAPI.update(month.value, payload);
+    await crmTargetsAPI.save(month.value, payload);
     await load();
     useAlert(t('CRM.COMMON.SAVED'));
   } catch (error) {

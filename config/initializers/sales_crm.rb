@@ -5,8 +5,8 @@
 # dispatcher the way config/initializers/smart_assistant.rb joins the sync one, after event_handlers.rb built it.
 Rails.application.configure do
   config.to_prepare do
-    ContactMergeAction.prepend(SalesCrm::ContactMergePatch) if defined?(SalesCrm::ContactMergePatch)
-    Agents::DestroyJob.prepend(SalesCrm::AgentRemovalPatch) if defined?(SalesCrm::AgentRemovalPatch)
+    ContactMergeAction.prepend(SalesCrm::ContactMergePatch)
+    Agents::DestroyJob.prepend(SalesCrm::AgentRemovalPatch)
     AutomationRules::ActionService.prepend(SalesCrm::AutomationActionsPatch)
     Rails.configuration.dispatcher.async_dispatcher.subscribe(SalesCrm::MessageListener.instance)
   end

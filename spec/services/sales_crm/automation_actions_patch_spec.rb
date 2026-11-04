@@ -77,6 +77,11 @@ RSpec.describe SalesCrm::AutomationActionsPatch do
       run('create_crm_task', { title: 'x', kind: 'task', hours: 1 })
       expect(account.crm_tasks.sole).to have_attributes(assignee_id: admin.id, deal_id: deal.id)
     end
+
+    it "reaches the assignee's task board live, like a task an employee adds" do
+      expect { run('create_crm_task', { title: 'x', kind: 'task', hours: 1 }) }
+        .to have_enqueued_job(ActionCableBroadcastJob).with(anything, 'crm.task_created', hash_including(assignee_id: agent.id))
+    end
   end
 
   describe 'move_crm_deal' do

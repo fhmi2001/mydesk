@@ -6,7 +6,7 @@ import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useCrmFormat } from 'dashboard/routes/dashboard/crm/shared/useCrmFormat';
-import { badges, requestBadge } from './dealBadges';
+import { badges, requestBadge } from 'dashboard/store/modules/crm/dealBadges';
 
 const props = defineProps({
   contactId: { type: [Number, String], default: null },
