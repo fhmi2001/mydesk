@@ -233,7 +233,10 @@
       "ADD_SLA": "إضافة SLA",
       "OPEN_CONVERSATION": "فتح المحادثة",
       "PENDING_CONVERSATION": "تحديد المحادثة كمعلقة",
-      "SEND_MESSAGE_VIA_INBOX": "إرسال رسالة عبر قناة"
+      "SEND_MESSAGE_VIA_INBOX": "إرسال رسالة عبر قناة",
+      "SUGGEST_CRM_DEAL": "اقتراح صفقة (المبيعات)",
+      "CREATE_CRM_TASK": "إنشاء مهمة (المبيعات)",
+      "MOVE_CRM_DEAL": "نقل الصفقة إلى مرحلة (المبيعات)"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "رسالة واردة",

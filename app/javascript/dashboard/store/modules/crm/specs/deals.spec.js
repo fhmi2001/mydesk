@@ -10,6 +10,11 @@ vi.mock('dashboard/api/crm', () => ({
 }));
 
 import { crmDealsAPI } from 'dashboard/api/crm';
+import { refreshBadges } from '../dealBadges';
+
+vi.mock('../dealBadges', () => ({
+  refreshBadges: vi.fn(),
+}));
 
 const deal = (id, stageId, position) => ({
   id,
@@ -96,6 +101,12 @@ describe('crm/deals store', () => {
     expect(dispatch).not.toHaveBeenCalled();
     actions.onRemoteChange({ dispatch, state: s }, { pipeline_id: 5 });
     expect(dispatch).toHaveBeenCalledWith('fetchBoard');
+  });
+
+  it('onRemoteChange refreshes the conversation cards’ deal badges, even with no board open', () => {
+    const s = { ...freshState(), uiFlags: { hasFetched: false } };
+    actions.onRemoteChange({ dispatch: vi.fn(), state: s }, { pipeline_id: 5 });
+    expect(refreshBadges).toHaveBeenCalled();
   });
 
   it('move without a loaded record goes straight to the server with the given lock version', async () => {

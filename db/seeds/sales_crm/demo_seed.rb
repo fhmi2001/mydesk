@@ -1,10 +1,13 @@
 # Custom (MyDesk): demo data for the Sales reports (CRM_REPORTS_PLAN.md, phase 6). One account, a manager and four
 # employees, about 200 deals over the six months up to `anchor` with their whole history in the activity log (created,
 # moves between stages days apart, value changes, pushed close dates, won and lost), tasks done and late, notes, and a
-# monthly target per employee. Everything comes from one seeded random generator and dates relative to `anchor`, so
+# monthly target per employee; in the demo account, conversations too (SalesCrm::DemoConversations). Everything comes
+# from one seeded random generator and dates relative to `anchor`, so
 # the same anchor always gives the same data: docs/reports/expected_numbers.yml is checked against it
 # (spec/services/sales_crm/reports/catalog_acceptance_spec.rb). Records are written directly, with their past timestamps; the
-# services would stamp them now.
+# services would stamp them now. It lives under db/seeds, outside the app's load paths, so production never loads it;
+# lib/tasks/sales_crm_demo.rake and the acceptance spec require it (DemoConversations, which reads its constants, is
+# required at the end).
 # rubocop:disable Metrics/ClassLength, Metrics/AbcSize, Metrics/ParameterLists, Metrics/CyclomaticComplexity, Rails/SkipsModelValidations -- demo data built step by step, written straight to the tables with its past timestamps
 class SalesCrm::DemoSeed
   ACCOUNT_NAME = 'MyDesk تجريبي'.freeze
@@ -63,6 +66,8 @@ class SalesCrm::DemoSeed
       customers
       DEALS.times { |index| deal(index) }
       tasks_and_notes
+      # Demo conversations, replies, campaigns and suggestions: in the demo account only, never in a real one
+      SalesCrm::DemoConversations.new(self).perform unless @target
     end
     self
   end
@@ -86,7 +91,7 @@ class SalesCrm::DemoSeed
 
   private
 
-  def zone = SalesCrm::Period.zone
+  def zone = SalesCrm::TimeZone.for(account)
   def at(date, hour = 10, minute = 0) = zone.local(date.year, date.month, date.day, hour, minute)
   def first_day = anchor - DAYS + 1
   # Nothing happens after 17:00 on the anchor day (the checks look at the data from 18:00 that day)
@@ -96,6 +101,7 @@ class SalesCrm::DemoSeed
 
   # A fresh start: the account's Sales data goes, its users and settings stay
   def clear
+    SalesCrm::DemoConversations.clear(account)
     %i[crm_activities crm_notes crm_tasks crm_deals crm_targets contacts].each { |records| account.public_send(records).delete_all }
     account.reload # delete_all leaves those associations loaded and empty; the rows written next must be read afresh
   end
@@ -227,6 +233,8 @@ class SalesCrm::DemoSeed
     end
     changes(record, events, attrs, amount, now)
     attrs[:last_activity_at] = events.map(&:first).max || record.created_at
+    # The stale reports read the last touch (Metrics::DaysSinceActivity); no reply in a conversation is seeded yet
+    attrs[:last_touch_at] = attrs[:last_activity_at]
     record.update_columns(attrs.merge(stage_id: attrs.delete(:stage).id))
     log(record, owner, events)
   end
@@ -289,3 +297,5 @@ class SalesCrm::DemoSeed
   end
 end
 # rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/ParameterLists, Metrics/CyclomaticComplexity, Rails/SkipsModelValidations
+
+require_relative 'demo_conversations'

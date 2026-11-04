@@ -31,6 +31,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import CollapsedReplyBar from './CollapsedReplyBar.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
+import DealSuggestionBar from 'dashboard/routes/dashboard/conversation/crm/DealSuggestionBar.vue'; // Custom (MyDesk)
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -84,6 +85,7 @@ export default {
     CollapsedReplyBar,
     ResizableEditorWrapper,
     ReferralBubble,
+    DealSuggestionBar, // Custom (MyDesk)
   },
   mixins: [inboxMixin],
   setup() {
@@ -641,6 +643,8 @@ export default {
       </template>
     </MessageList>
     <div class="flex relative flex-col bg-n-surface-1">
+      <!-- Custom (MyDesk): a Sales «صفقة جديدة» suggestion, right above the reply box -->
+      <DealSuggestionBar :chat="currentChat" class="mt-2" />
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0"

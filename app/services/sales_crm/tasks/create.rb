@@ -6,11 +6,18 @@ class SalesCrm::Tasks::Create < SalesCrm::BaseService
     params = params.to_h.symbolize_keys.slice(*PERMITTED)
     ActiveRecord::Base.transaction do
       deal = params[:deal_id].present? ? SalesCrm::Visibility.deals(account, user).find(params[:deal_id]) : nil
-      task = account.crm_tasks.create!(attributes(params, deal))
-      log(deal, 'task_added', task_id: task.id, title: task.title) if deal
-      broadcast('crm.task_created', { id: task.id, assignee_id: task.assignee_id, deal_id: task.deal_id }, to: task_audience(task))
-      task
+      record!(attributes(params, deal))
     end
+  end
+
+  # Every task is created here, so each one is logged on its deal and reaches its assignee's board the same way.
+  # The system's own tasks (a stage rule, an automation rule, a quiet customer) come straight here with trusted
+  # attributes and no acting user.
+  def record!(attributes)
+    task = account.crm_tasks.create!(attributes)
+    log(task.deal, 'task_added', task_id: task.id, title: task.title) if task.deal
+    broadcast('crm.task_created', { id: task.id, assignee_id: task.assignee_id, deal_id: task.deal_id }, to: task_audience(task))
+    task
   end
 
   private
@@ -19,7 +26,7 @@ class SalesCrm::Tasks::Create < SalesCrm::BaseService
     { title: params[:title].to_s.strip, description: params[:description], due_at: params[:due_at].presence, kind: kind_for(params[:kind]),
       assignee: assignee_for(params[:assignee_id]), creator: user, deal: deal,
       contact: params[:contact_id].present? ? account.contacts.find(params[:contact_id]) : deal&.contact,
-      conversation: params[:conversation_id].present? ? account.conversations.find_by(display_id: params[:conversation_id]) : nil }
+      conversation: conversation_for(params[:conversation_id]) }
   end
 
   def kind_for(value)
@@ -28,5 +35,9 @@ class SalesCrm::Tasks::Create < SalesCrm::BaseService
 
   def assignee_for(id)
     id.present? ? account.users.find(id) : user
+  end
+
+  def conversation_for(display_id)
+    find_conversation!(display_id) if display_id.present?
   end
 end

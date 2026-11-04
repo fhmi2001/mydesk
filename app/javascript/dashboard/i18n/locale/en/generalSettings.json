@@ -111,6 +111,10 @@
         "PLACEHOLDER": "Your account name",
         "ERROR": ""
       },
+      "TIMEZONE": {
+        "LABEL": "Time zone",
+        "HELP": "Where a day starts and ends in the reports and in Sales: today, overdue, this month. Riyadh until you pick one."
+      },
       "DOMAIN": {
         "LABEL": "Incoming Email Domain",
         "PLACEHOLDER": "The domain where you will receive the emails",

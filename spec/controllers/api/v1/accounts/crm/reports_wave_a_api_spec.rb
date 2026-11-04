@@ -1,9 +1,9 @@
-# Custom (MyDesk): the API of phase 4 wave أ (docs/reports/CRM_REPORTS_PLAN.md): GET crm/reports/:key gives one
+# Custom (MyDesk): the reports API (docs/reports/CRM_REPORTS_PLAN.md): GET crm/reports/:key gives one
 # report's numbers to both roles, GET crm/reports/:key/deals the deals behind one of them. The numbers themselves are
 # in spec/services/sales_crm/reports_wave_a_spec.rb.
 require 'rails_helper'
 
-RSpec.describe 'Sales CRM reports, wave أ', type: :request do # -- request spec across one controller's actions
+RSpec.describe 'Sales CRM reports API', type: :request do # -- request spec across one controller's actions
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }

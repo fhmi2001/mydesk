@@ -233,7 +233,10 @@
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
       "PENDING_CONVERSATION": "Mark conversation as pending",
-      "SEND_MESSAGE_VIA_INBOX": "Send a message through a channel"
+      "SEND_MESSAGE_VIA_INBOX": "Send a message through a channel",
+      "SUGGEST_CRM_DEAL": "Suggest a deal (Sales)",
+      "CREATE_CRM_TASK": "Create a task (Sales)",
+      "MOVE_CRM_DEAL": "Move the deal to a stage (Sales)"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",

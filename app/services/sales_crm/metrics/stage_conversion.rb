@@ -1,6 +1,6 @@
 # Custom (MyDesk): المؤشر 5, نسبة التحويل بين المراحل: of the deals that entered a stage, how many reached the next one.
 # "Entered" comes from the activity log (creation plus every stage change, reopening included). A deal that skips a
-# stage counts as having entered it (gap-analysis.md, question 8), so no rate ever goes above 100%.
+# stage counts as having entered it (gap-analysis.md), so no rate ever goes above 100%.
 module SalesCrm::Metrics::StageConversion
   module_function
 

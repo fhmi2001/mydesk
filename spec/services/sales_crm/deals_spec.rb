@@ -47,6 +47,43 @@ RSpec.describe SalesCrm::Deals do
       expect(deal.from_conversation_source?).to be(true)
     end
 
+    describe 'the lead source from the conversation inbox' do
+      let(:conversation) { create(:conversation, account: account) }
+      let(:whatsapp) { SalesCrm::ListItem.create!(account: account, list: 'lead_source', name: 'واتساب') }
+
+      before { account.update!(crm_channel_sources: { conversation.inbox_id.to_s => whatsapp.id }) }
+
+      it 'starts with the source mapped to the inbox when none is given' do
+        expect(create_deal(conversation_id: conversation.display_id).lead_source).to eq(whatsapp)
+      end
+
+      it 'keeps the one the employee picked, or none when they cleared it' do
+        referral = SalesCrm::ListItem.create!(account: account, list: 'lead_source', name: 'إحالة')
+        expect(create_deal(conversation_id: conversation.display_id, lead_source_id: referral.id).lead_source).to eq(referral)
+        expect(create_deal(conversation_id: conversation.display_id, lead_source_id: '').lead_source).to be_nil
+      end
+
+      it 'leaves a deal without a conversation to the employee' do
+        expect(create_deal.lead_source).to be_nil
+      end
+    end
+
+    describe 'from a suggestion' do
+      let(:conversation) { create(:conversation, account: account, assignee: user) }
+      let(:suggestion) { SalesCrm::Suggestion.create!(account: account, conversation: conversation, kind: :new_deal) }
+
+      it 'accepts the suggestion and links it to the new deal' do
+        deal = create_deal(conversation_id: conversation.display_id, suggestion_id: suggestion.id)
+        expect(suggestion.reload).to have_attributes(status: 'accepted', decided_by_id: user.id, deal_id: deal.id)
+      end
+
+      it 'leaves a suggestion the employee may not see, or one already decided, as it is' do
+        hidden = SalesCrm::Suggestion.create!(account: account, conversation: create(:conversation, account: account), kind: :new_deal)
+        create_deal(suggestion_id: hidden.id)
+        expect(hidden.reload).to be_pending
+      end
+    end
+
     it 'rejects a stage from another pipeline' do
       other = create(:crm_pipeline, account: account)
       expect { create_deal(stage_id: other.stages.first.id) }.to raise_error(SalesCrm::ValidationError)

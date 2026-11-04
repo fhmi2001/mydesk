@@ -1,5 +1,10 @@
 import { toQuery, fromQuery } from '../wave/reportQuery';
-import { periodRange, riyadhToday } from '../periods';
+import {
+  periodRange,
+  salesToday,
+  setSalesTimeZone,
+  dayBounds,
+} from '../periods';
 import { PAST_PERIODS } from '../wave/reportCatalog';
 
 describe('toQuery', () => {
@@ -68,16 +73,42 @@ describe('last month', () => {
   });
 });
 
-describe('riyadhToday', () => {
-  it('reads the calendar day in Riyadh, not on the device', () => {
+describe('salesToday', () => {
+  afterEach(() => setSalesTimeZone(null));
+
+  it("reads the calendar day in the account's time zone (Riyadh by default), not on the device", () => {
     // 23:30 UTC on 31 October is already 1 November in Riyadh (UTC+3)
-    const day = riyadhToday(new Date(Date.UTC(2026, 9, 31, 23, 30)));
+    const day = salesToday(new Date(Date.UTC(2026, 9, 31, 23, 30)));
     expect([day.getFullYear(), day.getMonth(), day.getDate()]).toEqual([
       2026, 10, 1,
     ]);
     expect(periodRange('month', day)).toEqual({
       from: '2026-11-01',
       to: '2026-11-01',
+    });
+  });
+
+  it('follows the time zone the account picked', () => {
+    // 20:30 UTC on 31 October is 00:30 on 1 November in Dubai (UTC+4), still 23:30 on 31 October in Riyadh
+    const instant = new Date(Date.UTC(2026, 9, 31, 20, 30));
+    expect(salesToday(instant).getDate()).toBe(31);
+    setSalesTimeZone('Asia/Dubai');
+    expect(salesToday(instant).getDate()).toBe(1);
+  });
+});
+
+describe('dayBounds', () => {
+  afterEach(() => setSalesTimeZone(null));
+
+  it("gives a calendar day in epoch seconds, in the account's time zone", () => {
+    expect(dayBounds(new Date(2026, 10, 1))).toEqual({
+      since: 1793480400,
+      until: 1793566799,
+    });
+    setSalesTimeZone('Asia/Dubai');
+    expect(dayBounds(new Date(2026, 10, 1))).toEqual({
+      since: 1793480400 - 3600,
+      until: 1793566799 - 3600,
     });
   });
 });

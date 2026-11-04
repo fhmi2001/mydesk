@@ -35,6 +35,23 @@ RSpec.describe SalesCrm::Pipelines do
       expect(pipeline.stages.reload.size).to eq(6)
     end
 
+    it "keeps each stage's follow-up rules, and leaves them as they were when a row does not carry them" do
+      new_rows = rows(pipeline)
+      new_rows[2].merge!(silence_followup: false, followup_task_days: 3, followup_task_title: 'اتصل بالعميل')
+      update.perform(pipeline, stages: new_rows)
+      offer = pipeline.stages.reload[2]
+      expect(offer).to have_attributes(silence_followup: false, followup_task_days: 3, followup_task_title: 'اتصل بالعميل')
+
+      expect(pipeline.stages[3].silence_followup).to be(true)
+      update.perform(pipeline, stages: rows(pipeline))
+      expect(pipeline.stages.reload[3].silence_followup).to be(true)
+
+      new_rows = rows(pipeline)
+      new_rows[2].merge!(followup_task_days: '', followup_task_title: '')
+      update.perform(pipeline, stages: new_rows)
+      expect(pipeline.stages.reload[2].followup_task_days).to be_nil
+    end
+
     it 'reorders, renames and adds stages' do
       new_rows = rows(pipeline)
       new_rows[0][:name] = 'جديد'

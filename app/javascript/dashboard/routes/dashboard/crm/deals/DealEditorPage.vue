@@ -15,7 +15,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import { crmDealsAPI } from 'dashboard/api/crm';
+import { crmDealsAPI, crmConversationsAPI } from 'dashboard/api/crm';
 import AgentPicker from '../shared/AgentPicker.vue';
 import ContactPicker from '../shared/ContactPicker.vue';
 import { useCrmLists } from '../shared/useCrmLists';
@@ -31,6 +31,7 @@ import {
   DEAL_LISTS,
   FORECAST_CATEGORIES,
   listField,
+  withConversationDefaults,
 } from '../shared/dealHelpers';
 
 const { t } = useI18n();
@@ -131,7 +132,25 @@ const presetForm = () => {
       ? queryNumber('assignee_id')
       : currentUser.value?.id || null,
     conversation_id: queryNumber('conversation_id'),
+    // From a «صفقة جديدة» suggestion: what the customer asked for, and the suggestion saving the deal accepts
+    title: route.query.title || '',
+    description: route.query.description || '',
+    suggestion_id: queryNumber('suggestion_id'),
+    // From a conversation summary: the amount and date the conversation stated
+    amount: route.query.amount || '',
+    close_date: route.query.close_date || '',
   });
+};
+
+// The lead source mapped to the conversation's inbox; the form works without it
+const prefillFromConversation = async () => {
+  if (!form.value.conversation_id) return;
+  try {
+    const { data } = await crmConversationsAPI.show(form.value.conversation_id);
+    form.value = withConversationDefaults(form.value, data);
+  } catch {
+    // Left for the employee to pick
+  }
 };
 
 const load = async () => {
@@ -147,6 +166,7 @@ const load = async () => {
     } else {
       deal.value = null;
       presetForm();
+      await prefillFromConversation();
     }
   } catch (error) {
     useAlert(apiErrorMessage(error, t('CRM.COMMON.ERROR')));

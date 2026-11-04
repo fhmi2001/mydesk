@@ -41,11 +41,18 @@ class SmartAssistant::ReplyJob < ApplicationJob
     return handoff(assistant, conversation, assistant.handoff_message.presence) if reply_limit_reached?(assistant, conversation)
 
     result = SmartAssistant::Responder.new(assistant: assistant, messages: history(conversation)).perform
+    suggest_deal(conversation, result)
     # The customer wrote again while this reply was written: the newer job answers everything at once
     return if newer_customer_message?(conversation, message) || !assistant.reload.answers?(conversation.reload)
 
     send_reply(assistant, conversation, result[:reply]) if result[:reply].present?
     handoff(assistant, conversation) if result[:handoff]
+  end
+
+  # Custom (MyDesk): a clear intent to buy leaves a deal suggestion for the team (CONVERSATION_SALES_PLAN.md), kept
+  # even when the reply itself is dropped for a newer message, since the intent was seen
+  def suggest_deal(conversation, result)
+    SalesCrm::Suggestions::FromAssistant.call(conversation, result[:sales_lead]) if result[:sales_lead]
   end
 
   # During working hours (in outside_working_hours mode) or past the monthly quota the team answers instead
@@ -76,9 +83,8 @@ class SmartAssistant::ReplyJob < ApplicationJob
 
   # Oldest first and ending with the customer's latest message
   def history(conversation)
-    messages = conversation.messages.where(message_type: %i[incoming outgoing], private: false).where.not(content: [nil, ''])
-                           .reorder(id: :desc).limit(HISTORY_LIMIT).to_a.reverse
-                           .map { |message| { role: message.incoming? ? :user : :assistant, content: message.content } }
+    messages = SmartAssistant::Transcript.recent(conversation, HISTORY_LIMIT)
+                                         .map { |message| { role: message.incoming? ? :user : :assistant, content: message.content } }
     messages.pop while messages.last && messages.last[:role] != :user
     messages
   end

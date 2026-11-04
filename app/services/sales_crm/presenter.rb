@@ -9,7 +9,9 @@ module SalesCrm::Presenter
   end
 
   def stage(stage)
-    { id: stage.id, name: stage.name, probability: stage.probability, kind: stage.kind, position: stage.position, color: stage.color }
+    { id: stage.id, name: stage.name, probability: stage.probability, kind: stage.kind, position: stage.position, color: stage.color,
+      silence_followup: stage.silence_followup, followup_task_days: stage.followup_task_days,
+      followup_task_title: stage.followup_task_title }
   end
 
   def deal(deal)
@@ -28,7 +30,7 @@ module SalesCrm::Presenter
   def deal_core(deal)
     { id: deal.id, title: deal.title, amount: format('%.2f', deal.amount), amount_cents: deal.amount_cents, currency: deal.currency,
       pipeline_id: deal.pipeline_id, stage_id: deal.stage_id, status: deal.status, priority: deal.priority, position: deal.position,
-      description: deal.description, source: deal.source, conversation_id: deal.conversation_id,
+      description: deal.description, source: deal.source,
       conversation_display_id: deal.conversation&.display_id, lock_version: deal.lock_version,
       created_at: deal.created_at, updated_at: deal.updated_at }
   end
@@ -53,7 +55,7 @@ module SalesCrm::Presenter
   def task_links(task)
     { assignee: user(task.assignee), creator_id: task.creator_id, contact: contact(task.contact),
       deal: task.deal ? { id: task.deal.id, title: task.deal.title, status: task.deal.status } : nil,
-      conversation_id: task.conversation_id, conversation_display_id: task.conversation&.display_id }
+      conversation_display_id: task.conversation&.display_id }
   end
 
   def note(note)
@@ -64,8 +66,19 @@ module SalesCrm::Presenter
     { id: activity.id, kind: activity.kind, data: activity.data, user: user(activity.user), created_at: activity.created_at }
   end
 
-  def forecast(result)
-    result.to_h
+  # A pending suggestion as the conversation panel lists it, and as dismissing or accepting one answers
+  def suggestion(suggestion)
+    suggestion.slice(:id, :kind, :status, :origin, :content, :deal_id, :created_at).merge(deal_title: suggestion.deal&.title)
+  end
+
+  # A deal of the customer the «اربطها» bar offers to follow in this conversation
+  def linkable_deal(deal)
+    { id: deal.id, title: deal.title, active_conversation_display_id: deal.active_conversation&.display_id }
+  end
+
+  # The stage named on a conversation card's deal badge
+  def stage_badge(stage)
+    { id: stage.id, name: stage.name, color: stage.color }
   end
 
   def contact(contact)

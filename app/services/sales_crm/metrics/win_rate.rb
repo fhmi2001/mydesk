@@ -1,5 +1,5 @@
 # Custom (MyDesk): المؤشر 4, نسبة الفوز: won ÷ (won + lost), by count; and by value for report 10
-# (won value ÷ (won value + lost value), gap-analysis.md phase 3 decision 3). No closed deal gives nil.
+# (won value ÷ (won value + lost value), gap-analysis.md). No closed deal gives nil.
 module SalesCrm::Metrics::WinRate
   module_function
 

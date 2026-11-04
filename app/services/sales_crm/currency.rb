@@ -1,5 +1,5 @@
-# Custom (MyDesk): the Sales section has one currency, set in its general settings (docs/reports/gap-analysis.md,
-# decision هـ). It can change only while the account has no deals, since amounts are never converted; every
+# Custom (MyDesk): the Sales section has one currency, set in its general settings (docs/reports/gap-analysis.md).
+# It can change only while the account has no deals, since amounts are never converted; every
 # pipeline follows it.
 module SalesCrm::Currency
   module_function

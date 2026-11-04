@@ -1,7 +1,7 @@
 # Custom (MyDesk): المؤشر 8, نسبة التأجيل: of the deals expected to close in the period (their expected close date fell
 # in it when the period began), how many had that date pushed past the period's end and were not closed in it.
 # The dates are rebuilt from the close_date_changed log, so changes made before that log existed are unknown and
-# such deals count with the date they have now (gap-analysis.md, phase 3 decision 4).
+# such deals count with the date they have now (gap-analysis.md).
 module SalesCrm::Metrics::Slippage
   module_function
 

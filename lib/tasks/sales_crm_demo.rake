@@ -1,14 +1,18 @@
-# Custom (MyDesk): the Sales reports' demo account and reference numbers (CRM_REPORTS_PLAN.md, phase 6), for
+# Custom (MyDesk): the Sales reports' demo account and reference numbers (CRM_REPORTS_PLAN.md), for
 # development only.
 #   rails sales_crm:demo_seed                      # data up to today
 #   ANCHOR=2026-10-31 rails sales_crm:demo_seed    # data up to a given day
 #   ADMIN_EMAIL=you@example.com rails ...          # also make an existing user a manager of the demo account
 #   rails sales_crm:expected_numbers               # rewrite docs/reports/expected_numbers.yml
 # New users get random passwords, written to tmp/sales_crm_demo_credentials.txt (never printed, never committed).
+# The demo data and its reference numbers sit under db/seeds/sales_crm, outside the app's load paths; each task
+# requires them once the app is loaded.
 namespace :sales_crm do
   desc 'Create or refresh the Sales reports demo account (development only)'
   task demo_seed: :environment do
     abort 'sales_crm:demo_seed runs in development only' unless Rails.env.development?
+
+    require Rails.root.join('db/seeds/sales_crm/demo_seed').to_s
 
     anchor = ENV['ANCHOR'].present? ? Date.iso8601(ENV.fetch('ANCHOR')) : SalesCrm::Period.today
     seed = SalesCrm::DemoSeed.new(anchor: anchor, passwords: true).perform
@@ -32,6 +36,8 @@ namespace :sales_crm do
   task populate: :environment do
     abort 'sales_crm:populate runs in development only' unless Rails.env.development?
 
+    require Rails.root.join('db/seeds/sales_crm/demo_seed').to_s
+
     account = Account.find(ENV.fetch('ACCOUNT_ID'))
     domain = ENV.fetch('DOMAIN')
     locals = %w[sara.alotaibi khalid.alshehri noura.alqahtani fahad.aldosari]
@@ -54,7 +60,8 @@ namespace :sales_crm do
   task expected_numbers: :environment do
     abort 'sales_crm:expected_numbers runs in development only' unless Rails.env.development?
 
-    require Rails.root.join('lib/sales_crm/expected_numbers').to_s
+    require Rails.root.join('db/seeds/sales_crm/demo_seed').to_s
+    require Rails.root.join('db/seeds/sales_crm/expected_numbers').to_s
     anchor = Date.iso8601(ENV.fetch('ANCHOR', '2026-10-31'))
     entries = nil
     ActiveRecord::Base.transaction do
@@ -63,7 +70,7 @@ namespace :sales_crm do
     end
     path = Rails.root.join('docs/reports/expected_numbers.yml')
     header = "# Custom (MyDesk): the Sales reports' reference numbers for the demo data up to #{anchor}, worked out by\n" \
-             "# lib/sales_crm/expected_numbers.rb apart from the app. Regenerate: rails sales_crm:expected_numbers\n"
+             "# db/seeds/sales_crm/expected_numbers.rb apart from the app. Regenerate: rails sales_crm:expected_numbers\n"
     File.write(path, header + { 'anchor' => anchor.iso8601, 'checks' => entries }.to_yaml.delete_prefix("---\n"))
     puts "#{entries.size} checks, #{entries.sum { |e| e['expect'].size }} numbers → #{path.relative_path_from(Rails.root)}"
   end

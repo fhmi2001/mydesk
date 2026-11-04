@@ -10,7 +10,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
 
   def create
     authorize SalesCrm::Pipeline
-    pipeline = service(SalesCrm::Pipelines::Create).perform(name: params.require(:name), currency: params[:currency], stages: stage_params)
+    pipeline = service(SalesCrm::Pipelines::Create).perform(name: params.require(:name), stages: stage_params)
     render json: SalesCrm::Presenter.pipeline(pipeline, deals_count: 0)
   end
 
@@ -36,6 +36,8 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
   def stage_params
     return nil unless params.key?(:stages)
 
-    params.require(:stages).map { |s| s.permit(:id, :name, :probability, :kind, :color).to_h }
+    params.require(:stages).map do |s|
+      s.permit(:id, :name, :probability, :kind, :color, :silence_followup, :followup_task_days, :followup_task_title).to_h
+    end
   end
 end

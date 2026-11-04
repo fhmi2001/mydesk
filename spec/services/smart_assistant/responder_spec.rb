@@ -25,10 +25,39 @@ RSpec.describe SmartAssistant::Responder do
 
     result = described_class.new(assistant: assistant, messages: messages).perform
 
-    expect(result).to eq(reply: 'Yes, in 3 days', handoff: false, sources: [{ id: delivery.id, title: 'Delivery' }])
+    expect(result).to eq(reply: 'Yes, in 3 days', handoff: false, sources: [{ id: delivery.id, title: 'Delivery' }], sales_lead: nil)
     expect(client).to have_received(:complete) do |instructions:, **|
       expect(instructions).to include('[1] We deliver to every Saudi city', '[2] We are hiring', 'Bajaba', 'Always greet warmly')
       expect(instructions).not_to include('Another store')
+    end
+  end
+
+  describe 'a clear intent to buy (CONVERSATION_SALES_PLAN.md, idea أ2)' do
+    let(:lead) { { 'detected' => true, 'product' => ' كراتين ', 'quantity' => '500', 'city' => 'جدة', 'summary' => 'يطلب سعر 500 كرتون' } }
+
+    it 'is asked for in the same call, as a required part of the strict schema' do
+      described_class.new(assistant: assistant, messages: messages).perform
+
+      expect(client).to have_received(:complete) do |instructions:, schema:, **|
+        expect(schema[:schema][:required]).to include('sales_lead')
+        expect(schema[:schema][:properties][:sales_lead][:required]).to eq(%w[detected product quantity city summary])
+        expect(instructions).to include('sales_lead')
+      end
+    end
+
+    it 'comes back with the reply when the model detects one' do
+      allow(client).to receive(:complete).and_return({ 'reply' => 'أكيد', 'handoff' => false, 'passages_used' => [], 'sales_lead' => lead })
+
+      result = described_class.new(assistant: assistant, messages: messages).perform
+
+      expect(result[:sales_lead]).to eq(product: 'كراتين', quantity: '500', city: 'جدة', summary: 'يطلب سعر 500 كرتون')
+    end
+
+    it 'is nil when there is none' do
+      allow(client).to receive(:complete)
+        .and_return({ 'reply' => 'أكيد', 'handoff' => false, 'passages_used' => [], 'sales_lead' => lead.merge('detected' => false) })
+
+      expect(described_class.new(assistant: assistant, messages: messages).perform[:sales_lead]).to be_nil
     end
   end
 

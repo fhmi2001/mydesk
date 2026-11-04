@@ -22,6 +22,11 @@ RSpec.describe SalesCrm::Pipelines::EnsureDefault do
                                                                                     ])
   end
 
+  it 'turns on the silence follow-up for the offer and negotiation stages only' do
+    stages = described_class.call(account).stages
+    expect(stages.select(&:silence_followup).map(&:name)).to eq(['تم إرسال العرض', 'تفاوض'])
+  end
+
   it 'uses the account default currency when set' do
     account.update!(crm_default_currency: 'AED')
     expect(described_class.call(account).currency).to eq('AED')

@@ -54,7 +54,8 @@ class Api::V1::Accounts::Crm::ReportsController < Api::V1::Accounts::Crm::BaseCo
   end
 
   def exported
-    [[I18n.t('sales_crm.reports.export.filters.exported_at'), Time.current.in_time_zone(SalesCrm::Period.zone).strftime('%Y-%m-%d %H:%M')],
+    now = Time.current.in_time_zone(SalesCrm::TimeZone.for(Current.account))
+    [[I18n.t('sales_crm.reports.export.filters.exported_at'), now.strftime('%Y-%m-%d %H:%M')],
      [I18n.t('sales_crm.reports.export.filters.exported_by'), Current.user.available_name]]
   end
 

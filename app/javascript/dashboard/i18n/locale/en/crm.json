@@ -217,6 +217,7 @@
         "task_done": "completed the task «{title}»",
         "discarded": "deleted the deal",
         "restored": "restored the deal",
+        "conversation_linked": "moved the deal's follow-up to conversation #{number}",
         "SYSTEM": "System",
         "close_date_changed": "changed the expected close date to {date}"
       },
@@ -536,6 +537,27 @@
             "DESCRIPTION": "Average won deal month by month, for the team and each employee.",
             "EMPTY": "Nothing won in this period",
             "EMPTY_HINT": "Pick a longer period: a trend needs months."
+          },
+          "response_speed": {
+            "NAME": "Response speed and win rate",
+            "QUESTION": "Do faster replies win more?",
+            "DESCRIPTION": "Closed deals by the first reply in their conversation, and the win rate of each bucket.",
+            "EMPTY": "No closed deals with a conversation and a reply in this period",
+            "EMPTY_HINT": "Pick a longer period, or create deals from conversations."
+          },
+          "campaigns": {
+            "NAME": "Campaign return",
+            "QUESTION": "What did each campaign bring?",
+            "DESCRIPTION": "Deals and revenue per campaign, direct or influenced, with the SMS cost and the return per riyal.",
+            "EMPTY": "No deals credited to a campaign in this period",
+            "EMPTY_HINT": "A deal is credited to a campaign only when it is created."
+          },
+          "conversation_deals": {
+            "NAME": "Conversation to deal",
+            "QUESTION": "How many conversations become deals?",
+            "DESCRIPTION": "The period's conversations, how many became deals and how many were won, by channel and employee.",
+            "EMPTY": "No conversations in this period",
+            "EMPTY_HINT": "Pick a longer period."
           }
         },
         "PIPELINE": {
@@ -687,7 +709,9 @@
           "WON_VALUE": "Won value",
           "WIN_RATE": "Win rate",
           "BY_ASSIGNEE": "By owner",
-          "WHAT_COUNTS": "Completed tasks by kind, and notes on deals; chats do not count"
+          "WHAT_COUNTS": "Completed tasks by kind, and notes on deals. The employee's messages to customers show beside them and are not added",
+          "MESSAGES": "Messages to customers",
+          "MESSAGES_HINT": "The employee's replies in their deals' conversations"
         },
         "NEW_DEALS": {
           "COUNT": "New deals",
@@ -807,6 +831,49 @@
           "ROW": "{share} of revenue · {growth}",
           "ROW_NEW": "{share} of revenue · new"
         },
+        "RESPONSE_SPEED": {
+          "CLOSED": "Closed deals",
+          "EXCLUDED": "Left out",
+          "EXCLUDED_HINT": "Without a conversation, or no reply from an employee yet",
+          "BY_BUCKET": "By speed of the first reply",
+          "CORRELATION": "It shows a link, not a cause: fast deals may simply be easier ones.",
+          "FIRST_REPLY": "First reply within",
+          "WIN_RATE": "Win rate",
+          "AVERAGE_WON": "Average won",
+          "SMALL_SAMPLE": "Small sample",
+          "SMALL_SAMPLE_HINT": "No rate under 10 deals in a bucket. Real time, not working hours.",
+          "BUCKETS": {
+            "under_5m": "Under 5 minutes",
+            "5_30m": "5 to 30 minutes",
+            "30m_2h": "30 minutes to 2 hours",
+            "2h_24h": "2 to 24 hours",
+            "over_24h": "Over 24 hours"
+          }
+        },
+        "CAMPAIGNS": {
+          "BY_CAMPAIGN": "By campaign",
+          "HOW_CREDITED": "Direct: the deal's conversation came from a chat campaign. Influenced: the customer got an SMS campaign within the window before the deal. The two are never added.",
+          "CAMPAIGN": "Campaign",
+          "DIRECT": "Direct",
+          "INFLUENCED": "Influenced",
+          "WON": "Won",
+          "RECIPIENTS": "Recipients",
+          "CONVERSION": "Became deals",
+          "COST": "Cost",
+          "COST_PARTIAL": "some prices unknown",
+          "RETURN": "Return per riyal"
+        },
+        "CONVERSATION_DEALS": {
+          "CONVERSATIONS": "Conversations",
+          "BECAME_DEALS": "Became deals",
+          "CONVERSION": "Conversion",
+          "WON": "won",
+          "WON_VALUE": "Value won",
+          "BY_CHANNEL": "By channel",
+          "CHANNEL": "Channel",
+          "ONCE_HINT": "A conversation counts once, however many deals came from it.",
+          "BY_ASSIGNEE": "By the employee handling the conversation"
+        },
         "DEAL_SIZE": {
           "AVERAGE": "Average won deal",
           "DEALS": "Deals won",
@@ -924,10 +991,32 @@
       "ADD_LOST_REASON": "Add reason",
       "TABS": {
         "general": "General",
+        "conversations": "Conversations",
         "lost_reasons": "Lost reasons",
         "pipelines": "Pipelines",
         "lists": "Lists",
         "targets": "Targets"
+      },
+      "CONVERSATIONS": {
+        "SOURCES_HEADING": "Lead source for each inbox",
+        "SOURCES_HINT": "A deal created from a conversation starts with this source, and the employee can change it. Add new sources in the Lists tab.",
+        "NO_SOURCE": "No source",
+        "SOURCE_FOR": "Lead source for the {inbox} inbox",
+        "NO_INBOXES": "This account has no inboxes yet.",
+        "FOLLOWUP_HEADING": "Follow-up and campaigns",
+        "FOLLOWUP_DAYS": "Silent days before a follow-up",
+        "FOLLOWUP_DAYS_HINT": "After this, a follow-up is suggested for a customer who has not replied, in the stages that have it on. From 1 to 30.",
+        "SMS_DAYS": "SMS campaign window (days)",
+        "SMS_DAYS_HINT": "A deal created within this time after a campaign message to the customer is credited to the campaign. From 1 to 90.",
+        "WON_LOST": "Suggest a thank-you on a win, and a question about why on a loss",
+        "WON_LOST_HINT": "The suggestion appears in the deal's conversation; the employee writes the draft and sends it themselves."
+      },
+      "FOLLOWUP": {
+        "SILENCE": "Follow up a quiet customer",
+        "TASK_AFTER": "Task on entry after",
+        "TASK_DAYS": "Days before the task on entering the stage",
+        "DAYS_TITLED": "days, titled",
+        "TASK_TITLE": "Task title (the stage name when left blank)"
       },
       "CURRENCY_HINT": "The currency of every sales deal. It cannot change once the first deal is added.",
       "REPORTS_HEADING": "Report thresholds",
@@ -936,7 +1025,65 @@
       "COVERAGE": "Pipeline coverage target (times)",
       "COVERAGE_HINT": "Open pipeline needed compared with the remaining target."
     },
+    "AUTOMATION": {
+      "DEAL_TITLE": "Suggested deal title (the customer's name is added)",
+      "SUGGEST_HINT": "A suggestion appears in the conversation panel; the employee creates the deal with its amount and date.",
+      "TASK_TITLE": "Task title",
+      "KIND": "Task type",
+      "KINDS": { "task": "Task", "call": "Call", "meeting": "Meeting" },
+      "HOURS": "After how many hours",
+      "HOURS_HINT": "hours. For the conversation's assignee, else an administrator.",
+      "STAGE": "Stage",
+      "MOVE_HINT": "Moves the deal followed in this conversation. Moving to lost is not available, since it needs a reason."
+    },
+    "BADGE": {
+      "TITLE": "Open deals with this customer: {count} · the biggest is in «{stage}»",
+      "MORE": "+{count}"
+    },
     "PANEL": {
+      "DEAL_MESSAGE": {
+        "follow_up": "Suggested follow-up: the customer has not replied",
+        "won_message": "Thank-you after the win",
+        "lost_question": "Ask why it did not go ahead",
+        "DRAFT": "Draft",
+        "WRITE": "Write the draft",
+        "COPY": "Copy the draft",
+        "DISMISS": "Dismiss",
+        "COPIED": "Draft copied. Paste it in the reply and send it yourself.",
+        "WINDOW_CLOSED": "Over 24 hours have passed since the customer's last message on official WhatsApp: send an approved template, or send it yourself by SMS.",
+        "CSAT_HINT": "The satisfaction survey is on for this inbox and goes to the customer when the conversation is resolved."
+      },
+      "LINK": {
+        "LABEL": "Link the conversation to a deal",
+        "ONE": "This is a new conversation with the customer of «{title}», which is still followed in another one.",
+        "SEVERAL": "This is a new conversation with a customer who has {count} open deals followed in other conversations.",
+        "PICK": "Deal",
+        "ACTION": "Link it",
+        "DONE": "«{title}» is now followed in this conversation"
+      },
+      "SUGGESTION": {
+        "TITLE": "Deal suggested by the assistant",
+        "FROM_AUTOMATION": "Deal suggested by an automation rule",
+        "CREATE": "Create deal",
+        "DISMISS": "Dismiss"
+      },
+      "SUMMARY": {
+        "ACTION": "Summarize conversation",
+        "UNAVAILABLE": "The summary needs the smart assistant, which is not set up on this platform yet.",
+        "TITLE": "Conversation summary (draft)",
+        "NOTE": "Note",
+        "OBJECTIONS": "Objections",
+        "NEXT_STEP": "Next step",
+        "AMOUNT": "Amount mentioned: {amount}",
+        "CLOSE_DATE": "Close date mentioned: {date}",
+        "FOR_DEAL": "Deal",
+        "SAVE_NOTE": "Save as note",
+        "APPLY": "Apply amount and date",
+        "CREATE_DEAL": "Create a deal from it",
+        "CLOSE": "Close",
+        "NOTE_SAVED": "Note saved on the deal",
+        "APPLIED": "Amount and date updated"
+      },
       "TITLE": "Deals & tasks",
       "OPEN_DEALS": "Open deals",
       "UPCOMING_TASKS": "Upcoming tasks",

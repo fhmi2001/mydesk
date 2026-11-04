@@ -56,7 +56,7 @@ class SalesCrm::BaseService
     number
   end
 
-  # An open deal needs an amount, an expected close date and an owner (docs/reports/gap-analysis.md, decisions د and 15)
+  # An open deal needs an amount, an expected close date and an owner (docs/reports/gap-analysis.md)
   def require_open_essentials!(deal)
     return unless deal.open?
 
@@ -71,6 +71,11 @@ class SalesCrm::BaseService
     stage
   end
 
+  # A conversation is named at the CRM boundary by its display_id, as the dashboard shows it
+  def find_conversation!(display_id)
+    account.conversations.find_by!(display_id: display_id)
+  end
+
   def log(deal, kind, data = {})
     SalesCrm::ActivityLog.record(deal: deal, kind: kind, user: user, data: data)
   end
@@ -83,9 +88,9 @@ class SalesCrm::BaseService
     [task.assignee_id, task.creator_id, task.deal&.assignee_id]
   end
 
-  # Decimal (or Arabic-digit) amount string to cents; nil stays nil
+  # Decimal (or Arabic-digit) amount string to cents; nil or a cleared field stays nil
   def cents_from(amount)
-    return nil if amount.nil?
+    return nil if amount.blank?
     return amount.to_i if amount.is_a?(Integer)
 
     (BigDecimal(SalesCrm::Normalize.digits(amount.to_s).delete(',٬ ').tr('٫', '.')) * 100).round.to_i

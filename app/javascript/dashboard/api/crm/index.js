@@ -7,19 +7,11 @@ class CrmStatusAPI extends ApiClient {
   constructor() {
     super('crm/status', { accountScoped: true });
   }
-
-  get() {
-    return axios.get(this.url);
-  }
 }
 
 class CrmPipelinesAPI extends ApiClient {
   constructor() {
     super('crm/pipelines', { accountScoped: true });
-  }
-
-  update(id, payload) {
-    return axios.patch(`${this.url}/${id}`, payload);
   }
 }
 
@@ -60,6 +52,13 @@ class CrmDealsAPI extends ApiClient {
     return axios.post(`${this.url}/${id}/restore`);
   }
 
+  // Follow the deal in another conversation of its customer, by display id
+  linkConversation(id, conversationId) {
+    return axios.post(`${this.url}/${id}/link_conversation`, {
+      conversation_id: conversationId,
+    });
+  }
+
   notes(id) {
     return axios.get(`${this.url}/${id}/notes`);
   }
@@ -86,10 +85,6 @@ class CrmTasksAPI extends ApiClient {
     return axios.get(this.url, { params });
   }
 
-  show(id) {
-    return axios.get(`${this.url}/${id}`);
-  }
-
   create(task) {
     return axios.post(this.url, { task });
   }
@@ -112,8 +107,50 @@ class CrmContactSummaryAPI extends ApiClient {
     super('crm/contacts', { accountScoped: true });
   }
 
-  get(contactId) {
+  summary(contactId) {
     return axios.get(`${this.url}/${contactId}/summary`);
+  }
+}
+
+// What the Sales section knows about one conversation, by its display id (lead source of its inbox, ...)
+class CrmConversationsAPI extends ApiClient {
+  constructor() {
+    super('crm/conversations', { accountScoped: true });
+  }
+
+  // A draft the employee edits; nothing is saved by it
+  summary(id) {
+    return axios.post(`${this.url}/${id}/summary`);
+  }
+}
+
+// The deal badges of the conversation cards, for up to 100 contacts at once
+class CrmContactBadgesAPI extends ApiClient {
+  constructor() {
+    super('crm/contact_badges', { accountScoped: true });
+  }
+
+  get(contactIds) {
+    return axios.get(this.url, { params: { contact_ids: contactIds } });
+  }
+}
+
+class CrmSuggestionsAPI extends ApiClient {
+  constructor() {
+    super('crm/suggestions', { accountScoped: true });
+  }
+
+  dismiss(id) {
+    return axios.post(`${this.url}/${id}/dismiss`);
+  }
+
+  // The AI draft of a deal's follow-up, won or lost message
+  draft(id) {
+    return axios.post(`${this.url}/${id}/draft`);
+  }
+
+  accept(id) {
+    return axios.post(`${this.url}/${id}/accept`);
   }
 }
 
@@ -173,10 +210,6 @@ class CrmLostReasonsAPI extends ApiClient {
     super('crm/lost_reasons', { accountScoped: true });
   }
 
-  get() {
-    return axios.get(this.url);
-  }
-
   create(name) {
     return axios.post(this.url, { name });
   }
@@ -226,8 +259,8 @@ class CrmTargetsAPI extends ApiClient {
     return axios.get(this.url, { params: { month } });
   }
 
-  // amounts: { userId: '50000' }; a blank amount clears that employee's month
-  update(month, amounts) {
+  // One month's targets at once. amounts: { userId: '50000' }; a blank amount clears that employee's month
+  save(month, amounts) {
     return axios.put(this.url, { month, amounts });
   }
 }
@@ -237,11 +270,8 @@ class CrmSettingsAPI extends ApiClient {
     super('crm/settings', { accountScoped: true });
   }
 
-  get() {
-    return axios.get(this.url);
-  }
-
-  update(settings) {
+  // The account's settings are one record: saved as a whole patch, without an id
+  save(settings) {
     return axios.patch(this.url, { settings });
   }
 }
@@ -251,6 +281,9 @@ export const crmPipelinesAPI = new CrmPipelinesAPI();
 export const crmDealsAPI = new CrmDealsAPI();
 export const crmTasksAPI = new CrmTasksAPI();
 export const crmContactSummaryAPI = new CrmContactSummaryAPI();
+export const crmConversationsAPI = new CrmConversationsAPI();
+export const crmSuggestionsAPI = new CrmSuggestionsAPI();
+export const crmContactBadgesAPI = new CrmContactBadgesAPI();
 export const crmReportsAPI = new CrmReportsAPI();
 export const crmSettingsAPI = new CrmSettingsAPI();
 export const crmLostReasonsAPI = new CrmLostReasonsAPI();

@@ -1,7 +1,7 @@
-// Custom (MyDesk): the reports of phase 4 (docs/reports/CRM_REPORTS_PLAN.md), in the order of the reports matrix, with
+// Custom (MyDesk): the Sales reports (docs/reports/CRM_REPORTS_PLAN.md), in the order of the reports matrix, with
 // the filters each one takes. period: 'past' (so far: today … quarter), 'forward' (what is still to close: the whole
 // month or quarter), or null for a picture of now. The server applies the same filters (SalesCrm::Reports::Report).
-import { riyadhToday } from '../periods';
+import { salesToday } from '../periods';
 
 export const REPORTS = [
   {
@@ -190,9 +190,36 @@ export const REPORTS = [
     adminOnly: true,
     columns: ['closed_at'],
   },
+  // Conversations and sales (docs/mydesk/CONVERSATION_SALES_PLAN.md)
+  {
+    key: 'response_speed',
+    group: 'conversion',
+    number: 20,
+    icon: 'i-lucide-timer',
+    period: 'past',
+    lists: true,
+    columns: ['closed_at', 'stage'],
+  },
+  {
+    key: 'campaigns',
+    group: 'results',
+    number: 21,
+    icon: 'i-lucide-megaphone',
+    period: 'past',
+    adminOnly: true,
+    columns: ['stage', 'close_date'],
+  },
+  {
+    key: 'conversation_deals',
+    group: 'conversion',
+    number: 22,
+    icon: 'i-lucide-messages-square',
+    period: 'past',
+    columns: ['stage', 'close_date'],
+  },
 ];
 
-// The navigation's groups, in order (CRM_REPORTS_PLAN.md, phase 5)
+// The navigation's groups, in order (CRM_REPORTS_PLAN.md)
 export const GROUPS = [
   'pipeline',
   'forecast',
@@ -215,7 +242,7 @@ const iso = d => {
 };
 
 // The whole month, quarter or year, for reports about what is still to close; next_month for planning ahead
-export const forwardRange = (period, now = riyadhToday()) => {
+export const forwardRange = (period, now = salesToday()) => {
   const year = now.getFullYear();
   const month = now.getMonth();
   switch (period) {

@@ -104,6 +104,25 @@ describe('ActionCableConnector - Copilot Tests', () => {
     });
   });
 
+  // Custom (MyDesk): a Sales suggestion reaches the open conversation panel at once
+  describe('crm.suggestion_created', () => {
+    it('forwards the new suggestion on the bus', () => {
+      const data = {
+        account_id: 1,
+        id: 7,
+        kind: 'new_deal',
+        conversation_display_id: 14,
+      };
+
+      actionCable.onReceived({ event: 'crm.suggestion_created', data });
+
+      expect(emitter.emit).toHaveBeenCalledWith(
+        BUS_EVENTS.CRM_SUGGESTION_CREATED,
+        data
+      );
+    });
+  });
+
   describe('monitor.updated', () => {
     it('forwards updates for the active account', () => {
       const data = { account_id: 1, monitor_id: 2, data_revision: 3 };

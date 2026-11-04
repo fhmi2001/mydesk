@@ -36,4 +36,25 @@ RSpec.describe SalesCrm::Deal do
     expect(deal.reload.contact_id).to be_nil
     expect(deal.display_contact_name).to eq('سارة')
   end
+
+  describe 'conversation links' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    it 'is followed in its origin conversation until it moves on' do
+      deal = create(:crm_deal, account: account, conversation: conversation)
+      expect(deal.active_conversation).to eq(conversation)
+    end
+
+    it 'keeps a campaign and how the campaign led to it' do
+      campaign = create(:campaign, account: account)
+      deal = create(:crm_deal, account: account, campaign: campaign, campaign_attribution: :influenced)
+      expect(deal.reload).to have_attributes(campaign: campaign, campaign_attribution: 'influenced')
+    end
+
+    it 'starts its last touch at its creation' do
+      freeze_time do
+        expect(create(:crm_deal, account: account).last_touch_at).to eq(Time.current)
+      end
+    end
+  end
 end

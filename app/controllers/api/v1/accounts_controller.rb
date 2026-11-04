@@ -148,7 +148,8 @@ class Api::V1::AccountsController < Api::BaseController
 
   def permitted_settings_attributes
     attributes = [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
-                  :auto_translate, :translation_provider]
+                  :auto_translate, :translation_provider,
+                  :reporting_timezone] # Custom (MyDesk): picked in the general settings, for Sales and the reports
     attributes << :enforce_mfa if Chatwoot.mfa_enabled?
     attributes
   end

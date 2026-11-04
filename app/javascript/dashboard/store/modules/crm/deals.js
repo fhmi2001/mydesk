@@ -1,6 +1,7 @@
 // Custom (MyDesk): the deals board. Moves are optimistic: the card jumps at once and snaps back if the
 // server refuses (no lost reason, stale version, outage).
 import { crmDealsAPI } from 'dashboard/api/crm';
+import { refreshBadges } from './dealBadges';
 
 export const types = {
   SET_BOARD: 'crm/deals/SET_BOARD',
@@ -87,6 +88,15 @@ export const getters = {
 
 const unavailable = error => error?.response?.status >= 500 || !error?.response;
 
+// The board's filters as the deals API reads them; one place, so the board, its next pages and the forecast agree
+const filterParams = filters => ({
+  pipeline_id: filters.pipelineId,
+  assignee_id: filters.assigneeId || undefined,
+  status: filters.status || undefined,
+  priority: filters.priority || undefined,
+  q: filters.q || undefined,
+});
+
 export const actions = {
   setFilters({ commit }, filters) {
     commit(types.SET_FILTERS, filters);
@@ -96,14 +106,7 @@ export const actions = {
     if (!_state.filters.pipelineId) return;
     commit(types.SET_FLAGS, { isFetching: true });
     try {
-      const params = {
-        pipeline_id: _state.filters.pipelineId,
-        assignee_id: _state.filters.assigneeId || undefined,
-        status: _state.filters.status || undefined,
-        priority: _state.filters.priority || undefined,
-        q: _state.filters.q || undefined,
-        view: 'board',
-      };
+      const params = { ...filterParams(_state.filters), view: 'board' };
       const [{ data }, forecast] = await Promise.all([
         crmDealsAPI.get(params),
         crmDealsAPI.forecast({
@@ -132,12 +135,8 @@ export const actions = {
   async loadMoreForStage({ commit, state: _state }, stageId) {
     const loaded = (_state.order[stageId] || []).length;
     const { data } = await crmDealsAPI.get({
-      pipeline_id: _state.filters.pipelineId,
+      ...filterParams(_state.filters),
       stage_id: stageId,
-      assignee_id: _state.filters.assigneeId || undefined,
-      status: _state.filters.status || undefined,
-      priority: _state.filters.priority || undefined,
-      q: _state.filters.q || undefined,
       view: 'table',
       sort: 'position:asc',
       page: Math.floor(loaded / TABLE_PAGE_SIZE) + 1,
@@ -249,18 +248,17 @@ export const actions = {
   async refreshForecast({ commit, state: _state }) {
     if (!_state.filters.pipelineId) return;
     try {
-      const { data } = await crmDealsAPI.forecast({
-        pipeline_id: _state.filters.pipelineId,
-        assignee_id: _state.filters.assigneeId || undefined,
-      });
+      const { pipeline_id, assignee_id } = filterParams(_state.filters);
+      const { data } = await crmDealsAPI.forecast({ pipeline_id, assignee_id });
       commit(types.SET_FORECAST, data);
     } catch (e) {
       // the board stays usable without fresh totals
     }
   },
 
-  // ActionCable: another agent changed something
+  // ActionCable: another agent changed something. The conversation cards' deal badges follow it too.
   onRemoteChange({ dispatch, state: _state }, payload) {
+    refreshBadges();
     if (!_state.uiFlags.hasFetched) return;
     if (
       payload.pipeline_id &&

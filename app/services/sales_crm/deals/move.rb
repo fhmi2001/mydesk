@@ -1,10 +1,11 @@
 # Custom (MyDesk): moves a deal to a stage and position. Landing on the lost stage needs a reason; landing on
 # won/lost sets the status and timestamps. `position` is 1-based among the stage's live deals; the whole
-# stage is renumbered densely so positions always match what the board shows.
+# stage is renumbered densely so positions always match what the board shows. The system rehoming deals out of a
+# removed stage passes reason_required: false, so a deal reaching lost that way keeps whatever reason it had, or none.
 class SalesCrm::Deals::Move < SalesCrm::BaseService
-  def perform(deal, stage_id:, position: nil, lost_reason: nil, lost_note: nil, lock_version: nil) # rubocop:disable Metrics/ParameterLists
+  def perform(deal, stage_id:, position: nil, lost_reason: nil, lost_note: nil, lock_version: nil, reason_required: true) # rubocop:disable Metrics/ParameterLists
     stage = find_stage!(deal.pipeline, stage_id)
-    fail!(:lost_reason_required) if stage.lost? && lost_reason.to_s.strip.blank?
+    fail!(:lost_reason_required) if reason_required && stage.lost? && lost_reason.to_s.strip.blank?
 
     ActiveRecord::Base.transaction do
       from_stage_id = deal.stage_id
@@ -14,7 +15,7 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
       place(deal, stage, position)
       apply_status(deal, stage, lost_reason, lost_note)
       deal.save!
-      log_move(deal, stage, from_stage_id)
+      record_move(deal, stage, from_stage_id)
       broadcast('crm.deal_moved', { id: deal.id, stage_id: stage.id, position: deal.position, pipeline_id: deal.pipeline_id,
                                     from_stage_id: from_stage_id }, to: deal.assignee_id)
       deal
@@ -46,18 +47,20 @@ class SalesCrm::Deals::Move < SalesCrm::BaseService
     when 'won'
       deal.assign_attributes(status: :won, won_at: deal.won_at || Time.current, lost_at: nil, lost_reason: nil, lost_note: nil)
     when 'lost'
-      deal.assign_attributes(status: :lost, lost_at: deal.lost_at || Time.current, won_at: nil, lost_reason: lost_reason.to_s.strip,
+      deal.assign_attributes(status: :lost, lost_at: deal.lost_at || Time.current, won_at: nil, lost_reason: lost_reason.to_s.strip.presence,
                              lost_note: lost_note.to_s.strip.presence)
     else
       deal.assign_attributes(status: :open, won_at: nil, lost_at: nil, lost_reason: nil, lost_note: nil)
     end
   end
 
-  def log_move(deal, stage, from_stage_id)
+  # Logs a change of stage and sets off what entering the new stage does (SalesCrm::StageEntry)
+  def record_move(deal, stage, from_stage_id)
     return if from_stage_id == stage.id
 
     log(deal, 'stage_changed', from_stage_id: from_stage_id, to_stage_id: stage.id)
     log(deal, 'won') if stage.won?
     log(deal, 'lost', reason: deal.lost_reason, note: deal.lost_note) if stage.lost?
+    SalesCrm::StageEntry.call(deal, stage)
   end
 end

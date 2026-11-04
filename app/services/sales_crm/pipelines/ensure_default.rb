@@ -8,6 +8,8 @@ class SalesCrm::Pipelines::EnsureDefault
     ['مكسوبة', 100, :won, '#22c55e'],
     ['خاسرة', 0, :lost, '#ef4444']
   ].freeze
+  # Where a quiet customer gets a follow-up by default (CONVERSATION_SALES_PLAN.md)
+  SILENCE_FOLLOWUP_STAGES = ['تم إرسال العرض', 'تفاوض'].freeze
 
   def self.call(account)
     SalesCrm::LostReason.ensure_defaults!(account)
@@ -17,7 +19,8 @@ class SalesCrm::Pipelines::EnsureDefault
     ActiveRecord::Base.transaction do
       pipeline = account.crm_pipelines.create!(name: SalesCrm::Pipeline::DEFAULT_NAME, currency: default_currency(account))
       DEFAULT_STAGES.each_with_index do |(name, probability, kind, color), position|
-        pipeline.stages.create!(account: account, name: name, probability: probability, kind: kind, color: color, position: position)
+        pipeline.stages.create!(account: account, name: name, probability: probability, kind: kind, color: color, position: position,
+                                silence_followup: SILENCE_FOLLOWUP_STAGES.include?(name))
       end
       pipeline
     end

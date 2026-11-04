@@ -3,6 +3,7 @@
 # capped by the monthly reply limit.
 module SmartAssistant::Config
   DEFAULT_MONTHLY_REPLY_LIMIT = 1000
+  DEFAULT_CRM_MONTHLY_LIMIT = 300
 
   module_function
 
@@ -15,6 +16,11 @@ module SmartAssistant::Config
   end
 
   def embedding_model = LlmConstants::DEFAULT_EMBEDDING_MODEL
+
+  # The Sales section's own calls (summaries and drafts) each account may make per month, apart from the reply quota
+  def crm_monthly_limit
+    GlobalConfigService.load('SMART_ASSISTANT_CRM_MONTHLY_LIMIT', nil).presence&.to_i || DEFAULT_CRM_MONTHLY_LIMIT
+  end
 
   def monthly_reply_limit
     GlobalConfigService.load('SMART_ASSISTANT_MONTHLY_REPLY_LIMIT', nil).presence&.to_i || DEFAULT_MONTHLY_REPLY_LIMIT

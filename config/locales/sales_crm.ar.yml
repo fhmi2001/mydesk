@@ -22,10 +22,21 @@ ar:
       invalid_list: القائمة غير معروفة
       invalid_stale_days: حد الركود عدد أيام من 1 إلى 365
       invalid_coverage: معيار التغطية رقم من 0.5 إلى 20
+      invalid_followup_days: أيام الصمت قبل المتابعة عدد من 1 إلى 30
+      invalid_attribution_days: نافذة إسناد حملات SMS عدد أيام من 1 إلى 90
+      invalid_channel_source: اختر لكل صندوق وارد في الحساب مصدراً من قائمة «مصدر العميل»
+      ai_not_configured: الملخص يحتاج المساعد الذكي، ولم يُهيّأ بعد على المنصة
+      ai_limit_reached: انتهى حد طلبات المبيعات من المساعد لهذا الشهر، ويتجدد في %{date}
+      ai_unavailable: تعذّر على المساعد الرد الآن، حاول مرة أخرى بعد قليل
+      conversation_empty: لا توجد رسائل في المحادثة لتلخيصها
+      too_many_contacts: الحد %{count} جهة اتصال في الطلب الواحد
+      conversation_of_another_contact: المحادثة ليست لعميل هذه الصفقة
       not_closed: الصفقة مفتوحة أصلاً
       invalid_amount: القيمة ليست رقماً صحيحاً
       invalid_currency: العملة غير مدعومة
       not_found: غير موجود
+    follow_up:
+      task_title: 'متابعة: %{title}'
     activities:
       created: أُنشئت الصفقة
       stage_changed: تغيّرت المرحلة

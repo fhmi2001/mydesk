@@ -61,6 +61,27 @@ SAFE_FETCH_TRUSTED_HOSTS=evolution-api
 (redirect) منه إلى عنوان غير موثوق. التنفيذ في `lib/safe_fetch.rb` (معلّم `Custom (MyDesk)`)،
 واختباراته في `spec/lib/safe_fetch_trusted_hosts_spec.rb`. البوابة تبقى غير مكشوفة على الإنترنت.
 
+## رسائل وصلت والمنصة متوقفة
+
+إذا وصلت رسالة إلى البوابة والمنصة (Rails) متوقفة، تحفظها البوابة في قاعدتها لكنها لا تسلّمها،
+فلا تظهر في المحادثات. لذلك:
+
+- البوابة تنتظر جاهزية المنصة قبل الاتصال بواتساب (`entrypoint` في `docker-compose.yaml`)، فلا تضيع
+  الرسائل التي يرسلها واتساب لحظة إعادة التشغيل.
+- لاسترجاع ما ضاع من قبل (آخر 3 أيام افتراضياً، دون إرسال أي شيء إلى واتساب):
+
+```
+DRY_RUN=1 deploy/whatsapp/recover_lost.sh   # عرض فقط
+deploy/whatsapp/recover_lost.sh
+DAYS=7 deploy/whatsapp/recover_lost.sh
+```
+
+الوسائط لا تُنسخ: الرسالة الصوتية تظهر سطراً يطلب فتحها من الجوال.
+
+مهمة الاسترجاع المدمجة في البوابة (`syncChatwootLostMessages`) تفشل عمداً برسالة
+`permission denied for table access_tokens`: تحتاج قراءة رموز دخول كل المستخدمين، وصلاحية البوابة
+محصورة في جدول `messages` (`grant_db_access.sh`). لذلك يحل محلها `recover_lost.sh`.
+
 ## تنبيه
 
 الربط عبر QR غير رسمي من واتساب؛ الإرسال الجماعي قد يؤدي لحظر الرقم. للحملات والإشعارات

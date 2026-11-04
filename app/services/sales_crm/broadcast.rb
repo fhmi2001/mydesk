@@ -4,7 +4,7 @@
 # colleague's deal moved (SalesCrm::Visibility).
 module SalesCrm::Broadcast
   EVENTS = %w[crm.deal_created crm.deal_updated crm.deal_moved crm.deal_discarded crm.deal_restored
-              crm.task_created crm.task_updated crm.task_completed crm.task_destroyed].freeze
+              crm.task_created crm.task_updated crm.task_completed crm.task_destroyed crm.suggestion_created].freeze
 
   module_function
 
@@ -17,6 +17,7 @@ module SalesCrm::Broadcast
 
     data = payload.merge(account_id: account.id)
     data[:performer] = Current.user&.push_event_data if Current.user.present?
-    ::ActionCableBroadcastJob.perform_later(tokens, event, data)
+    # Sent once the change is committed: the frontend refetches the record, and a rolled-back change sends nothing
+    ActiveRecord.after_all_transactions_commit { ::ActionCableBroadcastJob.perform_later(tokens, event, data) }
   end
 end

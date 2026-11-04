@@ -51,8 +51,7 @@ class SalesCrm::Reports::Quota < SalesCrm::Reports::Report
 
   # [{ date, won_cents (running total; nil after today), target_cents (the target's share of the days so far) }]
   def cumulative(target)
-    today = SalesCrm::Period.today
-    by_day = won(period).pluck(:won_at, :amount_cents).group_by { |at, _| at.in_time_zone(SalesCrm::Period.zone).to_date }
+    by_day = won(period).pluck(:won_at, :amount_cents).group_by { |at, _| local_date(at) }
     running = 0
     period.dates.each_with_index.map do |date, index|
       running += by_day.fetch(date, []).sum(&:last)

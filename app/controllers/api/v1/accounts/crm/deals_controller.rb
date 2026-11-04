@@ -1,7 +1,7 @@
 # Custom (MyDesk): deals: the board / table, one deal, create, edit, move, reopen, delete, restore, forecast
 class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseController
   before_action :set_pipeline, only: [:index, :forecast]
-  before_action :set_deal, only: [:show, :update, :move, :reopen, :destroy]
+  before_action :set_deal, only: [:show, :update, :move, :reopen, :destroy, :link_conversation]
 
   def index
     result = service(SalesCrm::Deals::Search).perform(deals_scope, pipeline: @pipeline, **search_filters)
@@ -17,7 +17,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   end
 
   def forecast
-    render json: SalesCrm::Presenter.forecast(SalesCrm::Forecast.call(forecast_scope, pipeline: @pipeline))
+    render json: SalesCrm::Forecast.call(forecast_scope, pipeline: @pipeline).to_h
   end
 
   def show
@@ -51,6 +51,13 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
     render json: SalesCrm::Presenter.deal(service(SalesCrm::Deals::Reopen).perform(@deal))
   end
 
+  # Custom (MyDesk): follow the deal in another conversation of its customer
+  def link_conversation
+    authorize @deal, :update?
+    deal = service(SalesCrm::Deals::LinkConversation).perform(@deal, params.require(:conversation_id))
+    render json: SalesCrm::Presenter.deal(deal)
+  end
+
   def destroy
     authorize @deal
     service(SalesCrm::Deals::Discard).perform(@deal)
@@ -77,7 +84,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
     @deal = deals_scope.find(params[:id])
   end
 
-  # Handing a deal to someone else is for administrators (decision ج). An employee creates deals for themselves and
+  # Handing a deal to someone else is for administrators. An employee creates deals for themselves and
   # keeps them; leaving the owner out on create means "me".
   def check_reassign(deal = nil)
     return unless deal_params.key?(:assignee_id)
@@ -89,7 +96,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
 
   # deals_scope is already the employee's own deals; an administrator may narrow the forecast to one employee
   def forecast_scope
-    return deals_scope unless Current.account_user&.administrator? && params[:assignee_id].present?
+    return deals_scope unless params[:assignee_id].present? && policy(SalesCrm::Deal).narrow_to_assignee?
 
     deals_scope.where(assignee_id: params[:assignee_id])
   end
@@ -102,6 +109,6 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
   def deal_params
     params.require(:deal).permit(:title, :amount, :pipeline_id, :stage_id, :contact_id, :assignee_id, :close_date, :description,
                                  :conversation_id, :priority, :forecast_category, :probability_override, :lock_version,
-                                 *SalesCrm::ListItem::DEAL_COLUMNS.values)
+                                 :suggestion_id, *SalesCrm::ListItem::DEAL_COLUMNS.values)
   end
 end

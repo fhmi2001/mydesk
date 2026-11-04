@@ -1,4 +1,4 @@
-// Custom (MyDesk): the one meaning each colour has across the Sales reports (CRM_REPORTS_PLAN.md, phase 5): won is
+// Custom (MyDesk): the one meaning each colour has across the Sales reports (CRM_REPORTS_PLAN.md): won is
 // teal, lost is ruby, open is iris, a warning is amber, a total or "other" is slate. Charts take the rgb() values, the
 // rest the classes; the class names are written out whole so Tailwind keeps them.
 export const COLORS = {

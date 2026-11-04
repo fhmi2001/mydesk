@@ -11,8 +11,7 @@ class SalesCrm::Reports::DataQuality < SalesCrm::Reports::Report
 
   def initialize(account:, user:, **filters)
     super
-    @today = SalesCrm::Period.today
-    @stale_cutoff = SalesCrm::Period.new(@today - account.crm_stale_days_value, @today).range.begin.end_of_day # as Metrics::DaysSinceActivity.stale
+    @today = today
   end
 
   def build
@@ -39,11 +38,15 @@ class SalesCrm::Reports::DataQuality < SalesCrm::Reports::Report
     { 'no_amount' => ['crm_deals.amount_cents <= 0'],
       'no_close_date' => ['crm_deals.close_date IS NULL'],
       'past_close_date' => ['crm_deals.close_date < ?', @today],
-      'no_owner' => ['crm_deals.assignee_id IS NULL'],
-      'stale' => ['COALESCE(crm_deals.last_activity_at, crm_deals.created_at) <= ?', @stale_cutoff] }.fetch(issue)
+      'no_owner' => ['crm_deals.assignee_id IS NULL'] }.fetch(issue)
   end
 
-  def issue_scope(issue) = deals.open.where(*condition(issue))
+  # Stale is the shared condition of Metrics::DaysSinceActivity (the report 3 counts the same deals)
+  def issue_scope(issue)
+    return SalesCrm::Metrics::DaysSinceActivity.stale(deals, account.crm_stale_days_value, zone: zone, today: @today) if issue == 'stale'
+
+    deals.open.where(*condition(issue))
+  end
 
   def any_issue
     ISSUES.map { |issue| issue_scope(issue) }.reduce(:or)

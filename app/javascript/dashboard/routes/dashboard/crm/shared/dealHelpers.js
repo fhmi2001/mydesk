@@ -41,6 +41,13 @@ export const emptyDealForm = (overrides = {}) => ({
   ...overrides,
 });
 
+// A new deal from a conversation starts with the lead source the manager mapped to its inbox (GET crm/conversations/:id),
+// unless one is chosen already; the employee can still change or clear it
+export const withConversationDefaults = (form, defaults = {}) =>
+  defaults.lead_source_id && !form.lead_source_id
+    ? { ...form, lead_source_id: defaults.lead_source_id }
+    : form;
+
 // Most important first, as the filter and the form list them
 export const DEAL_PRIORITIES = ['high', 'medium', 'low'];
 
@@ -61,7 +68,8 @@ export const dealToForm = deal =>
     ...Object.fromEntries(
       DEAL_LISTS.map(list => [listField(list), deal[listField(list)] ?? ''])
     ),
-    conversation_id: deal.conversation_id,
+    // The CRM API names conversations by display id
+    conversation_id: deal.conversation_display_id,
     lock_version: deal.lock_version,
   });
 
@@ -111,6 +119,8 @@ export const buildDealPayload = form => {
       ])
     ),
     conversation_id: form.conversation_id || undefined,
+    // The «صفقة جديدة» suggestion this deal comes from, accepted when it is created
+    ...(form.suggestion_id && { suggestion_id: form.suggestion_id }),
     lock_version: form.lock_version,
   };
 };

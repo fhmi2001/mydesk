@@ -11,6 +11,8 @@ class SalesCrm::DealPolicy < ApplicationPolicy
   def destroy? = administrator? || record.assignee_id == user.id
   def forecast? = true
   def reassign? = administrator?
+  # Narrowing the forecast to one employee; an employee's forecast is already only their own deals
+  def narrow_to_assignee? = administrator?
 
   private
 

@@ -6,14 +6,15 @@ class SalesCrm::Forecast
 
   # `scope` is an authorized SalesCrm::Deal relation
   def self.call(scope, pipeline:)
+    open, won, lost = SalesCrm::Deal.statuses.values_at('open', 'won', 'lost').map { |value| "FILTER (WHERE crm_deals.status = #{value})" }
     row = scope.where(pipeline_id: pipeline.id).joins(:stage).pick(Arel.sql(<<~SQL.squish))
-      COUNT(*) FILTER (WHERE crm_deals.status = 0),
-      COALESCE(SUM(amount_cents) FILTER (WHERE crm_deals.status = 0), 0),
-      COALESCE(SUM(#{SalesCrm::Metrics::WeightedPipeline::EXPRESSION}) FILTER (WHERE crm_deals.status = 0), 0) / 100,
-      COUNT(*) FILTER (WHERE crm_deals.status = 1),
-      COALESCE(SUM(amount_cents) FILTER (WHERE crm_deals.status = 1), 0),
-      COUNT(*) FILTER (WHERE crm_deals.status = 2),
-      COALESCE(SUM(amount_cents) FILTER (WHERE crm_deals.status = 2), 0)
+      COUNT(*) #{open},
+      COALESCE(SUM(amount_cents) #{open}, 0),
+      COALESCE(SUM(#{SalesCrm::Metrics::WeightedPipeline::EXPRESSION}) #{open}, 0) / 100,
+      COUNT(*) #{won},
+      COALESCE(SUM(amount_cents) #{won}, 0),
+      COUNT(*) #{lost},
+      COALESCE(SUM(amount_cents) #{lost}, 0)
     SQL
 
     Result.new(open_count: row[0].to_i, open_total_cents: row[1].to_i, expected_cents: row[2].to_i,

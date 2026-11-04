@@ -1,7 +1,7 @@
 # Custom (MyDesk): التقرير 19, بطاقة أداء الموظف: how each employee does against the team, for the one-to-one. One card per
 # employee: attainment, win rate, coverage, sales cycle, average won deal, activity (tasks completed and notes, as in
 # Reports::Activity), new deals and data completeness, each from its metric unit. The manager gets every active
-# employee (with a target or a deal in the period) and the team average over them (decision 2 of wave ب); with an
+# employee (with a target or a deal in the period) and the team average over them; with an
 # employee picked, that card beside the average. An employee gets their own card only: the average is built from
 # colleagues' numbers. The period is the whole month unless a range is given; targets are not per pipeline.
 class SalesCrm::Reports::Scorecard < SalesCrm::Reports::Report

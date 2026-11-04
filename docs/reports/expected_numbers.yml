@@ -1,5 +1,5 @@
 # Custom (MyDesk): the Sales reports' reference numbers for the demo data up to 2026-10-31, worked out by
-# lib/sales_crm/expected_numbers.rb apart from the app. Regenerate: rails sales_crm:expected_numbers
+# db/seeds/sales_crm/expected_numbers.rb apart from the app. Regenerate: rails sales_crm:expected_numbers
 anchor: '2026-10-31'
 checks:
 - report: pipeline_by_stage
@@ -157,7 +157,12 @@ checks:
     assignees[name=خالد الشهري].activity_count: 15
     assignees[name=نورة القحطاني].activity_count: 14
     assignees[name=فهد الدوسري].activity_count: 8
+    assignees[name=سارة العتيبي].message_count: 7
+    assignees[name=خالد الشهري].message_count: 11
+    assignees[name=نورة القحطاني].message_count: 5
+    assignees[name=فهد الدوسري].message_count: 6
     totals.activity_count: 58
+    totals.message_count: 29
 - report: new_deals
   as: manager
   params:
@@ -238,8 +243,8 @@ checks:
   expect:
     totals.won_cents: 354600000
     rows[name=الاستشارات].total_cents: 81900000
-    rows[name=نظام المتجر].total_cents: 93700000
     rows[name=باقة الواتساب].total_cents: 88600000
+    rows[name=نظام المتجر].total_cents: 93700000
     rows[name=باقة الرسائل].total_cents: 56200000
 - report: deal_size
   as: manager
@@ -249,8 +254,85 @@ checks:
   expect:
     totals.average_cents: 7736363
     buckets[bucket=2026-07-01].average_cents: 9300000
-    buckets[bucket=2026-09-01].average_cents: 8731250
+    buckets[bucket=2026-06-01].average_cents: 8666666
     buckets[bucket=2026-08-01].average_cents: 5529411
     buckets[bucket=2026-10-01].average_cents: 6370000
-    buckets[bucket=2026-06-01].average_cents: 8666666
     buckets[bucket=2026-05-01].average_cents: 14300000
+    buckets[bucket=2026-09-01].average_cents: 8731250
+- report: response_speed
+  as: manager
+  params:
+    from: '2026-05-01'
+    to: '2026-10-31'
+  expect:
+    totals.closed_count: 57
+    totals.excluded_count: 58
+    buckets[key=under_5m].closed_count: 16
+    buckets[key=under_5m].won_count: 8
+    buckets[key=under_5m].win_rate: 50.0
+    buckets[key=5_30m].closed_count: 14
+    buckets[key=5_30m].won_count: 7
+    buckets[key=5_30m].win_rate: 50.0
+    buckets[key=30m_2h].closed_count: 9
+    buckets[key=30m_2h].won_count: 5
+    buckets[key=30m_2h].win_rate:
+    buckets[key=2h_24h].closed_count: 10
+    buckets[key=2h_24h].won_count: 4
+    buckets[key=2h_24h].win_rate: 40.0
+    buckets[key=over_24h].closed_count: 8
+    buckets[key=over_24h].won_count: 5
+    buckets[key=over_24h].win_rate:
+- report: response_speed
+  as: employee
+  params:
+    from: '2026-05-01'
+    to: '2026-10-31'
+  expect:
+    totals.closed_count: 13
+    totals.excluded_count: 19
+    buckets[key=under_5m].closed_count: 4
+    buckets[key=under_5m].won_count: 3
+    buckets[key=under_5m].win_rate:
+    buckets[key=5_30m].closed_count: 2
+    buckets[key=5_30m].won_count: 1
+    buckets[key=5_30m].win_rate:
+    buckets[key=30m_2h].closed_count: 2
+    buckets[key=30m_2h].won_count: 1
+    buckets[key=30m_2h].win_rate:
+    buckets[key=2h_24h].closed_count: 3
+    buckets[key=2h_24h].won_count: 1
+    buckets[key=2h_24h].win_rate:
+    buckets[key=over_24h].closed_count: 2
+    buckets[key=over_24h].won_count: 1
+    buckets[key=over_24h].win_rate:
+- report: campaigns
+  as: manager
+  params:
+    from: '2026-05-01'
+    to: '2026-10-31'
+  expect:
+    rows[title=ترحيب زوار الموقع].direct.count: 11
+    rows[title=ترحيب زوار الموقع].direct.won_cents: 57700000
+    rows[title=ترحيب زوار الموقع].influenced.count: 0
+    rows[title=ترحيب زوار الموقع].influenced.won_cents: 0
+    rows[title=ترحيب زوار الموقع].recipients: 0
+    rows[title=ترحيب زوار الموقع].cost_known: false
+    rows[title=عرض نهاية الربع].direct.count: 0
+    rows[title=عرض نهاية الربع].direct.won_cents: 0
+    rows[title=عرض نهاية الربع].influenced.count: 10
+    rows[title=عرض نهاية الربع].influenced.won_cents: 0
+    rows[title=عرض نهاية الربع].recipients: 60
+    rows[title=عرض نهاية الربع].cost_known: false
+- report: conversation_deals
+  as: manager
+  params:
+    from: '2026-10-01'
+    to: '2026-10-31'
+  expect:
+    totals.conversation_count: 22
+    totals.deal_count: 15
+    totals.won_count: 0
+    inboxes[name=واتساب (تجريبي)].conversation_count: 10
+    inboxes[name=واتساب (تجريبي)].deal_count: 9
+    inboxes[name=الموقع (تجريبي)].conversation_count: 12
+    inboxes[name=الموقع (تجريبي)].deal_count: 6

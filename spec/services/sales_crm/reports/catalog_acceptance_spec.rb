@@ -1,11 +1,12 @@
-# Custom (MyDesk): the acceptance check of CRM_REPORTS_PLAN.md phase 6. The demo data (SalesCrm::DemoSeed, about 200
+# Custom (MyDesk): the acceptance check of CRM_REPORTS_PLAN.md. The demo data (SalesCrm::DemoSeed, about 200
 # deals over six months with their whole log) is built as it stood at 18:00 on the anchor day, and every report is
 # run on it:
-# - each number in docs/reports/expected_numbers.yml, worked out apart from the app (lib/sales_crm/expected_numbers.rb),
+# - each number in docs/reports/expected_numbers.yml, worked out apart from the app (db/seeds/sales_crm/expected_numbers.rb),
 #   must come out the same;
 # - in every report with a row per employee, the employees add up to the team;
 # - the deals behind a number add up to it.
 require 'rails_helper'
+require Rails.root.join('db/seeds/sales_crm/demo_seed').to_s
 
 RSpec.describe SalesCrm::Reports::Catalog do
   expected = YAML.load_file(Rails.root.join('docs/reports/expected_numbers.yml'))
@@ -18,7 +19,10 @@ RSpec.describe SalesCrm::Reports::Catalog do
     seeded[:seed] = SalesCrm::DemoSeed.new(anchor: anchor).perform
   end
 
+  # Seeding runs outside the per-example transaction, so its rows are removed here; nothing to remove if it failed
   after(:all) do # rubocop:disable RSpec/BeforeAfterAll
+    next unless seeded[:seed]
+
     account = seeded[:seed].account
     users = account.users.to_a
     account.destroy!
@@ -39,7 +43,8 @@ RSpec.describe SalesCrm::Reports::Catalog do
   def dig_path(data, path)
     path.split('.').reduce(data) do |node, part|
       name, field, value = part.match(/\A([^\[]+)(?:\[(\w+)=(.+)\])?\z/).captures
-      found = node && (node[name.to_sym] || node[name])
+      # key? rather than ||, so a false value is read as false, not as missing
+      found = node && (node.key?(name.to_sym) ? node[name.to_sym] : node[name])
       field ? Array(found).find { |row| (row[field.to_sym] || row[field]).to_s == value } : found
     end
   end
@@ -61,7 +66,9 @@ RSpec.describe SalesCrm::Reports::Catalog do
     ['coverage', { from: '2026-11-01', to: '2026-11-30' }, 'totals.open_cents', :open_cents],
     ['losses', { from: '2026-07-01', to: '2026-09-30' }, 'totals.count', :count],
     ['new_deals', { from: '2026-10-01', to: '2026-10-31' }, 'totals.count', :count],
-    ['activity', { from: '2026-10-01', to: '2026-10-31' }, 'totals.activity_count', :activity_count]
+    ['activity', { from: '2026-10-01', to: '2026-10-31' }, 'totals.activity_count', :activity_count],
+    ['activity', { from: '2026-10-01', to: '2026-10-31' }, 'totals.message_count', :message_count],
+    ['conversation_deals', { from: '2026-10-01', to: '2026-10-31' }, 'totals.conversation_count', :conversation_count]
   ]
 
   team_sums.each do |key, params, total, field|
@@ -75,7 +82,10 @@ RSpec.describe SalesCrm::Reports::Catalog do
     [['pipeline_by_stage', {}, {}, 'totals.count'],
      ['closing', { from: '2026-11-01', to: '2026-11-30' }, {}, 'totals.count'],
      ['won_lost', { from: '2026-07-01', to: '2026-09-30' }, { status: 'won' }, 'totals.won_count'],
-     ['new_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.count']].each do |key, params, cell, path|
+     ['new_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.count'],
+     # Custom (MyDesk): the conversation reports (CONVERSATION_SALES_PLAN.md)
+     ['response_speed', { from: '2026-05-01', to: '2026-10-31' }, { bucket: 'under_5m' }, 'buckets[key=under_5m].closed_count'],
+     ['conversation_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.deal_count']].each do |key, params, cell, path|
       count = dig_path(report(key, 'manager', params).perform, path)
       drilled = report(key, 'manager', params.merge(cell: cell))
       expect(drilled.drill[:total_count]).to eq(count), key

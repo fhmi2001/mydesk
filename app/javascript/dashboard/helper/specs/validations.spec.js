@@ -1,9 +1,30 @@
 import { describe, it, expect } from 'vitest';
 import {
   parseRouteFilters,
+  validateActions,
   validateAutomation,
   validateSingleFilter,
 } from '../validations';
+
+// Custom (MyDesk): the Sales actions need their settings
+describe('validateActions with the Sales actions', () => {
+  it.each([
+    ['suggest_crm_deal', { title: 'طلب جملة' }, { title: ' ' }],
+    [
+      'create_crm_task',
+      { title: 'اتصل', kind: 'call', hours: 4 },
+      { title: 'اتصل', kind: 'call', hours: 0 },
+    ],
+    ['move_crm_deal', { stage_id: 11 }, {}],
+  ])('%s needs its settings', (name, valid, invalid) => {
+    expect(
+      validateActions([{ action_name: name, action_params: valid }])
+    ).toEqual({});
+    expect(
+      validateActions([{ action_name: name, action_params: [invalid] }])
+    ).toEqual({ action_0: 'ACTION_PARAMETERS_REQUIRED' });
+  });
+});
 
 describe('validateSingleFilter', () => {
   it.each([0, false])('accepts the explicit value %s', values => {

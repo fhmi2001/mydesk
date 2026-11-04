@@ -48,6 +48,8 @@ const assigneeColumns = computed(() => [
   })),
   { key: 'note_count', label: L('NOTES'), format: 'count' },
   { key: 'activity_count', label: L('TOTAL'), format: 'count' },
+  // Beside the activity, never added to it: replies in the deals' conversations
+  { key: 'message_count', label: L('MESSAGES'), format: 'count' },
   {
     key: 'won_count',
     label: L('WON'),
@@ -80,6 +82,12 @@ const assigneeColumns = computed(() => [
         :label="L('NOTES')"
         :value="number(cur.note_count)"
         :delta="deltaFor(cur.note_count, prev.note_count)"
+      />
+      <NumberTile
+        :label="L('MESSAGES')"
+        :value="number(cur.message_count || 0)"
+        :delta="deltaFor(cur.message_count, prev.message_count)"
+        :note="L('MESSAGES_HINT')"
       />
       <NumberTile
         :label="L('WON')"

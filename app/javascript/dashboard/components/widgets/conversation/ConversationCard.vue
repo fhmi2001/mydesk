@@ -13,6 +13,7 @@ import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard
 import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import DealBadge from 'dashboard/routes/dashboard/conversation/crm/DealBadge.vue'; // Custom (MyDesk)
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -230,6 +231,8 @@ watch(
       <!-- Custom (MyDesk): the status leads the row under the message, the labels follow it -->
       <div class="flex items-end gap-1.5 min-w-0 mt-1 mx-2">
         <CardStatusBadge :status="chat.status" class="shrink-0" />
+        <!-- Custom (MyDesk): the customer's open deals (Sales) -->
+        <DealBadge :contact-id="currentContact.id" class="shrink min-w-0" />
         <CardLabels
           v-if="showLabelsSection"
           :conversation-labels="chat.labels"

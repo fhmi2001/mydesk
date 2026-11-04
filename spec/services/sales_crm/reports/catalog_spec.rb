@@ -1,4 +1,4 @@
-# Custom (MyDesk): phase 4 wave أ of docs/reports/CRM_REPORTS_PLAN.md, reports 1 to 7. A handful of deals per report,
+# Custom (MyDesk): docs/reports/CRM_REPORTS_PLAN.md, reports 1 to 7. A handful of deals per report,
 # the expected numbers worked out by hand in the comments; the deals behind each number add up to it; an employee only
 # ever gets their own. "Today" is 20 October 2026, 10:00 in Riyadh.
 require 'rails_helper'
@@ -114,6 +114,11 @@ RSpec.describe SalesCrm::Reports::Catalog do
 
     it 'takes another number of quiet days' do
       expect(run('stale', admin, days: '30')[:totals][:stale][:count]).to eq(0)
+    end
+
+    it 'does not count a deal whose employee replied to the customer recently' do
+      deal(amount_cents: 500_000, last_activity_at: riyadh.local(2026, 10, 1), last_message_at: riyadh.local(2026, 10, 19))
+      expect(run('stale', admin)[:totals][:stale]).to eq(count: 2, total_cents: 400_000)
     end
   end
 
@@ -251,6 +256,23 @@ RSpec.describe SalesCrm::Reports::Catalog do
       expect(result[:assignees].find { |r| r[:assignee_id] == colleague.id }).to include(forecast_cents: 0, forecast_attainment: 0.0)
       expect(drill('forecast', admin, mine[:categories][:commit][:cell])).to include(total_count: 2, total_cents: 250_000)
       expect(drill('forecast', admin, mine[:won_cell])).to include(total_count: 1, total_cents: 1_000_000)
+    end
+  end
+
+  # Custom (MyDesk): the time zone picked in the general settings (account.reporting_timezone)
+  describe "the account's time zone" do
+    before do
+      account.update!(reporting_timezone: 'Asia/Dubai')
+      # 23:30 on 30 September in Riyadh is 00:30 on 1 October in Dubai
+      won(100_000, riyadh.local(2026, 9, 30, 23, 30))
+      won(200_000, riyadh.local(2026, 10, 10, 12))
+    end
+
+    it 'puts a deal in the month of its day in that time zone' do
+      october = run('won_lost', admin, from: '2026-10-01', to: '2026-10-31')
+      expect(october[:totals]).to include(won_count: 2, won_cents: 300_000)
+      expect(october[:previous_totals]).to include(won_count: 0)
+      expect(drill('won_lost', admin, { status: 'won' }, from: '2026-10-01', to: '2026-10-31')).to include(total_count: 2)
     end
   end
 end

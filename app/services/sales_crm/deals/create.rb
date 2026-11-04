@@ -2,7 +2,7 @@
 # needs an amount, an expected close date and an owner (the creator unless one is given).
 class SalesCrm::Deals::Create < SalesCrm::BaseService
   PERMITTED = (%i[title amount pipeline_id stage_id contact_id assignee_id close_date description conversation_id source priority
-                  forecast_category probability_override] + LIST_PARAMS).freeze
+                  forecast_category probability_override suggestion_id] + LIST_PARAMS).freeze
 
   def perform(params)
     params = params.to_h.symbolize_keys.slice(*PERMITTED)
@@ -12,15 +12,28 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
 
     ActiveRecord::Base.transaction do
       deal = account.crm_deals.new(attributes(params, pipeline, stage))
-      assign_list_items(deal, params)
+      assign_list_items(deal, params_with_inbox_source(params, deal.conversation))
       require_open_essentials!(deal)
       deal.save!
+      accept_suggestion(deal, params[:suggestion_id])
       announce(deal)
+      SalesCrm::StageEntry.call(deal, stage)
       deal
     end
   end
 
   private
+
+  # The «صفقة جديدة» suggestion the deal was made from, when the employee may see it and it is still pending
+  def accept_suggestion(deal, suggestion_id)
+    return if suggestion_id.blank?
+
+    suggestion = SalesCrm::Visibility.suggestions(account, user).pending.new_deal.find_by(id: suggestion_id)
+    return unless suggestion
+
+    suggestion.decide!(:accepted, user)
+    suggestion.update!(deal: deal)
+  end
 
   def announce(deal)
     log(deal, 'created', stage_id: deal.stage_id)
@@ -42,9 +55,12 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
     }.merge(status_attributes(stage), origin_attributes(params), forecast_attributes(params))
   end
 
+  # Where the deal came from: its conversation, how it was made, and the campaign it is credited to (set once)
   def origin_attributes(params)
     conversation = conversation_for(params[:conversation_id])
     { conversation: conversation, source: source_for(params[:source], conversation) }
+      .merge(SalesCrm::CampaignAttribution.for(account, contact: contact_for(params[:contact_id]) || conversation&.contact,
+                                                        conversation: conversation))
   end
 
   def forecast_attributes(params)
@@ -53,9 +69,18 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
       probability_override: probability_from(params[:probability_override]) }
   end
 
+  # A lost stage is refused before this, so a new deal is either open or won
   def status_attributes(stage)
-    { status: { 'open' => :open, 'won' => :won, 'lost' => :lost }[stage.kind],
-      won_at: (Time.current if stage.won?), lost_at: (Time.current if stage.lost?) }
+    { status: stage.won? ? :won : :open, won_at: (Time.current if stage.won?) }
+  end
+
+  # A deal from a conversation starts with the lead source the manager mapped to its inbox, unless the employee chose
+  # one (or chose none) in the form. A deal without a conversation keeps what the employee picked.
+  def params_with_inbox_source(params, conversation)
+    return params if conversation.nil? || params.key?(:lead_source_id)
+
+    source = account.crm_lead_source_for_inbox(conversation.inbox_id)
+    source ? params.merge(lead_source_id: source.id) : params
   end
 
   def source_for(source, conversation)
@@ -68,10 +93,8 @@ class SalesCrm::Deals::Create < SalesCrm::BaseService
   # The owner: the one given, else whoever creates the deal
   def assignee_for(id) = id.present? ? account.users.find(id) : user
 
-  def conversation_for(id)
-    return nil if id.blank?
-
-    account.conversations.find_by(display_id: id) || account.conversations.find(id)
+  def conversation_for(display_id)
+    find_conversation!(display_id) if display_id.present?
   end
 
   def next_position(stage)

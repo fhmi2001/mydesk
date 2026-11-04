@@ -7,6 +7,7 @@
 class SalesCrm::ExpectedNumbers
   ZONE = ActiveSupport::TimeZone['Asia/Riyadh']
   STALE_DAYS = 14
+  ATTRIBUTIONS = %w[direct influenced].freeze
 
   def initialize(seed)
     @seed = seed
@@ -18,7 +19,7 @@ class SalesCrm::ExpectedNumbers
 
   def entries
     [pipeline, closing, stale, tasks, won_lost, quota, forecast, coverage, win_rate, losses, activity, new_deals, data_quality,
-     scorecard, conversion, cycle, changes, revenue, deal_size].flatten
+     scorecard, conversion, cycle, changes, revenue, deal_size, response_speed, campaigns, conversation_deals].flatten
   end
 
   private
@@ -31,14 +32,30 @@ class SalesCrm::ExpectedNumbers
     @stages = @account.crm_stages.to_h { |s| [s.id, { name: s.name, probability: s.probability, kind: s.kind, position: s.position }] }
     @deals = @account.crm_deals.where(discarded_at: nil).map do |d|
       d.attributes.symbolize_keys.slice(:id, :assignee_id, :stage_id, :status, :amount_cents, :close_date, :won_at, :lost_at,
-                                        :created_at, :last_activity_at, :product_id, :lead_source_id, :competitor_id)
+                                        :created_at, :last_activity_at, :product_id, :lead_source_id, :competitor_id,
+                                        :conversation_id, :active_conversation_id, :campaign_id, :campaign_attribution)
     end
+    load_conversation_rows
     @events = @account.crm_activities.order(:created_at, :id).pluck(:deal_id, :kind, :data, :created_at).group_by(&:first)
     @targets = @account.crm_targets.pluck(:user_id, :period_start, :amount_cents)
     @tasks_rows = SalesCrm::Task.where(account_id: @account.id).pluck(:assignee_id, :kind, :status, :due_at, :done_at)
     @notes = SalesCrm::Note.where(account_id: @account.id).pluck(:user_id, :created_at)
     @names = @account.crm_list_items.pluck(:id, :name).to_h.merge(@account.users.pluck(:id, :name).to_h.transform_keys { |k| "u#{k}" })
     @first = @seed.employee(0).id
+  end
+
+  # The conversation side (CONVERSATION_SALES_PLAN.md): conversations, the employees' public replies, the first replies,
+  # campaigns and their SMS recipients
+  def load_conversation_rows
+    @conversations = Conversation.where(account_id: @account.id).pluck(:id, :inbox_id, :assignee_id, :created_at)
+    @replies = Message.where(account_id: @account.id, message_type: Message.message_types['outgoing'], private: false, sender_type: 'User')
+                      .pluck(:conversation_id, :sender_id, :created_at)
+    @first_replies = ReportingEvent.where(account_id: @account.id, name: 'first_response').order(:created_at)
+                                   .pluck(:conversation_id, :value).each_with_object({}) { |(c, v), map| map[c] ||= v }
+    @campaigns = Campaign.where(account_id: @account.id).pluck(:id, :title).to_h
+    @recipients = SmsCampaignRecipient.where(account_id: @account.id, status: SmsCampaignRecipient.statuses['sent'])
+                                      .pluck(:campaign_id, :delivery_price)
+    @inbox_names = @account.inboxes.pluck(:id, :name).to_h
   end
 
   def day(time) = time.in_time_zone(ZONE).to_date
@@ -91,8 +108,11 @@ class SalesCrm::ExpectedNumbers
     end
   end
 
+  # المؤشر 9 (decision ح): from the later of the last activity and the owner's last public reply in the deal's active
+  # conversation, else from its creation
   def quiet?(deal)
-    last = deal[:last_activity_at] || deal[:created_at]
+    replied = @replies.select { |c, user, _| c == deal[:active_conversation_id] && user == deal[:assignee_id] }.map(&:last).max
+    last = [deal[:last_activity_at], replied].compact.max || deal[:created_at]
     (@anchor - day(last)).to_i >= STALE_DAYS
   end
 
@@ -193,11 +213,19 @@ class SalesCrm::ExpectedNumbers
       notes.count { |u, at| u == user && within(at, from, to) }
   end
 
+  # Messages to customers: the employee's public replies in the period, in the active conversations of their own deals
+  def messages_of(user, from, to)
+    theirs = deals.filter_map { |d| d[:active_conversation_id] if d[:assignee_id] == user }
+    @replies.count { |c, sender, at| sender == user && theirs.include?(c) && within(at, from, to) }
+  end
+
   def activity
     from, to = dates(october)
     people = @seed.class::EMPLOYEES.each_index.map { |i| @seed.employee(i) }
     expect = people.to_h { |u| ["assignees[name=#{u.name}].activity_count", activity_of(u.id, from, to)] }
-    entry('activity', 'manager', october, expect.merge('totals.activity_count' => people.sum { |u| activity_of(u.id, from, to) }))
+    people.each { |u| expect["assignees[name=#{u.name}].message_count"] = messages_of(u.id, from, to) }
+    entry('activity', 'manager', october, expect.merge('totals.activity_count' => people.sum { |u| activity_of(u.id, from, to) },
+                                                       'totals.message_count' => people.sum { |u| messages_of(u.id, from, to) }))
   end
 
   def new_deals
@@ -328,6 +356,70 @@ class SalesCrm::ExpectedNumbers
       expect["buckets[bucket=#{month.iso8601}].average_cents"] = cents(rows) / rows.size
     end
     entry('deal_size', 'manager', params, expect)
+  end
+
+  # ---- conversations and sales (CONVERSATION_SALES_PLAN.md, phase 4) ---------------------------------------------
+
+  def whole_period = { from: (@anchor.beginning_of_month << 5).iso8601, to: @anchor.iso8601 }
+
+  # 20: deals closed in the period whose conversation has a first reply, in buckets of the reply time (real seconds)
+  def response_speed
+    from, to = dates(whole_period)
+    limits = { 'under_5m' => 0...300, '5_30m' => 300...1800, '30m_2h' => 1800...7200, '2h_24h' => 7200...86_400,
+               'over_24h' => 86_400..Float::INFINITY }
+    [nil, @first].map do |user|
+      closed = (won_in(from, to, mine(deals, user)) + lost_in(from, to, mine(deals, user)))
+      timed = closed.select { |d| d[:conversation_id] && @first_replies[d[:conversation_id]] }
+      expect = { 'totals.closed_count' => timed.size, 'totals.excluded_count' => closed.size - timed.size }
+      limits.each do |key, range|
+        rows = timed.select { |d| range.cover?(@first_replies[d[:conversation_id]]) }
+        won = rows.count { |d| d[:status] == 'won' }
+        expect["buckets[key=#{key}].closed_count"] = rows.size
+        expect["buckets[key=#{key}].won_count"] = won
+        expect["buckets[key=#{key}].win_rate"] = rows.size < 10 ? nil : percent(won, rows.size)
+      end
+      entry('response_speed', user ? 'employee' : 'manager', whole_period, expect)
+    end
+  end
+
+  # 21: deals created in the period credited to each campaign, direct and influenced apart; the SMS recipients and cost
+  def campaigns
+    from, to = dates(whole_period)
+    credited = deals.select { |d| d[:campaign_id] && within(d[:created_at], from, to) }
+    expect = {}
+    credited.group_by { |d| d[:campaign_id] }.each do |id, rows|
+      title = @campaigns[id]
+      ATTRIBUTIONS.each do |kind|
+        mine = rows.select { |d| d[:campaign_attribution].to_s == kind }
+        won = mine.select { |d| d[:status] == 'won' }
+        expect["rows[title=#{title}].#{kind}.count"] = mine.size
+        expect["rows[title=#{title}].#{kind}.won_cents"] = cents(won)
+      end
+      sent = @recipients.select { |campaign, _| campaign == id }
+      expect["rows[title=#{title}].recipients"] = sent.size
+      expect["rows[title=#{title}].cost_known"] = sent.any? && sent.none? { |_, price| price.nil? }
+    end
+    entry('campaigns', 'manager', whole_period, expect)
+  end
+
+  # 22: the period's conversations, how many became a deal (once each) and the deals won, per inbox
+  def conversation_deals
+    from, to = dates(october)
+    period = @conversations.select { |_, _, _, at| within(at, from, to) }
+    from_deals = deals.select { |d| d[:conversation_id] }
+    counts = lambda do |rows|
+      ids = rows.map(&:first)
+      became = from_deals.select { |d| ids.include?(d[:conversation_id]) }
+      { conversations: rows.size, deals: became.map { |d| d[:conversation_id] }.uniq.size, won: became.count { |d| d[:status] == 'won' } }
+    end
+    all = counts.call(period)
+    expect = { 'totals.conversation_count' => all[:conversations], 'totals.deal_count' => all[:deals], 'totals.won_count' => all[:won] }
+    period.group_by { |_, inbox, _, _| inbox }.each do |inbox, rows|
+      figures = counts.call(rows)
+      expect["inboxes[name=#{@inbox_names[inbox]}].conversation_count"] = figures[:conversations]
+      expect["inboxes[name=#{@inbox_names[inbox]}].deal_count"] = figures[:deals]
+    end
+    entry('conversation_deals', 'manager', october, expect)
   end
 end
 # rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity

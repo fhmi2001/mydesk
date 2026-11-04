@@ -4,7 +4,7 @@ import { createStore } from 'vuex';
 import ContactCrmSection from '../ContactCrmSection.vue';
 
 vi.mock('dashboard/api/crm', () => ({
-  crmContactSummaryAPI: { get: vi.fn() },
+  crmContactSummaryAPI: { summary: vi.fn() },
 }));
 vi.mock('vue-router', () => ({ useRouter: () => ({ push: vi.fn() }) }));
 vi.mock('dashboard/composables/useAccount', () => ({
@@ -55,7 +55,7 @@ const makeStore = move =>
   });
 
 const mountSection = async move => {
-  crmContactSummaryAPI.get.mockResolvedValue({
+  crmContactSummaryAPI.summary.mockResolvedValue({
     data: {
       deals: [
         {

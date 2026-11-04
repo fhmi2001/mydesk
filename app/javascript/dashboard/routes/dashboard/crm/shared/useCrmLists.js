@@ -1,6 +1,7 @@
 // Custom (MyDesk): the Sales CRM managed lists (lead source, product, competitor, region, industry), loaded once per
 // page load and shared by the deal form, the deal page and Sales settings. An archived item is gone from the
-// pickers; a deal that already has it still shows its id, named "—" here, until reports name it from the server.
+// pickers; a deal that already has it keeps its id, which nameOf cannot name (it returns ''), until reports name it
+// from the server.
 import { reactive } from 'vue';
 import { crmListItemsAPI } from 'dashboard/api/crm';
 import { DEAL_LISTS } from './dealHelpers';

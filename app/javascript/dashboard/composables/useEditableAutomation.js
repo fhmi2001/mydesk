@@ -99,7 +99,8 @@ export function useEditableAutomation() {
       };
     }
     // Custom (MyDesk): back to the object the input edits; a [{...}] array would be saved as [undefined]
-    if (inputType === 'inbox_message') return { ...params[0] };
+    if (inputType === 'inbox_message' || inputType === 'crm_action')
+      return { ...params[0] }; // + the Sales actions
     return [...params];
   };
 

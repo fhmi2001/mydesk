@@ -20,12 +20,23 @@
 class SmartAssistant::Usage < ApplicationRecord
   TOTALS = %i[input_tokens output_tokens cached_tokens cost].freeze
 
-  # reply: answering a customer, test: the settings test chat, knowledge: reading and embedding sources
-  enum kind: { reply: 0, test: 1, knowledge: 2 }
+  # reply: answering a customer, test: the settings test chat, knowledge: reading and embedding sources;
+  # crm_*: the Sales section's conversation summary, follow-up draft and won / lost message draft
+  enum kind: { reply: 0, test: 1, knowledge: 2, crm_summary: 3, crm_followup: 4, crm_message: 5 }
+  CRM_KINDS = %w[crm_summary crm_followup crm_message].freeze
 
   belongs_to :account
 
   scope :in_month, ->(time) { where(created_at: time.all_month) }
+
+  # The Sales calls count against their own monthly limit, never the reply quota (which counts the bot's messages)
+  def self.crm_calls_this_month(account)
+    where(account: account, kind: CRM_KINDS).in_month(Time.current).count
+  end
+
+  def self.crm_limit_reached?(account)
+    crm_calls_this_month(account) >= SmartAssistant::Config.crm_monthly_limit
+  end
 
   # { 'reply' => { input_tokens:, output_tokens:, cached_tokens:, cost:, calls: }, ... } over the given rows
   def self.totals_by_kind

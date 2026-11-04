@@ -524,6 +524,7 @@ Rails.application.routes.draw do
                 patch :move
                 post :reopen
                 post :restore
+                post :link_conversation
               end
               resources :notes, controller: 'deal_notes', only: [:index, :create, :destroy]
               get :activities, to: 'deal_notes#activities'
@@ -535,6 +536,17 @@ Rails.application.routes.draw do
               end
             end
             get 'contacts/:contact_id/summary', to: 'contact_summaries#show'
+            resources :contact_badges, only: [:index]
+            resources :conversations, only: [:show] do
+              post :summary, on: :member
+            end
+            resources :suggestions, only: [] do
+              member do
+                post :dismiss
+                post :draft
+                post :accept
+              end
+            end
             scope :reports, controller: 'reports' do
               get :summary
               get :funnel
@@ -545,7 +557,8 @@ Rails.application.routes.draw do
               get :stage_win_rates
               # Custom (MyDesk): the reports of SalesCrm::Reports::Catalog
               crm_report_keys = /pipeline_by_stage|closing|stale|my_tasks|won_lost|quota|forecast|coverage|win_rate|losses|
-                                  activity|new_deals|data_quality|scorecard|conversion|cycle|changes|revenue|deal_size/x
+                                  activity|new_deals|data_quality|scorecard|conversion|cycle|changes|revenue|deal_size|
+                                  response_speed|campaigns|conversation_deals/x
               get ':key', action: :show, constraints: { key: crm_report_keys }
               get ':key/deals', action: :drill, constraints: { key: crm_report_keys }
               get ':key/download', action: :download, constraints: { key: crm_report_keys }

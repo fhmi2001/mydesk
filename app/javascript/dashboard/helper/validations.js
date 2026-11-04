@@ -145,6 +145,13 @@ export const validateConditions = conditions => {
  * @param {Object} action - The action to validate.
  * @returns {string|null} An error message if validation fails, or null if validation passes.
  */
+// Custom (MyDesk): what each Sales action of an automation rule needs (SalesCrm::AutomationActionsPatch)
+const CRM_ACTION_CHECKS = {
+  suggest_crm_deal: params => Boolean(params.title?.trim()),
+  create_crm_task: params => Boolean(params.title?.trim()) && params.hours > 0,
+  move_crm_deal: params => Boolean(params.stage_id),
+};
+
 const validateSingleAction = action => {
   const noParamActions = [
     'mute_conversation',
@@ -155,6 +162,15 @@ const validateSingleAction = action => {
     'open_conversation',
     'pending_conversation',
   ];
+
+  // Custom (MyDesk): the Sales actions need their settings (a title; a task's hours; a move's stage)
+  const crmCheck = CRM_ACTION_CHECKS[action.action_name];
+  if (crmCheck) {
+    const params = Array.isArray(action.action_params)
+      ? action.action_params[0]
+      : action.action_params;
+    return params && crmCheck(params) ? null : ACTION_PARAMETERS_REQUIRED;
+  }
 
   // Custom (MyDesk): "send a message through a channel" needs both the channel and the message
   if (action.action_name === 'send_message_via_inbox') {

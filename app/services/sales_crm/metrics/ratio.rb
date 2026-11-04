@@ -1,5 +1,5 @@
 # Custom (MyDesk): the division every metric shares. Dividing by nothing gives nil, never zero, and the screens show
-# it as «—» (CRM_REPORTS_PLAN.md, phase 3): a win rate with no closed deal is unknown, not 0%.
+# it as «—» (CRM_REPORTS_PLAN.md): a win rate with no closed deal is unknown, not 0%.
 module SalesCrm::Metrics::Ratio
   module_function
 

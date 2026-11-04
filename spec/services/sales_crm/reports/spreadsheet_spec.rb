@@ -1,4 +1,4 @@
-# Custom (MyDesk): the Sales reports as files (CRM_REPORTS_PLAN.md, phase 5): the Excel summary carries the report's
+# Custom (MyDesk): the Sales reports as files (CRM_REPORTS_PLAN.md): the Excel summary carries the report's
 # numbers and the CSV its deals, so the file says what the screen says; text never turns into a formula.
 require 'rails_helper'
 

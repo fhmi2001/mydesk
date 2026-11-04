@@ -1,10 +1,10 @@
 # Sales CRM (المبيعات): where it touches Chatwoot's own files
 
 Everything else lives in its own folders (`app/models/sales_crm*`, `app/services/sales_crm/`, `app/policies/sales_crm/`,
-`app/jobs/sales_crm/`, `app/controllers/api/v1/accounts/crm/`, `app/controllers/super_admin/crm_overview_controller.rb`,
+`app/jobs/sales_crm/`, `app/listeners/sales_crm/`, `app/controllers/api/v1/accounts/crm/`, `app/controllers/super_admin/crm_overview_controller.rb`,
 `app/views/super_admin/crm_overview/`, `config/locales/sales_crm.*.yml`, `app/javascript/dashboard/routes/dashboard/crm/`,
 `app/javascript/dashboard/routes/dashboard/conversation/crm/`, `app/javascript/dashboard/store/modules/crm/`,
-`app/javascript/dashboard/api/crm/`, `app/javascript/dashboard/helper/crmFormat.js`, `app/javascript/dashboard/i18n/locale/*/crm.json`,
+`app/javascript/dashboard/api/crm/`, `app/javascript/dashboard/helper/crmFormat.js`, `db/seeds/sales_crm/` (demo data and reference numbers), `lib/tasks/sales_crm_demo.rake`, `app/javascript/dashboard/i18n/locale/*/crm.json`,
 `spec/**/sales_crm*`, `spec/controllers/api/v1/accounts/crm/`, `spec/i18n/sales_crm_parity_spec.rb`).
 
 Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this list after each Chatwoot upgrade:
@@ -17,9 +17,16 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/models/account.rb` | `include SalesCrmAccount` | CRM associations and settings (the concern is ours: `app/models/concerns/sales_crm_account.rb`) |
 | `app/models/notification.rb` | `crm_task_due: 20` in `NOTIFICATION_TYPES`; a branch in `push_message_title` | Task reminders in the bell / push |
 | `config/locales/en.yml`, `config/locales/ar.yml` | `notifications.notification_title.crm_task_due` | Reminder title |
-| `config/schedule.yml` | `sales_crm_task_reminder_job` (*/5 min), `sales_crm_purge_discarded_deals_job` (daily) | Reminders; purge of deals deleted > 30 days ago |
+| `config/schedule.yml` | `sales_crm_task_reminder_job` (*/5 min), `sales_crm_follow_up_job` (hourly), `sales_crm_purge_discarded_deals_job` (daily), `sales_crm_purge_dismissed_suggestions_job` (daily) | Reminders; a follow-up task when a customer goes quiet; purge of deals deleted > 30 days ago; purge of suggestions dismissed > 30 days ago |
+| `app/jobs/notification/remove_duplicate_notification_job.rb` | skips `crm_task_due` notifications | A task reminder is not a duplicate of the conversation's notifications |
+| `app/javascript/dashboard/routes/dashboard/settings/profile/constants.js` | the `CRM_TASK_DUE` notification type | Task reminders can be switched on and off in the profile |
+| `app/controllers/api/v1/accounts_controller.rb` | `:reporting_timezone` in `permitted_settings_attributes` | The account's time zone, picked in the general settings; Sales counts its days in it (Riyadh until picked) and Chatwoot's own reports already read it |
+| `app/javascript/dashboard/routes/dashboard/settings/account/Index.vue`, `app/javascript/dashboard/i18n/locale/{en,ar}/generalSettings.json` | «المنطقة الزمنية» select under the site language, saved as `reporting_timezone`; refetches `crm/status` after saving; `FORM.TIMEZONE` strings | Where a day starts, for Sales and the reports |
+| `spec/controllers/api/v1/accounts_controller_spec.rb` | «with the reporting time zone» context | An administrator can set it, an agent cannot, an unknown zone is refused |
+| `config/installation_config.yml` | `SMART_ASSISTANT_CRM_MONTHLY_LIMIT` | The Sales AI requests' monthly limit, apart from the reply quota (CONVERSATION_SALES_PLAN.md) |
+| `app/controllers/super_admin/app_configs_controller.rb` | `SMART_ASSISTANT_CRM_MONTHLY_LIMIT` in the `smart_assistant` list | Set from Super Admin > smart assistant |
 | `config/routes.rb` | `namespace :crm` under `api/v1/accounts/:account_id`; three `super_admin/crm_overview` routes | The CRM API and the Super Admin page |
-| `config/initializers/sales_crm.rb` (ours) | prepends `SalesCrm::ContactMergePatch` into `ContactMergeAction` and `SalesCrm::AgentRemovalPatch` into `Agents::DestroyJob` | Deals/tasks follow a merged contact; a removed agent's open deals/tasks become unassigned. No edit to those two files. |
+| `config/initializers/sales_crm.rb` (ours) | prepends `SalesCrm::ContactMergePatch` into `ContactMergeAction` and `SalesCrm::AgentRemovalPatch` into `Agents::DestroyJob`; subscribes `SalesCrm::MessageListener` to the async dispatcher | Deals/tasks follow a merged contact; a removed agent's open deals/tasks become unassigned; an employee's reply counts on the deal followed in that conversation. No edit to those files or to the dispatcher. |
 | `app/helpers/super_admin/navigation_helper.rb` | a Monitor entry «CRM»; `crm_overview` in `monitor_open?` | Sidebar link |
 | `app/javascript/dashboard/featureFlags.js` | `SALES_CRM: 'sales_crm'` | Route gating |
 | `app/javascript/dashboard/store/index.js` | `crm` module registered | Store |
@@ -27,13 +34,34 @@ Every edit below is marked `Custom (MyDesk)` on the line or block. Re-check this
 | `app/javascript/dashboard/components-next/sidebar/Sidebar.vue` | the «المبيعات» group (Deals, Tasks + overdue badge, Reports, Settings); `crm/status/fetch` on mount | Navigation |
 | `app/javascript/dashboard/helper/actionCable.js` | `crm.deal_*` / `crm.task_*` events → `crm/deals/onRemoteChange`, `crm/tasks/onRemoteChange` | Live updates between agents |
 | `app/javascript/dashboard/composables/useUISettings.js` | `{ name: 'crm' }` in `DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER` | The panel section appears for users with a saved order too |
+| `app/models/automation_rule.rb` | `suggest_crm_deal create_crm_task move_crm_deal` in `actions_attributes` | The Sales actions of automation rules (CONVERSATION_SALES_PLAN.md, ج1); their code is `SalesCrm::AutomationActionsPatch`, prepended into `AutomationRules::ActionService` from `config/initializers/sales_crm.rb` |
+| `app/javascript/dashboard/routes/dashboard/settings/automation/constants.js` | three `crm_action` entries in `AUTOMATION_ACTION_TYPES` | The actions in the rule editor |
+| `app/javascript/dashboard/routes/dashboard/settings/automation/AutomationRuleForm.vue` | hides the three actions when `crm/status/isEnabled` is false | Only for accounts with the Sales section |
+| `app/javascript/dashboard/components/widgets/AutomationActionInput.vue` | `crm_action` input type rendering `AutomationCrmActionInput` | The actions' settings (title, kind, hours, stage) |
+| `app/javascript/dashboard/composables/useEditableAutomation.js` | `crm_action` params read back as one object, like `inbox_message` | Editing a saved rule |
+| `app/javascript/dashboard/helper/automationHelper.js`, `app/javascript/dashboard/helper/validations.js` | icons; required settings of each Sales action | Rule editor |
+| `app/javascript/dashboard/i18n/locale/{ar,en}/automation.json` | `ACTIONS.SUGGEST_CRM_DEAL`, `CREATE_CRM_TASK`, `MOVE_CRM_DEAL` | Action names |
+| `app/javascript/dashboard/components/widgets/conversation/MessagesView.vue` | `DealSuggestionBar` import, registration, and one line above the reply box | A «صفقة جديدة» suggestion where the employee replies, even with the side panel closed |
+| `app/javascript/dashboard/helper/actionCable.js`, `app/javascript/shared/constants/busEvents.js` | `crm.suggestion_created` → `BUS_EVENTS.CRM_SUGGESTION_CREATED` | Suggestions made in the background appear at once |
+| `app/javascript/dashboard/components/widgets/conversation/ConversationCard.vue` | `DealBadge` import and one line in the status row | The customer's open deals on each conversation card (CONVERSATION_SALES_PLAN.md, أ4) |
+| `app/javascript/dashboard/components-next/Conversation/ConversationCard/ConversationCardExpanded.vue` | `DealBadge` import and one element at the start of the right section | The same badge on the wide list row, the layout shown when no conversation is open |
 | `app/javascript/dashboard/routes/dashboard/conversation/ContactPanel.vue` | the `crm` accordion item rendering `ContactCrmSection` | Deals & tasks beside the conversation |
 | `app/javascript/dashboard/routes/dashboard/contacts/pages/ContactManageView.vue` | a `CRM` tab rendering `ContactCrmSection` | Deals & tasks on the contact page |
 | `app/javascript/dashboard/i18n/locale/{en,ar}/index.js` | `crm.json` import + spread | Translations |
 
+## Inside our own smart assistant
+
+The smart assistant is ours too, but it calls into Sales, so removing Sales means editing it:
+
+| File | What it does for Sales |
+|---|---|
+| `app/jobs/smart_assistant/reply_job.rb` | passes the reply's `sales_lead` to `SalesCrm::Suggestions::FromAssistant` |
+| `app/services/smart_assistant/responder.rb` | asks the model for `sales_lead` in its answer schema |
+| `app/models/smart_assistant/usage.rb`, `SmartAssistant::Config` | the Sales AI kinds (`crm_summary`, `crm_followup`, `crm_message`) and their monthly limit |
+
 ## Removing the feature
 
 1. Turn `sales_crm` off for every account (Super Admin > account > Features).
-2. Delete the folders listed at the top, `app/models/concerns/sales_crm_account.rb`, `config/initializers/sales_crm.rb` and `docs/mydesk/sales-crm-core-touchpoints.md`.
+2. Remove the Sales parts of the smart assistant listed above, then delete the folders listed at the top, `app/models/concerns/sales_crm_account.rb`, `config/initializers/sales_crm.rb` and `docs/mydesk/sales-crm-core-touchpoints.md`.
 3. Revert the marked lines in the table above.
-4. Delete notifications of type 20 (`crm_task_due`), then add a migration that drops `crm_lost_reasons, crm_activities, crm_notes, crm_tasks, crm_deals, crm_stages, crm_pipelines` (in that order).
+4. Delete notifications of type 20 (`crm_task_due`), then add a migration that drops `crm_suggestions, crm_lost_reasons, crm_activities, crm_notes, crm_tasks, crm_targets, crm_deals, crm_list_items, crm_stages, crm_pipelines` (in that order).

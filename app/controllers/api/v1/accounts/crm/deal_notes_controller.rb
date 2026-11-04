@@ -17,7 +17,7 @@ class Api::V1::Accounts::Crm::DealNotesController < Api::V1::Accounts::Crm::Base
 
   def destroy
     note = @deal.notes.find(params[:id])
-    raise Pundit::NotAuthorizedError unless Current.account_user&.administrator? || note.user_id == Current.user.id
+    authorize note
 
     note.destroy!
     head :ok

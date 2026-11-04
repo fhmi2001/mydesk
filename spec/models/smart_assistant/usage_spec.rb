@@ -18,6 +18,34 @@ RSpec.describe SmartAssistant::Usage do
     expect(totals).not_to have_key('test')
   end
 
+  describe 'the Sales monthly limit (separate from the reply quota)' do
+    before { allow(SmartAssistant::Config).to receive(:crm_monthly_limit).and_return(2) }
+
+    def sales_call(kind, at = Time.current)
+      described_class.create!(account: account, kind: kind, model: 'gpt-6-luna', created_at: at)
+    end
+
+    it 'counts only the Sales calls of this month' do
+      sales_call(:crm_summary)
+      sales_call(:crm_followup, 2.months.ago)
+      expect(described_class.crm_calls_this_month(account)).to eq(1)
+      expect(described_class.crm_limit_reached?(account)).to be(false)
+    end
+
+    it 'never counts toward the reply quota, which counts the assistant bot replies' do
+      assistant = SmartAssistant.for_account(account).tap(&:save!)
+      5.times { sales_call(:crm_summary) }
+      expect(assistant.replies_this_month).to eq(0)
+    end
+
+    it 'is reached once the Sales calls hit the limit, whatever the replies' do
+      sales_call(:crm_summary)
+      sales_call(:crm_message)
+      expect(described_class.crm_limit_reached?(account)).to be(true)
+      expect(described_class.crm_limit_reached?(create(:account))).to be(false)
+    end
+  end
+
   it 'sums tokens and cost per month, oldest first' do
     months = described_class.where(account: account).totals_by_month
 
