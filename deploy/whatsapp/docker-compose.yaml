@@ -15,6 +15,16 @@ services:
     image: evoapicloud/evolution-api:v2.3.7
     container_name: mydesk-evolution-api
     restart: unless-stopped
+    # Wait for the platform before connecting to WhatsApp: messages that arrive while Rails is down are stored here
+    # but never delivered (recover them with recover_lost.sh). The image's own entrypoint runs after the wait.
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        until wget -q -O /dev/null "$${CHATWOOT_WAIT_URL:-http://rails:3000/api}"; do
+          echo "Waiting for the platform at $${CHATWOOT_WAIT_URL:-http://rails:3000/api}"; sleep 5
+        done
+        . ./Docker/scripts/deploy_database.sh && exec npm run start:prod
     env_file: .env
     ports:
       - '8080:8080'
