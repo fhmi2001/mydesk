@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# A draft the employee edits before anything is saved (CONVERSATION_SALES_PLAN.md, idea أ3)
+# A draft the employee edits before anything is saved (CONVERSATION_SALES_PLAN.md)
 RSpec.describe SalesCrm::ConversationSummary do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
@@ -62,5 +62,10 @@ RSpec.describe SalesCrm::ConversationSummary do
     allow(SmartAssistant::Usage).to receive(:crm_limit_reached?).with(account).and_return(true)
     expect { summarize }.to raise_error(SalesCrm::ValidationError, /#{SalesCrm::Period.today.next_month.beginning_of_month.day}/)
     expect(client).not_to have_received(:complete)
+  end
+
+  it 'says the assistant could not answer when the provider is rate limited' do
+    allow(client).to receive(:complete).and_raise(RubyLLM::RateLimitError.new('slow down'))
+    expect { summarize }.to raise_error(SalesCrm::ValidationError, I18n.t('sales_crm.errors.ai_unavailable'))
   end
 end

@@ -1,4 +1,4 @@
-# Custom (MyDesk): the Sales actions of automation rules (CONVERSATION_SALES_PLAN.md, idea ج1), prepended into
+# Custom (MyDesk): the Sales actions of automation rules (CONVERSATION_SALES_PLAN.md), prepended into
 # AutomationRules::ActionService from config/initializers/sales_crm.rb so Chatwoot's file keeps only the action names.
 # Each acts on the rule's conversation and does nothing for an account without the Sales section. They act as the
 # system (no user), so a deal's last activity does not move.
@@ -16,8 +16,7 @@ module SalesCrm::AutomationActionsPatch
     # suggestion or a deal already followed here means the employee has dealt with it
     return if @account.crm_suggestions.new_deal.exists?(conversation_id: @conversation.id) || crm_followed_deal
 
-    @account.crm_suggestions.create!(kind: :new_deal, origin: :automation, conversation: @conversation,
-                                     contact_id: @conversation.contact_id, content: { title: title })
+    SalesCrm::Suggestions::Create.for_conversation(@conversation, :new_deal, origin: :automation, content: { title: title })
   end
 
   def create_crm_task(params)

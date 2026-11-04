@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# Who sees which suggestion (docs/mydesk/CONVERSATION_SALES_PLAN.md, decision 3): a new deal or a note goes to the
+# Who sees which suggestion (docs/mydesk/CONVERSATION_SALES_PLAN.md): a new deal or a note goes to the
 # employee the conversation is assigned to; a deal's follow-up, won and lost messages go to the deal's owner.
 # Administrators see them all.
 RSpec.describe SalesCrm::Visibility, '.suggestions' do

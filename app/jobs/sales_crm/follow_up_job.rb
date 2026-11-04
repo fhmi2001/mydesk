@@ -1,4 +1,4 @@
-# Custom (MyDesk): the follow-up when a customer goes quiet (CONVERSATION_SALES_PLAN.md, idea ج2), hourly. An open deal in
+# Custom (MyDesk): the follow-up when a customer goes quiet (CONVERSATION_SALES_PLAN.md), hourly. An open deal in
 # a stage with silence_followup, whose employee last wrote in its active conversation over the account's silent days
 # ago and whose customer has not written since (in any conversation), gets a follow-up task for its owner and an empty
 # follow-up suggestion; the draft is written only when the employee asks for it. Once per silence: nothing again until
@@ -42,14 +42,7 @@ class SalesCrm::FollowUpJob < ApplicationJob
         title: I18n.t('sales_crm.follow_up.task_title', title: deal.title), due_at: Time.current, origin: :follow_up,
         **SalesCrm::StageEntry.task_links(deal)
       )
-      suggest(deal)
+      SalesCrm::Suggestions::Create.for_deal(deal, :follow_up)
     end
-  end
-
-  def suggest(deal)
-    return if deal.account.crm_suggestions.pending.follow_up.exists?(deal_id: deal.id)
-
-    deal.account.crm_suggestions.create!(kind: :follow_up, origin: :schedule, deal: deal, conversation_id: deal.active_conversation_id,
-                                         contact_id: deal.contact_id)
   end
 end

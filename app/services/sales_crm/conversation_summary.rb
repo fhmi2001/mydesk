@@ -1,5 +1,5 @@
 # Custom (MyDesk): a draft summary of a conversation for the employee to edit before anything is saved
-# (CONVERSATION_SALES_PLAN.md, idea أ3): what the customer asked for, their objections, the next step, and an amount
+# (CONVERSATION_SALES_PLAN.md): what the customer asked for, their objections, the next step, and an amount
 # and close date only when the conversation states them. One call counted under the Sales monthly limit.
 class SalesCrm::ConversationSummary
   MESSAGES = 50
@@ -29,9 +29,11 @@ class SalesCrm::ConversationSummary
     ensure_ai_available!(account)
     fail_ai!(:conversation_empty) if transcript.blank?
 
-    draft(SmartAssistant::LlmClient.new(account: account, kind: :crm_summary)
-                                   .complete(instructions: instructions, messages: [{ role: :user, content: transcript }],
-                                             schema: SCHEMA))
+    result = with_provider_errors do
+      SmartAssistant::LlmClient.new(account: account, kind: :crm_summary)
+                               .complete(instructions: instructions, messages: [{ role: :user, content: transcript }], schema: SCHEMA)
+    end
+    draft(Hash(result))
   end
 
   private

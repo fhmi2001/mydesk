@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# The Sales actions of automation rules (CONVERSATION_SALES_PLAN.md, idea ج1), run by Chatwoot's own action service
+# The Sales actions of automation rules (CONVERSATION_SALES_PLAN.md), run by Chatwoot's own action service
 RSpec.describe SalesCrm::AutomationActionsPatch do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }

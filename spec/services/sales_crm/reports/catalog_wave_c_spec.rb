@@ -1,4 +1,4 @@
-# Custom (MyDesk): phase 4 wave ج of docs/reports/CRM_REPORTS_PLAN.md, reports 9, 11, 13, 17 and 18, which read the
+# Custom (MyDesk): docs/reports/CRM_REPORTS_PLAN.md, reports 9, 11, 13, 17 and 18, which read the
 # activity log. A handful of deals and logged moves per report, the expected numbers worked out by hand in the
 # comments. "Today" is 20 October 2026, 10:00 in Riyadh.
 require 'rails_helper'

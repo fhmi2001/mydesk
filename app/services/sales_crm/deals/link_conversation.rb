@@ -1,5 +1,5 @@
-# Custom (MyDesk): the deal is followed in another conversation of the same customer from now on (decision ح,
-# CONVERSATION_SALES_PLAN.md): the «اربطها» bar or the deal page. Its origin conversation never changes.
+# Custom (MyDesk): the deal is followed in another conversation of the same customer from now on
+# (CONVERSATION_SALES_PLAN.md): the «اربطها» bar or the deal page. Its origin conversation never changes.
 class SalesCrm::Deals::LinkConversation < SalesCrm::BaseService
   def perform(deal, conversation_display_id)
     conversation = account.conversations.find_by(display_id: conversation_display_id)

@@ -1,4 +1,4 @@
-# Custom (MyDesk): the target of a period. Targets are monthly per employee (gap-analysis.md, question 13): a quarter is
+# Custom (MyDesk): the target of a period. Targets are monthly per employee (gap-analysis.md): a quarter is
 # the sum of its months, the team is the sum of its employees, and a period that covers part of a month takes that
 # month's target in proportion to its days (10 of 30 days → a third).
 module SalesCrm::Metrics::Target

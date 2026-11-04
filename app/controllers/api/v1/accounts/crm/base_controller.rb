@@ -1,6 +1,8 @@
 # Custom (MyDesk): shared behaviour of the Sales CRM API: the account must have the feature switched on, and
 # the CRM's own errors become the agreed HTTP answers (422 message, 409 stale, 403 disabled). A record that fails its
 # own validations answers in the same 422 shape as a SalesCrm::ValidationError, whichever service raised it.
+# A conversation is always named by its display id, the number in its URL: `conversation_id` in a request,
+# `conversation_display_id` in an answer or a crm.* event.
 class Api::V1::Accounts::Crm::BaseController < Api::V1::Accounts::BaseController
   before_action :ensure_crm_enabled
 

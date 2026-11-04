@@ -51,7 +51,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
     render json: SalesCrm::Presenter.deal(service(SalesCrm::Deals::Reopen).perform(@deal))
   end
 
-  # Custom (MyDesk): follow the deal in another conversation of its customer (decision ح)
+  # Custom (MyDesk): follow the deal in another conversation of its customer
   def link_conversation
     authorize @deal, :update?
     deal = service(SalesCrm::Deals::LinkConversation).perform(@deal, params.require(:conversation_id))
@@ -84,7 +84,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::Crm::BaseCont
     @deal = deals_scope.find(params[:id])
   end
 
-  # Handing a deal to someone else is for administrators (decision ج). An employee creates deals for themselves and
+  # Handing a deal to someone else is for administrators. An employee creates deals for themselves and
   # keeps them; leaving the owner out on create means "me".
   def check_reassign(deal = nil)
     return unless deal_params.key?(:assignee_id)

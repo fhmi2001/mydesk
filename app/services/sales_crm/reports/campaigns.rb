@@ -1,4 +1,4 @@
-# Custom (MyDesk): التقرير 21, عائد الحملات (للمدير فقط) (CONVERSATION_SALES_PLAN.md, idea د3): what each campaign brought.
+# Custom (MyDesk): التقرير 21, عائد الحملات (للمدير فقط) (CONVERSATION_SALES_PLAN.md): what each campaign brought.
 # The deals created in the period that are credited to a campaign (SalesCrm::CampaignAttribution), split by how:
 # direct (the deal's conversation came from a live chat campaign) and influenced (the customer got an SMS campaign
 # shortly before); the two are never added into one number. For an SMS campaign, its recipients, the share that became

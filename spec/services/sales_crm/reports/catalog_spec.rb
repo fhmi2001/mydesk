@@ -1,4 +1,4 @@
-# Custom (MyDesk): phase 4 wave أ of docs/reports/CRM_REPORTS_PLAN.md, reports 1 to 7. A handful of deals per report,
+# Custom (MyDesk): docs/reports/CRM_REPORTS_PLAN.md, reports 1 to 7. A handful of deals per report,
 # the expected numbers worked out by hand in the comments; the deals behind each number add up to it; an employee only
 # ever gets their own. "Today" is 20 October 2026, 10:00 in Riyadh.
 require 'rails_helper'
@@ -116,7 +116,7 @@ RSpec.describe SalesCrm::Reports::Catalog do
       expect(run('stale', admin, days: '30')[:totals][:stale][:count]).to eq(0)
     end
 
-    it 'does not count a deal whose employee replied to the customer recently (decision ح)' do
+    it 'does not count a deal whose employee replied to the customer recently' do
       deal(amount_cents: 500_000, last_activity_at: riyadh.local(2026, 10, 1), last_message_at: riyadh.local(2026, 10, 19))
       expect(run('stale', admin)[:totals][:stale]).to eq(count: 2, total_cents: 400_000)
     end

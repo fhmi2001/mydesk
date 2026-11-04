@@ -1,6 +1,6 @@
 <script setup>
-// Custom (MyDesk): a deal's follow-up, thank-you or "why not?" suggestion in its conversation (CONVERSATION_SALES_PLAN.md,
-// idea ج2). The draft is written only on request; the employee edits it, copies it and sends it themselves, so nothing
+// Custom (MyDesk): a deal's follow-up, thank-you or "why not?" suggestion in its conversation
+// (CONVERSATION_SALES_PLAN.md). The draft is written only on request; the employee edits it, copies it and sends it themselves, so nothing
 // reaches the customer from here. Official WhatsApp past its 24 hours takes templates only, which the card says.
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

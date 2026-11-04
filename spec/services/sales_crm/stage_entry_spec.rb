@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# What a deal entering a stage sets off (CONVERSATION_SALES_PLAN.md, phase 3)
+# What a deal entering a stage sets off (CONVERSATION_SALES_PLAN.md)
 RSpec.describe SalesCrm::StageEntry do
   let(:account) { create(:account) }
   let(:owner) { create(:user, account: account) }
@@ -43,7 +43,7 @@ RSpec.describe SalesCrm::StageEntry do
     expect(deal.tasks.from_stage_rule.count).to eq(1)
   end
 
-  describe 'won and lost messages (idea ج2)' do
+  describe 'won and lost messages' do
     before { account.enable_features!('sales_crm') }
 
     it 'suggests a thank-you in the conversation when the deal is won' do

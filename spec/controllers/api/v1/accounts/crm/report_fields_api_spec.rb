@@ -1,4 +1,4 @@
-# Custom (MyDesk): the phase 1 endpoints of the sales reports: managed lists, monthly targets, and the settings
+# Custom (MyDesk): the endpoints behind the sales reports: managed lists, monthly targets, and the settings
 # that feed the reports (one currency, stale days, coverage multiple)
 require 'rails_helper'
 

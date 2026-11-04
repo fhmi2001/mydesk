@@ -1,6 +1,6 @@
 # Custom (MyDesk): the Sales section's day boundaries, for "today" / "overdue" and every report period: the time zone
 # the account picks in the general settings (account.reporting_timezone, the one Chatwoot's own reports use), Riyadh
-# until it picks one (docs/reports/gap-analysis.md, question 9).
+# until it picks one (docs/reports/gap-analysis.md).
 module SalesCrm::TimeZone
   DEFAULT = 'Asia/Riyadh'.freeze
 

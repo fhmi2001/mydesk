@@ -1,6 +1,6 @@
 # Custom (MyDesk): المؤشر 9, أيام منذ آخر نشاط: today − the day of the deal's last touch, in the account's days
 # (SalesCrm::TimeZone). The last touch (crm_deals.last_touch_at) is the later of a person's last activity on the deal
-# and an employee's last reply in its conversation (decision ح, docs/mydesk/CONVERSATION_SALES_PLAN.md); the creation
+# and an employee's last reply in its conversation (docs/mydesk/CONVERSATION_SALES_PLAN.md); the creation
 # day when it has neither. A deal is stale once that reaches the account's stale days (14 by default). The one stale
 # condition the reports share.
 module SalesCrm::Metrics::DaysSinceActivity

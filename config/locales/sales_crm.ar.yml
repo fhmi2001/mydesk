@@ -27,6 +27,7 @@ ar:
       invalid_channel_source: اختر لكل صندوق وارد في الحساب مصدراً من قائمة «مصدر العميل»
       ai_not_configured: الملخص يحتاج المساعد الذكي، ولم يُهيّأ بعد على المنصة
       ai_limit_reached: انتهى حد طلبات المبيعات من المساعد لهذا الشهر، ويتجدد في %{date}
+      ai_unavailable: تعذّر على المساعد الرد الآن، حاول مرة أخرى بعد قليل
       conversation_empty: لا توجد رسائل في المحادثة لتلخيصها
       too_many_contacts: الحد %{count} جهة اتصال في الطلب الواحد
       conversation_of_another_contact: المحادثة ليست لعميل هذه الصفقة

@@ -17,4 +17,13 @@ RSpec.describe SalesCrm::Broadcast do
     )
     expect(colleague.pubsub_token).to be_present
   end
+
+  it 'sends nothing for a change that is rolled back' do
+    expect do
+      ActiveRecord::Base.transaction(requires_new: true) do
+        described_class.call(account, 'crm.deal_moved', { id: 5 }, to: owner.id)
+        raise ActiveRecord::Rollback
+      end
+    end.not_to have_enqueued_job(ActionCableBroadcastJob)
+  end
 end

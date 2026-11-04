@@ -1,4 +1,4 @@
-// Custom (MyDesk): the wide list row carries the customer's deal badge too (CONVERSATION_SALES_PLAN.md, أ4)
+// Custom (MyDesk): the wide list row carries the customer's deal badge too (CONVERSATION_SALES_PLAN.md)
 import { shallowMount } from '@vue/test-utils';
 import ConversationCardExpanded from '../ConversationCardExpanded.vue';
 import DealBadge from 'dashboard/routes/dashboard/conversation/crm/DealBadge.vue';

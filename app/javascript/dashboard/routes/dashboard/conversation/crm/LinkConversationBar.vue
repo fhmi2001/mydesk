@@ -1,6 +1,6 @@
 <script setup>
-// Custom (MyDesk): this is a new conversation of a customer whose open deal is followed in another one (decision ح,
-// CONVERSATION_SALES_PLAN.md). One click follows the deal here from now on; with several deals the user picks one.
+// Custom (MyDesk): this is a new conversation of a customer whose open deal is followed in another one
+// (CONVERSATION_SALES_PLAN.md). One click follows the deal here from now on; with several deals the user picks one.
 // Shown to the deal's owner and administrators only (the server lists no other deals).
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

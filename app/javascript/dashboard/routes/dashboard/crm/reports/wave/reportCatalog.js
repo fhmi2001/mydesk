@@ -1,4 +1,4 @@
-// Custom (MyDesk): the reports of phase 4 (docs/reports/CRM_REPORTS_PLAN.md), in the order of the reports matrix, with
+// Custom (MyDesk): the Sales reports (docs/reports/CRM_REPORTS_PLAN.md), in the order of the reports matrix, with
 // the filters each one takes. period: 'past' (so far: today … quarter), 'forward' (what is still to close: the whole
 // month or quarter), or null for a picture of now. The server applies the same filters (SalesCrm::Reports::Report).
 import { salesToday } from '../periods';
@@ -190,7 +190,7 @@ export const REPORTS = [
     adminOnly: true,
     columns: ['closed_at'],
   },
-  // Conversations and sales (docs/mydesk/CONVERSATION_SALES_PLAN.md, phase 4)
+  // Conversations and sales (docs/mydesk/CONVERSATION_SALES_PLAN.md)
   {
     key: 'response_speed',
     group: 'conversion',
@@ -219,7 +219,7 @@ export const REPORTS = [
   },
 ];
 
-// The navigation's groups, in order (CRM_REPORTS_PLAN.md, phase 5)
+// The navigation's groups, in order (CRM_REPORTS_PLAN.md)
 export const GROUPS = [
   'pipeline',
   'forecast',

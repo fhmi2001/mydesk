@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): Sales > Reports, the first page (CRM_REPORTS_PLAN.md, phase 5). «لوحتي» for an employee: their
+// Custom (MyDesk): Sales > Reports, the first page (CRM_REPORTS_PLAN.md). «لوحتي» for an employee: their
 // pipeline, what closes this month, what went stale, their tasks, their target and forecast. «لوحة الفريق» for the
 // manager: the team's attainment and ranking, forecast and coverage, the week's changes and what needs attention.
 // Every number comes from a report of the catalog (the same request as its own page), opens its deals, and every

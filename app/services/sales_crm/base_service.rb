@@ -56,7 +56,7 @@ class SalesCrm::BaseService
     number
   end
 
-  # An open deal needs an amount, an expected close date and an owner (docs/reports/gap-analysis.md, decisions د and 15)
+  # An open deal needs an amount, an expected close date and an owner (docs/reports/gap-analysis.md)
   def require_open_essentials!(deal)
     return unless deal.open?
 

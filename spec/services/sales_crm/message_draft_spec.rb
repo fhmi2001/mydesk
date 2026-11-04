@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# The follow-up, thank-you and "why not?" drafts, written when the employee asks (CONVERSATION_SALES_PLAN.md, idea ج2)
+# The follow-up, thank-you and "why not?" drafts, written when the employee asks (CONVERSATION_SALES_PLAN.md)
 RSpec.describe SalesCrm::MessageDraft do
   let(:account) { create(:account) }
   let(:contact) { create(:contact, account: account) }
@@ -46,5 +46,13 @@ RSpec.describe SalesCrm::MessageDraft do
     allow(SmartAssistant::Usage).to receive(:crm_limit_reached?).and_return(true)
     expect { draft(:follow_up) }.to raise_error(SalesCrm::ValidationError)
     expect(client).not_to have_received(:complete)
+  end
+
+  it 'says the assistant could not answer when the provider fails, and keeps no draft' do
+    allow(client).to receive(:complete).and_raise(Faraday::ConnectionFailed, 'reset')
+    item = suggestion(:follow_up)
+    expect { described_class.new(account: account, suggestion: item).perform }
+      .to raise_error(SalesCrm::ValidationError, I18n.t('sales_crm.errors.ai_unavailable'))
+    expect(item.reload.content).not_to have_key('draft')
   end
 end

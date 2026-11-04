@@ -1,4 +1,4 @@
-# Custom (MyDesk): who may open the conversation and sales reports (CONVERSATION_SALES_PLAN.md, phase 4): report 21 is
+# Custom (MyDesk): who may open the conversation and sales reports (CONVERSATION_SALES_PLAN.md): report 21 is
 # the manager's alone, refused by the server for its page, its deals and its file; 20 and 22 give an employee their own.
 require 'rails_helper'
 

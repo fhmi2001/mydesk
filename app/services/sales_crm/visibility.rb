@@ -1,5 +1,5 @@
-# Custom (MyDesk): the one place that decides who sees which deals and tasks (docs/reports/gap-analysis.md,
-# decisions ب and و). An administrator is the sales manager and sees everything; anyone else is an employee and
+# Custom (MyDesk): the one place that decides who sees which deals and tasks (docs/reports/gap-analysis.md).
+# An administrator is the sales manager and sees everything; anyone else is an employee and
 # only ever sees the deals they own (the owner is the assignee), whatever screen, report, link or export asks.
 module SalesCrm::Visibility
   module_function

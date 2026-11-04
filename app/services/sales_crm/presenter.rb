@@ -30,7 +30,7 @@ module SalesCrm::Presenter
   def deal_core(deal)
     { id: deal.id, title: deal.title, amount: format('%.2f', deal.amount), amount_cents: deal.amount_cents, currency: deal.currency,
       pipeline_id: deal.pipeline_id, stage_id: deal.stage_id, status: deal.status, priority: deal.priority, position: deal.position,
-      description: deal.description, source: deal.source, conversation_id: deal.conversation_id,
+      description: deal.description, source: deal.source,
       conversation_display_id: deal.conversation&.display_id, lock_version: deal.lock_version,
       created_at: deal.created_at, updated_at: deal.updated_at }
   end
@@ -55,7 +55,7 @@ module SalesCrm::Presenter
   def task_links(task)
     { assignee: user(task.assignee), creator_id: task.creator_id, contact: contact(task.contact),
       deal: task.deal ? { id: task.deal.id, title: task.deal.title, status: task.deal.status } : nil,
-      conversation_id: task.conversation_id, conversation_display_id: task.conversation&.display_id }
+      conversation_display_id: task.conversation&.display_id }
   end
 
   def note(note)

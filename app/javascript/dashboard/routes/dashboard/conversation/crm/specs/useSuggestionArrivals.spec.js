@@ -18,21 +18,27 @@ describe('useSuggestionArrivals', () => {
   it('calls back when a suggestion for this conversation arrives', () => {
     const onArrive = vi.fn();
     mountWith(ref(14), onArrive);
-    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, { conversation_id: 14 });
+    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, {
+      conversation_display_id: 14,
+    });
     expect(onArrive).toHaveBeenCalledTimes(1);
   });
 
   it("ignores another conversation's suggestion", () => {
     const onArrive = vi.fn();
     mountWith(ref('14'), onArrive);
-    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, { conversation_id: 9 });
+    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, {
+      conversation_display_id: 9,
+    });
     expect(onArrive).not.toHaveBeenCalled();
   });
 
   it('stops listening once the panel is gone', () => {
     const onArrive = vi.fn();
     mountWith(ref(14), onArrive).unmount();
-    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, { conversation_id: 14 });
+    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, {
+      conversation_display_id: 14,
+    });
     expect(onArrive).not.toHaveBeenCalled();
   });
 });

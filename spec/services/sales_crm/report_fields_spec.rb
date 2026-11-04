@@ -1,4 +1,4 @@
-# Custom (MyDesk): phase 1 of the sales reports (docs/reports/gap-analysis.md): managed lists, the new deal fields,
+# Custom (MyDesk): what the sales reports rely on (docs/reports/gap-analysis.md): managed lists, the new deal fields,
 # the required-field rules, one currency, the close-date log, monthly targets and task kinds
 require 'rails_helper'
 

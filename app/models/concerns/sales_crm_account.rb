@@ -3,7 +3,7 @@
 module SalesCrmAccount
   extend ActiveSupport::Concern
 
-  # Report thresholds an administrator can change in Sales settings (docs/reports/gap-analysis.md, decisions 1-2)
+  # Report thresholds an administrator can change in Sales settings (docs/reports/gap-analysis.md)
   DEFAULT_STALE_DAYS = 14
   DEFAULT_COVERAGE_MULTIPLE = 3
   # Conversation settings (docs/mydesk/CONVERSATION_SALES_PLAN.md): silent days before a follow-up, the window in

@@ -65,13 +65,13 @@ const looseTasks = computed(() =>
   tasks.value.filter(task => !deals.value.some(d => d.id === task.deal?.id))
 );
 
-// The deal suggestions of this conversation the user may see (CONVERSATION_SALES_PLAN.md, أ2); the panel works without
+// The deal suggestions of this conversation the user may see (CONVERSATION_SALES_PLAN.md); the panel works without
 const suggestions = ref([]);
 const aiAvailable = ref(false);
-// The customer's open deals followed in another conversation (decision ح): the «اربطها» bar
+// The customer's open deals followed in another conversation: the «اربطها» bar
 const linkableDeals = ref([]);
 const isLinking = ref(false);
-// A deal's follow-up, won and lost messages (ج2)
+// A deal's follow-up, won and lost messages
 const DEAL_MESSAGE_KINDS = ['follow_up', 'won_message', 'lost_question'];
 const dealMessageSuggestions = computed(() =>
   suggestions.value.filter(s => DEAL_MESSAGE_KINDS.includes(s.kind))

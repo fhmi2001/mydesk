@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): the conversation summary the assistant drafted (CONVERSATION_SALES_PLAN.md, idea أ3). The employee
+// Custom (MyDesk): the conversation summary the assistant drafted (CONVERSATION_SALES_PLAN.md). The employee
 // edits the note, then saves it on one of the customer's open deals, or creates a deal from it when there is none.
 // The suggested amount and close date reach a deal only through their own button.
 import { ref, computed, watch } from 'vue';

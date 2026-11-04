@@ -1,4 +1,4 @@
-# Custom (MyDesk): the deal badge of each conversation card (CONVERSATION_SALES_PLAN.md, idea أ4), for up to 100
+# Custom (MyDesk): the deal badge of each conversation card (CONVERSATION_SALES_PLAN.md), for up to 100
 # contacts in one request: how many open deals the user may see for each contact, their total, and the stage of the
 # biggest one. Contacts without a visible open deal are left out.
 class Api::V1::Accounts::Crm::ContactBadgesController < Api::V1::Accounts::Crm::BaseController

@@ -1,4 +1,4 @@
-// Custom (MyDesk): the deal badges of the conversation cards (CONVERSATION_SALES_PLAN.md, idea أ4). Cards ask for their
+// Custom (MyDesk): the deal badges of the conversation cards (CONVERSATION_SALES_PLAN.md). Cards ask for their
 // contact; the asks of one list page go out together a moment later (up to 100 contacts a request), and a contact
 // already known is not asked again. A deal changing anywhere (crm.deal_* over ActionCable) asks again for all of them.
 import { reactive } from 'vue';

@@ -8,7 +8,7 @@ class SalesCrm::Pipelines::EnsureDefault
     ['مكسوبة', 100, :won, '#22c55e'],
     ['خاسرة', 0, :lost, '#ef4444']
   ].freeze
-  # Where a quiet customer gets a follow-up by default (CONVERSATION_SALES_PLAN.md, decision 4)
+  # Where a quiet customer gets a follow-up by default (CONVERSATION_SALES_PLAN.md)
   SILENCE_FOLLOWUP_STAGES = ['تم إرسال العرض', 'تفاوض'].freeze
 
   def self.call(account)

@@ -121,7 +121,8 @@ RSpec.describe 'Sales CRM API', type: :request do # -- request spec across contr
                             headers: agent.create_new_auth_token, as: :json
       expect(response).to have_http_status(:success)
       id = response.parsed_body['id']
-      expect(response.parsed_body).to include('amount' => '1234.00', 'source' => 'conversation_source', 'conversation_id' => conversation.id)
+      expect(response.parsed_body).to include('amount' => '1234.00', 'source' => 'conversation_source',
+                                              'conversation_display_id' => conversation.display_id)
       post "#{base}/deals/#{id}/notes", params: { content: 'ملاحظة' }, headers: agent.create_new_auth_token, as: :json
       get "#{base}/deals/#{id}/activities", headers: agent.create_new_auth_token, as: :json
       expect(response.parsed_body.map { |a| a['kind'] }).to eq(%w[note_added created])

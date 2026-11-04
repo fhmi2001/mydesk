@@ -2,7 +2,7 @@
 # the time-in-stage report (11) and the pipeline changes (13). A stay starts when the deal enters a stage and ends when
 # it leaves; the current stay has no end yet. A deal created before the log existed has no creation entry: its first
 # known stage is the one its first logged move left (else its current stage), from its creation date, so its early
-# stays are approximate (wave ج decision; the report says so).
+# stays are approximate.
 module SalesCrm::Metrics::StageStays
   Stay = Struct.new(:stage_id, :from, :to, keyword_init: true) do
     def days(now = Time.current) = ((to || now) - from) / 1.day

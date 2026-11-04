@@ -1,4 +1,4 @@
-# Custom (MyDesk): التقرير 20, سرعة الرد ونسبة الكسب (CONVERSATION_SALES_PLAN.md, idea د2): do deals answered faster close
+# Custom (MyDesk): التقرير 20, سرعة الرد ونسبة الكسب (CONVERSATION_SALES_PLAN.md): do deals answered faster close
 # better? The deals closed in the period, by the first reply in the conversation they came from (Chatwoot's
 # first_response event, in real time, not working hours), in five buckets: how many closed, the win rate and the
 # average won. A bucket under 10 deals gives no rate (a small sample). Deals without a conversation, or whose

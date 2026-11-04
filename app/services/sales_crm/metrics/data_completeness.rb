@@ -1,5 +1,5 @@
 # Custom (MyDesk): المؤشر 10, نسبة اكتمال البيانات: open deals that have every required field ÷ all open deals. Required
-# for an open deal (decision د and question 15): an amount above zero, an expected close date and an owner.
+# for an open deal: an amount above zero, an expected close date and an owner.
 module SalesCrm::Metrics::DataCompleteness
   COMPLETE_SQL = 'crm_deals.amount_cents > 0 AND crm_deals.close_date IS NOT NULL AND crm_deals.assignee_id IS NOT NULL'.freeze
 

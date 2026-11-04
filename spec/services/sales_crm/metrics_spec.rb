@@ -1,4 +1,4 @@
-# Custom (MyDesk): phase 3 of docs/reports/CRM_REPORTS_PLAN.md. Each metric on a handful of deals, with the expected
+# Custom (MyDesk): docs/reports/CRM_REPORTS_PLAN.md. Each metric on a handful of deals, with the expected
 # numbers worked out by hand in the comments, plus «—» (nil) wherever there is nothing to divide by.
 require 'rails_helper'
 

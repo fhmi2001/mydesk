@@ -1,4 +1,4 @@
-# Custom (MyDesk): the reports that join conversations and sales (docs/mydesk/CONVERSATION_SALES_PLAN.md, phase 4):
+# Custom (MyDesk): the reports that join conversations and sales (docs/mydesk/CONVERSATION_SALES_PLAN.md):
 # 20 response speed and win rate, 21 campaign return, 22 conversation to deal. "Today" is 20 October 2026, 10:00 in
 # Riyadh; the period is October so far. Expected numbers are worked out in the comments.
 require 'rails_helper'

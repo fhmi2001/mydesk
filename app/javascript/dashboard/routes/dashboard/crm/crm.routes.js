@@ -72,7 +72,7 @@ export const routes = [
         component: DashboardPage,
       },
       {
-        // One report of phase 4 (reports/wave/reportCatalog.js)
+        // One Sales report (reports/wave/reportCatalog.js)
         path: 'reports/:reportKey',
         name: 'crm_report',
         meta: everyone,

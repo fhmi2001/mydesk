@@ -1,4 +1,4 @@
-# Custom (MyDesk): the Sales reports' demo account and reference numbers (CRM_REPORTS_PLAN.md, phase 6), for
+# Custom (MyDesk): the Sales reports' demo account and reference numbers (CRM_REPORTS_PLAN.md), for
 # development only.
 #   rails sales_crm:demo_seed                      # data up to today
 #   ANCHOR=2026-10-31 rails sales_crm:demo_seed    # data up to a given day

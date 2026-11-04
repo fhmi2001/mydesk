@@ -1,6 +1,6 @@
-# Custom (MyDesk): the reports of CRM_REPORTS_PLAN.md phase 4, by the key the API serves them under
-# (GET crm/reports/:key and crm/reports/:key/deals). Wave أ: reports 1 to 7; wave ب: 8, 10, 12, 14, 15, 16 and 19;
-# wave ج: 9, 11, 13, 17 and 18. Conversations and sales (CONVERSATION_SALES_PLAN.md, phase 4): 20, 21 and 22.
+# Custom (MyDesk): the reports of CRM_REPORTS_PLAN.md, by the key the API serves them under
+# (GET crm/reports/:key and crm/reports/:key/deals), numbered as in its reports matrix. Reports 20, 21 and 22 join
+# conversations and sales (CONVERSATION_SALES_PLAN.md).
 module SalesCrm::Reports::Catalog
   REPORTS = [
     SalesCrm::Reports::PipelineByStage, SalesCrm::Reports::Closing, SalesCrm::Reports::Stale, SalesCrm::Reports::MyTasks,

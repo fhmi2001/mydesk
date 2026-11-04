@@ -1,4 +1,4 @@
-# Custom (MyDesk): phase 4 wave ب of docs/reports/CRM_REPORTS_PLAN.md, reports 8, 10, 12, 14, 15, 16 and 19. A handful
+# Custom (MyDesk): docs/reports/CRM_REPORTS_PLAN.md, reports 8, 10, 12, 14, 15, 16 and 19. A handful
 # of deals per report, the expected numbers worked out by hand in the comments; the deals behind a number add up to
 # it; an employee only ever gets their own. "Today" is 20 October 2026, 10:00 in Riyadh.
 require 'rails_helper'

@@ -1,5 +1,5 @@
-# Custom (MyDesk): the draft of a follow-up, a thank-you on a win or a short "why not?" on a loss (CONVERSATION_SALES_PLAN.md,
-# idea ج2), written only when the employee asks and kept on the suggestion. The employee sends it themselves; the
+# Custom (MyDesk): the draft of a follow-up, a thank-you on a win or a short "why not?" on a loss
+# (CONVERSATION_SALES_PLAN.md), written only when the employee asks and kept on the suggestion. The employee sends it themselves; the
 # draft never names the deal's amount, probability or stage, nor any price, discount or date the conversation did not.
 class SalesCrm::MessageDraft
   include SalesCrm::AiRequest
@@ -22,10 +22,11 @@ class SalesCrm::MessageDraft
 
   def perform
     ensure_ai_available!(account)
-    result = SmartAssistant::LlmClient.new(account: account, kind: USAGE_KIND.fetch(suggestion.kind))
-                                      .complete(instructions: instructions, messages: [{ role: :user, content: transcript }],
-                                                schema: SCHEMA)
-    draft = result['message'].to_s.strip
+    result = with_provider_errors do
+      SmartAssistant::LlmClient.new(account: account, kind: USAGE_KIND.fetch(suggestion.kind))
+                               .complete(instructions: instructions, messages: [{ role: :user, content: transcript }], schema: SCHEMA)
+    end
+    draft = Hash(result)['message'].to_s.strip
     suggestion.update!(content: suggestion.content.merge('draft' => draft))
     draft
   end

@@ -24,7 +24,7 @@ class Api::V1::Accounts::Crm::SettingsController < Api::V1::Accounts::Crm::BaseC
     Current.account.crm_coverage_multiple = multiple!(attrs[:coverage_multiple]) if attrs.key?(:coverage_multiple)
   end
 
-  # Custom (MyDesk): the conversation settings (CONVERSATION_SALES_PLAN.md, phase 1)
+  # Custom (MyDesk): the conversation settings (CONVERSATION_SALES_PLAN.md)
   def assign_conversation_settings(attrs)
     account = Current.account
     account.crm_followup_days = whole_number!(attrs[:followup_days], 1..30, :invalid_followup_days) if attrs.key?(:followup_days)

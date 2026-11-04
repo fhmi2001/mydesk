@@ -49,7 +49,7 @@ class SmartAssistant::ReplyJob < ApplicationJob
     handoff(assistant, conversation) if result[:handoff]
   end
 
-  # Custom (MyDesk): a clear intent to buy leaves a deal suggestion for the team (CONVERSATION_SALES_PLAN.md, أ2), kept
+  # Custom (MyDesk): a clear intent to buy leaves a deal suggestion for the team (CONVERSATION_SALES_PLAN.md), kept
   # even when the reply itself is dropped for a newer message, since the intent was seen
   def suggest_deal(conversation, result)
     SalesCrm::Suggestions::FromAssistant.call(conversation, result[:sales_lead]) if result[:sales_lead]

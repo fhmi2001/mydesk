@@ -17,6 +17,7 @@ module SalesCrm::Broadcast
 
     data = payload.merge(account_id: account.id)
     data[:performer] = Current.user&.push_event_data if Current.user.present?
-    ::ActionCableBroadcastJob.perform_later(tokens, event, data)
+    # Sent once the change is committed: the frontend refetches the record, and a rolled-back change sends nothing
+    ActiveRecord.after_all_transactions_commit { ::ActionCableBroadcastJob.perform_later(tokens, event, data) }
   end
 end

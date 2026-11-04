@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# The follow-up when a customer goes quiet (CONVERSATION_SALES_PLAN.md, idea ج2): a task and an empty suggestion, never
+# The follow-up when a customer goes quiet (CONVERSATION_SALES_PLAN.md): a task and an empty suggestion, never
 # a message to the customer
 RSpec.describe SalesCrm::FollowUpJob do
   let(:account) { create(:account, locale: 'ar') }

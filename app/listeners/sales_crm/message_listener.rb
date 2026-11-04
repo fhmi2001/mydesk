@@ -1,5 +1,5 @@
-# Custom (MyDesk): an employee's reply to a customer counts on the deal followed in that conversation (decision ح,
-# docs/mydesk/CONVERSATION_SALES_PLAN.md): it moves the deal's last_message_at and last_touch_at, never its
+# Custom (MyDesk): an employee's reply to a customer counts on the deal followed in that conversation
+# (docs/mydesk/CONVERSATION_SALES_PLAN.md): it moves the deal's last_message_at and last_touch_at, never its
 # last_activity_at, and writes no activity line. A reply in a new conversation of a customer with one open deal,
 # sent by that deal's owner, makes it the deal's active conversation. Subscribed to the async dispatcher from
 # config/initializers/sales_crm.rb, so Chatwoot's listener list stays untouched.

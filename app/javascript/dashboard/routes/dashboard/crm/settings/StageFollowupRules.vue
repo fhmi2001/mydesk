@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): an open stage's follow-up rules (CONVERSATION_SALES_PLAN.md, phase 3), under its row in the pipeline
+// Custom (MyDesk): an open stage's follow-up rules (CONVERSATION_SALES_PLAN.md), under its row in the pipeline
 // editor: follow up a customer who goes quiet while the deal is in it, and a task its owner gets on entering it
 // (after N days, with a title). Emits `update` with the changed field; the editor saves them with the stage.
 import { useI18n } from 'vue-i18n';

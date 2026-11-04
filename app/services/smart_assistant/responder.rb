@@ -21,7 +21,7 @@ class SmartAssistant::Responder
         reply: { type: 'string', description: 'The message to send to the customer' },
         handoff: { type: 'boolean', description: 'true when a human agent must take over the conversation' },
         passages_used: { type: 'array', items: { type: 'integer' }, description: 'Numbers of the passages the reply relies on' },
-        # Custom (MyDesk): a clear intent to buy becomes a deal suggestion for the team (CONVERSATION_SALES_PLAN.md, أ2)
+        # Custom (MyDesk): a clear intent to buy becomes a deal suggestion for the team (CONVERSATION_SALES_PLAN.md)
         sales_lead: {
           type: 'object',
           properties: {

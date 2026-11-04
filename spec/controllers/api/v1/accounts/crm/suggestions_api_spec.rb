@@ -1,4 +1,4 @@
-# Custom (MyDesk): a deal's follow-up, won and lost suggestions in the conversation panel (CONVERSATION_SALES_PLAN.md, ج2)
+# Custom (MyDesk): a deal's follow-up, won and lost suggestions in the conversation panel (CONVERSATION_SALES_PLAN.md)
 require 'rails_helper'
 
 RSpec.describe 'Sales CRM suggestions API', type: :request do

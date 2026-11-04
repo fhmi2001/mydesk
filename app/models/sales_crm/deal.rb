@@ -11,7 +11,7 @@ class SalesCrm::Deal < ApplicationRecord
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :creator, class_name: 'User', optional: true
   belongs_to :conversation, optional: true
-  # The conversation the deal is followed in now; conversation stays the one it came from (CONVERSATION_SALES_PLAN.md, decision ح)
+  # The conversation the deal is followed in now; conversation stays the one it came from (CONVERSATION_SALES_PLAN.md)
   belongs_to :active_conversation, class_name: 'Conversation', optional: true
   belongs_to :campaign, optional: true
   SalesCrm::ListItem::DEAL_COLUMNS.each_key do |list|

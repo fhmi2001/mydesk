@@ -1,6 +1,6 @@
 # Custom (MyDesk): what the Sales section knows about one conversation (by its display id), for the new deal form and
-# the conversation side panel (CONVERSATION_SALES_PLAN.md): the lead source mapped to its inbox (أ1), the pending
-# suggestions the user may see (أ2), and a summary draft (أ3).
+# the conversation side panel (CONVERSATION_SALES_PLAN.md): the lead source mapped to its inbox, the pending
+# suggestions the user may see, and a summary draft.
 class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::BaseController
   before_action :set_conversation
 
@@ -12,7 +12,7 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
                    csat_survey_enabled: @conversation.inbox.csat_survey_enabled }
   end
 
-  # A draft the employee edits before saving it as a note (أ3); nothing is written here
+  # A draft the employee edits before saving it as a note; nothing is written here
   def summary
     render json: SalesCrm::ConversationSummary.new(account: Current.account, conversation: @conversation).perform
   end
@@ -31,7 +31,7 @@ class Api::V1::Accounts::Crm::ConversationsController < Api::V1::Accounts::Crm::
   end
 
   # The customer's open deals the user may see (their owner or an administrator) that are followed in another
-  # conversation: the «اربطها» bar offers to follow them here (decision ح)
+  # conversation: the «اربطها» bar offers to follow them here
   def linkable_deals(conversation)
     return [] if conversation.contact_id.blank?
 

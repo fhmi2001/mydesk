@@ -1,5 +1,5 @@
 # Custom (MyDesk): monthly sales targets (?month=YYYY-MM). Administrators read every employee's target and the team
-# total, and set them; anyone else reads only their own (docs/reports/gap-analysis.md, decision ب).
+# total, and set them; anyone else reads only their own (docs/reports/gap-analysis.md).
 class Api::V1::Accounts::Crm::TargetsController < Api::V1::Accounts::Crm::BaseController
   before_action :check_admin_authorization?, only: [:update]
 

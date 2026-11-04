@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): the settings of the Sales actions in an automation rule (CONVERSATION_SALES_PLAN.md, idea ج1),
+// Custom (MyDesk): the settings of the Sales actions in an automation rule (CONVERSATION_SALES_PLAN.md),
 // rendered by Chatwoot's AutomationActionInput for inputType 'crm_action'. The value is one object:
 //   suggest_crm_deal { title }  ·  create_crm_task { title, kind, hours }  ·  move_crm_deal { stage_id }
 // A move offers every stage but the lost ones, since losing a deal needs a reason the rule cannot give.

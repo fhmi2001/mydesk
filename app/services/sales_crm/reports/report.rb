@@ -1,4 +1,4 @@
-# Custom (MyDesk): what every report of CRM_REPORTS_PLAN.md phase 4 shares. One class per report serves both roles:
+# Custom (MyDesk): what every report of CRM_REPORTS_PLAN.md shares. One class per report serves both roles:
 # the deals come through SalesCrm::Visibility (Reports::Base), so an employee only ever counts their own and the team
 # view (rows per employee) is for administrators. Each report answers `perform` with
 #   { key, period, previous_period, currency, team, empty, totals, previous_totals, rows, ... }

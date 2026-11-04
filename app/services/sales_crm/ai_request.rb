@@ -18,6 +18,14 @@ module SalesCrm::AiRequest
                               .map { |message| "#{message.incoming? ? 'العميل' : 'الفريق'}: #{message.content}" }.join("\n")
   end
 
+  # The provider down, rate limited or answering out of shape is told to the employee as a 422, not a server error
+  def with_provider_errors
+    yield
+  rescue RubyLLM::Error, *SmartAssistant::LlmClient::NETWORK_ERRORS, JSON::ParserError => e
+    Rails.logger.warn("[SalesCrm] AI request failed: #{e.class}: #{e.message}")
+    fail_ai!(:ai_unavailable)
+  end
+
   def fail_ai!(key, **args)
     raise SalesCrm::ValidationError, I18n.t("sales_crm.errors.#{key}", **args)
   end

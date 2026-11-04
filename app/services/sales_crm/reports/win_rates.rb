@@ -4,7 +4,7 @@
 class SalesCrm::Reports::WinRates < SalesCrm::Reports::Report
   KEY = 'win_rate'.freeze
   GROUPS = { 'assignee' => :assignee_id, 'product' => :product_id, 'lead_source' => :lead_source_id }.freeze
-  STATUS_SQL = { 'won' => 1, 'lost' => 2 }.freeze
+  STATUS_SQL = SalesCrm::Deal.statuses.slice('won', 'lost').freeze
 
   def self.list_filters = %i[product_id lead_source_id]
 

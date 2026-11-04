@@ -36,6 +36,6 @@ class SalesCrm::Suggestion < ApplicationRecord
   def announce
     audience = DEAL_KINDS.include?(kind) ? deal&.assignee_id : conversation&.assignee_id
     SalesCrm::Broadcast.call(account, 'crm.suggestion_created',
-                             { id: id, kind: kind, conversation_id: conversation&.display_id }, to: audience)
+                             { id: id, kind: kind, conversation_display_id: conversation&.display_id }, to: audience)
   end
 end

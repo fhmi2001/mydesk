@@ -65,7 +65,9 @@ describe('DealSuggestionBar', () => {
     crmConversationsAPI.show.mockResolvedValue({
       data: { suggestions: [pending] },
     });
-    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, { conversation_id: 14 });
+    emitter.emit(BUS_EVENTS.CRM_SUGGESTION_CREATED, {
+      conversation_display_id: 14,
+    });
     await flushPromises();
     expect(wrapper.text()).toContain('عميل عاجل — سارة');
   });

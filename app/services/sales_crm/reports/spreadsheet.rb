@@ -1,4 +1,4 @@
-# Custom (MyDesk): a report as a file for the manager (CRM_REPORTS_PLAN.md, phase 5). Excel: a summary sheet (what was
+# Custom (MyDesk): a report as a file for the manager (CRM_REPORTS_PLAN.md). Excel: a summary sheet (what was
 # exported — report, question, period, filters, who and when — then the report's numbers: its totals, the period before,
 # and each of its tables) and a sheet of the deals (or tasks) behind it. CSV: those deals only, UTF-8 with a BOM so Excel
 # reads the Arabic. Both come from the report's own perform and drill, so the file says what the screen says.

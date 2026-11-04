@@ -111,7 +111,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
         account_id: 1,
         id: 7,
         kind: 'new_deal',
-        conversation_id: 14,
+        conversation_display_id: 14,
       };
 
       actionCable.onReceived({ event: 'crm.suggestion_created', data });

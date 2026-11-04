@@ -43,7 +43,7 @@ RSpec.describe SalesCrm::Suggestion do
       conversation.update!(assignee: handler)
       expect { suggest(:new_deal) }.to have_enqueued_job(ActionCableBroadcastJob).with(
         contain_exactly(admin.pubsub_token, handler.pubsub_token), 'crm.suggestion_created',
-        hash_including(kind: 'new_deal', conversation_id: conversation.display_id)
+        hash_including(kind: 'new_deal', conversation_display_id: conversation.display_id)
       )
     end
 

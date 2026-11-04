@@ -1,4 +1,4 @@
-# Custom (MyDesk): which campaign a new deal is credited to (CONVERSATION_SALES_PLAN.md, idea د3), set once by
+# Custom (MyDesk): which campaign a new deal is credited to (CONVERSATION_SALES_PLAN.md), set once by
 # SalesCrm::Deals::Create and never changed. Direct: the deal's conversation came from a live chat campaign. Influenced:
 # the customer's mobile got an SMS campaign message within the account's window before the deal (the latest one wins).
 # Numbers are matched in the forms they are stored in (+9665…, 9665…, 05…), without writing to the recipients.

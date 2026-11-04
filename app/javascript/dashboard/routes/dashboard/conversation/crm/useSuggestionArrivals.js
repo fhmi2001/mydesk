@@ -8,7 +8,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 export const useSuggestionArrivals = (conversationId, onArrive) => {
   const handler = data => {
     const current = conversationId();
-    if (current && String(data?.conversation_id) === String(current)) {
+    if (current && String(data?.conversation_display_id) === String(current)) {
       onArrive(data);
     }
   };

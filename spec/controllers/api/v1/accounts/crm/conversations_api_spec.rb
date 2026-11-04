@@ -63,7 +63,7 @@ RSpec.describe 'Sales CRM conversation API', type: :request do
     end
   end
 
-  describe 'linking a new conversation to a deal (decision ح)' do
+  describe 'linking a new conversation to a deal' do
     let(:contact) { create(:contact, account: account) }
     let(:old_conversation) { create(:conversation, account: account, contact: contact) }
     let(:conversation) { create(:conversation, account: account, contact: contact) }

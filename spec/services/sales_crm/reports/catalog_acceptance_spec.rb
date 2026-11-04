@@ -1,4 +1,4 @@
-# Custom (MyDesk): the acceptance check of CRM_REPORTS_PLAN.md phase 6. The demo data (SalesCrm::DemoSeed, about 200
+# Custom (MyDesk): the acceptance check of CRM_REPORTS_PLAN.md. The demo data (SalesCrm::DemoSeed, about 200
 # deals over six months with their whole log) is built as it stood at 18:00 on the anchor day, and every report is
 # run on it:
 # - each number in docs/reports/expected_numbers.yml, worked out apart from the app (db/seeds/sales_crm/expected_numbers.rb),
@@ -83,7 +83,7 @@ RSpec.describe SalesCrm::Reports::Catalog do
      ['closing', { from: '2026-11-01', to: '2026-11-30' }, {}, 'totals.count'],
      ['won_lost', { from: '2026-07-01', to: '2026-09-30' }, { status: 'won' }, 'totals.won_count'],
      ['new_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.count'],
-     # Custom (MyDesk): the conversation reports (CONVERSATION_SALES_PLAN.md, phase 4)
+     # Custom (MyDesk): the conversation reports (CONVERSATION_SALES_PLAN.md)
      ['response_speed', { from: '2026-05-01', to: '2026-10-31' }, { bucket: 'under_5m' }, 'buckets[key=under_5m].closed_count'],
      ['conversation_deals', { from: '2026-10-01', to: '2026-10-31' }, {}, 'totals.deal_count']].each do |key, params, cell, path|
       count = dig_path(report(key, 'manager', params).perform, path)

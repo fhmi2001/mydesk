@@ -1,6 +1,6 @@
 # Custom (MyDesk): التقرير 14, نشاط الفريق (للمدير فقط): does each employee's activity match their results? The activity
 # of the period is the tasks they completed, by kind (call, meeting, task), and the notes they wrote on deals. Beside it,
-# never added to it: their replies to customers in the conversations their deals are followed in (decision ح), and what
+# never added to it: their replies to customers in the conversations their deals are followed in, and what
 # they won with their win rate. Compared with the period before.
 class SalesCrm::Reports::Activity < SalesCrm::Reports::Report
   KEY = 'activity'.freeze

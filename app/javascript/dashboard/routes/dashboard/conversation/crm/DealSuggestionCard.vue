@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): the smart assistant saw a clear intent to buy in this conversation (CONVERSATION_SALES_PLAN.md, أ2).
+// Custom (MyDesk): the smart assistant saw a clear intent to buy in this conversation (CONVERSATION_SALES_PLAN.md).
 // Nothing is created until the employee chooses: «إنشاء صفقة» opens the deal form filled from it, «تجاهل» dismisses it.
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

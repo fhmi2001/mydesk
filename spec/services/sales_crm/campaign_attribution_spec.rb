@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# Which campaign a new deal is credited to, set once when it is created (CONVERSATION_SALES_PLAN.md, idea د3)
+# Which campaign a new deal is credited to, set once when it is created (CONVERSATION_SALES_PLAN.md)
 RSpec.describe SalesCrm::CampaignAttribution do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }

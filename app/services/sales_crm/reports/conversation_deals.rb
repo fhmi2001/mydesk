@@ -1,4 +1,4 @@
-# Custom (MyDesk): التقرير 22, من المحادثة إلى الصفقة (CONVERSATION_SALES_PLAN.md, phase 0 question 7): how many of the
+# Custom (MyDesk): التقرير 22, من المحادثة إلى الصفقة (CONVERSATION_SALES_PLAN.md): how many of the
 # period's conversations became deals, and how many of those were won, per channel (inbox) and, for the manager, per
 # employee handling the conversation. A conversation counts once however many deals came from it. An employee sees the
 # conversations assigned to them and their own deals (SalesCrm::Visibility).

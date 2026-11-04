@@ -1,4 +1,4 @@
-# Custom (MyDesk): phase 2 of docs/reports/CRM_REPORTS_PLAN.md. An employee never reaches a colleague's deal, by any
+# Custom (MyDesk): docs/reports/CRM_REPORTS_PLAN.md. An employee never reaches a colleague's deal, by any
 # screen, report, direct link, export or live update; only the manager reassigns deals and exports.
 require 'rails_helper'
 

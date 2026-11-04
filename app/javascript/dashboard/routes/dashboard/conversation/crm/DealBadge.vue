@@ -1,5 +1,5 @@
 <script setup>
-// Custom (MyDesk): on a conversation card, the customer's open deals the user may see (CONVERSATION_SALES_PLAN.md, أ4):
+// Custom (MyDesk): on a conversation card, the customer's open deals the user may see (CONVERSATION_SALES_PLAN.md):
 // the stage of the biggest one, as a dot in its colour with its name, and the total. Nothing when there is none or the
 // Sales section is off.
 import { computed, onMounted, watch } from 'vue';

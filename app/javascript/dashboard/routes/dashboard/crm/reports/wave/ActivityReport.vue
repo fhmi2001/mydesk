@@ -48,7 +48,7 @@ const assigneeColumns = computed(() => [
   })),
   { key: 'note_count', label: L('NOTES'), format: 'count' },
   { key: 'activity_count', label: L('TOTAL'), format: 'count' },
-  // Beside the activity, never added to it: replies in the deals' conversations (decision ح)
+  // Beside the activity, never added to it: replies in the deals' conversations
   { key: 'message_count', label: L('MESSAGES'), format: 'count' },
   {
     key: 'won_count',

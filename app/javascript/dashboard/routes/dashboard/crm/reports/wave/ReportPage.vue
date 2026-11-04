@@ -1,6 +1,6 @@
 <script setup>
-// Custom (MyDesk): Sales > Reports > one report of phase 4 (docs/reports/CRM_REPORTS_PLAN.md). One page for the seven
-// reports of wave أ: its title is the question it answers, the filters are the ones it takes (reportCatalog.js), every
+// Custom (MyDesk): Sales > Reports > one report (docs/reports/CRM_REPORTS_PLAN.md). One page for every report
+// of the catalog: its title is the question it answers, the filters are the ones it takes (reportCatalog.js), every
 // number opens the deals behind it (DrillPanel), and an employee sees only their own (the server scopes it).
 import { ref, computed, watch, onMounted, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -464,7 +464,7 @@ const print = async () => {
             :disabled="!data || isLoading"
             @click="print"
           />
-          <!-- Exporting is for the manager (gap-analysis.md, question 5); the server refuses anyone else -->
+          <!-- Exporting is for the manager (gap-analysis.md); the server refuses anyone else -->
           <template v-if="isAdmin">
             <Button
               :label="X('EXCEL')"

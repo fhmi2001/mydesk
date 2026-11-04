@@ -1,7 +1,7 @@
 # Custom (MyDesk)
 require 'rails_helper'
 
-# An employee's reply in a deal's conversation (decision ح, docs/mydesk/CONVERSATION_SALES_PLAN.md)
+# An employee's reply in a deal's conversation (docs/mydesk/CONVERSATION_SALES_PLAN.md)
 RSpec.describe SalesCrm::MessageListener do
   let(:listener) { described_class.instance }
   let(:account) { create(:account) }

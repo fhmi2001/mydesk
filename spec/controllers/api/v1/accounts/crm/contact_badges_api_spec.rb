@@ -1,4 +1,4 @@
-# Custom (MyDesk): the deal badges on the conversation list (CONVERSATION_SALES_PLAN.md, idea أ4)
+# Custom (MyDesk): the deal badges on the conversation list (CONVERSATION_SALES_PLAN.md)
 require 'rails_helper'
 
 RSpec.describe 'Sales CRM contact badges API', type: :request do
